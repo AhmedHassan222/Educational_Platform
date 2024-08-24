@@ -16,6 +16,10 @@ export default function App() {
   return <>
     <Router>
       <Routes>
+        {/* component withou navbar */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
         {/* component with navbar */}
         <Route path="/" element={<LayoutWithNavbar><HomePage /></LayoutWithNavbar>} />
@@ -24,12 +28,7 @@ export default function App() {
         <Route path="/admin" element={<PrivateRoute roles={['admin', 'super-admin']} element={<LayoutWithNavbar><AdminPage /></LayoutWithNavbar>} />} />
         <Route path="/super-admin" element={<PrivateRoute roles={['super-admin']} element={<LayoutWithNavbar><SuperAdminPage /></LayoutWithNavbar>} />} />
         <Route path="/home" element={<PrivateRoute roles={['user', 'admin', 'super-admin']} element={<LayoutWithNavbar><HomeLayoutPage /></LayoutWithNavbar>} />} />
-
-        {/* component withou navbar */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="*" element={<NotfoundPage />} />
+        <Route path="*" element={<LayoutWithNavbar><NotfoundPage /></LayoutWithNavbar>} />
       </Routes>
     </Router>
   </>
