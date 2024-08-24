@@ -1,5 +1,5 @@
 **Description:**
-A React Educational platform application 
+<h1>A React Educational platform application </h1>
 
 ## Table of Contents
 
