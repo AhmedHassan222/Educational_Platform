@@ -8,8 +8,8 @@ export default function Cources() {
         window.scroll(0,0)
     },[])
     return <>
-        <section className="py-5 container">
-            <div className="row g-3">
+        <section className="py-5 container ">
+            <div className="row g-3 ">
                 <div className="col-lg-3">
                     <Filter />
                 </div>
