@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Educational_Platform/static/css/main.bd06c5c0.css",
-    "main.js": "/Educational_Platform/static/js/main.a1b85e33.js",
+    "main.css": "/Educational_Platform/static/css/main.f6ce46d7.css",
+    "main.js": "/Educational_Platform/static/js/main.d3ee41ef.js",
     "static/js/453.f0817b0f.chunk.js": "/Educational_Platform/static/js/453.f0817b0f.chunk.js",
     "static/media/fa-solid-900.ttf": "/Educational_Platform/static/media/fa-solid-900.07ed6d5fa32c1d54af0f.ttf",
     "static/media/teacher.jpg": "/Educational_Platform/static/media/teacher.0e47af344d635b076433.jpg",
@@ -21,12 +21,12 @@
     "static/media/fa-v4compatibility.ttf": "/Educational_Platform/static/media/fa-v4compatibility.0f6cb412603527bda691.ttf",
     "static/media/fa-v4compatibility.woff2": "/Educational_Platform/static/media/fa-v4compatibility.6cfec8414be20e2c3426.woff2",
     "index.html": "/Educational_Platform/index.html",
-    "main.bd06c5c0.css.map": "/Educational_Platform/static/css/main.bd06c5c0.css.map",
-    "main.a1b85e33.js.map": "/Educational_Platform/static/js/main.a1b85e33.js.map",
+    "main.f6ce46d7.css.map": "/Educational_Platform/static/css/main.f6ce46d7.css.map",
+    "main.d3ee41ef.js.map": "/Educational_Platform/static/js/main.d3ee41ef.js.map",
     "453.f0817b0f.chunk.js.map": "/Educational_Platform/static/js/453.f0817b0f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.bd06c5c0.css",
-    "static/js/main.a1b85e33.js"
+    "static/css/main.f6ce46d7.css",
+    "static/js/main.d3ee41ef.js"
   ]
 }
