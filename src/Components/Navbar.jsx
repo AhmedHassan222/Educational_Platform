@@ -4,12 +4,8 @@ import { Link } from "react-router-dom"
 import { useState } from "react"
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false)
-
-
-
-
     return <>
-        <nav className="navbar navbar-expand-lg fixed-top navbar-dark  py-0 ">
+        <nav className="navbar navbar-expand-lg  navbar-dark  py-0 bg-white">
             <div className="container">
                 <Link className={`navbar-brand   ${style.widthLogo}`} to={'/'}>
                     <img src={logo} alt="sky academy logo" className={`w-100`} />

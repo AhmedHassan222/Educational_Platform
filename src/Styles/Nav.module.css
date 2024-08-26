@@ -23,10 +23,6 @@
     background-color:  rgb(219, 97, 30) ; 
 }
 
-nav 
-{
-    background-color: rgba(0, 0, 0, 0.6);
-}
 
 @media screen and (max-width:991px) {
     ul
