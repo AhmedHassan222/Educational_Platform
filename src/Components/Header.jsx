@@ -16,7 +16,7 @@ export default function Header() {
     <>
       <header className="w-100 text-center d-flex  justify-content-center align-items-center">
         <div className={`${style.headerContent} my-4`}>
-          <div>
+          <div >
             <img src={logo} className="w-25" alt="sky academy logo" />
 
             <h1 className="mb-4 "> سكاي اونلاين اكاديمي </h1>
@@ -24,6 +24,7 @@ export default function Header() {
               ﺗﻌﻠﻢ ﺑﺄﺣﺪث اﻟﻄﺮق ﻣﻦ ﺧﻠﺎل ﻣﻨﺼﺘﻨﺎ,ﻓإﻧﻨﺎ ﻧﻮﻓﺮ ﻟﻚ اﻟﻌﺪﻳﺪ ﻣﻦ اﻟﻜﻮرﺳﺎت
               اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ الإعدادية والثانوية, ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.
             </p>
+            <Link className={`nav-link text-white rounded-2 fitContent mx-auto my-2 text-center py-2 px-4 ${style.btnOrange}`} to={'/cources'}>تصفح الكورسات </Link>
           </div>
         </div>
       </header>

@@ -1,6 +1,6 @@
 .widthLogo 
 {
-    width: 15%;
+    width: 6%;
 }
 
 .btnOrange 
@@ -26,4 +26,29 @@
 nav 
 {
     background-color: rgba(0, 0, 0, 0.6);
+}
+
+@media screen and (max-width:991px) {
+    ul
+    {
+        padding-block:15px
+    }
+    li  
+    {
+        padding-block: 5px;
+    }
+    .widthLogo 
+{
+    width: 10%;
+}
+    
+}
+
+
+@media screen and (min-width:992px) {
+    .menu 
+    {
+        display: none;
+    }
+    
 }
