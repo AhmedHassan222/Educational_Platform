@@ -5,7 +5,9 @@ export default function LayoutWithNavbar({children}) {
     return (
         <div>
             <Navbar />
+            <div className="my-5 py-5">
             {children}
+            </div>
             <Footer />
         </div>
     );
