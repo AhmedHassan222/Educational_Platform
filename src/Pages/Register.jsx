@@ -140,10 +140,10 @@ export default function Register() {
                     </div>
 
 
-                    <button type="submit" className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100`}>انشاء حساب</button>
+                    <button type="submit" className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>انشاء حساب</button>
                 </form>
                 <div className="d-flex align-items-center justify-content-center ">
-                    <p className="my-2 fs-6 me-1">
+                    <p className="my-2 fs-6 ms-1">
                     لديك حساب بالفعل؟
                     </p>
                     <Link className={` nav-link ${style.textOrange}`} to={'/login'}>سجل الدخول</Link>

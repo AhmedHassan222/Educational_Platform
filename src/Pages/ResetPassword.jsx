@@ -15,7 +15,7 @@ export default function ResetPassword() {
     };
 
     return (
-        <div className="container vh-100 d-flex justify-content-center align-items-center">
+        <div className="container d-flex justify-content-center py-5">
             <div className="rounded-4 border-1 widthCustom text-center ">
                 <img src={logo} alt="sky academy logo" className="mb-2 w-25" />
                 {submitted ? (
