@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import style from "../../src/Styles/Auth.module.css"
+import logo from "../../src/Assets/Images/logo.png"
 import "../Styles/index.css"
 export default function Register() {
     const [formData, setFormData] = useState({
@@ -29,14 +31,14 @@ export default function Register() {
 
     return (
         <div className="container py-5">
-            <div className=" rounded-4  border-1 widthCustom mx-auto">
-                <h2 className="text-center mb-5">Register</h2>
+            <div className="text-center rounded-4  border-1 widthCustom mx-auto">
+                <img src={logo} alt="sky academy logo" className="mb-2 w-25" />
                 <form onSubmit={handleSubmit}>
-                    <div className=" mb-3">
+                    <div className=" mb-4">
                         <input
-                            placeholder="Full Name"
+                            placeholder=" الاسم بالكامل"
                             type="text"
-                            className="form-control"
+                            className="w-100 p-2"
                             id="fullName"
                             name="fullName"
                             value={formData.fullName}
@@ -44,11 +46,11 @@ export default function Register() {
                             required
                         />
                     </div>
-                    <div className=" mb-3">
+                    <div className=" mb-4">
                         <input
-                            placeholder="Email"
+                            placeholder="البريد الالكتروني"
                             type="email"
-                            className="form-control"
+                            className="w-100 p-2"
                             id="email"
                             name="email"
                             value={formData.email}
@@ -58,11 +60,11 @@ export default function Register() {
                     </div>
 
 
-                    <div className=" mb-3">
+                    <div className=" mb-4">
                         <input
-                            placeholder="Password"
+                            placeholder="ادخل كلمة المرور"
                             type="password"
-                            className="form-control"
+                            className="w-100 p-2"
                             id="password"
                             name="password"
                             value={formData.password}
@@ -70,11 +72,11 @@ export default function Register() {
                             required
                         />
                     </div>
-                    <div className=" mb-3">
+                    <div className=" mb-4">
                         <input
-                            placeholder="convert password"
+                            placeholder="تأكيد كلمة المرور "
                             type="password"
-                            className="form-control"
+                            className="w-100 p-2"
                             id="confirmPassword"
                             name="confirmPassword"
                             value={formData.confirmPassword}
@@ -83,41 +85,40 @@ export default function Register() {
                         />
                     </div>
 
-                    <div className=" mb-3">
+                    <div className=" mb-4">
                         <select
-                            className="form-select"
+                            className="w-100 p-2 text-muted"
                             id="gender"
                             name="gender"
                             value={formData.gender}
                             onChange={handleChange}
                             required
                         >
-                            <option value="">Select Gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
+                            <option value="">النوع</option>
+                            <option value="male">ذكر</option>
+                            <option value="female">انثي</option>
                         </select>
                     </div>
-                    <div className=" mb-3">
+                    <div className=" mb-4">
                         <select
-                            className="form-select"
+                            className="w-100 p-2 text-muted"
                             id="class"
                             name="class"
                             value={formData.class}
                             onChange={handleChange}
                             required
                         >
-                            <option value="">Select Class</option>
-                            <option value="first">first</option>
-                            <option value="second">second</option>
-                            <option value="thered">thered</option>
+                            <option value="">الصف الدراسي</option>
+                            <option value="first">الصف الاول الثانوي</option>
+                            <option value="second">الصف الثاني الثانوي</option>
+                            <option value="thered">الصف الثالث الثانوي</option>
                         </select>
                     </div>
-                    <div className=" mb-3">
+                    <div className=" mb-4">
                         <input
-                            placeholder="Phone Number"
-                            type="tel"
-                            className="form-control"
+                            placeholder="رقم الهاتف"
+                            type="text"
+                            className="w-100 p-2"
                             id="phoneNumber"
                             name="phoneNumber"
                             value={formData.phoneNumber}
@@ -125,11 +126,11 @@ export default function Register() {
                             required
                         />
                     </div>
-                    <div className=" mb-3">
+                    <div className=" mb-4">
                         <input
-                            placeholder="Parent's Phone Number"
-                            type="tel"
-                            className="form-control"
+                            placeholder="رقم هاتف ولي الامر"
+                            type="text"
+                            className="w-100 p-2"
                             id="parentsPhoneNumber"
                             name="parentsPhoneNumber"
                             value={formData.parentsPhoneNumber}
@@ -139,13 +140,13 @@ export default function Register() {
                     </div>
 
 
-                    <button type="submit" className="btn btn-primary  w-100">Register</button>
+                    <button type="submit" className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100`}>انشاء حساب</button>
                 </form>
-                <div className="d-flex align-items-center mt-3">
+                <div className="d-flex align-items-center justify-content-center ">
                     <p className="my-2 fs-6 me-1">
-                        Already have an account?
+                    لديك حساب بالفعل؟
                     </p>
-                    <Link className='text-muted nav-link' to={'/login'}>Login</Link>
+                    <Link className={` nav-link ${style.textOrange}`} to={'/login'}>سجل الدخول</Link>
 
                 </div>
 
