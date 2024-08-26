@@ -3,7 +3,7 @@ import logo from "../../src/Assets/Images/logo.png"
 import { Link } from "react-router-dom"
 export default function Navbar() {
     return <>
-        <nav className="navbar navbar-expand-lg  ">
+        <nav className="navbar navbar-expand-lg fixed-top  py-0 ">
             <div className="container">
                 <Link className="navbar-brand" to={'/'}>
                 <img src={logo} alt="sky academy logo" className={`${style.widthLogo}`} /></Link>
@@ -13,11 +13,11 @@ export default function Navbar() {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <Link className="nav-link" to={'/login'}>Login</Link>
+                            <Link className={`nav-link ${style.btnOrange} text-white mx-2 px-4 rounded-3`} to={'/login'}>تسجيل الدخول</Link>
                         </li>
                         
                         <li className="nav-item">
-                            <Link className="nav-link" to={'/register'}>Register</Link>
+                            <Link className={`nav-link ${style.btnOutlinOrange}  mx-2 px-4 rounded-3`} to={'/register'}>حساب جديد</Link>
                         </li>
                         
                     </ul>
