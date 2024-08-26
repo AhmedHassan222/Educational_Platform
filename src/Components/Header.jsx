@@ -1,14 +1,23 @@
 import headerImage from "./../../src/Assets/Images/Intro.svg";
+import teacher from "./../../src/Assets/Images/teacher.jpg";
 import feature1 from "./../../src/Assets/Images/feature-1.a3c9fc1.svg";
 import feature2 from "./../../src/Assets/Images/feature-2.3cb2b9c.svg";
-import feature3 from "./../../src/Assets/Images/feature-3.89f5be4.svg"
-import feature4 from "./../../src/Assets/Images/feature-4.200709f.svg"
-import feature5 from "./../../src/Assets/Images/feature-5.173caa5.svg"
-import feature6 from "./../../src/Assets/Images/feature-6.d23de85.svg"
+import feature3 from "./../../src/Assets/Images/feature-3.89f5be4.svg";
+import feature4 from "./../../src/Assets/Images/feature-4.200709f.svg";
+import feature5 from "./../../src/Assets/Images/feature-5.173caa5.svg";
+import feature6 from "./../../src/Assets/Images/feature-6.d23de85.svg";
 import logo from "./../../src/Assets/Images/logo.png";
 import style from "../../src/Styles/Header.module.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Navigation } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+
+// import './styles.css';
 export default function Header() {
   const [Classes, setClasses] = useState([1, 2, 3, 4, 5, 6]);
 
@@ -38,11 +47,13 @@ export default function Header() {
             اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ اﻟﺜﺎﻧﻮﻳﺔ واﻟﺠﺎﻣﻌﻴﺔ , ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.
           </p>
           <div className="row gy-4">
-            {Classes.map((item , index) => (<div key={index} className="col-md-4">
-              <div className=" border border-1 border-muted  p-3 rounded">
-                <h4> اﻟﺼﻒ اﻟﺄول اﻟﺜﺎﻧﻮى </h4>
+            {Classes.map((item, index) => (
+              <div key={index} className="col-md-4">
+                <div className=" border border-1 border-muted  p-3 rounded">
+                  <h4> اﻟﺼﻒ اﻟﺄول اﻟﺜﺎﻧﻮى </h4>
+                </div>
               </div>
-            </div> ))}
+            ))}
           </div>
         </div>
       </section>
@@ -68,8 +79,7 @@ export default function Header() {
             </div>
             <div className="col-md-4 my-4">
               <div className="caption rounded-4 shadow py-2">
-                <h4 className="my-4">ﻓﻴﺪﻳﻮﻫﺎت ﻋﺎﻟﻴﺔ اﻟﺠﻮدة
-                </h4>
+                <h4 className="my-4">ﻓﻴﺪﻳﻮﻫﺎت ﻋﺎﻟﻴﺔ اﻟﺠﻮدة</h4>
                 <img src={feature2} className="w-25 my-2" alt="" />
                 <p className="p-2 h5 text-muted">
                   نعمل على إنتاج محتوى عالي الجودة في استديوهاتنا المتخصصة لأجل
@@ -80,10 +90,11 @@ export default function Header() {
             </div>
             <div className="col-md-4 my-4">
               <div className="caption rounded-4 shadow py-2">
-                <h4 className="my-4">اﺧﺘﺒﺎرات و واﺟﺒﺎت                </h4>
+                <h4 className="my-4">اﺧﺘﺒﺎرات و واﺟﺒﺎت </h4>
                 <img src={feature3} className="w-25 my-2" alt="" />
                 <p className="p-2 h5 text-muted">
-                يتم تصميم الأسئلة والواجبات بعناية لضمان المستوى التعليمي لأبنائنا من الطلاب
+                  يتم تصميم الأسئلة والواجبات بعناية لضمان المستوى التعليمي
+                  لأبنائنا من الطلاب
                 </p>
                 <br />
                 <br />
@@ -91,43 +102,119 @@ export default function Header() {
             </div>
             <div className="col-md-4 my-4">
               <div className="caption rounded-4 shadow py-2">
-                <h4 className="my-4">ﺑﻨﻚ اﺳﺄﻟﺔ
-                </h4>
+                <h4 className="my-4">ﺑﻨﻚ اﺳﺄﻟﺔ</h4>
                 <img src={feature4} className="w-25 my-2" alt="" />
                 <p className="p-2 h5 text-muted">
-                لن تحتاج إلى أي من الكتب الخارجية, لاننا نقوم بتحديث بنك الاسئلة الخاص بنا دوريا بالتعاون مع نخبة من أكبر مدرسين المواد في الجمهورية
-
-</p>
-            
+                  لن تحتاج إلى أي من الكتب الخارجية, لاننا نقوم بتحديث بنك
+                  الاسئلة الخاص بنا دوريا بالتعاون مع نخبة من أكبر مدرسين المواد
+                  في الجمهورية
+                </p>
               </div>
             </div>
             <div className="col-md-4 my-4">
               <div className="caption rounded-4 shadow py-2">
-                <h4 className="my-4">ﺗﻘﻴﻴﻢ ﻣﺴﺘﻤﺮ
-                </h4>
+                <h4 className="my-4">ﺗﻘﻴﻴﻢ ﻣﺴﺘﻤﺮ</h4>
                 <img src={feature5} className="w-25 my-2" alt="" />
                 <p className="p-2 h5 text-muted mt-4">
-                هدفنا طمانتكم ولذلك يقوم فريق كامل من المساعدين بمتابعة مستوى أبنائنا مع أولياء الأمور
+                  هدفنا طمانتكم ولذلك يقوم فريق كامل من المساعدين بمتابعة مستوى
+                  أبنائنا مع أولياء الأمور
+                </p>
 
-</p>
-            
                 <br />
                 <br />
               </div>
             </div>
             <div className="col-md-4 my-4">
               <div className="caption rounded-4 shadow py-2">
-                <h4 className="my-4">تفاعلات                </h4>
+                <h4 className="my-4">تفاعلات </h4>
                 <img src={feature6} className="w-25 my-2" alt="" />
                 <p className="p-2 h5 text-muted">
-                ابنائنا الطلبة, يهمنا رايكم ولذلك يمكنكم ارسال ارائكم واستفساراتكم على أي جزء خاص في المنصة سواء كان على الواجبات والامتحانات أو حتى عن المنصة
-
-</p>
+                  ابنائنا الطلبة, يهمنا رايكم ولذلك يمكنكم ارسال ارائكم
+                  واستفساراتكم على أي جزء خاص في المنصة سواء كان على الواجبات
+                  والامتحانات أو حتى عن المنصة
+                </p>
                 <br />
-                
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* swiper */}
+      <section className="my-5 text-center ">
+        <div className="container">
+          <div className="my-5">
+            <h3 className="mb-3">ﻧﺨﺒﺔ ﻣﻦ اﻓﻀﻞ ﻣﺪرﺳﻴﻦ اﻟﺜﺎﻧﻮﻳﺔ اﻟﻌﺎﻣﺔ</h3>
+            <p>
+              ﺗﻌﻠﻢ ﺑﺄﺣﺪث اﻟﻄﺮق ﻣﻦ ﺧﻠﺎل ﻣﻨﺼﺘﻨﺎ,ﻓﺄﻧﻨﺎن ﻧﻮﻓﺮ ﻟﻚ اﻟﻌﺪﻳﺪ ﻣﻦ اﻟﻜﻮرﺳﺎت
+              اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ اﻟﺜﺎﻧﻮﻳﺔ واﻟﺠﺎﻣﻌﻴﺔ , ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ..
+            </p>
+          </div>
+          <Swiper
+            modules={[Pagination, Navigation]}
+            slidesPerView={5}
+            spaceBetween={10}
+            breakpoints={{
+              // when window width is >= 640px
+              0: {
+                slidesPerView: 1,
+              },
+              576: {
+                slidesPerView: 2,
+              },
+              // when window width is >= 1024px
+              786: {
+                slidesPerView: 3,
+              },
+              992: {
+                slidesPerView: 4,
+              },
+              1200: {
+                slidesPerView: 5,
+              },
+            }}
+            navigation={{
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
+            }}
+          >
+            {Classes.map((item, index) => (
+              <SwiperSlide key={index}>
+                <div className=" py-2 itemSlide">
+                  <img src={teacher} className="w-75  rounded-circle " alt="" />
+                  <h4 className="my-4">أ/ سيد عبد الرحيم</h4>
+                  <p className="my-4 text-primary">
+                    <span className="bg-light text-black p-2 rounded">
+                      أ/ إسلام عطية
+                    </span>
+                  </p>
+                </div>
+              </SwiperSlide>
+            ))}
+            <div
+              className="swiper-button-next"
+              style={{
+                color: "#fff",
+                top: "80%",
+                backgroundColor: "#007bff",
+                borderRadius: "50%",
+                width: "40px",
+                height: "40px",
+                zIndex: "9999",
+              }}
+            ></div>
+            <div
+              className="swiper-button-prev  "
+              style={{
+                color: "#fff",
+                backgroundColor: "#007bff",
+                borderRadius: "50%",
+                width: "40px",
+                height: "40px",
+                top: "80%",
+              }}
+            ></div>
+          </Swiper>
         </div>
       </section>
     </>
