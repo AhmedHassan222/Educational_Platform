@@ -1,0 +1,9 @@
+.item:hover 
+{
+    background-color: whitesmoke;
+    cursor: pointer;
+}
+.item 
+{
+    transition: background-color 0.2s;
+}

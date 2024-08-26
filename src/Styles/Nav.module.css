@@ -2,3 +2,28 @@
 {
     width: 15%;
 }
+
+.btnOrange 
+{
+    background-color: rgba(255,101,19,255);
+}
+.btnOutlinOrange 
+{
+    border: rgba(255,101,19,255) solid 1px;
+    color:  rgba(255,101,19,255);
+    transition: all 0.3s;
+}
+.btnOutlinOrange:hover
+{
+    background-color: rgba(255,101,19,255) ;
+    color:  white !important;
+}
+.btnOrange:hover 
+{
+    background-color:  rgb(219, 97, 30) ; 
+}
+
+nav 
+{
+    background-color: rgba(0, 0, 0, 0.6);
+}

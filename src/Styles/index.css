@@ -91,3 +91,8 @@ input:focus , select:focus
 input[type="checkbox"] {
   accent-color: var(--mainColorBlue);
 }
+
+.small 
+{
+  font-size: 14px;
+}
