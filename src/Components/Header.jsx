@@ -1,17 +1,135 @@
-import headerImage from "./../../src/Assets/Images/header-image.png"
-import style from "../../src/Styles/Header.module.css"
-import { Link } from "react-router-dom"
-export default function Header(){
-    return <>
-    <header className="w-100 vh-100 d-flex align-items-center" style={{ backgroundImage: `url("${headerImage}")` }}>
-        <div className="container">
-            <h3 className="text-white h1">Live it online</h3>
-            <p className="text-white fs-5 my-3 ">A specialized and integrated educational experience <br /> that helps the student advance his educational level to another level.</p>
-            <div className="d-felx mt-4">
-                <Link to={'/register'}  className="btn btn-primary py-2 px-4  me-2">Register Now</Link>
-                <Link to={'/cources'} className="btn btn-outline-primary py-2 px-4 ">Browse courses</Link>
-            </div>
+import headerImage from "./../../src/Assets/Images/Intro.svg";
+import feature1 from "./../../src/Assets/Images/feature-1.a3c9fc1.svg";
+import feature2 from "./../../src/Assets/Images/feature-2.3cb2b9c.svg";
+import feature3 from "./../../src/Assets/Images/feature-3.89f5be4.svg"
+import feature4 from "./../../src/Assets/Images/feature-4.200709f.svg"
+import feature5 from "./../../src/Assets/Images/feature-5.173caa5.svg"
+import feature6 from "./../../src/Assets/Images/feature-6.d23de85.svg"
+import logo from "./../../src/Assets/Images/logo.png";
+import style from "../../src/Styles/Header.module.css";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+export default function Header() {
+  const [Classes, setClasses] = useState([1, 2, 3, 4, 5, 6]);
+
+  return (
+    <>
+      <header className="w-100 text-center d-flex  justify-content-center align-items-center">
+        <div className={`${style.headerContent} my-4`}>
+          <div>
+            <img src={logo} className="w-25" alt="sky academy logo" />
+
+            {/* <h1 className="mb-2 fw-bolder ">Sky Online Academy</h1> */}
+            <h2 className="mb-4 "> سكاي اونلاين اكاديمي </h2>
+            <p className="  w-md-50 mx-auto">
+              ﺗﻌﻠﻢ ﺑﺄﺣﺪث اﻟﻄﺮق ﻣﻦ ﺧﻠﺎل ﻣﻨﺼﺘﻨﺎ,ﻓإﻧﻨﺎ ﻧﻮﻓﺮ ﻟﻚ اﻟﻌﺪﻳﺪ ﻣﻦ اﻟﻜﻮرﺳﺎت
+              اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ الإعدادية والثانوية, ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.
+            </p>
+          </div>
         </div>
-    </header>
+      </header>
+      <section className="my-5 py-5 text-center">
+        <div className="container">
+          <h3 className="mb-5">
+            اﺳﺘﻜﺸﻒ ﻣﻮاد اﻟﺼﻔﻮف اﻟﺘﻌﻠﻴﻤﻴﺔ اﻟﻤﻮﺟﻮدة ﺑﺎﻟﻤﻨﺼﺔ{" "}
+          </h3>
+          <p className="mb-5 ">
+            ﺗﻌﻠﻢ ﺑﺄﺣﺪث اﻟﻄﺮق ﻣﻦ ﺧﻠﺎل ﻣﻨﺼﺘﻨﺎ,ﻓﺄﻧﻨﺎ ﻧﻮﻓﺮ ﻟﻚ اﻟﻌﺪﻳﺪ ﻣﻦ اﻟﻜﻮرﺳﺎت
+            اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ اﻟﺜﺎﻧﻮﻳﺔ واﻟﺠﺎﻣﻌﻴﺔ , ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.
+          </p>
+          <div className="row gy-4">
+            {Classes.map((item , index) => (<div key={index} className="col-md-4">
+              <div className=" border border-1 border-muted  p-3 rounded">
+                <h4> اﻟﺼﻒ اﻟﺄول اﻟﺜﺎﻧﻮى </h4>
+              </div>
+            </div> ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="text-center my-5 py-5">
+        <div className="container">
+          <h3 className="mb-5">ﺗﻤﺘﻊ ﺑﺄﻓﻀﻞ اﻟﻄﺮق اﻟﺘﻌﻠﻴﻤﻴﺔ ﻣﻦ ﺧﻠﺎل اﻟﻤﻨﺼﺔ</h3>
+          <p className="small mb-5">
+            ﺗﻌﻠﻢ ﺑﺄﺣﺪث اﻟﻄﺮق ﻣﻦ ﺧﻠﺎل ﻣﻨﺼﺘﻨﺎ,ﻓﺄﻧﻨﺎ ﻧﻮﻓﺮ ﻟﻚ اﻟﻌﺪﻳﺪ ﻣﻦ اﻟﻜﻮرﺳﺎت
+            اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ اﻟﺜﺎﻧﻮﻳﺔ واﻟﺠﺎﻣﻌﻴﺔ , ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.
+          </p>
+
+          <div className="row">
+            <div className="col-md-4 my-4">
+              <div className="caption rounded-4 shadow py-2">
+                <h4 className="my-4">ﻛﻮرﺳﺎت ﻣﻤﻴﺰة </h4>
+                <img src={feature1} className="w-25 my-2" alt="" />
+                <p className="p-2 h5 text-muted">
+                  نعمل جاهدين على توفير كافة المواد على المنصة ومن أكثر من مدرس
+                  لتتمكنوا من حضور الدرس مع المدرس المفضل لديكم
+                </p>
+              </div>
+            </div>
+            <div className="col-md-4 my-4">
+              <div className="caption rounded-4 shadow py-2">
+                <h4 className="my-4">ﻓﻴﺪﻳﻮﻫﺎت ﻋﺎﻟﻴﺔ اﻟﺠﻮدة
+                </h4>
+                <img src={feature2} className="w-25 my-2" alt="" />
+                <p className="p-2 h5 text-muted">
+                  نعمل على إنتاج محتوى عالي الجودة في استديوهاتنا المتخصصة لأجل
+                  ضمان عملية تعليمية مريحة خالية من الشوائب
+                </p>
+                <br />
+              </div>
+            </div>
+            <div className="col-md-4 my-4">
+              <div className="caption rounded-4 shadow py-2">
+                <h4 className="my-4">اﺧﺘﺒﺎرات و واﺟﺒﺎت                </h4>
+                <img src={feature3} className="w-25 my-2" alt="" />
+                <p className="p-2 h5 text-muted">
+                يتم تصميم الأسئلة والواجبات بعناية لضمان المستوى التعليمي لأبنائنا من الطلاب
+                </p>
+                <br />
+                <br />
+              </div>
+            </div>
+            <div className="col-md-4 my-4">
+              <div className="caption rounded-4 shadow py-2">
+                <h4 className="my-4">ﺑﻨﻚ اﺳﺄﻟﺔ
+                </h4>
+                <img src={feature4} className="w-25 my-2" alt="" />
+                <p className="p-2 h5 text-muted">
+                لن تحتاج إلى أي من الكتب الخارجية, لاننا نقوم بتحديث بنك الاسئلة الخاص بنا دوريا بالتعاون مع نخبة من أكبر مدرسين المواد في الجمهورية
+
+</p>
+            
+              </div>
+            </div>
+            <div className="col-md-4 my-4">
+              <div className="caption rounded-4 shadow py-2">
+                <h4 className="my-4">ﺗﻘﻴﻴﻢ ﻣﺴﺘﻤﺮ
+                </h4>
+                <img src={feature5} className="w-25 my-2" alt="" />
+                <p className="p-2 h5 text-muted mt-4">
+                هدفنا طمانتكم ولذلك يقوم فريق كامل من المساعدين بمتابعة مستوى أبنائنا مع أولياء الأمور
+
+</p>
+            
+                <br />
+                <br />
+              </div>
+            </div>
+            <div className="col-md-4 my-4">
+              <div className="caption rounded-4 shadow py-2">
+                <h4 className="my-4">تفاعلات                </h4>
+                <img src={feature6} className="w-25 my-2" alt="" />
+                <p className="p-2 h5 text-muted">
+                ابنائنا الطلبة, يهمنا رايكم ولذلك يمكنكم ارسال ارائكم واستفساراتكم على أي جزء خاص في المنصة سواء كان على الواجبات والامتحانات أو حتى عن المنصة
+
+</p>
+                <br />
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
+  );
 }

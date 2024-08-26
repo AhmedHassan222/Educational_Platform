@@ -8,10 +8,20 @@
   margin:0;
   padding: 0;
 }
-
+header{
+  background-color: var(--mainColorBlue);
+  height: 100vh;
+  color: black;
+/* flex-direction: column */
+}
 body 
 {
   direction: rtl;
+  font-weight: 700 ;
+  margin: 0;
+  padding: 0;
+  font-family: "Cairo", sans-serif;
+
 }
 
 .widthCustom {
