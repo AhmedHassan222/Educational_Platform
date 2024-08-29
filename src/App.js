@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Route, Routes } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import AdminPage from './Pages/AdminPage';
 import SuperAdminPage from './Pages/SuperAdminPage';
 import LoginPage from './Pages/LoginPage';
@@ -9,27 +9,73 @@ import NotfoundPage from './Pages/NotfoundPage';
 import Cources from './Pages/Cources';
 import Register from './Pages/Register';
 import CourceDetails from './Pages/CourseDetails';
-import HomeLayoutPage from './Pages/HomeLayoutPage';
 import ResetPassword from './Pages/ResetPassword';
 import LayoutWithNavbar from './Components/LayoutWithNavbar';
-export default function App() {
-  return <>
-    <Router>
-      <Routes>
-        {/* component withou navbar */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
+import Profile from './Pages/Profile';
+import MyCources from './Pages/MyCources';
+import Teachers from './Pages/Teachers';
+import MyExams from './Pages/MyExams';
+import Wallet from './Pages/Wallet';
+const router = createBrowserRouter([
+  {
+    path: '/login',
+    element: localStorage.getItem('user') ? <Navigate to="/cources" replace /> : <LoginPage />,
+  },
+  {
+    path: '/register',
+    element: localStorage.getItem('user') ? <Navigate to="/cources" replace /> : <Register />,
+  },
+  {
+    path: '/reset-password',
+    element: localStorage.getItem('user') ? <Navigate to="/cources" replace /> : <ResetPassword />,
+  },
+  {
+    path: '/',
+    element: localStorage.getItem('user') ? <Navigate to="/cources" replace /> : <LayoutWithNavbar><HomePage /></LayoutWithNavbar>,
+  },
+  {
+    path: '/cources',
+    element: <LayoutWithNavbar><Cources /></LayoutWithNavbar>,
+  },
+  {
+    path: '/cources/:id',
+    element: <LayoutWithNavbar><CourceDetails /></LayoutWithNavbar>,
+  },
+  {
+    path: '/admin',
+    element: <PrivateRoute roles={['admin', 'super-admin']} element={<LayoutWithNavbar><AdminPage /></LayoutWithNavbar>} />,
+  },
+  {
+    path: '/super-admin',
+    element: <PrivateRoute roles={['super-admin']} element={<LayoutWithNavbar><SuperAdminPage /></LayoutWithNavbar>} />,
+  },
+  {
+    path: "profile",
+    element: localStorage.getItem('user') ? <LayoutWithNavbar><Profile /></LayoutWithNavbar> : <Navigate to="/" replace />
+  },
+  {
+    path: "mycources",
+    element: localStorage.getItem('user') ? <LayoutWithNavbar> <MyCources /></LayoutWithNavbar> : <Navigate to="/" replace />
+  },
+  {
+    path: "teachers",
+    element: localStorage.getItem('user') ? <LayoutWithNavbar> <Teachers /></LayoutWithNavbar> : <Navigate to="/" replace />
+  },
+  {
+    path: "myexam",
+    element: localStorage.getItem('user') ? <LayoutWithNavbar> <MyExams /> </LayoutWithNavbar> : <Navigate to="/" replace />
+  },
+  {
+    path: "wallet",
+    element: localStorage.getItem('user') ? <LayoutWithNavbar><Wallet /></LayoutWithNavbar> : <Navigate to="/" replace />
+  },
 
-        {/* component with navbar */}
-        <Route path="/" element={<LayoutWithNavbar><HomePage /></LayoutWithNavbar>} />
-        <Route path="/cources" element={<LayoutWithNavbar><Cources /></LayoutWithNavbar>} />
-        <Route path="/cources/:id" element={<LayoutWithNavbar><CourceDetails /></LayoutWithNavbar>} />
-        <Route path="/admin" element={<PrivateRoute roles={['admin', 'super-admin']} element={<LayoutWithNavbar><AdminPage /></LayoutWithNavbar>} />} />
-        <Route path="/super-admin" element={<PrivateRoute roles={['super-admin']} element={<LayoutWithNavbar><SuperAdminPage /></LayoutWithNavbar>} />} />
-        <Route path="/home" element={<PrivateRoute roles={['user', 'admin', 'super-admin']} element={<LayoutWithNavbar><HomeLayoutPage /></LayoutWithNavbar>} />} />
-        <Route path="*" element={<LayoutWithNavbar><NotfoundPage /></LayoutWithNavbar>} />
-      </Routes>
-    </Router>
-  </>
+  {
+    path: '*',
+    element: <LayoutWithNavbar><NotfoundPage /></LayoutWithNavbar>,
+  },
+]);
+
+export default function App() {
+  return <RouterProvider router={router} />;
 }

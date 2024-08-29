@@ -5,7 +5,7 @@ import { useState } from "react"
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false)
     return <>
-        <nav className="navbar navbar-expand-lg  navbar-light  py-0 bg-white">
+        <nav className="navbar navbar-expand-lg  navbar-light  py-2 bg-white">
             <div className="container">
                 <Link className={`navbar-brand   ${style.widthLogo}`} to={'/'}>
                     <img src={logo} alt="sky academy logo" className={`w-100`} />
@@ -15,16 +15,33 @@ export default function Navbar() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="nav-item">
-                            <Link onClick={() => { setIsOpen(false) }} className={`nav-link ${style.btnOrange} text-white mx-1 px-2 rounded-3`} to={'/login'}>تسجيل الدخول</Link>
-                        </li>
-
-                        <li className="nav-item">
-                            <Link onClick={() => { setIsOpen(false) }} className={`nav-link ${style.btnOutlinOrange}  mx-1 px-2 rounded-3`} to={'/register'}>حساب جديد</Link>
-                        </li>
-
+                        {!localStorage.getItem('user') ? <>
+                            <li className="nav-item">
+                                <Link onClick={() => { setIsOpen(false) }} className={`nav-link ${style.btnOrange} text-white mx-1 px-2 rounded-3`} to={'/login'}>تسجيل الدخول</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link onClick={() => { setIsOpen(false) }} className={`nav-link ${style.btnOutlinOrange}  mx-1 px-2 rounded-3`} to={'/register'}>حساب جديد</Link>
+                            </li></> : <>
+                            <li className="nav-item">
+                                <Link className="nav-link small  active" aria-current="page" to="/cources">  الدورات التعليمية</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link small " to={'/profile'}> الملف الشخصي</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link small " to={'/mycources'}>  دوراتي</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link small " to={'/teachers'}> المعلمين </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link small " to={'/myexam'}> نتائج امتحاناتي </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link small " to={'/wallet'}> المحفظة الالكترونية </Link>
+                            </li>
+                        </>}
                     </ul>
-
                 </div>
             </div>
         </nav>
