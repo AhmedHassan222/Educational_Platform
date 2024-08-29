@@ -17,6 +17,8 @@ import Teachers from './Pages/Teachers';
 import MyExams from './Pages/MyExams';
 import Wallet from './Pages/Wallet';
 import TeacherDetails from './Pages/TeacherDetails';
+import NavbarAdmin from './Components/NavbarAdmin';
+import NavbarSuperAdmin from './Components/NavbarSuperAdmin';
 const router = createHashRouter([
   {
     path: '/login',
@@ -44,11 +46,11 @@ const router = createHashRouter([
   },
   {
     path: '/admin',
-    element: <PrivateRoute roles={['admin', 'super-admin']} element={<LayoutWithNavbar><AdminPage /></LayoutWithNavbar>} />,
+    element: <PrivateRoute roles={['admin', 'super-admin']} element={<><NavbarAdmin /> <AdminPage /></>} />,
   },
   {
     path: '/super-admin',
-    element: <PrivateRoute roles={['super-admin']} element={<LayoutWithNavbar><SuperAdminPage /></LayoutWithNavbar>} />,
+    element: <PrivateRoute roles={['super-admin']} element={<><NavbarSuperAdmin /> <SuperAdminPage /></>} />,
   },
   {
     path: "profile",
