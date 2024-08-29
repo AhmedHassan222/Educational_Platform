@@ -69,7 +69,9 @@ export default function LoginPage() {
                         </div>
                         <Link className='nav-link text-muted' to={'/reset-password'}>نسيت كلمة المرور؟</Link>
                     </div>
-                    <button type="submit" className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} w-100`}>تسجيل الدخول</button>
+                   <Link to={"/"}>
+                        <button type="submit" className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} w-100`}>تسجيل الدخول</button>
+                   </Link>
                 </form>
                 <div className="d-flex align-items-center mt-3 justify-content-center">
                     <p className="my-2 fs-6 me-1 ms-1">
