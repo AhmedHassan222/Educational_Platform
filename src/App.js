@@ -1,5 +1,5 @@
 import React from 'react';
-import {  RouterProvider, Navigate, createHashRouter } from 'react-router-dom';
+import { RouterProvider, Navigate, createHashRouter } from 'react-router-dom';
 import AdminPage from './Pages/AdminPage';
 import SuperAdminPage from './Pages/SuperAdminPage';
 import LoginPage from './Pages/LoginPage';
@@ -16,6 +16,7 @@ import MyCources from './Pages/MyCources';
 import Teachers from './Pages/Teachers';
 import MyExams from './Pages/MyExams';
 import Wallet from './Pages/Wallet';
+import TeacherDetails from './Pages/TeacherDetails';
 const router = createHashRouter([
   {
     path: '/login',
@@ -60,6 +61,10 @@ const router = createHashRouter([
   {
     path: "teachers",
     element: localStorage.getItem('user') ? <LayoutWithNavbar> <Teachers /></LayoutWithNavbar> : <Navigate to="/" replace />
+  },
+  {
+    path: '/tacher/:id',
+    element: <LayoutWithNavbar><TeacherDetails /></LayoutWithNavbar>,
   },
   {
     path: "myexam",
