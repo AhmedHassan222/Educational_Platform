@@ -5,3 +5,6 @@
 {
     background-color: rgba(255,101,19,255);
 }
+.caption{
+   min-height: 300px !important;
+}

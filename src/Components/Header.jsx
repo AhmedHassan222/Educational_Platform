@@ -49,7 +49,7 @@ export default function Header() {
           <div className="row gy-4">
             {Classes.map((item , index) => (<div key={index} className="col-md-4">
               <div className=" border border-1 border-muted  p-3 rounded">
-                <h4> اﻟﺼﻒ اﻟﺄول اﻟﺜﺎﻧﻮى </h4>
+                <h4 className="h6"> اﻟﺼﻒ اﻟﺄول اﻟﺜﺎﻧﻮى </h4>
               </div>
             </div> ))}
           </div>
@@ -66,7 +66,7 @@ export default function Header() {
 
           <div className="row g-3">
             <div className="col-md-4 ">
-              <div className="caption rounded-4 border border-1 border-muted py-2">
+              <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
                 <h4 className="my-4 h5">ﻛﻮرﺳﺎت ﻣﻤﻴﺰة </h4>
                 <img src={feature1} className="w-25 my-2" alt="" />
                 <p className="p-2 small text-muted ">
@@ -76,7 +76,7 @@ export default function Header() {
               </div>
             </div>
             <div className="col-md-4 my-4">
-              <div className="caption rounded-4 shadow py-2">
+              <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
                 <h4 className="my-4">ﻓﻴﺪﻳﻮﻫﺎت ﻋﺎﻟﻴﺔ اﻟﺠﻮدة
                 </h4>
                 <img src={feature2} className="w-25 my-2" alt="" />
@@ -88,7 +88,7 @@ export default function Header() {
               </div>
             </div>
             <div className="col-md-4 my-4">
-              <div className="caption rounded-4 shadow py-2">
+              <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
                 <h4 className="my-4">اﺧﺘﺒﺎرات و واﺟﺒﺎت                </h4>
                 <img src={feature3} className="w-25 my-2" alt="" />
                 <p className="p-2 h5 text-muted">
@@ -99,7 +99,7 @@ export default function Header() {
               </div>
             </div>
             <div className="col-md-4 my-4">
-              <div className="caption rounded-4 shadow py-2">
+              <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
                 <h4 className="my-4">ﺑﻨﻚ اﺳﺄﻟﺔ
                 </h4>
                 <img src={feature4} className="w-25 my-2" alt="" />
@@ -111,7 +111,7 @@ export default function Header() {
               </div>
             </div>
             <div className="col-md-4 my-4">
-              <div className="caption rounded-4 shadow py-2">
+              <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
                 <h4 className="my-4">ﺗﻘﻴﻴﻢ ﻣﺴﺘﻤﺮ
                 </h4>
                 <img src={feature5} className="w-25 my-2" alt="" />
@@ -125,7 +125,7 @@ export default function Header() {
               </div>
             </div>
             <div className="col-md-4 my-4">
-              <div className="caption rounded-4 shadow py-2">
+              <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
                 <h4 className="my-4">تفاعلات                </h4>
                 <img src={feature6} className="w-25 my-2" alt="" />
                 <p className="p-2 h5 text-muted">
@@ -182,8 +182,8 @@ export default function Header() {
               <SwiperSlide key={index}>
                 <div className=" py-2 itemSlide">
                   <img src={teacher} className="w-75  rounded-circle " alt="" />
-                  <h4 className="my-4">أ/ سيد عبد الرحيم</h4>
-                  <p className="my-4 text-primary">
+                  <h4 className="my-4 h6">أ/ سيد عبد الرحيم</h4>
+                  <p className="my-4 small text-primary">
                     <span className="bg-light text-black p-2 rounded">
                       أ/ إسلام عطية
                     </span>
@@ -191,29 +191,6 @@ export default function Header() {
                 </div>
               </SwiperSlide>
             ))}
-            <div
-              className="swiper-button-next"
-              style={{
-                color: "#fff",
-                top: "80%",
-                backgroundColor: "#007bff",
-                borderRadius: "50%",
-                width: "40px",
-                height: "40px",
-                zIndex: "9999",
-              }}
-            ></div>
-            <div
-              className="swiper-button-prev  "
-              style={{
-                color: "#fff",
-                backgroundColor: "#007bff",
-                borderRadius: "50%",
-                width: "40px",
-                height: "40px",
-                top: "80%",
-              }}
-            ></div>
           </Swiper>
         </div>
       </section>

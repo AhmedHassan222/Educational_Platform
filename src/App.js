@@ -1,5 +1,5 @@
 import React from 'react';
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+import {  RouterProvider, Navigate, createHashRouter } from 'react-router-dom';
 import AdminPage from './Pages/AdminPage';
 import SuperAdminPage from './Pages/SuperAdminPage';
 import LoginPage from './Pages/LoginPage';
@@ -16,7 +16,7 @@ import MyCources from './Pages/MyCources';
 import Teachers from './Pages/Teachers';
 import MyExams from './Pages/MyExams';
 import Wallet from './Pages/Wallet';
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: '/login',
     element: localStorage.getItem('user') ? <Navigate to="/cources" replace /> : <LoginPage />,
