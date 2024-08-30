@@ -3,6 +3,7 @@ import teacher from "../../src/Assets/Images/teacher.jpg"
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 export default function Cources() {
+
     const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     useEffect(()=>{
         window.scroll(0,0)
