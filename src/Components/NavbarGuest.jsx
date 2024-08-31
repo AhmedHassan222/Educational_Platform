@@ -1,8 +1,9 @@
+
 import style from "../Styles/Nav.module.css"
 import logo from "../../src/Assets/Images/logo.png"
 import { Link } from "react-router-dom"
 import { useState } from "react"
-export default function Navbar() {
+export default function NavbarGuest() {
     const [isOpen, setIsOpen] = useState(false)
     return <>
         <nav className="navbar navbar-expand-lg  navbar-light  py-2 bg-white">
@@ -15,24 +16,11 @@ export default function Navbar() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-
                         <li className="nav-item">
-                            <Link className="nav-link small  active" aria-current="page" to="/cources">  الدورات التعليمية</Link>
+                            <Link onClick={() => { setIsOpen(false) }} className={`nav-link ${style.btnOrange} text-white mx-1 px-2 rounded-3`} to={'/login'}>تسجيل الدخول</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link small " to={'/profile'}> الملف الشخصي</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link small " to={'/mycources'}>  دوراتي</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link small " to={'/teachers'}> المعلمين </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link small " to={'/myexam'}> نتائج امتحاناتي </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link small " to={'/wallet'}> المحفظة الالكترونية </Link>
+                            <Link onClick={() => { setIsOpen(false) }} className={`nav-link ${style.btnOutlinOrange}  mx-1 px-2 rounded-3`} to={'/register'}>حساب جديد</Link>
                         </li>
                     </ul>
                 </div>
@@ -40,3 +28,4 @@ export default function Navbar() {
         </nav>
     </>
 }
+

@@ -16,11 +16,14 @@ export default function NavbarAdmin() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="nav-item">
-                            <Link className="nav-link small  active" aria-current="page" to="/"> اضف مدرس   </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link small  active" aria-current="page" to="/"> عدل مدرس    </Link>
+                        <li className="dropdown mx-2">
+                            <button className="border-0 bg-transparent pt-1 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                الفيديوهات
+                            </button>
+                            <ul className="dropdown-menu">
+                                <li><Link className="dropdown-item" to="/admin/allVideos">كل الفيديوهات</Link></li>
+                                <li><Link className="dropdown-item" to="/admin/addVideo">اضف فيديو</Link></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
