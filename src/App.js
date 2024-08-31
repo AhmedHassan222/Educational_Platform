@@ -16,10 +16,8 @@ import MyExams from './Pages/MyExams';
 import Wallet from './Pages/Wallet';
 import TeacherDetails from './Pages/TeacherDetails';
 const checkRole = (allowedRoles) => {
-  var x = {
-    role: "user"
-  }
-  localStorage.setItem('user', JSON.stringify(x))
+  // var x = {role: "user"}
+  // localStorage.setItem('user', JSON.stringify(x))
   const user = JSON.parse(localStorage.getItem('user'))
   return user && allowedRoles.includes(user?.role);
 };
