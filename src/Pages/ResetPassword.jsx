@@ -17,7 +17,10 @@ export default function ResetPassword() {
     return (
         <div className="container d-flex justify-content-center py-5">
             <div className="rounded-4 border-1 widthCustom text-center ">
-                <img src={logo} alt="sky academy logo" className="mb-2 w-25" />
+                <Link to={'/'}>
+                    <img src={logo} alt="sky academy logo" className="mb-2 w-25" />
+
+                </Link>
                 {submitted ? (
                     <div className="alert alert-success" role="alert">
                         A password reset link has been sent to your email address.

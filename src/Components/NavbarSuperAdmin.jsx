@@ -16,11 +16,42 @@ export default function NavbarSuperAdmin() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="nav-item">
-                            <Link className="nav-link small  active" aria-current="page" to="/"> اضف مدرس   </Link>
+                        
+                        <li className="dropdown mx-2">
+                            <button className="border-0 bg-transparent pt-1 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                المدرسين
+                            </button>
+                            <ul className="dropdown-menu">
+                                <li><Link className="dropdown-item" to="/super-admin/allTeachers">كل المعلميين</Link></li>
+                                <li><Link className="dropdown-item" to="/super-admin/addTeacher">اضف مدرس</Link></li>
+                            </ul>
                         </li>
-                        <li className="nav-item">
-                            <Link className="nav-link small  active" aria-current="page" to="/"> عدل مدرس    </Link>
+                        <li className="dropdown mx-2">
+                            <button className="border-0 bg-transparent pt-1 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            الفئات
+                            </button>
+                            <ul className="dropdown-menu">
+                                <li><Link className="dropdown-item" to="/super-admin/allCategories">كل الفئات</Link></li>
+                                <li><Link className="dropdown-item" to="/super-admin/addCategory">اضف فئة</Link></li>
+                            </ul>
+                        </li>
+                        <li className="dropdown mx-2">
+                            <button className="border-0 bg-transparent pt-1 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            الكورسات
+                            </button>
+                            <ul className="dropdown-menu">
+                                <li><Link className="dropdown-item" to="/super-admin/allCources">كل الكورسات</Link></li>
+                                <li><Link className="dropdown-item" to="/super-admin/addCourse">اضف كورس</Link></li>
+                            </ul>
+                        </li>
+                        <li className="dropdown mx-2">
+                            <button className="border-0 bg-transparent pt-1 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            الاكواد
+                            </button>
+                            <ul className="dropdown-menu">
+                                <li><Link className="dropdown-item" to="/super-admin/allCodes">كل الاكواد</Link></li>
+                                <li><Link className="dropdown-item" to="/super-admin/generateCode">انشاء اكواد </Link></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>

@@ -15,9 +15,22 @@ import Teachers from './Pages/Teachers';
 import MyExams from './Pages/MyExams';
 import Wallet from './Pages/Wallet';
 import TeacherDetails from './Pages/TeacherDetails';
+import AddTeacher from './Pages/AddTeacher';
+import AddCategory from './Pages/AddCategory';
+import AddCourse from './Pages/AddCourse';
+import GenerateCode from './Pages/GenerateCode';
+import AddVideo from './Pages/AddVideo';
+import GetAllCodes from './Pages/GetAllCodes';
+import GetAllTeachers from './Pages/GetAllTeachers';
+import GetAllCources from './Pages/GetAllCources';
+import GetAllCategories from './Pages/GetAllCategories';
+import GetAllVideos from './Pages/GetAllVideos';
+
 const checkRole = (allowedRoles) => {
-  // var x = {role: "user"}
-  // localStorage.setItem('user', JSON.stringify(x))
+  var x = {
+    role: "user"
+  }
+  localStorage.setItem('user', JSON.stringify(x))
   const user = JSON.parse(localStorage.getItem('user'))
   return user && allowedRoles.includes(user?.role);
 };
@@ -25,28 +38,28 @@ const checkRole = (allowedRoles) => {
 const router = createHashRouter([
   {
     path: '/login',
-    element: localStorage.getItem('user') ? <Navigate to="/cources" replace /> : <LoginPage />,
+    element: localStorage.getItem('user') ? <Navigate to="/" replace /> : <LoginPage />,
   },
   {
     path: '/register',
-    element: localStorage.getItem('user') ? <Navigate to="/cources" replace /> : <Register />,
+    element: localStorage.getItem('user') ? <Navigate to="/" replace /> : <Register />,
   },
   {
     path: '/reset-password',
-    element: localStorage.getItem('user') ? <Navigate to="/cources" replace /> : <ResetPassword />,
+    element: localStorage.getItem('user') ? <Navigate to="/" replace /> : <ResetPassword />,
   },
   {
     path: '/',
-    element: localStorage.getItem('user') ? <Navigate to="/cources" replace /> : <LayoutWithNavbar><HomePage /></LayoutWithNavbar>,
-    
+    element: <LayoutWithNavbar><HomePage/></LayoutWithNavbar>,
+
   },
   {
     path: '/cources',
-    element: checkRole(['user', 'admin', 'super-admin']) ? <LayoutWithNavbar><Cources /></LayoutWithNavbar> : <Navigate to="/" replace />,
+    element: checkRole(['user']) ? <LayoutWithNavbar><Cources /></LayoutWithNavbar> : <Navigate to="/" replace />,
   },
   {
     path: '/cources/:id',
-    element: checkRole(['user', 'admin', 'super-admin']) ? <LayoutWithNavbar><CourceDetails /></LayoutWithNavbar> : <Navigate to="/" replace />,
+    element: checkRole(['user']) ? <LayoutWithNavbar><CourceDetails /></LayoutWithNavbar> : <Navigate to="/" replace />,
   },
   {
     path: '/admin',
@@ -54,6 +67,8 @@ const router = createHashRouter([
     children: [
       //admin children here
       { index: true, element: <AdminPage /> },
+      {path:'addVideo', element:<AddVideo/>},
+      {path:'allVideos', element:<GetAllVideos/>}
     ]
   },
   {
@@ -62,7 +77,14 @@ const router = createHashRouter([
     children: [
       //super-admin children here
       { index: true, element: <SuperAdminPage /> },
-
+      { path: 'addTeacher', element: <AddTeacher /> },
+      { path: 'addCategory', element: <AddCategory /> },
+      { path: 'addCourse', element: <AddCourse /> },
+      { path: 'generateCode', element: <GenerateCode /> },
+      { path: 'allCodes', element: <GetAllCodes /> },
+      { path: 'allTeachers', element: <GetAllTeachers /> },
+      { path: 'allCources', element: <GetAllCources /> },
+      {path:'allCategories',element: <GetAllCategories/>}
     ]
   },
   {
