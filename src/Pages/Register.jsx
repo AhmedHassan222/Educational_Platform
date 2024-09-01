@@ -1,19 +1,25 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import style from "../../src/Styles/Auth.module.css"
-import logo from "../../src/Assets/Images/logo.png"
-import "../Styles/index.css"
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import style from "../../src/Styles/Auth.module.css";
+import logo from "../../src/Assets/Images/logo.png";
+import "../Styles/index.css";
+import axios from "axios";
+import Joi from "joi";
+import { jsxs } from "react/jsx-runtime";
+
 export default function Register() {
-    const [formData, setFormData] = useState({
-        fullName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        gender: '',
-        class: '',
-        phoneNumber: '',
-        parentsPhoneNumber: ''
-    });
+  let navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+    repassword: "",
+    gender: "",
+    grade: "",
+    stage: "",
+    phoneNumber: "",
+    FatherPhoneNumber: "",
+  });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -32,7 +38,9 @@ export default function Register() {
     return (
         <div className="container py-5">
             <div className="text-center rounded-4  border-1 widthCustom mx-auto">
-                <img src={logo} alt="sky academy logo" className="mb-2 w-25" />
+                <Link to={'/'}>
+                    <img src={logo} alt="sky academy logo" className="mb-2 w-25" />
+                </Link>
                 <form onSubmit={handleSubmit}>
                     <div className=" mb-4">
                         <input
@@ -144,7 +152,7 @@ export default function Register() {
                 </form>
                 <div className="d-flex align-items-center justify-content-center ">
                     <p className="my-2 fs-6 ms-1">
-                    لديك حساب بالفعل؟
+                        لديك حساب بالفعل؟
                     </p>
                     <Link className={` nav-link ${style.textOrange}`} to={'/login'}>سجل الدخول</Link>
 
