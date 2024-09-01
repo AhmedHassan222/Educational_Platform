@@ -93,11 +93,11 @@ export default function Register() {
             {error.map((err, index) => {
               if (err.context.label == "fullName") {
                 if(err.type=="string.min"){
-                    return <p className="small p-2 text-danger">يجب أن لا يقل عدد الحروف عن 3</p>
+                     <p className="small p-2 text-danger">يجب أن لا يقل عدد الحروف عن 3</p>
                 }else if(err.type=="string.max"){
-                    return <p className="small p-2 text-danger">يجب الا يزيد عدد الحروف عن  100 حرف</p>
+                     <p className="small p-2 text-danger">يجب الا يزيد عدد الحروف عن  100 حرف</p>
                 }else{
-                    return <p className="small p-2 text-danger">لا يمكن ارسال هذا الحقل  فارغا</p>
+                     <p className="small p-2 text-danger">لا يمكن ارسال هذا الحقل  فارغا</p>
 
                 }
               } 
