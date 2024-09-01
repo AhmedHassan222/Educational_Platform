@@ -14,6 +14,10 @@
     color: rgba(255,101,19,255);
     text-decoration: underline;
 }
+.eyePostion{
+    left: 15px;
+    cursor: pointer;
+}
 
 .goBackButton
 {

@@ -16,6 +16,12 @@ export default function LoginPage() {
   const [error, setError] = useState([]);
   const [serverError, setServerError] = useState("");
   const [Isloading, setIsloading] = useState(false);
+  const [inputType, setInputType] = useState('password');
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+    setInputType(inputType === 'password' ? 'text' : 'password');
+  };
   // Function here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
   //function one >>
   const handleChange = (e) => {
@@ -81,7 +87,15 @@ export default function LoginPage() {
             )}
           </div>
           <div className=" mb-4">
-            <input placeholder="ادخل كلمة المرور" type="password" className="w-100 p-2" id="password" name="password" value={formData.password} onChange={handleChange} />
+
+            <div className="position-relative">
+                        {inputType =="password"? 
+                        <i  onClick={togglePasswordVisibility} class={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>:
+                        <i  onClick={togglePasswordVisibility} class={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>                      
+                    }
+     <input placeholder="ادخل كلمة المرور" type={inputType} className="w-100 p-2 " id="password" name="password" value={formData.password} onChange={handleChange} />
+                        
+                    </div>
             {error?.map((err, index) =>
               err.context.label === "password" ? <div key={index}>
                 {err.type === "string.pattern.base" ? <p className="small fw-medium py-2 text-end text-danger">    يجب ان تحتوي كلمة  المرور علي 8 احروف او ارقام</p> : ""}

@@ -12,6 +12,19 @@ export default function Register() {
     const [error, setError] = useState([]);
     const [serverError, setServerError] = useState("");
     const [Isloading, setIsloading] = useState(false);
+    const [inputType, setInputType] = useState('password');
+    const [showPassword, setShowPassword] = useState(false);
+    
+    const [inputType2, setInputType2] = useState('password');
+    const [showrePassword, setShowrePassword] = useState(false);
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+        setInputType(inputType === 'password' ? 'text' : 'password');
+      };
+      const togglerePasswordVisibility = () => {
+        setShowrePassword(!showrePassword);
+        setInputType2(inputType2 === 'password' ? 'text' : 'password');
+      };
     // Function here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
     //function one >>
     const handleChange = (e) => {
@@ -82,9 +95,16 @@ export default function Register() {
                             </div> : ""
                         )}
                     </div>
-                    <div className=" mb-4">
-                        <input placeholder="ادخل كلمة المرور" type="password" className="w-100 p-2" id="password" name="password" value={formData.password} onChange={handleChange} />
-                        {error?.map((err, index) =>
+                    <div className=" mb-4 ">
+                    <div className="position-relative">
+                        {inputType =="password"? 
+                        <i  onClick={togglePasswordVisibility} class={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>:
+                        <i  onClick={togglePasswordVisibility} class={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>                      
+                    }
+                      <input placeholder="ادخل كلمة المرور" type={inputType} className="w-100 p-2 " id="password" name="password" value={formData.password} onChange={handleChange} />
+                        
+                    </div>
+                    {error?.map((err, index) =>
                             err.context.label === "password" ? <div key={index}>
                                 {err.type === "string.pattern.base" ? <p className="small fw-medium py-2 text-end text-danger">    يجب ان تحتوي كلمة  المرور علي 8 احروف او ارقام</p> : ""}
                                 {!formData.password ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
@@ -92,7 +112,17 @@ export default function Register() {
                         )}
                     </div>
                     <div className=" mb-4">
-                        <input placeholder="تأكيد كلمة المرور " type="password" className="w-100 p-2" id="repassword" name="repassword" value={formData.repassword} onChange={handleChange} />
+                    <div className="position-relative">
+                        {inputType2 =="password"? 
+                        <i  onClick={togglerePasswordVisibility} class={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>:
+                        <i  onClick={togglerePasswordVisibility} class={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>                      
+                    }
+                        <input placeholder="تأكيد كلمة المرور " type={inputType2} className="w-100 p-2" id="repassword" name="repassword" value={formData.repassword} onChange={handleChange} />
+                        
+                    </div>
+
+                        
+                        
                         {error?.map((err, index) =>
                             err.context.label === "password" ? <div key={index}>
                                 {formData.password !== formData.repassword ? <p className="small fw-medium py-2 text-end text-danger">    كلمتا المرور غير متطابقتين</p> : ""}
