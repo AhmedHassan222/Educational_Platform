@@ -18,7 +18,7 @@ export default function Register() {
     grade: "",
     stage: "",
     phoneNumber: "",
-    FatherPhoneNumber: "",
+    parentsPhoneNumber: "",
   });
 
   const [error, setError] = useState([]);
@@ -64,13 +64,13 @@ export default function Register() {
     setIsloading(true);
     let validate = validationForm();
     console.log(validate)
-    // if (validate.error) {
-    //   setIsloading(false);
-    //   setError(validate.error.details);
-    // } else {
-    //   sendApi();
-    //   setIsloading(false);
-    // }
+    if (validate.error) {
+      setIsloading(false);
+      setError(validate.error.details);
+    } else {
+      sendApi();
+      setIsloading(false);
+    }
   };
   return (
     <div className="container py-5">
@@ -280,14 +280,14 @@ export default function Register() {
               placeholder="رقم هاتف ولي الامر"
               type="text"
               className="w-100 p-2"
-              id="FatherPhoneNumber"
-              name="FatherPhoneNumber"
-              value={formData.FatherPhoneNumber}
+              id="parentsPhoneNumber"
+              name="parentsPhoneNumber"
+              value={formData.parentsPhoneNumber}
               onChange={handleChange}
               
             />
             {error.map((err, index) => {
-              if (err.context.label == "FatherPhoneNumber") {
+              if (err.context.label == "parentsPhoneNumber") {
                 return (
                   <p key={index} className="text-danger my-2 text-end">
                     {" "}
