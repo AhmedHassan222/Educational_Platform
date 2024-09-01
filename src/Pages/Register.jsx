@@ -93,11 +93,11 @@ export default function Register() {
             {error.map((err, index) => {
               if (err.context.label == "fullName") {
                 if(err.type=="string.min"){
-                     <p className="small p-2 text-danger">يجب أن لا يقل عدد الحروف عن 3</p>
+                    return <p className="small p-2 text-danger">يجب أن لا يقل عدد الحروف عن 3</p>
                 }else if(err.type=="string.max"){
-                     <p className="small p-2 text-danger">يجب الا يزيد عدد الحروف عن  100 حرف</p>
+                    return <p className="small p-2 text-danger">يجب الا يزيد عدد الحروف عن  100 حرف</p>
                 }else{
-                     <p className="small p-2 text-danger">لا يمكن ارسال هذا الحقل  فارغا</p>
+                    return <p className="small p-2 text-danger">لا يمكن ارسال هذا الحقل  فارغا</p>
 
                 }
               } 
@@ -298,24 +298,19 @@ export default function Register() {
             })}
           </div>
 
-          <button
-            type="submit"
-            className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}
-          >
-            {Isloading == true ? (
-              <i className="fa-solid fa-spinner fa-spin"></i>
-            ) : (
-              "انشاء حساب"
-            )}
-          </button>
-        </form>
-        <div className="d-flex align-items-center justify-content-center ">
-          <p className="my-2 fs-6 ms-1">لديك حساب بالفعل؟</p>
-          <Link className={` nav-link ${style.textOrange}`} to={"/login"}>
-            سجل الدخول
-          </Link>
+
+                    <button type="submit" className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>انشاء حساب</button>
+                </form>
+                <div className="d-flex align-items-center justify-content-center ">
+                    <p className="my-2 fs-6 ms-1">
+                        لديك حساب بالفعل؟
+                    </p>
+                    <Link className={` nav-link ${style.textOrange}`} to={'/login'}>سجل الدخول</Link>
+
+                </div>
+
+            </div>
         </div>
-      </div>
-    </div>
-  );
-}
+    );
+};
+
