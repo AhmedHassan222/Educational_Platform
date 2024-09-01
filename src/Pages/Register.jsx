@@ -5,8 +5,6 @@ import logo from "../../src/Assets/Images/logo.png";
 import "../Styles/index.css";
 import axios from "axios";
 import Joi from "joi";
-import { jsxs } from "react/jsx-runtime";
-
 export default function Register() {
   let navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -18,7 +16,7 @@ export default function Register() {
     grade: "",
     stage: "",
     phoneNumber: "",
-    parentsPhoneNumber: "",
+    FatherPhoneNumber: "",
   });
 
   const [error, setError] = useState([]);
@@ -64,13 +62,13 @@ export default function Register() {
     setIsloading(true);
     let validate = validationForm();
     console.log(validate)
-    if (validate.error) {
-      setIsloading(false);
-      setError(validate.error.details);
-    } else {
-      sendApi();
-      setIsloading(false);
-    }
+    // if (validate.error) {
+    //   setIsloading(false);
+    //   setError(validate.error.details);
+    // } else {
+    //   sendApi();
+    //   setIsloading(false);
+    // }
   };
   return (
     <div className="container py-5">
@@ -280,14 +278,14 @@ export default function Register() {
               placeholder="رقم هاتف ولي الامر"
               type="text"
               className="w-100 p-2"
-              id="parentsPhoneNumber"
-              name="parentsPhoneNumber"
-              value={formData.parentsPhoneNumber}
+              id="FatherPhoneNumber"
+              name="FatherPhoneNumber"
+              value={formData.FatherPhoneNumber}
               onChange={handleChange}
               
             />
             {error.map((err, index) => {
-              if (err.context.label == "parentsPhoneNumber") {
+              if (err.context.label == "FatherPhoneNumber") {
                 return (
                   <p key={index} className="text-danger my-2 text-end">
                     {" "}
@@ -306,11 +304,8 @@ export default function Register() {
                         لديك حساب بالفعل؟
                     </p>
                     <Link className={` nav-link ${style.textOrange}`} to={'/login'}>سجل الدخول</Link>
-
                 </div>
-
             </div>
         </div>
     );
 };
-
