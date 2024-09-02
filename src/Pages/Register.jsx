@@ -97,7 +97,7 @@ export default function Register() {
                     </div>
                     <div className=" mb-4 ">
                     <div className="position-relative">
-                        {inputType =="password"? 
+                        {inputType !=="password"? 
                         <i  onClick={togglePasswordVisibility} class={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>:
                         <i  onClick={togglePasswordVisibility} class={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>                      
                     }
@@ -113,7 +113,7 @@ export default function Register() {
                     </div>
                     <div className=" mb-4">
                     <div className="position-relative">
-                        {inputType2 =="password"? 
+                        {inputType2 !=="password"? 
                         <i  onClick={togglerePasswordVisibility} class={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>:
                         <i  onClick={togglerePasswordVisibility} class={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>                      
                     }

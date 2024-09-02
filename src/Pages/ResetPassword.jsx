@@ -12,6 +12,12 @@ export default function ResetPassword() {
     const [error, setError] = useState([])
     const [error2, setError2] = useState([])
     const [appear, setAppear] = useState(true)
+    const [inputType, setInputType] = useState('password');
+    const [showPassword, setShowPassword] = useState(false);
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+        setInputType(inputType === 'password' ? 'text' : 'password');
+    };
     // form one functions >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     //function zero 
     const handleChange = (e) => {
@@ -45,7 +51,7 @@ export default function ResetPassword() {
     }
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
- // form two functions >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    // form two functions >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     //function zero 
     const handleChangeNewPassword = (e) => {
         const _newPasswordForm = { ...newPasswordForm };
@@ -60,7 +66,7 @@ export default function ResetPassword() {
     };
     //function two
     const validationForm2 = () => {
-        let schema = Joi.object({ password: Joi.string().regex(/^[a-zA-Z0-9]{8,}$/)});
+        let schema = Joi.object({ password: Joi.string().regex(/^[a-zA-Z0-9]{8,}$/) });
         return schema.validate(newPasswordForm, { abortEarly: false });
     };
     //function three
@@ -100,10 +106,17 @@ export default function ResetPassword() {
                             </div> : ""
                         )}
                     </div>
-                    <button type="submit" className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} w-100`}> {isLoading? <i className='fa fa-spin fa-spinner'></i>:"ارسل الايميل "}  </button>
+                    <button type="submit" className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} w-100`}> {isLoading ? <i className='fa fa-spin fa-spinner'></i> : "ارسل الايميل "}  </button>
                 </form> : <form onSubmit={sendApiForNewPassword}>
                     <div className=" mb-4">
-                        <input placeholder=" ادخل كلمة المرور الجديدة" type="password" className="w-100 p-2" id="newPassword" name="newPassword" value={newPasswordForm.newPassword} onChange={handleChangeNewPassword} />
+                        <div className="position-relative">
+                            {inputType !== "password" ?
+                                <i onClick={togglePasswordVisibility} class={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i> :
+                                <i onClick={togglePasswordVisibility} class={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>
+                            }
+                            <input placeholder=" ادخل كلمة المرور الجديدة" type={inputType} className="w-100 p-2" id="newPassword" name="newPassword" value={newPasswordForm.newPassword} onChange={handleChangeNewPassword} />
+
+                        </div>
                         {error2?.map((err, index) =>
                             err.context.label === "email" ? <div key={index}>
                                 {err.type === "string.pattern.base" ? <p className="small fw-medium py-2 text-end text-danger">    يجب ان تحتوي كلمة  المرور علي 8 احروف او ارقام</p> : ""}
@@ -111,7 +124,7 @@ export default function ResetPassword() {
                             </div> : ""
                         )}
                     </div>
-                    <button type="submit" className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} w-100`}> {isLoading?<i className='fa fa-spin fa-spinner'></i>:"تحديث كلمة المرور"}</button>
+                    <button type="submit" className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} w-100`}> {isLoading ? <i className='fa fa-spin fa-spinner'></i> : "تحديث كلمة المرور"}</button>
                 </form>}
 
 
