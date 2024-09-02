@@ -11,22 +11,22 @@ export default function Footer() {
                 </div>
 
                 <div>
-                    <Link to={'/'} className="me-4 text-reset">
+                    <Link to={'https://www.facebook.com/'} className="me-4 text-reset">
                         <i className="fab fa-facebook-f"></i>
                     </Link>
-                    <Link to={'/'} className="me-4 text-reset">
+                    <Link to={'https://www.x.com/'} className="me-4 text-reset">
                         <i className="fab fa-twitter"></i>
                     </Link>
-                    <Link to={'/'} className="me-4 text-reset">
+                    <Link to={'https://www.google.com/'} className="me-4 text-reset">
                         <i className="fab fa-google"></i>
                     </Link>
-                    <Link to={'/'} className="me-4 text-reset">
+                    <Link to={'https://www.instgram.com/'} className="me-4 text-reset">
                         <i className="fab fa-instagram"></i>
                     </Link>
-                    <Link to={'/'} className="me-4 text-reset">
+                    <Link to={'https://www.linkedin.com/'} className="me-4 text-reset">
                         <i className="fab fa-linkedin"></i>
                     </Link>
-                    <Link to={'/'} className="me-4 text-reset">
+                    <Link to={'https://www.github.com/'} className="me-4 text-reset">
                         <i className="fab fa-github"></i>
                     </Link>
                 </div>
