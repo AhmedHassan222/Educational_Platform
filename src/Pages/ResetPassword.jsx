@@ -111,8 +111,8 @@ export default function ResetPassword() {
                     <div className=" mb-4">
                         <div className="position-relative">
                             {inputType !== "password" ?
-                                <i onClick={togglePasswordVisibility} class={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i> :
-                                <i onClick={togglePasswordVisibility} class={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>
+                                <i onClick={togglePasswordVisibility} className={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i> :
+                                <i onClick={togglePasswordVisibility} className={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>
                             }
                             <input placeholder=" ادخل كلمة المرور الجديدة" type={inputType} className="w-100 p-2" id="newPassword" name="newPassword" value={newPasswordForm.newPassword} onChange={handleChangeNewPassword} />
 

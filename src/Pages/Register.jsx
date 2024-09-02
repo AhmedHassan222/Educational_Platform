@@ -14,17 +14,17 @@ export default function Register() {
     const [Isloading, setIsloading] = useState(false);
     const [inputType, setInputType] = useState('password');
     const [showPassword, setShowPassword] = useState(false);
-    
+
     const [inputType2, setInputType2] = useState('password');
     const [showrePassword, setShowrePassword] = useState(false);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
         setInputType(inputType === 'password' ? 'text' : 'password');
-      };
-      const togglerePasswordVisibility = () => {
+    };
+    const togglerePasswordVisibility = () => {
         setShowrePassword(!showrePassword);
         setInputType2(inputType2 === 'password' ? 'text' : 'password');
-      };
+    };
     // Function here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
     //function one >>
     const handleChange = (e) => {
@@ -96,15 +96,15 @@ export default function Register() {
                         )}
                     </div>
                     <div className=" mb-4 ">
-                    <div className="position-relative">
-                        {inputType !=="password"? 
-                        <i  onClick={togglePasswordVisibility} class={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>:
-                        <i  onClick={togglePasswordVisibility} class={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>                      
-                    }
-                      <input placeholder="ادخل كلمة المرور" type={inputType} className="w-100 p-2 " id="password" name="password" value={formData.password} onChange={handleChange} />
-                        
-                    </div>
-                    {error?.map((err, index) =>
+                        <div className="position-relative">
+                            {inputType !== "password" ?
+                                <i onClick={togglePasswordVisibility} className={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i> :
+                                <i onClick={togglePasswordVisibility} className={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>
+                            }
+                            <input placeholder="ادخل كلمة المرور" type={inputType} className="w-100 p-2 " id="password" name="password" value={formData.password} onChange={handleChange} />
+
+                        </div>
+                        {error?.map((err, index) =>
                             err.context.label === "password" ? <div key={index}>
                                 {err.type === "string.pattern.base" ? <p className="small fw-medium py-2 text-end text-danger">    يجب ان تحتوي كلمة  المرور علي 8 احروف او ارقام</p> : ""}
                                 {!formData.password ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
@@ -112,21 +112,17 @@ export default function Register() {
                         )}
                     </div>
                     <div className=" mb-4">
-                    <div className="position-relative">
-                        {inputType2 !=="password"? 
-                        <i  onClick={togglerePasswordVisibility} class={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>:
-                        <i  onClick={togglerePasswordVisibility} class={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>                      
-                    }
-                        <input placeholder="تأكيد كلمة المرور " type={inputType2} className="w-100 p-2" id="repassword" name="repassword" value={formData.repassword} onChange={handleChange} />
-                        
-                    </div>
+                        <div className="position-relative">
+                            {inputType2 !== "password" ?
+                                <i onClick={togglerePasswordVisibility} className={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i> :
+                                <i onClick={togglerePasswordVisibility} className={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>
+                            }
+                            <input placeholder="تأكيد كلمة المرور " type={inputType2} className="w-100 p-2" id="repassword" name="repassword" value={formData.repassword} onChange={handleChange} />
 
-                        
-                        
+                        </div>
                         {error?.map((err, index) =>
-                            err.context.label === "password" ? <div key={index}>
+                            err.context.label === "repassword" ? <div key={index}>
                                 {formData.password !== formData.repassword ? <p className="small fw-medium py-2 text-end text-danger">    كلمتا المرور غير متطابقتين</p> : ""}
-                                {!formData.repassword ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
                             </div> : ""
                         )}
                     </div>
@@ -186,8 +182,8 @@ export default function Register() {
                             </div> : ""
                         )}
                     </div>
-                    <button type="submit" className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>{Isloading?<i className="fa-spin fa fa-spinner"></i> : "انشاء حساب" }</button>
-                    {serverError ? <p className="text-danger py-1 text-center small">لديك مشكلة في انشاء الحساب</p>:''}
+                    <button type="submit" className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>{Isloading ? <i className="fa-spin fa fa-spinner"></i> : "انشاء حساب"}</button>
+                    {serverError ? <p className="text-danger py-1 text-center small">لديك مشكلة في انشاء الحساب</p> : ''}
                 </form>
                 <div className="d-flex align-items-center justify-content-center ">
                     <p className="my-2 fs-6 ms-1">
