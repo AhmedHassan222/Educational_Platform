@@ -25,14 +25,13 @@ import GetAllTeachers from './Pages/GetAllTeachers';
 import GetAllCources from './Pages/GetAllCources';
 import GetAllCategories from './Pages/GetAllCategories';
 import GetAllVideos from './Pages/GetAllVideos';
+import { jwtDecode } from 'jwt-decode';
 
 const checkRole = (allowedRoles) => {
-  // var x = {
-  //   role: "user"
-  // }
-  // localStorage.setItem('user', JSON.stringify(x))
-  const user = JSON.parse(localStorage.getItem('user'))
-  return user && allowedRoles.includes(user?.role);
+  const user = localStorage.getItem('user');
+  if(user)
+    return allowedRoles.includes(jwtDecode(user).role);
+  return false;
 };
 
 const router = createHashRouter([

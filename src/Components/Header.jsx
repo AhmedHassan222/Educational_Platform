@@ -15,6 +15,7 @@ import { Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { jwtDecode } from "jwt-decode";
 
 // import './styles.css';
 export default function Header() {
@@ -32,7 +33,7 @@ export default function Header() {
               ﺗﻌﻠﻢ ﺑﺄﺣﺪث اﻟﻄﺮق ﻣﻦ ﺧﻠﺎل ﻣﻨﺼﺘﻨﺎ,ﻓإﻧﻨﺎ ﻧﻮﻓﺮ ﻟﻚ اﻟﻌﺪﻳﺪ ﻣﻦ اﻟﻜﻮرﺳﺎت
               اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ الإعدادية والثانوية, ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.
             </p>
-            {JSON.parse(localStorage.getItem('user'))?.role === "user" ? <Link className={`nav-link text-white rounded-2 fitContent mx-auto my-2 text-center py-2 px-4 ${style.btnOrange}`} to={'/cources'}>تصفح الكورسات </Link>
+            {jwtDecode(localStorage.getItem('user'))?.role === "User" ? <Link className={`nav-link text-white rounded-2 fitContent mx-auto my-2 text-center py-2 px-4 ${style.btnOrange}`} to={'/cources'}>تصفح الكورسات </Link>
               : ""}
           </div>
         </div>

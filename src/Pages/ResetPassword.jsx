@@ -60,9 +60,11 @@ export default function ResetPassword() {
     };
     //function one
     const sendApiForNewPassword = (e) => {
+        setIsloading(true)
         e.preventDefault();
-        const validate = validationForm2();
-        validate?.error ? setError2(validate.error.details) : sendApi2();
+        // const validate = validationForm2();
+        // validate?.error ? setError2(validate.error.details) : sendApi2();
+        sendApi2();
     };
     //function two
     const validationForm2 = () => {
@@ -72,8 +74,7 @@ export default function ResetPassword() {
     //function three
     async function sendApi2() {
         console.log('7amada sokr zyada')
-        setIsloading(true)
-        await axios.post(`https://ahmed-shaltout-platform.up.railway.app/auth/resetPass/${localStorage.getItem('userToken')}`, newPasswordForm)
+        await axios.post(`https://ahmed-shaltout-platform.up.railway.app/auth/resetPass/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFobWVkaGFzc2FuaHVzc2VpbjIwNEBnbWFpbC5jb20iLCJjb2RlIjoiJDJiJDA4JHUxbTUuSXRwWWM2OE41VFhkLnU3ZC5ScWJmOUw1bUxqNUtZcVcvRFcvekFuR25hUUJ4dkcyIiwiY2hhbmdlUGFzc0F0IjoxNzI1MjYzMzMwODA5LCJpYXQiOjE3MjUyNjMzMzAsImV4cCI6MTcyNTI2NjkzMH0.Iy7toijJ_sRF4X7PfS8GMZL3Cwk7pwtj-UL2vGalnW8`, newPasswordForm)
             .then((response) => {
                 // if (response.data.message === "Please check your email") {
                 //     setAppear(false)

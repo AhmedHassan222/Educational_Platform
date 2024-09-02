@@ -8,7 +8,7 @@ export default function CourceDetails() {
     }, [])
     return <>
         <section className="container py-5 ">
-            {!localStorage.getItem('user') ? <div className="w-100 rounded-3 p-2 border border-1 border-muted mb-4 row justify-content-between">
+            {!localStorage.getItem('userToken') ? <div className="w-100 rounded-3 p-2 border border-1 border-muted mb-4 row justify-content-between">
                 <p className="text-muted mt-2 col-sm-12 col-md-8 col-lg-10"> يجب تسجيل الدخول أولاً للوصول إلى محتوى الدورة</p>
                 <Link className={`nav-link text-white p-2 rounded-3 col-sm-12 col-md-4 col-lg-2 text-center  ${style.btnOrange} `} to={'/login'}>سجل دخول الان</Link>
             </div> : ''}

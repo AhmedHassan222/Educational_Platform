@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React,{useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../Styles/index.css";
 import style from "../../src/Styles/Auth.module.css";
@@ -6,10 +6,8 @@ import logo from "../../src/Assets/Images/logo.png";
 import axios from "axios";
 import Joi from "joi";
 import { jwtDecode } from "jwt-decode";
-import { UserInfo } from "../Contexts/UserInfo";
 export default function LoginPage() {
   // using context 
-  const { SetUseInfo } = useContext(UserInfo)
   //Variables here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -50,8 +48,8 @@ export default function LoginPage() {
       .then((response) => {
         if (response.data.message === "login success") {
           // login succed
-          localStorage.setItem('userToken', response.data.token);
-          const decodedToken = jwtDecode(localStorage.getItem('userToken'));
+          localStorage.setItem('user', response.data.token);
+          const decodedToken = jwtDecode(localStorage.getItem('user'));
           switch (decodedToken.role) {
             case "User":
               navigate('/cources')

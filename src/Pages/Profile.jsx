@@ -1,8 +1,13 @@
 import React from "react";
 import image from "../Assets/Images/default-avatar.png";
 import Styles from "../Styles/Profile.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 export default function Profile() {
+  let navigate = useNavigate();
+  function logOut(){
+    localStorage.removeItem('user')
+    navigate('/login')
+  }
   return (
     <>
       <div className="container py-5">
@@ -44,13 +49,10 @@ export default function Profile() {
                 </Link>
               </li>
               <li className="p-2">
-                <Link
-                  className="dropdown-item d-flex justify-content-start  "
-                  to={"/login"}
-                >
+                <div onClick={logOut} className="dropdown-item d-flex justify-content-start  " >
                   <i className="fa-solid fa-right-from-bracket fs-4 mx-2 "></i>
                   <span>تسجيل الخروج </span>
-                </Link>
+                </div>
               </li>
             </ul>
           </div>
@@ -80,70 +82,70 @@ export default function Profile() {
           </div>
         </div>
         <div className="p-3 border-1 border border-muted">
-            <div className="d-flex">
+          <div className="d-flex">
             <i className="fa-solid fa-hashtag fs-4 ms-5 "></i>
             <div className="">
               <p className="text-muted h5">معرف الطالب
               </p>
               <p>75954</p>
             </div>
-            </div>
+          </div>
         </div>
         <div className="p-3 border-1 border border-muted">
-            <div className="d-flex">
+          <div className="d-flex">
             <i className="fa-regular fa-user fs-5 ms-5"></i>
-                        <div className="">
+            <div className="">
               <p className="text-muted h5">معرف الطالب
               </p>
               <p>ahmed yasser</p>
             </div>
-            </div>
+          </div>
         </div>
-        
+
         <div className="p-3 border-1 border border-muted">
-            <div className="d-flex">
+          <div className="d-flex">
             <i className="fa-regular fa-envelope fs-5 ms-5"></i>
-                                    <div className="">
+            <div className="">
               <p className="text-muted h5">
-              البريد الإلكتروني
+                البريد الإلكتروني
 
               </p>
               <p>ahmed1020@gmail.com
               </p>
             </div>
-            </div>
+          </div>
         </div>
-        
+
         <div className="p-3 border-1 border border-muted">
-            <div className="d-flex">
+          <div className="d-flex">
             <i className="fa-regular fa-phone fs-5 ms-5"></i>
-                        <div className="">
+            <div className="">
               <p className="text-muted h5">رقم الهاتف
 
               </p>
               <p>+2001202499898
               </p>
             </div>
-            </div>
+          </div>
         </div>
-        
+
         <div className="p-3 border-1 border border-muted">
-            <div className="d-flex">
+          <div className="d-flex">
             <i className="fa-regular fa-graduation-cap fs-5 ms-5"></i>
-                        <div className="">
+            <div className="">
               <p className="text-muted h5"> الصف الدراسي
 
               </p>
               <p>level (2) - Helwan university
               </p>
             </div>
-            </div>
+          </div>
         </div>
-        
+
         <div className="p-3 border-1 border border-muted">
-            <div className="d-flex">
+          <div className="d-flex">
             <i className="fa-solid fa-lock fs-5 ms-5"></i>
-                        <div className="">
+            <div className="">
               <p className="text-muted h5">  كلمة المرور
 
 
@@ -151,9 +153,9 @@ export default function Profile() {
               <p>****************
               </p>
             </div>
-            </div>
+          </div>
         </div>
-        
+
       </div>
     </>
   );
