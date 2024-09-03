@@ -8,10 +8,10 @@ import feature6 from "./../../src/Assets/Images/feature-6.d23de85.svg";
 import logo from "./../../src/Assets/Images/logo.png";
 import style from "../../src/Styles/Header.module.css";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";
-
+import Cookies from "js-cookie";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -20,6 +20,11 @@ import { jwtDecode } from "jwt-decode";
 // import './styles.css';
 export default function Header() {
   const [Classes, setClasses] = useState([1, 2, 3, 4, 5, 6]);
+  const [role , setRole] = useState(null)
+  useEffect(()=>{
+    if(Cookies.get('token'))
+      setRole(jwtDecode(Cookies.get('token'))?.role)
+  },[Cookies.get('token')])
 
   return (
     <>
@@ -33,7 +38,7 @@ export default function Header() {
               ﺗﻌﻠﻢ ﺑﺄﺣﺪث اﻟﻄﺮق ﻣﻦ ﺧﻠﺎل ﻣﻨﺼﺘﻨﺎ,ﻓإﻧﻨﺎ ﻧﻮﻓﺮ ﻟﻚ اﻟﻌﺪﻳﺪ ﻣﻦ اﻟﻜﻮرﺳﺎت
               اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ الإعدادية والثانوية, ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.
             </p>
-            {jwtDecode(localStorage.getItem('user'))?.role === "User" ? <Link className={`nav-link text-white rounded-2 fitContent mx-auto my-2 text-center py-2 px-4 ${style.btnOrange}`} to={'/cources'}>تصفح الكورسات </Link>
+            {role === "User" ? <Link className={`nav-link text-white rounded-2 fitContent mx-auto my-2 text-center py-2 px-4 ${style.btnOrange}`} to={'/cources'}>تصفح الكورسات </Link>
               : ""}
           </div>
         </div>

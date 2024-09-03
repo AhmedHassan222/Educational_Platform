@@ -5,13 +5,12 @@ export default function NotfoundPage() {
         <section class="d-flex justify-content-center vh-100 align-items-center">
             <div class=" text-center">
                 <h1>404</h1>
-                <h2 className="h1 my-2">Page Not Found</h2>
+                <h2 className="h1 my-3">صفحة غير موجودة</h2>
                 <p className="h5 text-muted my-2">
-                    Sorry, the page you are looking
-                    for does not exist.
+                    ناسف لك , هذه الصفحة غير متاحة في الموقع
                 </p>
                 <div className="d-flex justify-content-center">
-                    <Link className={` nav-link  fitContent my-2 py-2 px-4 ${style.btnOrange} rounded-2 text-white`} to={'/'}>Back Home</Link>
+                    <Link className={` nav-link  fitContent my-2 py-2 px-4 ${style.btnOrange} rounded-2 text-white`} to={'/'}> عودة</Link>
 
                 </div>
             </div>

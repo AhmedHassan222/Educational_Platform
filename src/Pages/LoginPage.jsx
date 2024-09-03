@@ -1,4 +1,4 @@
-import React,{useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../Styles/index.css";
 import style from "../../src/Styles/Auth.module.css";
@@ -6,6 +6,7 @@ import logo from "../../src/Assets/Images/logo.png";
 import axios from "axios";
 import Joi from "joi";
 import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 export default function LoginPage() {
   // using context 
   //Variables here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
@@ -48,21 +49,16 @@ export default function LoginPage() {
       .then((response) => {
         if (response.data.message === "login success") {
           // login succed
-          localStorage.setItem('user', response.data.token);
-          const decodedToken = jwtDecode(localStorage.getItem('user'));
-          switch (decodedToken.role) {
-            case "User":
-              navigate('/cources')
-              break;
-            case "Admin":
-              navigate('/admin')
-              break;
-            case "Super Admin":
-              navigate('/super-admin')
-              break;
-            default:
-              navigate('/login')
-              break;
+          const { token } = response.data;
+          Cookies.set('token', token, { expires: 7 })
+          const decodedToken = jwtDecode(token);
+          const { role } = decodedToken;
+          if (role === 'Admin') {
+            navigate('/admin');
+          } else if (role === 'Super Admin') {
+            navigate('/super-admin');
+          } else {
+            navigate('/cources');
           }
         }
       }).catch((error) => setServerError(error.response?.data.Error));

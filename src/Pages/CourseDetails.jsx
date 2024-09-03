@@ -2,13 +2,14 @@ import { Link } from "react-router-dom"
 import teacher from "../../src/Assets/Images/teacher.jpg"
 import style from "../../src/Styles/CourseDetails.module.css"
 import { useEffect } from "react"
+import Cookies from "js-cookie"
 export default function CourceDetails() {
     useEffect(() => {
         window.scroll(0, 0)
     }, [])
     return <>
         <section className="container py-5 ">
-            {!localStorage.getItem('userToken') ? <div className="w-100 rounded-3 p-2 border border-1 border-muted mb-4 row justify-content-between">
+            {!Cookies.get('token') ? <div className="w-100 rounded-3 p-2 border border-1 border-muted mb-4 row justify-content-between">
                 <p className="text-muted mt-2 col-sm-12 col-md-8 col-lg-10"> يجب تسجيل الدخول أولاً للوصول إلى محتوى الدورة</p>
                 <Link className={`nav-link text-white p-2 rounded-3 col-sm-12 col-md-4 col-lg-2 text-center  ${style.btnOrange} `} to={'/login'}>سجل دخول الان</Link>
             </div> : ''}

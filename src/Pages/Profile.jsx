@@ -2,19 +2,20 @@ import React from "react";
 import image from "../Assets/Images/default-avatar.png";
 import Styles from "../Styles/Profile.module.css";
 import { Link, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 export default function Profile() {
   let navigate = useNavigate();
   function logOut(){
-    localStorage.removeItem('user')
+    Cookies.remove('token');
     navigate('/login')
   }
   return (
     <>
       <div className="container py-5">
-        <div className="d-flex align-items-center justify-content-between my-3 ">
-          <h5>الملف الشخصي </h5>
+        <div className="d-flex align-items-center justify-content-between  ">
+          <h3 >الملف الشخصي </h3>
 
-          <div className="d-flex align-items-center  justify-content-end  text-start">
+          <div className="d-flex align-items-center w-50 justify-content-end  text-start">
             <i className="fa-regular fa-bell fs-2 "></i>
 
             <img

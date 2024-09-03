@@ -26,53 +26,54 @@ import GetAllCources from './Pages/GetAllCources';
 import GetAllCategories from './Pages/GetAllCategories';
 import GetAllVideos from './Pages/GetAllVideos';
 import { jwtDecode } from 'jwt-decode';
+import Cookies from 'js-cookie';
 
 const checkRole = (allowedRoles) => {
-  const user = localStorage.getItem('user');
-  if(user)
-    return allowedRoles.includes(jwtDecode(user).role);
+  const user = Cookies.get('token');
+  if (user)
+    return allowedRoles.includes(jwtDecode(user)?.role);
   return false;
-};
+
+}
 
 const router = createHashRouter([
   {
-    path: '/login',
-    element: localStorage.getItem('user') ? <Navigate to="/" replace /> : <LoginPage />,
-  },
-  {
-    path: '/register',
-    element: localStorage.getItem('user') ? <Navigate to="/" replace /> : <Register />,
-  },
-  {
-    path: '/reset-password',
-    element: localStorage.getItem('user') ? <Navigate to="/" replace /> : <ResetPassword />,
-  },
-  {
-    path: '/',
+    path: '',
     element: <LayoutWithNavbar><HomePage/></LayoutWithNavbar>,
-
+},
+  {
+    path: 'login',
+    element: Cookies.get('token') ? <Navigate to="" replace /> : <LoginPage />,
   },
   {
-    path: '/cources',
-    element: checkRole(['user']) ? <LayoutWithNavbar><Cources /></LayoutWithNavbar> : <Navigate to="/" replace />,
+    path: 'register',
+    element: Cookies.get('token') ? <Navigate to="" replace /> : <Register />,
   },
   {
-    path: '/cources/:id',
-    element: checkRole(['user']) ? <LayoutWithNavbar><CourceDetails /></LayoutWithNavbar> : <Navigate to="/" replace />,
+    path: 'reset-password',
+    element: Cookies.get('token') ? <Navigate to="" replace /> : <ResetPassword />,
   },
   {
-    path: '/admin',
-    element: checkRole(['admin']) ? <LayoutWithNavbar> <Outlet /></LayoutWithNavbar> : <Navigate to="/" replace />,
+    path: 'cources',
+    element: checkRole(['User']) ? <LayoutWithNavbar><Cources /></LayoutWithNavbar> : <Navigate to={'/'}/>,
+  },
+  {
+    path: 'cources/:id',
+    element: checkRole(['User']) ? <LayoutWithNavbar><CourceDetails /></LayoutWithNavbar> : <Navigate to={'/'}/>,
+  },
+  {
+    path: 'admin',
+    element: checkRole(['Admin']) ? <LayoutWithNavbar> <Outlet /></LayoutWithNavbar> : <Navigate to={'/'}/>,
     children: [
       //admin children here
       { index: true, element: <AdminPage /> },
-      {path:'addVideo', element:<AddVideo/>},
-      {path:'allVideos', element:<GetAllVideos/>}
+      { path: 'addVideo', element: <AddVideo /> },
+      { path: 'allVideos', element: <GetAllVideos /> }
     ]
   },
   {
-    path: '/super-admin',
-    element: checkRole(['super-admin']) ? <LayoutWithNavbar> <Outlet /></LayoutWithNavbar> : <Navigate to="/" replace />,
+    path: 'super-admin',
+    element: checkRole(['Super Admin']) ? <LayoutWithNavbar> <Outlet /></LayoutWithNavbar> : <Navigate to={'/'}/>,
     children: [
       //super-admin children here
       { index: true, element: <SuperAdminPage /> },
@@ -83,36 +84,36 @@ const router = createHashRouter([
       { path: 'allCodes', element: <GetAllCodes /> },
       { path: 'allTeachers', element: <GetAllTeachers /> },
       { path: 'allCources', element: <GetAllCources /> },
-      {path:'allCategories',element: <GetAllCategories/>}
+      { path: 'allCategories', element: <GetAllCategories /> }
     ]
   },
   {
     path: "profile",
-    element: checkRole(['user']) ? <LayoutWithNavbar><Profile /></LayoutWithNavbar> : <Navigate to="/" replace />
+    element: checkRole(['User']) ? <LayoutWithNavbar><Profile /></LayoutWithNavbar> : <Navigate to={'/'}/>
   },
   {
     path: "mycources",
-    element: checkRole(['user']) ? <LayoutWithNavbar> <MyCources /></LayoutWithNavbar> : <Navigate to="/" replace />
+    element: checkRole(['User']) ? <LayoutWithNavbar> <MyCources /></LayoutWithNavbar> : <Navigate to={'/'}/>
   },
   {
     path: "teachers",
-    element: checkRole(['user']) ? <LayoutWithNavbar> <Teachers /></LayoutWithNavbar> : <Navigate to="/" replace />
+    element: checkRole(['User']) ? <LayoutWithNavbar> <Teachers /></LayoutWithNavbar> : <Navigate to={'/'}/>
   },
   {
-    path: '/teacher/:id',
-    element: checkRole(['user']) ? <LayoutWithNavbar><TeacherDetails /></LayoutWithNavbar> : <Navigate to="/" replace />,
+    path: 'teacher/:id',
+    element: checkRole(['User']) ? <LayoutWithNavbar><TeacherDetails /></LayoutWithNavbar> : <Navigate to={'/'}/>,
   },
   {
     path: "myexam",
-    element: checkRole(['user']) ? <LayoutWithNavbar> <MyExams /> </LayoutWithNavbar> : <Navigate to="/" replace />,
+    element: checkRole(['User']) ? <LayoutWithNavbar> <MyExams /> </LayoutWithNavbar> : <Navigate to={'/'}/>,
   },
   {
     path: "wallet",
-    element: checkRole(['user']) ? <LayoutWithNavbar><Wallet /></LayoutWithNavbar> : <Navigate to="/" replace />,
+    element: checkRole(['User']) ? <LayoutWithNavbar><Wallet /></LayoutWithNavbar> : <Navigate to={'/'}/>,
   },
   {
     path: '*',
-    element: <LayoutWithNavbar><NotfoundPage /></LayoutWithNavbar>,
+    element: <LayoutWithNavbar><NotfoundPage/></LayoutWithNavbar>,
   },
 ]);
 
