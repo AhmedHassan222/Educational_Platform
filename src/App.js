@@ -30,6 +30,7 @@ import Cookies from 'js-cookie';
 
 const checkRole = (allowedRoles) => {
   const user = Cookies.get('token');
+  console.log(" token => " ,Cookies.get('token'))
   if (user)
     return allowedRoles.includes(jwtDecode(user)?.role);
   return false;
