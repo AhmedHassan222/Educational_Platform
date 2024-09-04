@@ -1,4 +1,3 @@
-import React from "react";
 import image from "../Assets/Images/default-avatar.png";
 import Styles from "../Styles/Profile.module.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,6 +7,7 @@ export default function Profile() {
   function logOut(){
     Cookies.remove('token');
     navigate('/login')
+    window.location.reload();
   }
   return (
     <>
