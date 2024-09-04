@@ -1,5 +1,6 @@
+
 import React, { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../Styles/index.css";
 import style from "../../src/Styles/Auth.module.css";
 import logo from "../../src/Assets/Images/logo.png";
@@ -43,25 +44,32 @@ export default function LoginPage() {
   };
   // function four >>
   async function sendApi() {
-    setIsloading(true)
-    await axios.post(`https://ahmed-shaltout-platform.up.railway.app/auth/signin`, formData)
-      .then((response) => {
-        if (response.data.message === "login success") {
-          // login succed
-          const { token } = response.data;
-          Cookies.set('token', token, { expires: 7 })
-          const decodedToken = jwtDecode(token);
-          const { role } = decodedToken;
-          if (role === 'Admin') {
+    setIsloading(true);
+    try {
+      const response = await axios.post(`https://ahmed-shaltout-platform.up.railway.app/auth/signin`, formData);
+
+      if (response.data.message === "login success") {
+        const { token } = response.data;
+        Cookies.set('token', token, { expires: 7 });
+        const decodedToken = jwtDecode(token);
+        const { role } = decodedToken;
+        switch (role) {
+          case 'Admin':
             navigate('/admin');
-          } else if (role === 'Super Admin') {
+            break;
+          case 'Super Admin':
             navigate('/super-admin');
-          } else {
+            break;
+          default:
             navigate('/cources');
-          }
         }
-      }).catch((error) => setServerError(error.response?.data.Error));
-    setIsloading(false)
+        window.location.reload();
+      }
+    } catch (error) {
+      setServerError(error.response?.data.Error || 'Something went wrong');
+    } finally {
+      setIsloading(false);
+    }
   }
 
   return (

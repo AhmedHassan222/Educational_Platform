@@ -26,97 +26,60 @@ import GetAllCategories from './Pages/GetAllCategories';
 import GetAllVideos from './Pages/GetAllVideos';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
-import Cookies from 'js-cookie';
-
-const checkRole = (allowedRoles) => {
-  const user = Cookies.get('token');
-  if (user)
-    return allowedRoles.includes(jwtDecode(user)?.role);
-  return false;
-
-}
-
-const router = createHashRouter([
-  {
-    path: '',
-    element: <LayoutWithNavbar><HomePage/></LayoutWithNavbar>,
-},
-  {
-    path: 'login',
-    element: Cookies.get('token') ? <Navigate to="" replace /> : <LoginPage />,
-  },
-  {
-    path: 'register',
-    element: Cookies.get('token') ? <Navigate to="" replace /> : <Register />,
-  },
-  {
-    path: 'reset-password',
-    element: Cookies.get('token') ? <Navigate to="" replace /> : <ResetPassword />,
-  },
-  {
-    path: 'cources',
-    element: checkRole(['User']) ? <LayoutWithNavbar><Cources /></LayoutWithNavbar> : <Navigate to={'/'}/>,
-  },
-  {
-    path: 'cources/:id',
-    element: checkRole(['User']) ? <LayoutWithNavbar><CourceDetails /></LayoutWithNavbar> : <Navigate to={'/'}/>,
-  },
-  {
-    path: 'admin',
-    element: checkRole(['Admin']) ? <LayoutWithNavbar> <Outlet /></LayoutWithNavbar> : <Navigate to={'/'}/>,
-    children: [
-      //admin children here
-      { index: true, element: <AdminPage /> },
-      { path: 'addVideo', element: <AddVideo /> },
-      { path: 'allVideos', element: <GetAllVideos /> }
-    ]
-  },
-  {
-    path: 'super-admin',
-    element: checkRole(['Super Admin']) ? <LayoutWithNavbar> <Outlet /></LayoutWithNavbar> : <Navigate to={'/'}/>,
-    children: [
-      //super-admin children here
-      { index: true, element: <SuperAdminPage /> },
-      { path: 'addTeacher', element: <AddTeacher /> },
-      { path: 'addCategory', element: <AddCategory /> },
-      { path: 'addCourse', element: <AddCourse /> },
-      { path: 'generateCode', element: <GenerateCode /> },
-      { path: 'allCodes', element: <GetAllCodes /> },
-      { path: 'allTeachers', element: <GetAllTeachers /> },
-      { path: 'allCources', element: <GetAllCources /> },
-      { path: 'allCategories', element: <GetAllCategories /> }
-    ]
-  },
-  {
-    path: "profile",
-    element: checkRole(['User']) ? <LayoutWithNavbar><Profile /></LayoutWithNavbar> : <Navigate to={'/'}/>
-  },
-  {
-    path: "mycources",
-    element: checkRole(['User']) ? <LayoutWithNavbar> <MyCources /></LayoutWithNavbar> : <Navigate to={'/'}/>
-  },
-  {
-    path: "teachers",
-    element: checkRole(['User']) ? <LayoutWithNavbar> <Teachers /></LayoutWithNavbar> : <Navigate to={'/'}/>
-  },
-  {
-    path: 'teacher/:id',
-    element: checkRole(['User']) ? <LayoutWithNavbar><TeacherDetails /></LayoutWithNavbar> : <Navigate to={'/'}/>,
-  },
-  {
-    path: "myexam",
-    element: checkRole(['User']) ? <LayoutWithNavbar> <MyExams /> </LayoutWithNavbar> : <Navigate to={'/'}/>,
-  },
-  {
-    path: "wallet",
-    element: checkRole(['User']) ? <LayoutWithNavbar><Wallet /></LayoutWithNavbar> : <Navigate to={'/'}/>,
-  },
-  {
-    path: '*',
-    element: <LayoutWithNavbar><NotfoundPage/></LayoutWithNavbar>,
-  },
-]);
+import { HashRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 export default function App() {
-  return <RouterProvider router={router} />;
+  const [token, setToken] = useState(Cookies.get('token') ? Cookies.get('token') : null);
+  useEffect(() => {
+    setToken(Cookies.get('token'))
+  }, [Cookies.get('token')])
+
+
+
+  return (
+    <Router>
+      <Routes>
+        {/* User Routes */}
+        {token && (jwtDecode(token).role === "User" && (<>
+          <Route path="/cources" element={<LayoutWithNavbar><Cources /></LayoutWithNavbar>} />
+          <Route path="/cources/:id" element={<LayoutWithNavbar><CourceDetails /></LayoutWithNavbar>} />
+          <Route path="/profile" element={<LayoutWithNavbar><Profile /></LayoutWithNavbar>} />
+          <Route path="/mycources" element={<LayoutWithNavbar><MyCources /></LayoutWithNavbar>} />
+          <Route path="/teachers" element={<LayoutWithNavbar><Teachers /></LayoutWithNavbar>} />
+          <Route path="/teacher/:id" element={<LayoutWithNavbar><TeacherDetails /></LayoutWithNavbar>} />
+          <Route path="/myexam" element={<LayoutWithNavbar><MyExams /></LayoutWithNavbar>} />
+          <Route path="/wallet" element={<LayoutWithNavbar><Wallet /></LayoutWithNavbar>} />
+        </>))}
+
+
+        {/* Admin Routes */}
+        {token && (jwtDecode(token).role === "Admin" && (<Route path="/admin" element={<LayoutWithNavbar><Outlet /></LayoutWithNavbar>}>
+          <Route index element={<AdminPage />} />
+          <Route path="addVideo" element={<AddVideo />} />
+          <Route path="allVideos" element={<GetAllVideos />} />
+        </Route>))}
+
+
+        {/* Super Admin Routes */}
+        {token && (jwtDecode(token).role === "Super AdminF" && (<Route path="/super-admin" element={<LayoutWithNavbar><Outlet /></LayoutWithNavbar>}>
+          <Route index element={<SuperAdminPage />} />
+          <Route path="addTeacher" element={<AddTeacher />} />
+          <Route path="addCategory" element={<AddCategory />} />
+          <Route path="addCourse" element={<AddCourse />} />
+          <Route path="generateCode" element={<GenerateCode />} />
+          <Route path="allCodes" element={<GetAllCodes />} />
+          <Route path="allTeachers" element={<GetAllTeachers />} />
+          <Route path="allCources" element={<GetAllCources />} />
+          <Route path="allCategories" element={<GetAllCategories />} />
+        </Route>))}
+        {/* Public Routes */}
+        <Route path="/login" element={token ? <Navigate to={'/'} /> : <LoginPage />} />
+        <Route path="/register" element={token ? <Navigate to={'/'} /> : <Register />} />
+        <Route path="/reset-password" element={token ? <Navigate to={'/'} /> : < ResetPassword />} />
+        <Route path="/" element={<LayoutWithNavbar><HomePage /></LayoutWithNavbar>} />
+        <Route path="*" element={<LayoutWithNavbar><NotfoundPage /></LayoutWithNavbar>} />
+      </Routes>
+    </Router>
+  );
 }
