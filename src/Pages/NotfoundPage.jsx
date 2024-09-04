@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import style from "../../src/Styles/Teacher.module.css"
 export default function NotfoundPage() {
     return <>
-        <section class="d-flex justify-content-center vh-100 align-items-center">
-            <div class=" text-center">
+        <section className="d-flex justify-content-center vh-100 align-items-center">
+            <div className=" text-center">
                 <h1>404</h1>
                 <h2 className="h1 my-3">صفحة غير موجودة</h2>
                 <p className="h5 text-muted my-2">

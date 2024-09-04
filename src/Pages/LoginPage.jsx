@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../Styles/index.css";
 import style from "../../src/Styles/Auth.module.css";
 import logo from "../../src/Assets/Images/logo.png";
 import axios from "axios";
 import Joi from "joi";
-import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 export default function LoginPage() {
-  // using context 
   //Variables here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -53,19 +52,18 @@ export default function LoginPage() {
           Cookies.set('token', token, { expires: 7 })
           const decodedToken = jwtDecode(token);
           const { role } = decodedToken;
-          console.log("from login ", decodedToken) ////
-          navigate('/cources');
-          // if (role === 'User') {
-          //   navigate('/admin');
-          // } else if (role === 'Super Admin') {
-          //   navigate('/super-admin');
-          // } else {
-          //   navigate('/cources');
-          // }
+          if (role === 'Admin') {
+            navigate('/admin');
+          } else if (role === 'Super Admin') {
+            navigate('/super-admin');
+          } else {
+            navigate('/cources');
+          }
         }
       }).catch((error) => setServerError(error.response?.data.Error));
     setIsloading(false)
   }
+
   return (
     <div className="d-flex  justify-content-center  container py-5">
       <div className="rounded-4  border-1  widthCustom text-center">
