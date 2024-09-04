@@ -27,96 +27,113 @@ import GetAllCategories from './Pages/GetAllCategories';
 import GetAllVideos from './Pages/GetAllVideos';
 import { jwtDecode } from 'jwt-decode';
 import Cookies from 'js-cookie';
+import { useEffect } from 'react';
 
-const checkRole = (allowedRoles) => {
-  const user = Cookies.get('token');
-  if (user)
-    return allowedRoles.includes(jwtDecode(user)?.role);
-  return false;
 
-}
-
-const router = createHashRouter([
-  {
-    path: '',
-    element: <LayoutWithNavbar><HomePage/></LayoutWithNavbar>,
-},
-  {
-    path: 'login',
-    element: Cookies.get('token') ? <Navigate to="" replace /> : <LoginPage />,
-  },
-  {
-    path: 'register',
-    element: Cookies.get('token') ? <Navigate to="" replace /> : <Register />,
-  },
-  {
-    path: 'reset-password',
-    element: Cookies.get('token') ? <Navigate to="" replace /> : <ResetPassword />,
-  },
-  {
-    path: 'cources',
-    element: checkRole(['User']) ? <LayoutWithNavbar><Cources /></LayoutWithNavbar> : <Navigate to={'/'}/>,
-  },
-  {
-    path: 'cources/:id',
-    element: checkRole(['User']) ? <LayoutWithNavbar><CourceDetails /></LayoutWithNavbar> : <Navigate to={'/'}/>,
-  },
-  {
-    path: 'admin',
-    element: checkRole(['Admin']) ? <LayoutWithNavbar> <Outlet /></LayoutWithNavbar> : <Navigate to={'/'}/>,
-    children: [
-      //admin children here
-      { index: true, element: <AdminPage /> },
-      { path: 'addVideo', element: <AddVideo /> },
-      { path: 'allVideos', element: <GetAllVideos /> }
-    ]
-  },
-  {
-    path: 'super-admin',
-    element: checkRole(['Super Admin']) ? <LayoutWithNavbar> <Outlet /></LayoutWithNavbar> : <Navigate to={'/'}/>,
-    children: [
-      //super-admin children here
-      { index: true, element: <SuperAdminPage /> },
-      { path: 'addTeacher', element: <AddTeacher /> },
-      { path: 'addCategory', element: <AddCategory /> },
-      { path: 'addCourse', element: <AddCourse /> },
-      { path: 'generateCode', element: <GenerateCode /> },
-      { path: 'allCodes', element: <GetAllCodes /> },
-      { path: 'allTeachers', element: <GetAllTeachers /> },
-      { path: 'allCources', element: <GetAllCources /> },
-      { path: 'allCategories', element: <GetAllCategories /> }
-    ]
-  },
-  {
-    path: "profile",
-    element: checkRole(['User']) ? <LayoutWithNavbar><Profile /></LayoutWithNavbar> : <Navigate to={'/'}/>
-  },
-  {
-    path: "mycources",
-    element: checkRole(['User']) ? <LayoutWithNavbar> <MyCources /></LayoutWithNavbar> : <Navigate to={'/'}/>
-  },
-  {
-    path: "teachers",
-    element: checkRole(['User']) ? <LayoutWithNavbar> <Teachers /></LayoutWithNavbar> : <Navigate to={'/'}/>
-  },
-  {
-    path: 'teacher/:id',
-    element: checkRole(['User']) ? <LayoutWithNavbar><TeacherDetails /></LayoutWithNavbar> : <Navigate to={'/'}/>,
-  },
-  {
-    path: "myexam",
-    element: checkRole(['User']) ? <LayoutWithNavbar> <MyExams /> </LayoutWithNavbar> : <Navigate to={'/'}/>,
-  },
-  {
-    path: "wallet",
-    element: checkRole(['User']) ? <LayoutWithNavbar><Wallet /></LayoutWithNavbar> : <Navigate to={'/'}/>,
-  },
-  {
-    path: '*',
-    element: <LayoutWithNavbar><NotfoundPage/></LayoutWithNavbar>,
-  },
-]);
 
 export default function App() {
+
+  const checkRole = (allowedRoles) => {
+  
+    const user = Cookies.get('token');
+    console.log("from app ", user)
+    if (user) ///undefined
+      return allowedRoles.includes(jwtDecode(user)?.role);
+    return false;
+    
+  }
+ 
+  
+  useEffect(() => {
+   
+    if(Cookies.get("token")){
+    //   let decode =jwtDecode(Cookies.get("token"))
+    //   checkRole([decode.role])
+    console.log(Cookies.get("token"))
+    }
+    console.log("first")
+  }, [Cookies.get("token")])
+  
+  
+  const router = createHashRouter([
+    {
+      path: '',
+      element: <LayoutWithNavbar><HomePage/></LayoutWithNavbar>,
+  },
+    {
+      path: 'login',
+      element: Cookies.get('token') ? <Navigate to="" replace /> : <LoginPage />,
+    },
+    {
+      path: 'register',
+      element: Cookies.get('token') ? <Navigate to="" replace /> : <Register />,
+    },
+    {
+      path: 'reset-password',
+      element: Cookies.get('token') ? <Navigate to="" replace /> : <ResetPassword />,
+    },
+    {
+      path: 'cources',
+      element: checkRole(['User']) ? <LayoutWithNavbar><Cources /></LayoutWithNavbar> : <Navigate to={'/'}/>,
+    },
+    {
+      path: 'cources/:id',
+      element: checkRole(['User']) ? <LayoutWithNavbar><CourceDetails /></LayoutWithNavbar> : <Navigate to={'/'}/>,
+    },
+    {
+      path: 'admin',
+      element: checkRole(['Admin']) ? <LayoutWithNavbar> <Outlet /></LayoutWithNavbar> : <Navigate to={'/'}/>,
+      children: [
+        //admin children here
+        { index: true, element: <AdminPage /> },
+        { path: 'addVideo', element: <AddVideo /> },
+        { path: 'allVideos', element: <GetAllVideos /> }
+      ]
+    },
+    {
+      path: 'super-admin',
+      element: checkRole(['Super Admin']) ? <LayoutWithNavbar> <Outlet /></LayoutWithNavbar> : <Navigate to={'/'}/>,
+      children: [
+        //super-admin children here
+        { index: true, element: <SuperAdminPage /> },
+        { path: 'addTeacher', element: <AddTeacher /> },
+        { path: 'addCategory', element: <AddCategory /> },
+        { path: 'addCourse', element: <AddCourse /> },
+        { path: 'generateCode', element: <GenerateCode /> },
+        { path: 'allCodes', element: <GetAllCodes /> },
+        { path: 'allTeachers', element: <GetAllTeachers /> },
+        { path: 'allCources', element: <GetAllCources /> },
+        { path: 'allCategories', element: <GetAllCategories /> }
+      ]
+    },
+    {
+      path: "profile",
+      element: checkRole(['User']) ? <LayoutWithNavbar><Profile /></LayoutWithNavbar> : <Navigate to={'/'}/>
+    },
+    {
+      path: "mycources",
+      element: checkRole(['User']) ? <LayoutWithNavbar> <MyCources /></LayoutWithNavbar> : <Navigate to={'/'}/>
+    },
+    {
+      path: "teachers",
+      element: checkRole(['User']) ? <LayoutWithNavbar> <Teachers /></LayoutWithNavbar> : <Navigate to={'/'}/>
+    },
+    {
+      path: 'teacher/:id',
+      element: checkRole(['User']) ? <LayoutWithNavbar><TeacherDetails /></LayoutWithNavbar> : <Navigate to={'/'}/>,
+    },
+    {
+      path: "myexam",
+      element: checkRole(['User']) ? <LayoutWithNavbar> <MyExams /> </LayoutWithNavbar> : <Navigate to={'/'}/>,
+    },
+    {
+      path: "wallet",
+      element: checkRole(['User']) ? <LayoutWithNavbar><Wallet /></LayoutWithNavbar> : <Navigate to={'/'}/>,
+    },
+    {
+      path: '*',
+      element: <LayoutWithNavbar><NotfoundPage/></LayoutWithNavbar>,
+    },
+  ]);
   return <RouterProvider router={router} />;
 }

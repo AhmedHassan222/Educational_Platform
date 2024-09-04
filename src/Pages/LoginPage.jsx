@@ -53,13 +53,15 @@ export default function LoginPage() {
           Cookies.set('token', token, { expires: 7 })
           const decodedToken = jwtDecode(token);
           const { role } = decodedToken;
-          if (role === 'Admin') {
-            navigate('/admin');
-          } else if (role === 'Super Admin') {
-            navigate('/super-admin');
-          } else {
-            navigate('/cources');
-          }
+          console.log("from login ", decodedToken) ////
+          navigate('/cources');
+          // if (role === 'User') {
+          //   navigate('/admin');
+          // } else if (role === 'Super Admin') {
+          //   navigate('/super-admin');
+          // } else {
+          //   navigate('/cources');
+          // }
         }
       }).catch((error) => setServerError(error.response?.data.Error));
     setIsloading(false)
