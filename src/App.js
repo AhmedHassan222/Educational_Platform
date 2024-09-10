@@ -82,12 +82,6 @@ export default function App() {
 
 
 
-
-
-
-
-
-
   return (
     <CRUDContextProvide>
       <Router>
@@ -106,7 +100,7 @@ export default function App() {
 
 
           {/* Admin Routes */}
-          {token && (jwtDecode(token).role === "Admin" && (<Route path="/admin" element={<LayoutWithNavbar><Outlet /></LayoutWithNavbar>}>
+          {token && (jwtDecode(token).role === "Teacher" && (<Route path="/teacherAdmin" element={<LayoutWithNavbar><Outlet /></LayoutWithNavbar>}>
             <Route index element={<AdminPage />} />
             <Route path="addVideo" element={<AddVideo />} />
             <Route path="allVideos" element={<GetAllVideos />} />
@@ -114,8 +108,8 @@ export default function App() {
 
 
           {/* Super Admin Routes */}
-          {token && (jwtDecode(token).role === "Super AdminF" && (<Route path="/super-admin" element={<LayoutWithNavbar><Outlet /></LayoutWithNavbar>}>
-            <Route index element={<SuperAdminPage />} />
+          {token && (jwtDecode(token).role === "Admin" && (<Route path="/admin" element={<LayoutWithNavbar><Outlet /></LayoutWithNavbar>}>
+            <Route index element={<SukperAdminPage />} />
             <Route path="addTeacher" element={<AddTeacher />} />
             <Route path="addCategory" element={<AddCategory />} />
             <Route path="addCourse" element={<AddCourse />} />

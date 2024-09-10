@@ -21,8 +21,8 @@ export default function NavbarAdmin() {
                                 الفيديوهات
                             </button>
                             <ul className="dropdown-menu">
-                                <li><Link className="dropdown-item" to="/admin/allVideos">كل الفيديوهات</Link></li>
-                                <li><Link className="dropdown-item" to="/admin/addVideo">اضف فيديو</Link></li>
+                                <li><Link className="dropdown-item" to="/teacherAdmin/allVideos">كل الفيديوهات</Link></li>
+                                <li><Link className="dropdown-item" to="/teacherAdmin/addVideo">اضف فيديو</Link></li>
                             </ul>
                         </li>
                     </ul>

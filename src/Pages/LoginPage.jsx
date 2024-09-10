@@ -55,11 +55,11 @@ export default function LoginPage() {
         const { role } = decodedToken;
         if (token) {
           switch (role) {
+            case 'Teacher':
+              navigate('/teacherAdmin');
+              break;
             case 'Admin':
               navigate('/admin');
-              break;
-            case 'Super Admin':
-              navigate('/super-admin');
               break;
             default:
               navigate('/cources');

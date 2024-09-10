@@ -16,8 +16,8 @@ export default function LayoutWithNavbar({ children }) {
     return <>
         {!Cookies.get('token') ? <NavbarGuest /> : ''}
         {role === "User" ? <Navbar /> : ''}
-        {role === "Admin" ? <NavbarAdmin /> : ''}
-        {role === "Super Admin" ? <NavbarSuperAdmin /> : ''}
+        {role === "Teacher" ? <NavbarAdmin /> : ''}
+        {role === "Admin" ? <NavbarSuperAdmin /> : ''}
         {children}
         <Footer />
     </>
