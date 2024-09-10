@@ -109,7 +109,7 @@ export default function App() {
 
           {/* Super Admin Routes */}
           {token && (jwtDecode(token).role === "Admin" && (<Route path="/admin" element={<LayoutWithNavbar><Outlet /></LayoutWithNavbar>}>
-            <Route index element={<SukperAdminPage />} />
+            <Route index element={<SuperAdminPage />} />
             <Route path="addTeacher" element={<AddTeacher />} />
             <Route path="addCategory" element={<AddCategory />} />
             <Route path="addCourse" element={<AddCourse />} />
