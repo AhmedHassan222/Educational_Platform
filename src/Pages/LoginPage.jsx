@@ -53,17 +53,19 @@ export default function LoginPage() {
         Cookies.set('token', token, { expires: 7 });
         const decodedToken = jwtDecode(token);
         const { role } = decodedToken;
-        switch (role) {
-          case 'Admin':
-            navigate('/admin');
-            break;
-          case 'Super Admin':
-            navigate('/super-admin');
-            break;
-          default:
-            navigate('/cources');
+        if (token) {
+          switch (role) {
+            case 'Admin':
+              navigate('/admin');
+              break;
+            case 'Super Admin':
+              navigate('/super-admin');
+              break;
+            default:
+              navigate('/cources');
+          }
         }
-        window.location.reload();
+        // window.location.reload();
       }
     } catch (error) {
       setServerError(error.response?.data.Error || 'Something went wrong');

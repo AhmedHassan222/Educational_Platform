@@ -7,7 +7,7 @@ export default function Profile() {
   function logOut(){
     Cookies.remove('token');
     navigate('/login')
-    window.location.reload();
+    // window.location.reload();
   }
   return (
     <>
