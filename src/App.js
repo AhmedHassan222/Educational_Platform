@@ -31,6 +31,9 @@ import { useEffect, useState } from 'react';
 import ProtectedRoute from './Components/ProtectedRoute';
 import CRUDContextProvide from './Contexts/CRUDContext';
 import UpdatedCategory from './Pages/UpdatedCategory';
+import AddSubCategory from './Pages/AddSubCategory';
+import GetAllSubCategory from './Pages/GetAllSubCategory';
+import UpdateSubCategory from './Pages/UpdateSubCategory';
 export default function App() {
   const [token, setToken] = useState(Cookies.get('token') ? Cookies.get('token') : null);
   useEffect(() => {
@@ -118,8 +121,11 @@ export default function App() {
             <Route path="allCodes" element={<GetAllCodes />} />
             <Route path="allTeachers" element={<GetAllTeachers />} />
             <Route path="updatecategory/:name/:id" element={<UpdatedCategory />} />
+            <Route path="updatesubcategory/:name/:id" element={<UpdateSubCategory />} />
             <Route path="allCources" element={<GetAllCources />} />
             <Route path="allCategories" element={<GetAllCategories />} />
+            <Route path="addSubCategory" element={<AddSubCategory />} />
+            <Route path="allSubCategories" element={<GetAllSubCategory />} />
           </Route>))}
           {/* Public Routes */}
           {!token && (<>

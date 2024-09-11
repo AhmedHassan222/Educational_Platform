@@ -28,11 +28,20 @@ export default function NavbarSuperAdmin() {
                         </li>
                         <li className="dropdown mx-2">
                             <button className="border-0 bg-transparent pt-1 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            الفئات
+                            المراحل
                             </button>
                             <ul className="dropdown-menu">
-                                <li><Link className="dropdown-item" to="/admin/allCategories">كل الفئات</Link></li>
-                                <li><Link className="dropdown-item" to="/admin/addCategory">اضف فئة</Link></li>
+                                <li><Link className="dropdown-item" to="/admin/allCategories">كل المراحل</Link></li>
+                                <li><Link className="dropdown-item" to="/admin/addCategory">اضف مرحلة</Link></li>
+                            </ul>
+                        </li>
+                        <li className="dropdown mx-2">
+                            <button className="border-0 bg-transparent pt-1 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            الصفوف 
+                            </button>
+                            <ul className="dropdown-menu">
+                                <li><Link className="dropdown-item" to="/admin/allSubCategories">كل الصفوف</Link></li>
+                                <li><Link className="dropdown-item" to="/admin/addSubCategory">اضف صف</Link></li>
                             </ul>
                         </li>
                         <li className="dropdown mx-2">

@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import Joi, { func } from "joi";
 import { Link } from "react-router-dom";
 
 export default function GetAllCategories() {
@@ -29,7 +28,7 @@ export default function GetAllCategories() {
           },
         })
     } catch (error) {
-      seterrorForm("axios" + error);
+      seterrorForm(error);
     }
     
   }
