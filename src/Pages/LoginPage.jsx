@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../Styles/index.css";
@@ -69,6 +68,7 @@ export default function LoginPage() {
       }
     } catch (error) {
       setServerError(error.response?.data.Error || 'Something went wrong');
+      console.log(error)
     } finally {
       setIsloading(false);
     }

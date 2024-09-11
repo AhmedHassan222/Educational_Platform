@@ -30,6 +30,7 @@ import { HashRouter as Router, Route, Routes, Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ProtectedRoute from './Components/ProtectedRoute';
 import CRUDContextProvide from './Contexts/CRUDContext';
+import UpdatedCategory from './Pages/UpdatedCategory';
 export default function App() {
   const [token, setToken] = useState(Cookies.get('token') ? Cookies.get('token') : null);
   useEffect(() => {
@@ -116,6 +117,7 @@ export default function App() {
             <Route path="generateCode" element={<GenerateCode />} />
             <Route path="allCodes" element={<GetAllCodes />} />
             <Route path="allTeachers" element={<GetAllTeachers />} />
+            <Route path="updatecategory/:name/:id" element={<UpdatedCategory />} />
             <Route path="allCources" element={<GetAllCources />} />
             <Route path="allCategories" element={<GetAllCategories />} />
           </Route>))}

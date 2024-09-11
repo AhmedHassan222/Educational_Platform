@@ -8,7 +8,7 @@ import Joi from "joi";
 export default function Register() {
     //Variables here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({ fullName: "", email: "", password: "", repassword: "", gender: "", grade: "", stage: "", phoneNumber: "", parentsPhoneNumber: "" });
+    const [formData, setFormData] = useState({ fullName: "", email: "", password: "", repassword: "", gender: "", grade: "", stage: "", phoneNumber: "+2", parentsPhoneNumber: "+2" });
     const [error, setError] = useState([]);
     const [serverError, setServerError] = useState("");
     const [Isloading, setIsloading] = useState(false);
@@ -66,6 +66,7 @@ export default function Register() {
                     navigate('/login');
             }).catch((error) => {
                 setServerError(error.response?.data?.message);
+                console.log(error)
             });
         setIsloading(false)
     }
@@ -141,9 +142,9 @@ export default function Register() {
                     <div className=" mb-4">
                         <select className="w-100 p-2 text-muted" id="grade" name="grade" value={formData.grade} onChange={handleChange} >
                             <option value="">الصف </option>
-                            <option value="First">الصف الاول </option>
-                            <option value="Second">الصف الثاني </option>
-                            <option value="Third">الصف الثالث </option>
+                            <option value="first">الصف الاول </option>
+                            <option value="second">الصف الثاني </option>
+                            <option value="third">الصف الثالث </option>
                         </select>
                         {error?.map((err, index) =>
                             err.context.label === "grade" ? <div key={index}>
@@ -151,11 +152,12 @@ export default function Register() {
                             </div> : ""
                         )}
                     </div>
+                    
                     <div className=" mb-4">
                         <select className="w-100 p-2 text-muted" id="stage" name="stage" value={formData.stage} onChange={handleChange}  >
                             <option value="">المرحلة </option>
-                            <option value="Primary">الابتدائية</option>
-                            <option value="Preparatory">الاعدادية </option>
+                            <option value="primary">الابتدائية</option>
+                            <option value="preparatory">الاعدادية </option>
                             <option value="secondary">الثانوية </option>
                         </select>
                         {error?.map((err, index) =>

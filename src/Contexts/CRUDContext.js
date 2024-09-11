@@ -53,7 +53,7 @@ export default function CRUDContextProvide(props) {
         let { data } = await axios.get(`${baseURL}/${endPoint}`);
         return data.data;
     }
-    return <CRUDContext.Provider value={{ getAll, updateItem, deleteItem, getItem, search, addItem }}>
+    return <CRUDContext.Provider value={{ getAll, updateItem, deleteItem, getItem, search, addItem,baseURL }}>
         {props.children}
     </CRUDContext.Provider>
 }
