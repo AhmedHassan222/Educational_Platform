@@ -16,10 +16,15 @@ export default function GetAllSubCategory() {
     fifth: "الصف الخامس",
     sixth: "الصف السادس"
   };
+  let grade = {
+    primary: "الابتدائي",
+    preparatory: "الاعدادي ",
+    secondary: "الثانوي",
+  };
   let date = new Date();
   async function getAll() {
-    const { data } = await axios.get(`${baseURL}/subcategory`);
-    setsupCategories(data.supCategories);
+    const { data } = await axios.get(`${baseURL}/subcategory/`);
+    setsupCategories(data.Subcategories)
   }
 
   async function deleteItem(id) {
@@ -66,7 +71,7 @@ export default function GetAllSubCategory() {
               ? supCategories.map((item, index) => (
                 <tr key={index}>
                   <th scope="row">{index + 1}</th>
-                  <td>{stage[item.name]}</td>
+                  <td>{stage[item.name]} {grade[item.categoryId.name]}</td>
                   <td>{date.toISOString(item.createdAt).split("T")[0]}</td>
                   <td className="d-flex justify-content-center justify-content-center">
                     <button

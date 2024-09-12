@@ -53,16 +53,21 @@ export default function AddSubCategory() {
     setIsloading(false)
   };
   async function addItem() {
+    setIsloading(true)
     try {
       await axios.post(`${baseURL}/subcategory/create?categoryId=${categoryId}`, dataAdded, {
         headers: {
           "token": `online__${Cookies.get('token')}`
         }
       }).then((res) => {
-        console.log(res)
+        if(res.data.message ==="sub-category created successfuly")
+          setIsloading(false)
+          navigate('/admin/allSubCategories')
+          
       })
     } catch (error) {
-      console.log(error)
+      setIsloading(false)
+      seterrorForm(error.message)
     }
 
   }
@@ -87,18 +92,20 @@ export default function AddSubCategory() {
                 {!dataAdded.name ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
               </div> : ""
             )}
-            <select className="w-100 p-2 text-muted my-4" id="name" name="name"  onChange={(e)=>setCategoryId(e.target.value)}  >
-              <option value="">  المرحلة الدراسية </option>
+            <div className="my-4">
+            <select className="w-100 p-2 text-muted" id="name" name="name"  onChange={(e)=> setCategoryId(e.target.value)}  >
+              <option value="">  المرحلة الدراسية </option> 
               {categories.map((category, index) => <option key={index} value={category.id}>{grade[category.name]}</option>)}
             </select>
             {error?.map((err, index) =>
               err.context.label === "name" ? <div key={index}>
-                {!dataAdded.name ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
+                {!dataAdded.name ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
               </div> : ""
             )}
+            </div>
           </div>
 
-          <button type="submit" className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>    {Isloading ? <i className="fa-spin fa fa-spinner"></i> : "اضف"}</button>
+          <button type="submit" className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>    {Isloading ? <i className="fa fa-spin fa-spinner"></i> : "اضف"}</button>
           {errorForm ? <p className="text-danger my-4 text-center small">لديك مشكلة في اضافة فئة</p> : ''}
         </form>
       </div>

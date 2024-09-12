@@ -7,6 +7,7 @@ import axios from 'axios';
 import Joi from 'joi';
 export default function ResetPassword() {
     const [formData, setFormData] = useState({ email: '' });
+    const [resetPassUrl, setresetPassUrl] = useState("");
     const [newPasswordForm, setNewPasswordForm] = useState({ newPassword: '' });
     const [isLoading, setIsloading] = useState(false)
     const [error, setError] = useState([])
@@ -29,8 +30,9 @@ export default function ResetPassword() {
     const resetPasswordForm = (e) => {
         e.preventDefault();
         const validate = validationForm();
-        validate.error ? setError(validate.error.details) : sendApi();
         console.log(validate)
+        validate.error ? setError(validate.error.details) : sendApi();
+        // console.log(validate)
     };
     //function two
     const validationForm = () => {
@@ -42,9 +44,11 @@ export default function ResetPassword() {
         setIsloading(true)
         await axios.post(`https://ahmed-shaltout-platform.up.railway.app/auth/forget`, formData)
             .then((response) => {
+                console.log(response)
                 if (response.data.message === "Please check your email") {
                     setAppear(false)
-
+                    console.log(response.data.restPasswordURL)
+                    setresetPassUrl(response.data.restPasswordURL);
                 }
             }).catch((error) => console.log(error))
         setIsloading(false)
@@ -62,27 +66,26 @@ export default function ResetPassword() {
     const sendApiForNewPassword = (e) => {
         setIsloading(true)
         e.preventDefault();
-        // const validate = validationForm2();
-        // validate?.error ? setError2(validate.error.details) : sendApi2();
-        sendApi2();
+        console.log(resetPassUrl)
+        const validate = validationForm2();
+        console.log(validate)
+        // validate?.error ? setError2(validate.error.details) : sendApi2()
+        // setIsloading(false)
     };
     //function two
     const validationForm2 = () => {
-        let schema = Joi.object({ password: Joi.string().regex(/^[a-zA-Z0-9]{8,}$/) });
+        let schema = Joi.object({ newPassword: Joi.string().regex(/^[a-zA-Z0-9]{4,}$/) });
         return schema.validate(newPasswordForm, { abortEarly: false });
     };
     //function three
     async function sendApi2() {
-        console.log('7amada sokr zyada')
-        await axios.post(`https://ahmed-shaltout-platform.up.railway.app/auth/resetPass/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFobWVkaGFzc2FuaHVzc2VpbjIwNEBnbWFpbC5jb20iLCJjb2RlIjoiJDJiJDA4JHUxbTUuSXRwWWM2OE41VFhkLnU3ZC5ScWJmOUw1bUxqNUtZcVcvRFcvekFuR25hUUJ4dkcyIiwiY2hhbmdlUGFzc0F0IjoxNzI1MjYzMzMwODA5LCJpYXQiOjE3MjUyNjMzMzAsImV4cCI6MTcyNTI2NjkzMH0.Iy7toijJ_sRF4X7PfS8GMZL3Cwk7pwtj-UL2vGalnW8`, newPasswordForm)
-            .then((response) => {
-                // if (response.data.message === "Please check your email") {
-                //     setAppear(false)
-
-                // }
-                console.log(response)
-            }).catch((error) => console.log(error))
-        setIsloading(false)
+        try {
+         let {data} =   await axios.post(`${resetPassUrl}`, newPasswordForm)
+         console.log(data)
+        } catch (error) {
+            console.log(error)
+        }
+      
     }
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
