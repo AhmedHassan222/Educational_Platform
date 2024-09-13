@@ -24,15 +24,15 @@ export default function GetAllCources() {
     };
     let date = new Date();
     async function getAll() {
-        const { data } = await axios.get(`${baseURL}/course/`);
-        // setCourses(data)
-        console.log(data)
+        const { data } = await axios.get(`${baseURL}/course`);
+        setCourses(data.courses)
+        console.log(data.courses)
     }
 
     async function deleteItem(id) {
         try {
             await axios
-                .delete(`${baseURL}/subcategory/delete?subCategoryId=${id}`, {
+                .delete(`${baseURL}/course/delete?courseId=${id}`, {
                     headers: {
                         token: `online__${Cookies.get("token")}`,
                     },
@@ -61,7 +61,10 @@ export default function GetAllCources() {
                                 صورة الكورس
                             </th>
                             <th className="py-3" scope="col">
-                                العنوان
+                                عنوان الكورس
+                            </th>
+                            <th className="py-3" scope="col">
+                                تابع الي
                             </th>
                             <th className="py-3" scope="col">
                                 تاريخ الانشاء
@@ -75,26 +78,24 @@ export default function GetAllCources() {
                         {Courses?.length > 0
                             ? Courses.map((item, index) => (
                                 <tr key={index}>
-                                    <th scope="row">{index + 1}</th>
-                                    <td>{stage[item.name]} {grade[item.categoryId.name]}</td>
-                                    <td>{date.toISOString(item.createdAt).split("T")[0]}</td>
-                                    <td className="d-flex justify-content-center justify-content-center">
+                                    <td className="pt-3" >{index + 1}</td>
+                                    <td className="col-2"><img src={item.photo.secure_url} className="w-100" alt={item.name} /></td>
+                                    <td className="pt-3" >{item.name}</td>
+                                    <td className="pt-3" >{stage[item.subCategoryId.name]} {grade[item.categoryId.name]}</td>
+                                    <td className="pt-3" >{date.toISOString(item.createdAt).split("T")[0]}</td>
+                                    <td className="pt-3">
                                         <button
                                             className="btn btn-sm btn-danger ms-2"
-                                            onClick={() => { deleteItem(item.id); }}
+                                            onClick={() => { deleteItem(item._id) }}
                                         >
                                             حذف
                                         </button>
-                                        <div>
-                                            <Link
-                                                className="btn btn-primary"
-                                                to={`/admin/updatesubcategory/${item.name}/${item.id}`}
-                                            >
-                                                تعديل
-                                            </Link>
-
-
-                                        </div>
+                                        <Link
+                                            className="btn btn-primary btn-sm"
+                                            to={`/admin/updatecourse/${item.name}/${item.id}`}
+                                        >
+                                            تعديل
+                                        </Link>
                                     </td>
                                 </tr>
                             ))

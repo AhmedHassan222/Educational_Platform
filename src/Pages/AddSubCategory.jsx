@@ -78,7 +78,7 @@ export default function AddSubCategory() {
 
           <div className=" mb-4">
 
-            <select className="w-100 p-2 text-muted" id="name" name="name" value={dataAdded.name} onChange={handleChange}  >
+            <select className="w-100 p-2 text-muted" autoComplete="off" name="name" value={dataAdded.name} onChange={handleChange}  >
               <option value="">الصف الدراسي </option>
               <option value="first">الصف الاول</option>
               <option value="second">الصف الثاني </option>
@@ -93,7 +93,7 @@ export default function AddSubCategory() {
               </div> : ""
             )}
             <div className="my-4">
-            <select className="w-100 p-2 text-muted" id="name" name="name"  onChange={(e)=> setCategoryId(e.target.value)}  >
+            <select className="w-100 p-2 text-muted" autoComplete="off" name="name"  onChange={(e)=> setCategoryId(e.target.value)}  >
               <option value="">  المرحلة الدراسية </option> 
               {categories.map((category, index) => <option key={index} value={category.id}>{grade[category.name]}</option>)}
             </select>

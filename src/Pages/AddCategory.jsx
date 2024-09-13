@@ -63,7 +63,7 @@ export default function AddCategory() {
                
                <div className=" mb-4">
             
-                        <select className="w-100 p-2 text-muted" id="name" name="name" value={dataAdded.name} onChange={handleChange}  >
+                        <select className="w-100 p-2 text-muted" autoComplete="off" id="name" name="name" value={dataAdded.name} onChange={handleChange}  >
                             <option value="">المرحلة </option>
                             <option value="primary">الابتدائية</option>
                             <option value="preparatory">الاعدادية </option>

@@ -2,7 +2,7 @@ import axios from "axios";
 import Joi from "joi";
 import React from "react";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import style from "../../src/Styles/Auth.module.css"
 import { useNavigate, useParams } from "react-router-dom";
 

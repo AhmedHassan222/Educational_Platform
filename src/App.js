@@ -34,6 +34,7 @@ import UpdatedCategory from './Pages/UpdatedCategory';
 import AddSubCategory from './Pages/AddSubCategory';
 import GetAllSubCategory from './Pages/GetAllSubCategory';
 import UpdateSubCategory from './Pages/UpdateSubCategory';
+import UpdateCourse from './Pages/UpdateCourse';
 export default function App() {
   const [token, setToken] = useState(Cookies.get('token') ? Cookies.get('token') : null);
   useEffect(() => {
@@ -122,6 +123,7 @@ export default function App() {
             <Route path="allTeachers" element={<GetAllTeachers />} />
             <Route path="updatecategory/:name/:id" element={<UpdatedCategory />} />
             <Route path="updatesubcategory/:name/:id" element={<UpdateSubCategory />} />
+            <Route path="updatecourse/:name/:id" element={<UpdateCourse />} />
             <Route path="allCources" element={<GetAllCources />} />
             <Route path="allCategories" element={<GetAllCategories />} />
             <Route path="addSubCategory" element={<AddSubCategory />} />
