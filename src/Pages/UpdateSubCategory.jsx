@@ -69,7 +69,7 @@ export default function UpdatedSubCategory() {
 
           <div className=" mb-4">
 
-            <select className="w-100 p-2 text-muted" id="name" name="name" value={updateSubCategory.name} onChange={handleChange}  >
+            <select className="w-100 p-2 text-muted" id="name" name="name" value={updateSubCategory.name?updateSubCategory.name:name} onChange={handleChange}  >
               <option value="">الصف الدراسي </option>
               <option value="first">الصف الاول</option>
               <option value="second">الصف الثاني </option>

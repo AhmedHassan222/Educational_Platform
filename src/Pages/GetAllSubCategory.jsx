@@ -2,31 +2,24 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
-
+import moment from "moment";
 export default function GetAllSubCategory() {
+  // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   let arr = [1, 2, 3, 4];
   const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
   const [supCategories, setsupCategories] = useState([]);
   const [errorForm, seterrorForm] = useState("");
-  let stage = {
-    first: "الصف الاول",
-    second: " الصف الثاني",
-    third: "الصف الثالث",
-    fourth: "الصف الرابع",
-    fifth: "الصف الخامس",
-    sixth: "الصف السادس"
-  };
-  let grade = {
-    primary: "الابتدائي",
-    preparatory: "الاعدادي ",
-    secondary: "الثانوي",
-  };
-  let date = new Date();
+  let stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
+  let grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
+  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  // FUNCTION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  // GET ALL  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   async function getAll() {
     const { data } = await axios.get(`${baseURL}/subcategory/`);
     setsupCategories(data.Subcategories)
   }
-
+  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  // DELETE ITEM >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   async function deleteItem(id) {
     try {
       await axios
@@ -36,16 +29,14 @@ export default function GetAllSubCategory() {
           },
         })
     } catch (error) {
-      console.log(error);
       seterrorForm(error.message)
     }
-
   }
-
+  // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   useEffect(() => {
     getAll();
   }, [supCategories]);
-
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   return (
     <>
       <div className="container py-5">
@@ -72,7 +63,7 @@ export default function GetAllSubCategory() {
                 <tr key={index}>
                   <th scope="row">{index + 1}</th>
                   <td>{stage[item.name]} {grade[item.categoryId.name]}</td>
-                  <td>{date.toISOString(item.createdAt).split("T")[0]}</td>
+                  <td>{moment(item.createdAt).format('YYYY/MM/DD')}</td>
                   <td className="d-flex justify-content-center justify-content-center">
                     <button
                       className="btn btn-sm btn-danger ms-2"

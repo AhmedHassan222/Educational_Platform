@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 export default function GetAllCources() {
     let arr = [1, 2, 3, 4];
@@ -82,7 +83,7 @@ export default function GetAllCources() {
                                     <td className="col-2"><img src={item.photo.secure_url} className="w-100" alt={item.name} /></td>
                                     <td className="pt-3" >{item.name}</td>
                                     <td className="pt-3" >{stage[item.subCategoryId.name]} {grade[item.categoryId.name]}</td>
-                                    <td className="pt-3" >{date.toISOString(item.createdAt).split("T")[0]}</td>
+                                    <td className="pt-3">{moment(item.createdAt).format('YYYY/MM/DD')}</td>
                                     <td className="pt-3">
                                         <button
                                             className="btn btn-sm btn-danger ms-2"
