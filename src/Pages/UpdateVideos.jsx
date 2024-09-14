@@ -1,19 +1,16 @@
 import axios from 'axios';
-import Joi from 'joi';
 import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import style from "../../src/Styles/Auth.module.css"
 export default function UpdateVideos() {
      // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-     const { id,title } = useParams()
+     const { id } = useParams()
      let navagite = useNavigate();
      const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
      const [Isloading, setIsloading] = useState(false);
-     const [error, setError] = useState([]);
      const [errorForm, seterrorForm] = useState("");
      const [isSubmit, setIsSubmit] = useState(false);
-     const [image, setImage] = useState(null);
      const [updatedVideo, setupdatedVideo] = useState({ title: "" ,videoURL:""});
      // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
      async function updateItem() {

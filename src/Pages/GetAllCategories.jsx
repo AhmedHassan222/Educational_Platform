@@ -6,15 +6,16 @@ import moment from 'moment';
 
 export default function GetAllCategories() {
   let arr = [1, 2, 3, 4];
+let grade = {
+    primary: "الابتدائي",
+    preparatory: "الاعدادي ",
+    secondary: "الثانوي",
+};
   const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
   const [categories, setcategories] = useState([]);
   let date2 = new Date();
   const [errorForm, seterrorForm] = useState("");
-  let grade = {
-    primary: "الابتدائية",
-    preparatory: "الاعدادية ",
-    secondary: "الثانوية",
-  };
+
   async function getAll() {
     const { data } = await axios.get(`${baseURL}/category`);
     setcategories(data.categories);

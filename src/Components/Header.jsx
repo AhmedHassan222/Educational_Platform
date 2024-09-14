@@ -16,14 +16,36 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 // import './styles.css';
 export default function Header() {
   const [Classes, setClasses] = useState([1, 2, 3, 4, 5, 6]);
   const [role , setRole] = useState(null)
+  const [subcategories, setsubcategories] = useState([]);
+  const baseURL = `https://ahmed-shaltout-platform.up.railway.app`
+  let stage = {
+    first: "الصف الاول",
+    second: " الصف الثاني",
+    third: "الصف الثالث",
+    fourth: "الصف الرابع",
+    fifth: "الصف الخامس",
+    sixth: "الصف السادس"
+};
+let grade = {
+    primary: "الابتدائي",
+    preparatory: "الاعدادي ",
+    secondary: "الثانوي",
+};
+
+  async function getAll() {
+    const { data } = await axios.get(`${baseURL}/subcategory`);
+    setsubcategories(data.Subcategories);
+  }
   useEffect(()=>{
     if(Cookies.get('token'))
       setRole(jwtDecode(Cookies.get('token'))?.role)
+    getAll()
   },[Cookies.get('token')])
 
   return (
@@ -53,9 +75,9 @@ export default function Header() {
             اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ اﻟﺜﺎﻧﻮﻳﺔ واﻟﺠﺎﻣﻌﻴﺔ , ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.
           </p>
           <div className="row gy-4">
-            {Classes.map((item, index) => (<div key={index} className="col-md-4">
+            {subcategories.map((item, index) => (<div key={index} className="col-md-4">
               <div className=" border border-1 border-muted  p-3 rounded">
-                <h4 className="h6"> اﻟﺼﻒ اﻟﺄول اﻟﺜﺎﻧﻮى </h4>
+                <h4 className="h6">{stage[item.name]} {grade[item.categoryId.name]} </h4>
               </div>
             </div>))}
           </div>

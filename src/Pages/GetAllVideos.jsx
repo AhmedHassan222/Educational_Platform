@@ -52,16 +52,6 @@ export default function GetAllVideos() {
     }
     useEffect(() => {
         getAllLecture()
-        // document.addEventListener('contextmenu', (e) => e.preventDefault());
-        // document.onkeydown = function (e) {
-        //   if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
-        //     return false;
-        //   }
-        // };
-        // return () => {
-        //   document.removeEventListener('contextmenu', () => {});
-        //   document.onkeydown = null;
-        // };
     }, [lectures])
     return <>
         <section className="py-5 container ">
