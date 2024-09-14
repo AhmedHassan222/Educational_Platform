@@ -35,6 +35,7 @@ import AddSubCategory from './Pages/AddSubCategory';
 import GetAllSubCategory from './Pages/GetAllSubCategory';
 import UpdateSubCategory from './Pages/UpdateSubCategory';
 import UpdateCourse from './Pages/UpdateCourse';
+import UpdateVideos from './Pages/UpdateVideos';
 export default function App() {
   const [token, setToken] = useState(Cookies.get('token') ? Cookies.get('token') : null);
   useEffect(() => {
@@ -109,6 +110,7 @@ export default function App() {
             <Route index element={<AdminPage />} />
             <Route path="addVideo" element={<AddVideo />} />
             <Route path="allVideos" element={<GetAllVideos />} />
+            <Route path="updateVideos/:title/:id" element={<UpdateVideos />} />
           </Route>))}
 
 

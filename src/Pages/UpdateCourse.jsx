@@ -46,8 +46,6 @@ export default function UpdateCourse() {
         const file = Array.from(e.target.files)[0];
         setImage(file);
     };
-
-
     const validationForm = () => {
         let schema = Joi.object({
             name: Joi.string().required(),

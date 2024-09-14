@@ -1,37 +1,126 @@
-
-
-import Filter from './../Components/Filter';
-import teacher from "../../src/Assets/Images/teacher.jpg"
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect ,useState} from 'react';
+import axios from 'axios';
+import CryptoJS from "crypto-js";
+import moment from "moment";
+import Cookies from 'js-cookie';
 export default function GetAllVideos() {
-    const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    
+
+    const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+    const [lectures, setlectures] = useState([]);
+    const [errorForm, seterrorForm] = useState("");
+
+    let arr = [1, 2, 3, 4];
+
+    // Function to decrypt text
+    function decryptText(encryptedText) {
+        try {
+            const decryptedBytes = CryptoJS.AES.decrypt(encryptedText, "secretKey");
+            const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+            
+            // Ensure decryptedText is valid UTF-8
+            if (!decryptedText) {
+              console.log("Malformed UTF-8 data")
+            }
+        
+            return decryptedText;
+          } catch (error) {
+            console.error("Decryption failed:", error);
+            return null;
+          }
+    }
+    async function deleteItem(id) {
+        try {
+            await axios
+                .delete(`${baseURL}/lecture/delete?lectureId=${id}`, {
+                    headers: {
+                        token: `online__${Cookies.get("token")}`,
+                    },
+                })
+        } catch (error) {
+            seterrorForm(error.message)
+        }
+
+    }
+    const decryptVideoURl = (encrypted) => {
+        const bytes = CryptoJS.AES.decrypt(encrypted, "secretKey");
+        return bytes.toString(CryptoJS.enc.Utf8);
+      };
+    async function getAllLecture() {
+        const { data } = await axios.get(`${baseURL}/lecture`);
+        setlectures(data.data)
+    }
     useEffect(() => {
-        window.scroll(0, 0)
-    }, [])
+        getAllLecture()
+        // document.addEventListener('contextmenu', (e) => e.preventDefault());
+        // document.onkeydown = function (e) {
+        //   if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+        //     return false;
+        //   }
+        // };
+        // return () => {
+        //   document.removeEventListener('contextmenu', () => {});
+        //   document.onkeydown = null;
+        // };
+    }, [lectures])
     return <>
         <section className="py-5 container ">
-            <div className="row g-3 ">
-                {arr.map((item, index) => <div key={index} className="col-6 col-sm-6 col-md-4">
-                    <div className='border-1 border border-muted rounded-3'>
-                        <Link to={`/cources/5`}>
-                            <img src={teacher} alt="teacher image" className='w-100' />
-                        </Link>
-                        <div className="p-3">
-                            <p className="text-muted my-2">الصف الثالث الثانوي 2025 </p>
-                            <Link className='nav-link' to={`/cources/5`}>
-                                <h3 className='h5 mb-3'>منهج 3 ثانوى مع مستر عبدالجواد لطلاب 3 ثانوى  </h3>
-                            </Link>
-                            <div className="d-flex align-items-start mt-2">
-                                <i className="fa-solid fa-play ms-1 pt-1 text-danger small"></i>
-                                <p className='text-muted small'>5 محاضرات</p>
-                            </div>
-                            <p className="bg-light fitContent p-1">الكيمياء </p>
-                        </div>
-                    </div>
-                </div>)}
-            </div>
+        {errorForm ? <p className="text-danger py-1 text-center small">لديك مشكلة في  اخر عملية</p> : ''}
+        <table className="table table-striped text-center  table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th className="py-3" scope="col">
+                                #
+                            </th>
+                            <th className="py-3" scope="col">
+                                صورة الكورس
+                            </th>
+                            <th className="py-3" scope="col">
+                                عنوان الكورس
+                            </th>
+                            <th className="py-3" scope="col">
+                                تاريخ الانشاء
+                            </th>
+                            <th className="py-3" scope="col">
+                                المعاملات{" "}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {lectures?.length > 0
+                            ? lectures.map((item, index) => (
+                                <tr key={index}>
+                                    <td className="pt-3" >{index + 1}</td>
+                                    <td className="col-2"><img src={item.photo.secure_url} className="w-100" alt={item.name} /></td>
+                                    {/* decryptText(item.videoURL) */}
+                                    <td className="pt-3" > <Link to={``}  target='_blank'>{item.title}</Link> </td>
+                                    <td className="pt-3">{moment(item.createdAt).format('YYYY/MM/DD')}</td>
+                                    <td className="pt-3">
+                                        <button
+                                            className="btn btn-sm btn-danger ms-2"
+                                            onClick={() => { deleteItem(item._id) }}
+                                        >
+                                            حذف
+                                        </button>
+                                        <Link
+                                            className="btn btn-primary btn-sm"
+                                            to={`/teacherAdmin/updateVideos/${item.title}/${item._id}`}
+                                        >
+                                            تعديل 
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))
+                            : arr.map((item, index) => (
+                                <tr key={index}>
+                                    <th className="placeholder-glow   p-3"></th>
+                                    <td className="placeholder-glow   p-3"></td>
+                                    <td className="placeholder-glow   p-3"></td>
+                                    <td className="placeholder-glow   p-3"></td>
+                                </tr>
+                            ))}
+                    </tbody>
+                </table>
         </section>
     </>
 }
