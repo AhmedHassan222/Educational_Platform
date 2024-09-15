@@ -14,13 +14,16 @@ export default function UpdateVideos() {
     const [image, setImage] = useState(null);
     const [updatedVideo, setupdatedVideo] = useState({ title: "", videoURL: "" });
     const validExtensions = ["image/png", "image/jpeg", "image/gif"];
-
+    const formData = new FormData();
     // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function updateItem() {
         setIsloading(true)
+        formData.append("image", image);
+        formData.append("title", updatedVideo.title); 
+        formData.append("videoURL", updatedVideo.videoURL); 
         try {
             await axios
-                .put(`${baseURL}/lecture/update?lectureId=${id}`, updatedVideo, {
+                .put(`${baseURL}/lecture/update?lectureId=${id}`, formData, {
                     headers: {
                         token: `online__${Cookies.get("token")}`,
                     },
@@ -28,7 +31,7 @@ export default function UpdateVideos() {
                 .then((res) => {
                     setIsloading(false)
                     if (res.data.message === "Done") {
-                        navagite('/teacherAdmin/allVideos')
+                        navagite('/teacherAdmin/allVideos');
                     }
                 });
         } catch (error) {
@@ -59,7 +62,7 @@ export default function UpdateVideos() {
             <div className="text-center rounded-4  border-1 widthCustom mx-auto">
                 <form encType="multipart/form-data" onSubmit={handleSubmit}>
                     <div className=" mb-4">
-                        <input placeholder=" ادخل الصورة" type="file" className="w-100 p-2" name="images" onChange={handleImageChange} />
+                        <input placeholder=" ادخل الصورة" type="file" className="w-100 p-2" name="image" onChange={handleImageChange} />
                         {isSubmit ? <>
                             {!image ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
                             {image ? !validExtensions.includes(image?.type) ? <p className="small fw-medium  py-2 text-end text-danger">هذا الامتداد غير صحيح</p> : "" : ""}

@@ -51,13 +51,13 @@ export default function AddVideo() {
         try {
             await axios.post(`${baseURL}/lecture/create?courseId=${courseId}`, formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
                     "token": `online__${Cookies.get('token')}`
                 }
             }).then((res) => {
                 setIsloading(false)
-                if (res.data.message === "created successfuly") {
-                    navigate('/teacherAdmin/allVideos')
+                console.log(res)
+                if (res.data.message === " created successfuly") {
+                    navigate('teacherAdmin/allVideos')
                 }
             })
         } catch (error) {
