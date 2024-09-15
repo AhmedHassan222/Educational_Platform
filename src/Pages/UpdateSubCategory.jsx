@@ -86,7 +86,7 @@ export default function UpdatedSubCategory() {
           </div>
 
           <button type="submit" className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>    {Isloading ? <i className="fa fa-spin fa-spinner"></i> : "حفظ"}</button>
-          {errorForm ? <p className="text-danger my-4 text-center small">لديك مشكلة في اضافة فئة</p> : ''}
+          {errorForm ? <p className="text-danger my-4 text-center small">لديك مشكلة في التعديل</p> : ''}
         </form>
       </div>
     </div>

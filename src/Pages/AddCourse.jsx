@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 export default function AddCourse() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const navigate = useNavigate()
-    const [error, setError] = useState([]);
     const [errorForm, seterrorForm] = useState("");
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };

@@ -3,44 +3,47 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 import moment from 'moment';
-
 export default function GetAllCategories() {
-  let arr = [1, 2, 3, 4];
-let grade = {
-    primary: "الابتدائي",
-    preparatory: "الاعدادي ",
-    secondary: "الثانوي",
-};
+  // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  const arr = [1, 2, 3, 4];
+  const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
   const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
   const [categories, setcategories] = useState([]);
-  let date2 = new Date();
   const [errorForm, seterrorForm] = useState("");
-
+  const [isLoading, setIsloading] = useState(false);
+  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  // FUNCTION GET ALL CATEGORIES >>>>>>>>>>>>>>>>>>>>>>>>>>>>
   async function getAll() {
     const { data } = await axios.get(`${baseURL}/category`);
     setcategories(data.categories);
   }
-
+  // USEEFFECT 
+  useEffect(() => {
+    getAll();
+  }, [categories]);
+  // FUNCTION DELETE CATEGORY >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   async function deleteItem(id) {
+    setIsloading(true)
     try {
       await axios
         .delete(`${baseURL}/category/delete?categoryId=${id}`, {
           headers: {
             token: `online__${Cookies.get("token")}`,
           },
-        })
+        }).then(() => {
+          setIsloading(false);
+        });
     } catch (error) {
+      setIsloading(false);
       seterrorForm(error);
     }
-
   }
-
-  useEffect(() => {
-    getAll();
-  }, [categories]);
-
+  // RENGER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   return (
     <>
+      {isLoading ? <div className="bg-white position-fixed start-50 top-50  p-3" style={{ transform: 'translate(-50%, -50%)' }}>
+        <i className="fa fa-spin fa-spinner h3"></i>
+      </div> : ""}
       <div className="container py-5">
         <table className="table table-striped text-center  table-hover table-bordered">
           <thead>
@@ -67,31 +70,19 @@ let grade = {
                   <td>{grade[item.name]}</td>
                   <td>{moment(item.createdAt).format('YYYY/MM/DD')}</td>
                   <td className="d-flex justify-content-center justify-content-center">
-                    <button
-                      className="btn btn-sm btn-danger ms-2"
-                      onClick={() => { deleteItem(item.id); }}
-                    >
-                      حذف
-                    </button>
+                    <button className="btn btn-sm btn-danger ms-2" onClick={() => { deleteItem(item.id); }} >حذف</button>
                     <div>
-                      <Link
-                        className="btn btn-primary"
-                        to={`/admin/updatecategory/${item.name}/${item.id}`}
-                      >
-                        تعديل
-                      </Link>
-
-
+                      <Link className="btn btn-primary btn-sm" to={`/admin/updatecategory/${item.name}/${item.id}`}>تعديل</Link>
                     </div>
                   </td>
                 </tr>
               ))
               : arr.map((item, index) => (
                 <tr key={index}>
-                  <th className="placeholder-glow   p-3"></th>
-                  <td className="placeholder-glow   p-3"></td>
-                  <td className="placeholder-glow   p-3"></td>
-                  <td className="placeholder-glow   p-3"></td>
+                  <th className="placeholder-glow   p-4"></th>
+                  <td className="placeholder-glow   p-4"></td>
+                  <td className="placeholder-glow   p-4"></td>
+                  <td className="placeholder-glow   p-4"></td>
                 </tr>
               ))}
           </tbody>

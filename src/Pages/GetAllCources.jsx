@@ -4,33 +4,25 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 import moment from "moment";
-
 export default function GetAllCources() {
+    // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     let arr = [1, 2, 3, 4];
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [Courses, setCourses] = useState([]);
     const [errorForm, seterrorForm] = useState("");
-    let stage = {
-        first: "الصف الاول",
-        second: " الصف الثاني",
-        third: "الصف الثالث",
-        fourth: "الصف الرابع",
-        fifth: "الصف الخامس",
-        sixth: "الصف السادس"
-    };
-    let grade = {
-        primary: "الابتدائي",
-        preparatory: "الاعدادي ",
-        secondary: "الثانوي",
-    };
-    let date = new Date();
+    const stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
+    const [isLoading, setIsloading] = useState(false);
+    const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
+    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    // FUNCTION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    // GET ALL COURSES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function getAll() {
         const { data } = await axios.get(`${baseURL}/course`);
         setCourses(data.courses)
-        console.log(data.courses)
     }
-
+    // DELETE COURSE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function deleteItem(id) {
+        setIsloading(true);
         try {
             await axios
                 .delete(`${baseURL}/course/delete?courseId=${id}`, {
@@ -38,19 +30,24 @@ export default function GetAllCources() {
                         token: `online__${Cookies.get("token")}`,
                     },
                 })
+                .then(() => {
+                    setIsloading(false);
+                });
         } catch (error) {
-            console.log(error);
             seterrorForm(error.message)
+            setIsloading(false);
         }
-
     }
-
+    // USE EFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
         getAll();
     }, [Courses]);
-
+    // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return (
         <>
+            {isLoading ? <div className="bg-white position-fixed start-50 top-50  p-3" style={{ transform: 'translate(-50%, -50%)' }}>
+                <i className="fa fa-spin fa-spinner h3"></i>
+            </div> : ""}
             <div className="container py-5">
                 <table className="table table-striped text-center  table-hover table-bordered">
                     <thead>
@@ -102,10 +99,12 @@ export default function GetAllCources() {
                             ))
                             : arr.map((item, index) => (
                                 <tr key={index}>
-                                    <th className="placeholder-glow   p-3"></th>
-                                    <td className="placeholder-glow   p-3"></td>
-                                    <td className="placeholder-glow   p-3"></td>
-                                    <td className="placeholder-glow   p-3"></td>
+                                    <th className="placeholder-glow   p-4"></th>
+                                    <td className="placeholder-glow   p-4"></td>
+                                    <td className="placeholder-glow   p-4"></td>
+                                    <td className="placeholder-glow   p-4"></td>
+                                    <td className="placeholder-glow   p-4"></td>
+                                    <td className="placeholder-glow   p-4"></td>
                                 </tr>
                             ))}
                     </tbody>

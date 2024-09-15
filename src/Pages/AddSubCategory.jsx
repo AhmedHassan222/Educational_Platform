@@ -3,29 +3,27 @@ import style from "../../src/Styles/Auth.module.css"
 import Cookies from 'js-cookie';
 import { CRUDContext } from "../Contexts/CRUDContext";
 import axios from "axios";
-import Joi from "joi";
 import { useNavigate } from "react-router-dom";
 export default function AddSubCategory() {
-  const [categoryId , setCategoryId] = useState(null);
+  // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  const [categoryId, setCategoryId] = useState(null);
   const [categories, setcategories] = useState([]);
+  const [isSubmit, setIsSubmit] = useState(false);
+  const grade = { primary: "الابتدائية", preparatory: "الاعدادية ", secondary: "الثانوية", };
+  const [errorForm, seterrorForm] = useState("");
+  const { baseURL } = useContext(CRUDContext)
+  const [dataAdded, setdataAdded] = useState({ name: "" });
+  const [Isloading, setIsloading] = useState(false);
+  const navigate = useNavigate()
+  // FUNCTION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  // FUNCTION GET ALL CATEGORIES
   async function getAllCategories() {
     const { data } = await axios.get(`${baseURL}/category`);
     setcategories(data.categories);
   }
-  let grade = {
-    primary: "الابتدائية",
-    preparatory: "الاعدادية ",
-    secondary: "الثانوية",
-  };
-  let navigate = useNavigate()
-  const [error, setError] = useState([]);
-  const [errorForm, seterrorForm] = useState("");
-  const { baseURL } = useContext(CRUDContext)
-  const [dataAdded, setdataAdded] = useState({
-    name: "",
-  });
-  const [Isloading, setIsloading] = useState(false);
-
+  getAllCategories();
+  // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  // FUNCTION HANDLE OBJECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const handleChange = (e) => {
     const { name, value } = e.target;
     setdataAdded({
@@ -33,37 +31,24 @@ export default function AddSubCategory() {
       [name]: value,
     });
   };
-  const validationForm = () => {
-    let schema = Joi.object({
-      name: Joi.string().required(),
-    });
-    return schema.validate(dataAdded, { abortEarly: false });
-  };
-  getAllCategories();
-
+  // FUNCTION SUBMIT FORM >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const handleSubmit = (e) => {
-    setIsloading(true)
     e.preventDefault();
-    const validate = validationForm();
-    if (validate.error) {
-      setError(validate.error.details)
-    } else {
-      addItem()
-    }
-    setIsloading(false)
+    setIsSubmit(true);
+    addItem();
   };
+  // FUNCTION ADD SUB CATEGORY >>>>>>>>>>>>>>>>>>>>>>>>>>
   async function addItem() {
-    setIsloading(true)
+    setIsloading(true);
     try {
       await axios.post(`${baseURL}/subcategory/create?categoryId=${categoryId}`, dataAdded, {
         headers: {
           "token": `online__${Cookies.get('token')}`
         }
       }).then((res) => {
-        if(res.data.message ==="sub-category created successfuly")
-          setIsloading(false)
+        setIsloading(false)
+        if (res.data.message === "sub-category created successfuly")
           navigate('/admin/allSubCategories')
-          
       })
     } catch (error) {
       setIsloading(false)
@@ -75,9 +60,7 @@ export default function AddSubCategory() {
     <div className="container py-5">
       <div className="text-center rounded-4  border-1 widthCustom mx-auto">
         <form encType="multipart/form-data" onSubmit={handleSubmit}>
-
           <div className=" mb-4">
-
             <select className="w-100 p-2 text-muted" autoComplete="off" name="name" value={dataAdded.name} onChange={handleChange}  >
               <option value="">الصف الدراسي </option>
               <option value="first">الصف الاول</option>
@@ -87,24 +70,15 @@ export default function AddSubCategory() {
               <option value="fifth">الصف الخامس </option>
               <option value="sixth">الصف السادس </option>
             </select>
-            {error?.map((err, index) =>
-              err.context.label === "name" ? <div key={index}>
-                {!dataAdded.name ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
-              </div> : ""
-            )}
+            {isSubmit ? dataAdded.name === "" ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
             <div className="my-4">
-            <select className="w-100 p-2 text-muted" autoComplete="off" name="name"  onChange={(e)=> setCategoryId(e.target.value)}  >
-              <option value="">  المرحلة الدراسية </option> 
-              {categories.map((category, index) => <option key={index} value={category.id}>{grade[category.name]}</option>)}
-            </select>
-            {error?.map((err, index) =>
-              err.context.label === "name" ? <div key={index}>
-                {!dataAdded.name ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
-              </div> : ""
-            )}
+              <select className="w-100 p-2 text-muted" autoComplete="off" name="name" onChange={(e) => setCategoryId(e.target.value)}  >
+                <option value="">  المرحلة الدراسية </option>
+                {categories.map((category, index) => <option key={index} value={category.id}>{grade[category.name]}</option>)}
+              </select>
+              {isSubmit ? !categoryId ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
             </div>
           </div>
-
           <button type="submit" className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>    {Isloading ? <i className="fa fa-spin fa-spinner"></i> : "اضف"}</button>
           {errorForm ? <p className="text-danger my-4 text-center small">لديك مشكلة في اضافة فئة</p> : ''}
         </form>

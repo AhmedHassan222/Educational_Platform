@@ -11,6 +11,7 @@ export default function GetAllSubCategory() {
   const [errorForm, seterrorForm] = useState("");
   let stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
   let grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
+  const [isLoading, setIsloading] = useState(false);
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   // FUNCTION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   // GET ALL  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -21,14 +22,18 @@ export default function GetAllSubCategory() {
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   // DELETE ITEM >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   async function deleteItem(id) {
+    setIsloading(true);
     try {
       await axios
         .delete(`${baseURL}/subcategory/delete?subCategoryId=${id}`, {
           headers: {
             token: `online__${Cookies.get("token")}`,
           },
-        })
+        }).then(() => {
+          setIsloading(false);
+        });
     } catch (error) {
+      setIsloading(false);
       seterrorForm(error.message)
     }
   }
@@ -39,6 +44,9 @@ export default function GetAllSubCategory() {
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   return (
     <>
+      {isLoading ? <div className="bg-white position-fixed start-50 top-50  p-3" style={{ transform: 'translate(-50%, -50%)' }}>
+        <i className="fa fa-spin fa-spinner h3"></i>
+      </div> : ""}
       <div className="container py-5">
         <table className="table table-striped text-center  table-hover table-bordered">
           <thead>
@@ -73,23 +81,21 @@ export default function GetAllSubCategory() {
                     </button>
                     <div>
                       <Link
-                        className="btn btn-primary"
+                        className="btn btn-primary btn-sm"
                         to={`/admin/updatesubcategory/${item.name}/${item.id}`}
                       >
                         تعديل
                       </Link>
-
-
                     </div>
                   </td>
                 </tr>
               ))
               : arr.map((item, index) => (
                 <tr key={index}>
-                  <th className="placeholder-glow   p-3"></th>
-                  <td className="placeholder-glow   p-3"></td>
-                  <td className="placeholder-glow   p-3"></td>
-                  <td className="placeholder-glow   p-3"></td>
+                  <th className="placeholder-glow   p-4"></th>
+                  <td className="placeholder-glow   p-4"></td>
+                  <td className="placeholder-glow   p-4"></td>
+                  <td className="placeholder-glow   p-4"></td>
                 </tr>
               ))}
           </tbody>
