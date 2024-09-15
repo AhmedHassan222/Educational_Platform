@@ -9,6 +9,7 @@ export default function GetAllVideos() {
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [lectures, setlectures] = useState([]);
     const [errorForm, seterrorForm] = useState("");
+    const [isLoading, setIsloading] = useState(false);
 
     let arr = [1, 2, 3, 4];
 
@@ -30,15 +31,20 @@ export default function GetAllVideos() {
         }
     }
     async function deleteItem(id) {
+        setIsloading(true);
         try {
             await axios
                 .delete(`${baseURL}/lecture/delete?lectureId=${id}`, {
                     headers: {
                         token: `online__${Cookies.get("token")}`,
                     },
+                }).then(()=>{
+                    setIsloading(false);
                 })
         } catch (error) {
             seterrorForm(error.message)
+            setIsloading(false);
+
         }
 
     }
@@ -55,7 +61,9 @@ export default function GetAllVideos() {
     }, [lectures])
     return <>
         <section className="py-5 container ">
-            {errorForm ? <p className="text-danger py-1 text-center small">لديك مشكلة في  اخر عملية</p> : ''}
+            {isLoading ? <div className="bg-white position-fixed start-50 top-50  p-3" style={{ transform: 'translate(-50%, -50%)' }}>
+                <i className="fa fa-spin fa-spinner h3"></i>
+            </div> : ""}
             <table className="table table-striped text-center  table-hover table-bordered">
                 <thead>
                     <tr>
@@ -102,6 +110,7 @@ export default function GetAllVideos() {
                         ))}
                 </tbody>
             </table>
+            {errorForm ? <p className="text-danger py-1 text-center small">لديك مشكلة في  اخر عملية</p> : ''}
         </section>
     </>
 }
