@@ -1,116 +1,175 @@
-import { useContext, useState } from "react";
-import Cookies from 'js-cookie';
-import style from "../../src/Styles/Auth.module.css"
-import { useNavigate } from "react-router-dom";
-import { CRUDContext } from "../Contexts/CRUDContext";
-import Joi from "joi";
-import axios from "axios";
-export default function AddTeacher() {
-    let navigate =useNavigate()
-    const [error, setError] = useState([]);
-    const [errorForm, seterrorForm] = useState("");
-    const {baseURL}=useContext(CRUDContext)
-    const [dataAdded, setdataAdded] = useState({
-        img:"",
-        fullname:"",
-        material:"",
-        phone:""
-    });
-    const [Isloading, setIsloading] = useState(false);
 
+
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import style from "../../src/Styles/Auth.module.css";
+import "../Styles/index.css";
+import axios from "axios";
+import Joi from "joi";
+export default function AddTeacher() {
+    //Variables here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({ fullName: "", email: "", password: "", repassword: "", gender: "", stage: "", phoneNumber: "+2" });
+    const [error, setError] = useState([]);
+    const [serverError, setServerError] = useState("");
+    const [Isloading, setIsloading] = useState(false);
+    const [inputType, setInputType] = useState('password');
+    const [showPassword, setShowPassword] = useState(false);
+    const [inputType2, setInputType2] = useState('password');
+    const [showrePassword, setShowrePassword] = useState(false);
+    // FUNCTION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    // FUNCTION SHOW AND HIDDEN PASSWORD
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+        setInputType(inputType === 'password' ? 'text' : 'password');
+    };
+    const togglerePasswordVisibility = () => {
+        setShowrePassword(!showrePassword);
+        setInputType2(inputType2 === 'password' ? 'text' : 'password');
+    };
+    // ==============================================================
+    //function one >>
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setdataAdded({
-            ...dataAdded,
-            [name]: value,
-        });
+        const _formData = { ...formData };
+        _formData[e.target.name] = e.target.value;
+        setFormData(_formData);
     };
-    const validationForm = () => {
-        let schema = Joi.object({
-            name: Joi.string().required(),
-        });
-        return schema.validate(dataAdded, { abortEarly: false });
-    };
-    const handleSubmit = (e) => {
-        setIsloading(true)
+    // function two >>
+    const submitRegisterForm = (e) => {
         e.preventDefault();
         const validate = validationForm();
-        if(validate.error){
-            setError(validate.error.details) 
-        }else{
-            addTeacher()
-        }
-        setIsloading(false)
-        console.log(error)
+        validate.error ? setError(validate.error.details) : sendApi();
     };
-    async function addTeacher() {
+    // function three >>
+    const validationForm = () => {
+        let schema = Joi.object({
+            fullName: Joi.string().min(3).max(100).required(),
+            email: Joi.string()
+                .email({ tlds: { allow: ["com", "net", "org"] } })
+                .required(),
+            password: Joi.string().regex(/^[a-zA-Z0-9]{8,}$/),
+            repassword: Joi.valid(Joi.ref("password")).required(),
+            gender: Joi.string().required(),
+            stage: Joi.string().required(),
+            phoneNumber: Joi.string().regex(/^\+20[0-9]{10}$/).required(),
+        });
+        return schema.validate(formData, { abortEarly: false });
+    };
+    // function four >>
+    async function sendApi() {
+        setIsloading(true)
         try {
-         await axios.post(`${baseURL}/category/create`, dataAdded, {
-             headers: {
-                 "token": `online__${Cookies.get('token')}`
-             }
-         }).then((res)=>{
-             console.log(res)
-             navigate('/admin/allCategories')
-         })
+            await axios.post(`https://ahmed-shaltout-platform.up.railway.app/auth/addTeacher`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    "token": `online__${Cookies.get('token')}`
+                }
+            }).then((response) => {
+                setIsloading(false)
+                console.log(response)
+
+            }).catch((error) => {
+                setIsloading(false)
+                // setServerError(error.response?.data?.message);
+                console.log(error.response)
+            });
         } catch (error) {
-         // console.log(error)
-         seterrorForm(error)
+            console.log('cath error',error.message)
         }
-           
-         }
-    return <>
+    }
+    return (
         <div className="container py-5">
             <div className="text-center rounded-4  border-1 widthCustom mx-auto">
-            <form encType="multipart/form-data" onSubmit={handleSubmit}>
-                <div className=" mb-4">
-                    <input
-                        placeholder=" ادخل الصورة"
-                        type="file"
-                        className="w-100 p-2"
-                        id="fullName"
-                        name="fullName"
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className=" mb-4">
-                    <input
-                        placeholder=" الاسم بالكامل"
-                        type="text"
-                        className="w-100 p-2"
-                        id="fullName"
-                        name="fullName"
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className=" mb-4">
-                    <input
-                        placeholder=" المادة"
-                        type="text"
-                        className="w-100 p-2"
-                        id="phoneNumber"
-                        name="phoneNumber"
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className=" mb-4">
-                    <input
-                        placeholder="رقم الهاتف"
-                        type="text"
-                        className="w-100 p-2"
-                        id="phoneNumber"
-                        name="phoneNumber"
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
+                <form onSubmit={submitRegisterForm}>
+                    <div className=" mb-4">
+                        <input placeholder=" الاسم بالكامل" type="text" className="w-100 p-2" id="fullName" name="fullName" value={formData.fullName} onChange={handleChange} />
+                        {error?.map((err, index) =>
+                            err.context.label === "fullName" ? <div key={index}>
+                                {err.type === "string.min" ? <p className="small fw-medium py-2 text-end text-danger">يجب أن لا يقل عدد الحروف عن 3</p> : ""}
+                                {err.type === "string.max" ? <p className="small fw-medium py-2 text-end text-danger">يجب الا يزيد عدد الحروف عن  100 حرف</p> : ""}
+                                {!formData.fullName ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
+                            </div> : ""
+                        )}
+                    </div>
+                    <div className=" mb-4">
+                        <input placeholder="البريد الالكتروني" type="email" className="w-100 p-2" id="email" name="email" value={formData.email} onChange={handleChange} />
+                        {error?.map((err, index) =>
+                            err.context.label === "email" ? <div key={index}>
+                                {err.type === "string.email" ? <p className="small fw-medium py-2 text-end text-danger"> البريد الإلكتروني غير صحيح</p> : ""}
+                                {!formData.email ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
+                            </div> : ""
+                        )}
+                    </div>
+                    <div className=" mb-4 ">
+                        <div className="position-relative">
+                            {inputType !== "password" ?
+                                <i onClick={togglePasswordVisibility} className={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i> :
+                                <i onClick={togglePasswordVisibility} className={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>
+                            }
+                            <input placeholder="ادخل كلمة المرور" type={inputType} className="w-100 p-2 " id="password" name="password" value={formData.password} onChange={handleChange} />
 
-                <button type="submit" className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}> اضف</button>
-            </form>
+                        </div>
+                        {error?.map((err, index) =>
+                            err.context.label === "password" ? <div key={index}>
+                                {err.type === "string.pattern.base" ? <p className="small fw-medium py-2 text-end text-danger">    يجب ان تحتوي كلمة  المرور علي 8 احروف او ارقام</p> : ""}
+                                {!formData.password ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
+                            </div> : ""
+                        )}
+                    </div>
+                    <div className=" mb-4">
+                        <div className="position-relative">
+                            {inputType2 !== "password" ?
+                                <i onClick={togglerePasswordVisibility} className={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i> :
+                                <i onClick={togglerePasswordVisibility} className={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>
+                            }
+                            <input placeholder="تأكيد كلمة المرور " type={inputType2} className="w-100 p-2" id="repassword" name="repassword" value={formData.repassword} onChange={handleChange} />
+
+                        </div>
+                        {error?.map((err, index) =>
+                            err.context.label === "repassword" ? <div key={index}>
+                                {formData.password !== formData.repassword ? <p className="small fw-medium py-2 text-end text-danger">    كلمتا المرور غير متطابقتين</p> : ""}
+                            </div> : ""
+                        )}
+                    </div>
+                    <div className=" mb-4">
+                        <select className="w-100 p-2 text-muted" id="gender" name="gender" value={formData.gender} onChange={handleChange} >
+                            <option value="">النوع</option>
+                            <option value="male">ذكر</option>
+                            <option value="female">انثي</option>
+                        </select>
+                        {error?.map((err, index) =>
+                            err.context.label === "gender" ? <div key={index}>
+                                {!formData.gender ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
+                            </div> : ""
+                        )}
+                    </div>
+                    <div className=" mb-4">
+                        <select className="w-100 p-2 text-muted" id="stage" name="stage" value={formData.stage} onChange={handleChange}  >
+                            <option value="">المرحلة </option>
+                            <option value="primary">الابتدائية</option>
+                            <option value="preparatory">الاعدادية </option>
+                            <option value="secondary">الثانوية </option>
+                        </select>
+                        {error?.map((err, index) =>
+                            err.context.label === "stage" ? <div key={index}>
+                                {!formData.stage ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
+                            </div> : ""
+                        )}
+                    </div>
+                    <div className=" mb-4">
+                        <input placeholder="رقم الهاتف" type="text" className="w-100 p-2" id="phoneNumber" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} />
+                        {error?.map((err, index) =>
+                            err.context.label === "phoneNumber" ? <div key={index}>
+                                {/* {!formData.phoneNumber.startsWith("+20") && formData.phoneNumber ? <p className="small fw-medium py-2 text-end text-danger"> يجب أن تبدأ +20 ثم رقم الهاتف</p> : ""} */}
+                                {!formData.phoneNumber ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
+                            </div> : ""
+                        )}
+                    </div>
+                    <button type="submit" className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>{Isloading ? <i className="fa-spin fa fa-spinner"></i> : "انشاء حساب"}</button>
+                    {serverError ? <p className="text-danger py-1 text-center small">لديك مشكلة في انشاء الحساب</p> : ''}
+                </form>
             </div>
         </div>
-    </>
-}
+    );
+};
