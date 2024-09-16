@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import Cookies from "js-cookie";
 import style from "../../src/Styles/Auth.module.css";
 
@@ -8,7 +8,7 @@ export default function GetAllCodes() {
   const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
   const [errorForm, seterrorForm] = useState("");
   const [isLoading, setIsloading] = useState(false);
-
+  const componentRef = useRef(); // the section you want to print.
   async function deleteItem(id) {
     setIsloading(true);
     console.log(id);
@@ -64,7 +64,7 @@ export default function GetAllCodes() {
                     onClick={() => {
                       print();
                     }}
-                    className={` p-2 border-0 rounded-2 ${style.btnOrange} my-3  `}
+                    className={` px-4 py-2  border-0 rounded-2 ${style.btnOrange} my-3  `}
                   >
                     اطبع
                   </button>
@@ -72,14 +72,15 @@ export default function GetAllCodes() {
                     onClick={() => {
                       deleteItem(item._id);
                     }}
-                    className={` p-2 border-0 rounded-2 bg-danger my-3 mx-2 `}
+                    className={` px-4 text-white  py-2 border-0 rounded-2 bg-danger my-3 mx-2 `}
                   >
                     حذف
                   </button>
                 </div>
               </div>
               {item.codes.map((codes, indx) => (
-                <div
+                <div 
+                ref={componentRef} /////////to print this section 
                   key={indx}
                   className=" col-md-3 col-lg-2 col-sm-4 w-25 text-center border border-1 border-muted p-2 rounded-2"
                 >

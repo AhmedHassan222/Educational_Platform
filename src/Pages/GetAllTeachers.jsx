@@ -9,34 +9,38 @@ export default function GetAllTeachers() {
     const stage = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [allTeachers, setallTeachers] = useState([]);
+    const [email, setemail] = useState({email:""})
 
-
-    async function deleteItem(id) {
+    async function deleteItem(id, emailTeacher) {
         setIsloading(true);
+        
         try {
-            await axios
-                .delete(`${baseURL}/auth/deleteTeacher/?teacherId=${id}`, {
-                    headers: {
-                        token: `online__${Cookies.get("token")}`,
-                    },
-                })
-                .then((res) => {
-                    setIsloading(false);
-                });
+            await axios.delete(`${baseURL}/auth/deleteTeacher`, {
+                headers: {
+                    token: `online__${Cookies.get("token")}`,  // Send token in headers
+                },
+                params: {
+                    teacherId: id,  // Send teacherId as query parameter
+                },
+                data: {
+                    email: emailTeacher  // Send email in request body
+                }
+            })
+            
+            setIsloading(false);  // Stop loading indicator after the request completes
         } catch (error) {
-            seterrorForm(error.message)
-            setIsloading(false);
+            seterrorForm(error.message);  // Handle error
+            setIsloading(false);  // Stop loading in case of error
         }
     }
-
-
+    
     async function getAll() {
         const { data } = await axios.get(`${baseURL}/auth/teachers`);
         setallTeachers(data.users)
     }
     useEffect(() => {
         getAll();
-    }, []);
+    }, [allTeachers]);
     return <>
         <div className="container py-5">
             
@@ -55,7 +59,7 @@ export default function GetAllTeachers() {
                     </tr>
                 </thead>
                 <tbody>
-                    {allTeachers.map((item ,index) => <tr key={index}>
+                    {allTeachers?.map((item ,index) => <tr key={index}>
                         <th scope="row">{index+1}</th>
                         <td>{item.fullName}</td>
                         <td>{item.email}</td>
@@ -63,15 +67,15 @@ export default function GetAllTeachers() {
                         <td>{item.phoneNumber.replace("+2", "")}</td>
                         <td>
                             <div className="d-flex ">
-                            <button className="btn btn-sm btn-danger ms-2" onClick={() => { deleteItem(item._id) }}>  حذف</button>
+                            <button className="btn btn-sm btn-danger ms-2" onClick={() => { deleteItem(item._id,item.email) }}>  حذف</button>
                             </div> </td>
                     </tr>
                    )}
                 </tbody>
 
             </table>
-            {errorForm.length > 0 ? <p className="text-danger py-1 text-center small"> لديك مشكلة في اخر عملية </p> : ''}
-
+            {errorForm.length > 0 ? <p className=" text-danger py-1 text-center small"> لديك مشكلة في اخر عملية </p> : ''}
+            
         </div>
     </>
 }

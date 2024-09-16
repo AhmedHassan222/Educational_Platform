@@ -23,8 +23,7 @@ export default function GenerateCode() {
 
   async function getAll() {
     const { data } = await axios.get(`${baseURL}/course`);
-    // setCourses(data.courses)
-    console.log(data.Courses)
+    setCourses(data.data)
 }
  
   useEffect(() => {

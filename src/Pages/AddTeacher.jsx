@@ -12,7 +12,7 @@ export default function AddTeacher() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
          fullName: "", email: "", password: "", repassword: "",
-          stage: "", phoneNumber: "+2" ,gender:""});
+          stage: "", phoneNumber: "+2" ,gender:"",subjecTeacher:""});
     const [error, setError] = useState([]);
     const [serverError, setServerError] = useState("");
     const [Isloading, setIsloading] = useState(false);
@@ -22,6 +22,7 @@ export default function AddTeacher() {
     const [showrePassword, setShowrePassword] = useState(false);
     const [Courses, setCourses] = useState([]);
     const [CoursesId, setCoursesId] = useState("");
+    const [refreshToken, setrefreshToken] = useState("");
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     // FUNCTION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     // FUNCTION SHOW AND HIDDEN PASSWORD
@@ -49,14 +50,12 @@ export default function AddTeacher() {
     };
     // function two >>
     const submitRegisterForm = (e) => {
-        setIsloading(true)
         e.preventDefault();
-        console.log(formData,CoursesId)
-        // const validate = validationForm();
-        // validate.error ? setError(validate.error.details) : addTeacher();
-        setIsloading(false)
-
-    };
+        const validate = validationForm();
+        validate.error ? setError(validate.error.details) : addTeacher();
+        setIsloading(false);
+        addTeacher();
+        };
     // function three >>
     const validationForm = () => {
         let schema = Joi.object({
@@ -82,17 +81,19 @@ export default function AddTeacher() {
                     "token": `online__${Cookies.get('token')}`
                 }
             }).then((response) => {
-                setIsloading(false)
-                console.log(response)
+                if(response.data.message === "Done,please try to Login"){
+                    navigate('admin/allTeachers')
+                    
+                }else{
+                    Cookies.set("token", response.data.refreshToken)
+                    setrefreshToken(response.data.message)
+                }
 
-            }).catch((error) => {
-                setIsloading(false)
-                // setServerError(error.response?.data?.message);
-                console.log(error.response)
-            });
+            })
         } catch (error) {
-            console.log('cath error',error.message)
+            setServerError(error.message)
         }
+        setIsloading(false)
     }
  
 
@@ -181,9 +182,9 @@ export default function AddTeacher() {
                             </div> : ""
                         )}
                     </div>
-                    {/* subjecTeacher */}
+                    {/* to know course Id */}
                     <div className=" mb-4">
-                        <select className="w-100 p-2 text-muted" id="subjecTeacher"autoComplete="off" name="subjecTeacher"  onChange={(e)=>{setCoursesId(e.target.value)}}  >
+                        <select className="w-100 p-2 text-muted"autoComplete="off"  onChange={(e)=>{setCoursesId(e.target.value)}}  >
                             <option value="">المادة </option>
                             {Courses?.map((course,index)=> 
                                   <option key={index} value={course.id} >{course.name} </option>
@@ -192,6 +193,16 @@ export default function AddTeacher() {
                         {error?.map((err, index) =>
                             err.context.label === "stage" ? <div key={index}>
                                 {!formData.stage ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
+                            </div> : ""
+                        )}
+                    </div>
+                      {/* subjecTeacher */}
+                      
+                      <div className=" mb-4">
+                        <textarea className="w-100 p-2"  id="subjecTeacher" name="subjecTeacher" placeholder="معلومات عن المدرس"  value={formData.subjecTeacher} onChange={handleChange}></textarea>
+                        {error?.map((err, index) =>
+                            err.context.label === "subjecTeacher" ? <div key={index}>
+                                 {!formData.subjecTeacher ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
                             </div> : ""
                         )}
                     </div>
@@ -204,8 +215,10 @@ export default function AddTeacher() {
                             </div> : ""
                         )}
                     </div>
+
                     <button type="submit" className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>{Isloading ? <i className="fa-spin fa fa-spinner"></i> : "انشاء حساب"}</button>
                     {serverError ? <p className="text-danger py-1 text-center small">لديك مشكلة في انشاء الحساب</p> : ''}
+                    {refreshToken.length > 0 ? <p className="text-danger py-1 text-center small">  حاول مرة أخري   </p> : ''}
                 </form>
             </div>
         </div>
