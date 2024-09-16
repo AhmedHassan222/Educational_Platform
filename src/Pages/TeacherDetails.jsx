@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import mr from "../../src/Assets/Images/mr.jpg"
 import teacher from "../../src/Assets/Images/teacher.jpg"
 export default function TeacherDetails() {
+    let {id}= useParams() ;
+    console.log(id)
     const classes = [1, 2, 3, 4,5]
     return <>
         <div className="container py-5">

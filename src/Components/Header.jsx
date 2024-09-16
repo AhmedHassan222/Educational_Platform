@@ -1,4 +1,3 @@
-import teacher from "./../../src/Assets/Images/teacher.jpg";
 import feature1 from "./../../src/Assets/Images/feature-1.a3c9fc1.svg";
 import feature2 from "./../../src/Assets/Images/feature-2.3cb2b9c.svg";
 import feature3 from "./../../src/Assets/Images/feature-3.89f5be4.svg";
@@ -12,6 +11,8 @@ import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";
 import Cookies from "js-cookie";
+import mr from "../../src/Assets/Images/download.jpg"
+import mrs from "../../src/Assets/Images/women.jpg"
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -23,7 +24,8 @@ export default function Header() {
   const [Classes, setClasses] = useState([1, 2, 3, 4, 5, 6]);
   const [role , setRole] = useState(null)
   const [subcategories, setsubcategories] = useState([]);
-  const baseURL = `https://ahmed-shaltout-platform.up.railway.app`
+  const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+  const [allTeachers, setallTeachers] = useState([]);
   let stage = {
     first: "الصف الاول",
     second: " الصف الثاني",
@@ -37,7 +39,10 @@ let grade = {
     preparatory: "الاعدادي ",
     secondary: "الثانوي",
 };
-
+async function getAllTeachers() {
+  const { data } = await axios.get(`${baseURL}/auth/teachers`);
+  setallTeachers(data.users)
+}
   async function getAll() {
     const { data } = await axios.get(`${baseURL}/subcategory`);
     setsubcategories(data.Subcategories);
@@ -46,6 +51,7 @@ let grade = {
     if(Cookies.get('token'))
       setRole(jwtDecode(Cookies.get('token'))?.role)
     getAll()
+    getAllTeachers()
   },[Cookies.get('token')])
 
   return (
@@ -206,14 +212,14 @@ let grade = {
               prevEl: ".swiper-button-prev",
             }}
           >
-            {Classes.map((item, index) => (
+            {allTeachers.map((item, index) => (
               <SwiperSlide key={index}>
                 <div className=" py-2 itemSlide">
-                  <img src={teacher} className="w-75  rounded-circle " alt="" />
-                  <h4 className="my-4 h6">أ/ سيد عبد الرحيم</h4>
+                  <img src={ item.image || item.gender=="male" ? mr : mrs  } className="w-75  rounded-circle " alt="" />
+                  <h4 className="my-4 h6">أ/  {item.fullName}</h4>
                   <p className="my-4 small text-primary">
                     <span className="bg-light text-black p-2 rounded">
-                      كيمياء
+                     {item.courseId.name}
                     </span>
                   </p>
                 </div>

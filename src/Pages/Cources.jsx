@@ -44,7 +44,7 @@ export default function Cources() {
                                     </Link>
                                     <div className="d-flex align-items-start mt-2">
                                         <i className="fa-solid fa-play ms-1 pt-1 text-danger small"></i>
-                                        <p className='text-muted small'>{item?.lecture?.length} محاضرات</p>
+                                        <p className='text-muted small'>{item?.lectures?.length} محاضرات</p>
                                     </div>
                                 </div>
                             </div>
