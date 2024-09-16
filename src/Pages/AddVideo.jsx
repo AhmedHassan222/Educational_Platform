@@ -96,7 +96,7 @@ export default function AddVideo() {
                     <div className="my-4">
                         <select className="w-100 p-2 text-muted" autoComplete="off" onChange={(e) => setcourseId(e.target.value)}  >
                             <option value="">  الكورسات</option>
-                            {courses?.map((category, index) => <option key={index} value={category.id}>{category.name}-{stage[category.subCategoryId.name]} {grade[category.categoryId.name]}</option>)}
+                            {courses?.map((category, index) => <option key={index} value={category.id}>{category.name} - {stage[category.subCategoryId.name]} {grade[category.categoryId.name]}</option>)}
                         </select>
                         {isSubmit ? !courseId ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
                     </div>

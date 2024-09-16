@@ -18,7 +18,7 @@ export default function GetAllCources() {
     // GET ALL COURSES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function getAll() {
         const { data } = await axios.get(`${baseURL}/course`);
-        setCourses(data.courses)
+        setCourses(data.data)
     }
     // DELETE COURSE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function deleteItem(id) {

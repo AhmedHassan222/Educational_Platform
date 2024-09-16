@@ -125,7 +125,7 @@ export default function App() {
             <Route path="allTeachers" element={<GetAllTeachers />} />
             <Route path="updatecategory/:name/:id" element={<UpdatedCategory />} />
             <Route path="updatesubcategory/:name/:id" element={<UpdateSubCategory />} />
-            <Route path="updatecourse/:name/:id" element={<UpdateCourse />} />
+            <Route path="updatecourse/:nameCourse/:id" element={<UpdateCourse />} />
             <Route path="allCources" element={<GetAllCources />} />
             <Route path="allCategories" element={<GetAllCategories />} />
             <Route path="addSubCategory" element={<AddSubCategory />} />

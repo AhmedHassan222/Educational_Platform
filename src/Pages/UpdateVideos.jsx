@@ -5,22 +5,22 @@ import Cookies from 'js-cookie';
 import style from "../../src/Styles/Auth.module.css"
 export default function UpdateVideos() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    const { id } = useParams()
+    const { id,title } = useParams()
     let navagite = useNavigate();
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [Isloading, setIsloading] = useState(false);
     const [errorForm, seterrorForm] = useState("");
     const [isSubmit, setIsSubmit] = useState(false);
     const [image, setImage] = useState(null);
-    const [updatedVideo, setupdatedVideo] = useState({ title: "", videoURL: "" });
+    const [updatedVideo, setupdatedVideo] = useState({ title: title, videoURL: "" });
     const validExtensions = ["image/png", "image/jpeg", "image/gif"];
     const formData = new FormData();
     // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function updateItem() {
         setIsloading(true)
         formData.append("image", image);
-        formData.append("title", updatedVideo.title); 
-        formData.append("videoURL", updatedVideo.videoURL); 
+        formData.append("title", updatedVideo.title);
+        formData.append("videoURL", updatedVideo.videoURL);
         try {
             await axios
                 .put(`${baseURL}/lecture/update?lectureId=${id}`, formData, {
@@ -62,6 +62,7 @@ export default function UpdateVideos() {
             <div className="text-center rounded-4  border-1 widthCustom mx-auto">
                 <form encType="multipart/form-data" onSubmit={handleSubmit}>
                     <div className=" mb-4">
+                        <label className="py-3" htmlFor="image">برجاء اختيار صورة جديدة</label>
                         <input placeholder=" ادخل الصورة" type="file" className="w-100 p-2" name="image" onChange={handleImageChange} />
                         {isSubmit ? <>
                             {!image ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}

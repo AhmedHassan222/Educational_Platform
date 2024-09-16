@@ -1,16 +1,17 @@
-import { useState } from "react";
-import style from "../../src/Styles/Auth.module.css"
+import { useEffect, useState } from "react";
+import style from "../../src/Styles/Auth.module.css";
 import Cookies from 'js-cookie';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 export default function AddCourse() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [errorForm, seterrorForm] = useState("");
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
     const stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
-    const [name, setName] = useState({ name: "" });
+    const [name, setName] = useState("");
     const [image, setImage] = useState(null);
     const [Isloading, setIsloading] = useState(false);
     const [subcategoryId, setsubcategoryId] = useState(null);
@@ -18,29 +19,36 @@ export default function AddCourse() {
     const [isSubmit, setIsSubmit] = useState(false);
     const validExtensions = ["image/png", "image/jpeg", "image/gif"];
     const formData = new FormData();
+    
     // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     // FUNCTION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    
     // FUNCTION HANDLE IMAGE >>
     const handleImageChange = (e) => {
         const file = Array.from(e.target.files)[0];
         setImage(file);
     };
-    getAllsubCategoryies();
-    async function getAllsubCategoryies() {
+
+    // GET ALL SUB CATEGORIES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    const getAllsubCategoryies = async () => {
         const { data } = await axios.get(`${baseURL}/subcategory`);
         setsubCategoryies(data.Subcategories);
-    }
-    getAllsubCategoryies();
-    //  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    };
+
+    useEffect(() => {
+        getAllsubCategoryies(); // Only call this once when the component mounts
+    }, []);
+
     // HANDLE SUBMIT FORM >>
     const handleSubmit = (e) => {
-        setIsSubmit(true)
+        setIsSubmit(true);
         e.preventDefault();
-        addItem()
+        addItem();
     };
+
     // FUNCTION ADD COURSE
     async function addItem() {
-        setIsloading(true)
+        setIsloading(true);
         formData.append("image", image);
         formData.append("name", name);
         try {
@@ -50,15 +58,18 @@ export default function AddCourse() {
                     "token": `online__${Cookies.get('token')}`
                 }
             }).then((res) => {
-                setIsloading(false)
-                if (res.data.message === "course created successfuly")
-                    navigate('/admin/allCources')
-            })
+                setIsloading(false);
+                if (res.data.message === "course created successfuly") {
+                    navigate('/admin/allCources');
+                }
+            });
         } catch (error) {
-            setIsloading(false)
-            seterrorForm(error)
+            console.log(error)
+            setIsloading(false);
+            seterrorForm(error);
         }
     }
+
 
     // RENDER HTML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
@@ -73,8 +84,8 @@ export default function AddCourse() {
                         </> : ""}
                     </div>
                     <div className=" mb-4">
-                        <input autoComplete="off" placeholder=" اضف  عنوانا للكورس " type="text" className="w-100 p-2" name="name" value={name.name} onChange={(e) => setName(e.target.value)} />
-                        {isSubmit ? name.name === "" ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
+                        <input autoComplete="off" placeholder=" اضف  عنوانا للكورس " type="text" className="w-100 p-2" name="name" value={name} onChange={(e) => setName(e.target.value)} />
+                        {isSubmit ? name === "" ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
                     </div>
                     <div className="my-4">
                         <select className="w-100 p-2 text-muted" autoComplete="off" name="name" onChange={(e) => setsubcategoryId(e.target.value)}  >
