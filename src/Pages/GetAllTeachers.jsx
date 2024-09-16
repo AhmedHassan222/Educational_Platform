@@ -1,27 +1,77 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+
 export default function GetAllTeachers() {
-    const arr = [1,2,3,4,5,6,7,8,9]
+
+    const [errorForm, seterrorForm] = useState("");
+    const [isLoading, setIsloading] = useState(false);
+    const stage = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
+    const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+    const [allTeachers, setallTeachers] = useState([]);
+
+
+    async function deleteItem(id) {
+        setIsloading(true);
+        try {
+            await axios
+                .delete(`${baseURL}/auth/deleteTeacher/?teacherId=${id}`, {
+                    headers: {
+                        token: `online__${Cookies.get("token")}`,
+                    },
+                })
+                .then((res) => {
+                    setIsloading(false);
+                });
+        } catch (error) {
+            seterrorForm(error.message)
+            setIsloading(false);
+        }
+    }
+
+
+    async function getAll() {
+        const { data } = await axios.get(`${baseURL}/auth/teachers`);
+        setallTeachers(data.users)
+    }
+    useEffect(() => {
+        getAll();
+    }, []);
     return <>
         <div className="container py-5">
+            
+        {isLoading ? <div className="bg-white position-fixed start-50 top-50  p-3" style={{ transform: 'translate(-50%, -50%)' }}>
+                <i className="fa fa-spin fa-spinner h3"></i>
+            </div> : ""}
             <table className="table table-striped  table-hover table-bordered">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
+                        <th scope="col">الاسم</th>
+                        <th scope="col">الايميل</th>
+                        <th scope="col">تابع الي</th>
+                        <th scope="col">الرقم التليفون</th>
+                        <th scope="col"> حذف </th>
                     </tr>
                 </thead>
                 <tbody>
-                    {arr.map((item ,index) => <tr key={index}>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
+                    {allTeachers.map((item ,index) => <tr key={index}>
+                        <th scope="row">{index+1}</th>
+                        <td>{item.fullName}</td>
+                        <td>{item.email}</td>
+                        <td>{item.courseId.name} - {stage[item.stage]}</td>
+                        <td>{item.phoneNumber.replace("+2", "")}</td>
+                        <td>
+                            <div className="d-flex ">
+                            <button className="btn btn-sm btn-danger ms-2" onClick={() => { deleteItem(item._id) }}>  حذف</button>
+                            </div> </td>
                     </tr>
                    )}
                 </tbody>
 
             </table>
+            {errorForm.length > 0 ? <p className="text-danger py-1 text-center small"> لديك مشكلة في اخر عملية </p> : ''}
+
         </div>
     </>
 }

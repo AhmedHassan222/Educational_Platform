@@ -2,7 +2,6 @@ import { useState } from "react";
 import style from "../../src/Styles/Auth.module.css"
 import Cookies from 'js-cookie';
 import axios from "axios";
-import Joi from "joi";
 import { useNavigate } from "react-router-dom";
 export default function AddCourse() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
