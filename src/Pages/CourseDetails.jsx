@@ -29,25 +29,15 @@ let navigate=useNavigate()
         setIsloading(true); 
         console.log(id ,{code :code})
         try {
-<<<<<<< HEAD
             await axios.post(`${baseURL}/join/joincourse?courseId=${id}`,{ code: code },
                 {
                     headers: {
                         token: `online__${Cookies.get("token")}`,
                     }
-=======
-            await axios.post(`${baseURL}/join/joincourse?courseId=${id}`, { code: code }, {
-                headers: {
-                    "token": `online__${Cookies.get('token')}`
-                }
             }).then((res) => {
                 if (res.data.message === "Done") {
-
->>>>>>> 44ccd4d200546b62d6c626b958b062f85ca87335
                 }
-            ).then((res)=>{
-                console.log(res)
-            })
+        })
             // if (response.data.message === "Done") {
             //     navigate(`lectures/${userId}`);  // Navigate to course page if successful
             // }
