@@ -35,12 +35,10 @@ export default function GenerateCode() {
     setFormData({
       ...formData,
       [name]: value,
-    });
-    console.log(formData)
+    })
   };
   async function addCodes() {
     setIsloading(true)
-    console.log(formData ,courseId)
     try {
         await axios.post(`${baseURL}/codes/create?courseId=${courseId}`, formData, {
             headers: {
@@ -48,13 +46,11 @@ export default function GenerateCode() {
             }
         }).then((res) => {
             setIsloading(false)
-            console.log(res)
             if (res.data.message === "codes created successfuly") {
                 navigate('/admin/allCodes')
             }
         })
     } catch (error) {
-        console.log(error)
         setIsloading(false)
         seterrorForm(error.message)
     }

@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import mr from "../../src/Assets/Images/download.jpg"
 import mrs from "../../src/Assets/Images/women.jpg"
+import fakeImage from "../../src/Assets/Images/fakeImage.png"
 import style from "../../src/Styles/Teacher.module.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 export default function Teachers() {
-        const arr = [1, 2, 3, 4]
+        const arr = [1]
 
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [allTeachers, setallTeachers] = useState([]);
@@ -29,9 +30,13 @@ export default function Teachers() {
                     </div>
                 </div>)   : arr.map((item,index)=> <div key={index}  className="col-md-4 col-lg-3 placeholder">
                     <div className="border border-1 border-muted py-4 px-3 text-center placeholder">
-                        <img src={''} alt="mr image" className="w-25 rounded-circle" />
-                        <p className="text-muted fw-bold my-3 ">  </p>
-                        <Link to={""} className={`w-100 rounded-2 py-2 text-white ${style.btnOrange} border-0 small nav-link `}> </Link>
+                        <img src={fakeImage} alt="fakeImage" className="w-25 rounded-circle " />
+                            <div class="card-body">
+                                <h5 class="card-title placeholder-glow">
+                                <span class="placeholder col-6"></span>
+                                </h5>
+                            </div>
+                        <Link to={""} className={`w-100 rounded-2 py-2 placeholder  text-white ${style.btnOrange} border-0 small nav-link `}> </Link>
                     </div>
                 </div>)}
 

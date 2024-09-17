@@ -1,10 +1,10 @@
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import style from "../../src/Styles/CourseDetails.module.css"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import Cookies from "js-cookie"
 export default function CourceDetails() {
-
+let navigate=useNavigate()
     const [course, setCourse] = useState([]);
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const { id } = useParams();
@@ -21,30 +21,37 @@ export default function CourceDetails() {
         setCourse(data.data)
     }
     useEffect(() => {
-        window.scroll(0, 0)
-        getCourseById();
-    }, [])
-    useEffect(() => {
         getCourseById();
     }, [course?.length])
     // FUCNTION JOIN COURSE 
     async function joinCourse(e) {
+        e.preventDefault(); 
+        setIsloading(true); 
+        console.log(id ,{code :code})
         try {
-            await axios.post(`${baseURL}/join/joincourse?courseId=${id}`, {code:code}, {
-                headers: {
-                    "token": `online__${Cookies.get('token')}`
+            await axios.post(`${baseURL}/join/joincourse?courseId=${id}`,{ code: code },
+                {
+                    headers: {
+                        token: `online__${Cookies.get("token")}`,
+                    }
                 }
-            }).then((res) => {
-                if(res.data.message==="Done"){
-                    
-                }
+            ).then((res)=>{
+                console.log(res)
             })
+            // if (response.data.message === "Done") {
+            //     navigate(`lectures/${userId}`);  // Navigate to course page if successful
+            // }
+    
         } catch (error) {
-            // console.log(error)
-            seterrorForm(error)
+            console.log(error);  
+            // seterrorForm(error.message); 
         }
+    
+        setIsloading(false); 
     }
-    // pppppML0I6
+    
+    // 7lasyNC1B4 7lasy11Z9F 7lasyU7F85
+    // 7lasyJEKD1 ,7lasyNX1Y2 ,7lasyFCFVC ,7lasyZC0IM
     return <>
         <section className="container py-5 ">
             {course?.length > 0 ? <div className="row g-3">
@@ -58,7 +65,7 @@ export default function CourceDetails() {
                                         <input className="p-2 w-100" type="text" placeholder="ادخل كود الانضمام" name="code" value={code} onChange={(e) => setCode(e.target.value)} />
                                         {isSubmit ? !code ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
                                     </div>
-                                    <button type="submit" className={`w-100 text-white p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>    {isLoading ? <i className="fa-spin fa fa-spinner"></i> : "انضمام"}</button>
+                                    <button   className={`w-100 text-white p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>    {isLoading ? <i className="fa-spin fa fa-spinner"></i> : "انضمام"}</button>
                                     {errorForm ? <p className="text-danger my-4 text-center small">لديك مشكلة في الانضمام</p> : ''}
                                 </form>
                             </div>

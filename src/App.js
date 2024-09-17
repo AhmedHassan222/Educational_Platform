@@ -36,6 +36,7 @@ import GetAllSubCategory from './Pages/GetAllSubCategory';
 import UpdateSubCategory from './Pages/UpdateSubCategory';
 import UpdateCourse from './Pages/UpdateCourse';
 import UpdateVideos from './Pages/UpdateVideos';
+import Lectures from './Pages/Lectures';
 export default function App() {
   const [token, setToken] = useState(Cookies.get('token') ? Cookies.get('token') : null);
   useEffect(() => {
@@ -98,6 +99,7 @@ export default function App() {
             <Route path="/cources/:id" element={<LayoutWithNavbar><CourceDetails /></LayoutWithNavbar>} />
             <Route path="/profile" element={<LayoutWithNavbar><Profile /></LayoutWithNavbar>} />
             <Route path="/mycources" element={<LayoutWithNavbar><MyCources /></LayoutWithNavbar>} />
+            <Route path="/lectures" element={<LayoutWithNavbar><Lectures /></LayoutWithNavbar>} />
             <Route path="/teachers" element={<LayoutWithNavbar><Teachers /></LayoutWithNavbar>} />
             <Route path="/teacher/:id" element={<LayoutWithNavbar><TeacherDetails /></LayoutWithNavbar>} />
             <Route path="/myexam" element={<LayoutWithNavbar><MyExams /></LayoutWithNavbar>} />
