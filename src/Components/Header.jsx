@@ -19,7 +19,8 @@ import "swiper/css/navigation";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import fakeImage from "../../src/Assets/Images/fakeImage.png";
-// import './styles.css';
+import { WOW } from 'wowjs';
+import 'animate.css/animate.min.css';// import './styles.css';
 export default function Header() {
   const [role, setRole] = useState(null)
   const [subcategories, setsubcategories] = useState([]);
@@ -42,7 +43,7 @@ export default function Header() {
   };
   async function getAllTeachers() {
     const { data } = await axios.get(`${baseURL}/auth/teachers`);
-    setallTeachers(data.users)
+    setallTeachers(data.data)
   }
   async function getAll() {
     const { data } = await axios.get(`${baseURL}/subcategory`);
@@ -54,39 +55,43 @@ export default function Header() {
     getAll()
     getAllTeachers()
   }, [Cookies.get('token')])
-
+  useEffect(() => {
+    const wow = new WOW({ live: false });
+    wow.init();
+    console.log(wow)
+  }, []);
   return (
     <>
       <header className="w-100 text-center d-flex  justify-content-center align-items-center">
         <div className={`${style.headerContent} my-4`}>
           <div >
-            <img src={logo} className="w-25" alt="sky academy logo" />
+            <img src={logo} className="w-25 wow animate__animated animate__bounceIn" alt="sky academy logo" />
 
-            <h1 className="mb-4 "> سكاي اونلاين اكاديمي </h1>
-            <p className="  w-md-50 mx-auto">
+            <h1 className="mb-3 "> سكاي اونلاين اكاديمي </h1>
+            <p className="  w-md-50 mx-auto mb-5">
               ﺗﻌﻠﻢ ﺑﺄﺣﺪث اﻟﻄﺮق ﻣﻦ ﺧﻠﺎل ﻣﻨﺼﺘﻨﺎ,ﻓإﻧﻨﺎ ﻧﻮﻓﺮ ﻟﻚ اﻟﻌﺪﻳﺪ ﻣﻦ اﻟﻜﻮرﺳﺎت
               اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ الإعدادية والثانوية, ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.
             </p>
-            {role === "User" ? <Link className={`nav-link text-white rounded-2 fitContent mx-auto my-2 text-center py-2 px-4 ${style.btnOrange}`} to={'/cources'}>تصفح الكورسات </Link>
+            {role === "User" ? <Link className={`nav-link text-white rounded-2 fitContent mx-auto my-2 text-center py-3 px-5 ${style.btnOrange}`} to={'/cources'}>تصفح الكورسات </Link>
               : ""}
           </div>
         </div>
       </header>
       <section className="my-5 py-5 text-center">
         <div className="container">
-          <h3 className="mb-3 h4">
+          <h3 className="mb-4 ">
             اﺳﺘﻜﺸﻒ ﻣﻮاد اﻟﺼﻔﻮف اﻟﺘﻌﻠﻴﻤﻴﺔ اﻟﻤﻮﺟﻮدة ﺑﺎﻟﻤﻨﺼﺔ{" "}
           </h3>
-          <p className="mb-5 h5">
+          <p className="mb-5 h5 small ">
             ﺗﻌﻠﻢ ﺑﺄﺣﺪث اﻟﻄﺮق ﻣﻦ ﺧﻠﺎل ﻣﻨﺼﺘﻨﺎ,ﻓﺄﻧﻨﺎ ﻧﻮﻓﺮ ﻟﻚ اﻟﻌﺪﻳﺪ ﻣﻦ اﻟﻜﻮرﺳﺎت
             اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ اﻟﺜﺎﻧﻮﻳﺔ واﻟﺠﺎﻣﻌﻴﺔ , ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.
           </p>
-          <div className="row gy-4">
-            {subcategories?.length > 0 ? subcategories.map((item, index) => (<div key={index} className="col-md-4">
+          <div className="row gy-4 py-4">
+            {subcategories?.length > 0 ? subcategories.map((item, index) => (<div key={index} className="col-md-4 wow animate__animated animate__bounceI">
               <div className=" border border-1 border-muted  p-3 rounded-2">
                 <h4 className="h6">{stage[item.name]} {grade[item.categoryId?.name]} </h4>
               </div>
-            </div>)) : arr.map((item, index) => (<div key={index} className="col-md-4">
+            </div>)) : arr.map((item, index) => (<div key={index} className="col-md-4 wow animate__animated animate__bounceI">
               <div className="card-text placeholder-glow  border border-1 border-muted  p-3 rounded-2">
                 <h4 className="placeholder col-7  p-2"> </h4>
               </div>
@@ -103,22 +108,22 @@ export default function Header() {
             اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ اﻟﺜﺎﻧﻮﻳﺔ واﻟﺠﺎﻣﻌﻴﺔ , ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.
           </p>
 
-          <div className="row g-3 py-3">
-            <div className="col-md-4 ">
+          <div className="row g-3 py-4">
+            <div className="col-md-4   wow animate__animated animate__bounceInRight"  >
               <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
                 <h4 className="my-4 h5">ﻛﻮرﺳﺎت ﻣﻤﻴﺰة </h4>
-                <img src={feature1} className={` py-3 ${style.feature}`} alt="" />
+                <img src={feature1} className={` py-3 ${style.feature}  `} alt="" />
                 <p className="p-2 small text-muted ">
                   نعمل جاهدين على توفير كافة المواد على المنصة ومن أكثر من مدرس
                   لتتمكنوا من حضور الدرس مع المدرس المفضل لديكم
                 </p>
               </div>
             </div>
-            <div className="col-md-4 ">
+            <div className="col-md-4  wow animate__animated animate__bounceIn"  >
               <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
                 <h4 className="my-4 h5 ">ﻓﻴﺪﻳﻮﻫﺎت ﻋﺎﻟﻴﺔ اﻟﺠﻮدة
                 </h4>
-                <img src={feature2} className={` py-3 ${style.feature}`} alt="" />
+                <img src={feature2} className={` py-3 ${style.feature} `} alt="" />
                 <p className="p-2 small text-muted ">
                   نعمل على إنتاج محتوى عالي الجودة في استديوهاتنا المتخصصة لأجل
                   ضمان عملية تعليمية مريحة خالية من الشوائب
@@ -126,7 +131,7 @@ export default function Header() {
                 <br />
               </div>
             </div>
-            <div className="col-md-4 ">
+            <div className="col-md-4  wow animate__animated animate__bounceInLeft"  >
               <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
                 <h4 className="my-4 h5 ">اﺧﺘﺒﺎرات و واﺟﺒﺎت                </h4>
                 <img src={feature3} className={` py-3 ${style.feature}`} alt="" />
@@ -137,7 +142,7 @@ export default function Header() {
                 <br />
               </div>
             </div>
-            <div className="col-md-4 ">
+            <div className="col-md-4  wow animate__animated animate__bounceInRight"  >
               <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
                 <h4 className="my-4 h5 ">ﺑﻨﻚ اﺳﺄﻟﺔ
                 </h4>
@@ -149,7 +154,7 @@ export default function Header() {
 
               </div>
             </div>
-            <div className="col-md-4 ">
+            <div className="col-md-4  wow animate__animated animate__bounceIn"  >
               <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
                 <h4 className="my-4 h5 ">ﺗﻘﻴﻴﻢ ﻣﺴﺘﻤﺮ
                 </h4>
@@ -163,7 +168,7 @@ export default function Header() {
                 <br />
               </div>
             </div>
-            <div className="col-md-4 ">
+            <div className="col-md-4  wow animate__animated animate__bounceInLeft"  >
               <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
                 <h4 className="my-4 h5 ">تفاعلات                </h4>
                 <img src={feature6} className={` py-3 ${style.feature}`} alt="" />
@@ -183,10 +188,10 @@ export default function Header() {
       <section className="my-5 text-center ">
         <div className="container">
           <div className="my-5">
-            <h3 className="mb-3">ﻧﺨﺒﺔ ﻣﻦ اﻓﻀﻞ ﻣﺪرﺳﻴﻦ اﻟﺜﺎﻧﻮﻳﺔ اﻟﻌﺎﻣﺔ</h3>
+            <h3 className="mb-3">ﻧﺨﺒﺔ ﻣﻦ اﻓﻀﻞ المدرسين  </h3>
             <p>
               ﺗﻌﻠﻢ ﺑﺄﺣﺪث اﻟﻄﺮق ﻣﻦ ﺧﻠﺎل ﻣﻨﺼﺘﻨﺎ,ﻓﺄﻧﻨﺎن ﻧﻮﻓﺮ ﻟﻚ اﻟﻌﺪﻳﺪ ﻣﻦ اﻟﻜﻮرﺳﺎت
-              اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ اﻟﺜﺎﻧﻮﻳﺔ واﻟﺠﺎﻣﻌﻴﺔ , ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ..
+              اﻟﺨﺎﺻﺔ ﺑجميع المراحل التعليمية , ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ..
             </p>
           </div>
           <Swiper
