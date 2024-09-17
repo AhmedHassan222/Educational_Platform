@@ -3,6 +3,7 @@ import style from "../../src/Styles/CourseDetails.module.css"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import Cookies from "js-cookie"
+import fakeImage from "../../src/Assets/Images/fakeImage.png"
 export default function CourceDetails() {
 let navigate=useNavigate()
     const [course, setCourse] = useState([]);
@@ -15,7 +16,6 @@ let navigate=useNavigate()
     const [isSubmit, setIsSubmit] = useState(false);
     const [isLoading, setIsloading] = useState(false)
     const [openForm, setOpenForm] = useState(false);
-
     async function getCourseById() {
         const { data } = await axios.get(`${baseURL}/course?_id=${id}`);
         setCourse(data.data)
@@ -29,11 +29,21 @@ let navigate=useNavigate()
         setIsloading(true); 
         console.log(id ,{code :code})
         try {
+<<<<<<< HEAD
             await axios.post(`${baseURL}/join/joincourse?courseId=${id}`,{ code: code },
                 {
                     headers: {
                         token: `online__${Cookies.get("token")}`,
                     }
+=======
+            await axios.post(`${baseURL}/join/joincourse?courseId=${id}`, { code: code }, {
+                headers: {
+                    "token": `online__${Cookies.get('token')}`
+                }
+            }).then((res) => {
+                if (res.data.message === "Done") {
+
+>>>>>>> 44ccd4d200546b62d6c626b958b062f85ca87335
                 }
             ).then((res)=>{
                 console.log(res)
@@ -86,40 +96,27 @@ let navigate=useNavigate()
                         <Link to={'/teacher'} className="bg-light fitContent p-2 nav-link ">  {course[0].teacher.fullName} </Link>
                     </div>
                 </div>
-            </div> :   
-             <div className="row g-3 placeholder-glow">
-                <div className="col-sm-12 col-md-4 placeholder">
+            </div> : <div className="row g-3">
+                <div className="col-sm-12 col-md-4">
                     <div>
-                        <img src={""} alt={""} className="w-100 rounded-3" />
-                        {openForm ? <div className=" py-2">
-                            <div className="text-center rounded-4  border-1  ">
-                                <form encType="multipart/form-data" >
-                                    <div className=" mb-4">
-                                        <input className="p-2 w-100" type="text" placeholder="ادخل كود الانضمام" name="code" />
-                                        {isSubmit ? !code ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
-                                    </div>
-                                    <button type="submit" className={`w-100 text-white p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>    {isLoading ? <i className="fa-spin fa fa-spinner"></i> : ""}</button>
-                                    {errorForm ? <p className="text-danger my-4 text-center small">لديك مشكلة في الانضمام</p> : ''}
-                                </form>
-                            </div>
-                        </div> : <button onClick={() => setOpenForm(true)} className={`my-4 border-0 w-100 p-2 text-white ${style.btnOrange} rounded-3`}> </button>}
-                        {errorForm ? <p className="text-danger py-1 text-center small"> لديك مشكلة في اخر عملية </p> : ''}
+                        <img src={fakeImage} alt="loading image" className="w-100 rounded-3" />
+                        <button className={`${style.btnOrange} py-4 my-4 w-100 rounded-3 border-0 `}></button>
                     </div>
                 </div>
-                <div className="col-sm-12 col-md-8 placeholder">
-                    <div>
-                        <h3 className=' mb-3'>  </h3>
+                <div className="col-sm-12 col-md-8 p-3 ">
+                    <div className="text-card-top placeholder-glow">
+                        <h3 className=' mb-3 placeholder col-6'> </h3>
                         <div className="d-flex align-items-start mt-2">
-                            <i className="fa-solid fa-play ms-1 pt-1 text-danger "></i>
-                            <p className='text-muted '> محاضرات</p>
+                            <p className='text-muted placeholder col-3'></p>
                         </div>
-                        <div className="d-flex">
-                            <p className="bg-light fitContent p-2 ms-3">  </p>
-                        </div>
-                        <Link to={'/teacher'} className="bg-light fitContent p-2 nav-link ">   </Link>
+                        <h3 className=' mb-3 placeholder col-4'> </h3>
+                        <h3 className=' mb-3 placeholder col-3'> </h3>
+
                     </div>
                 </div>
-            </div> }
+            </div>
+
+            }
         </section>
     </>
 }
