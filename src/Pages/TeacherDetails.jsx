@@ -1,28 +1,42 @@
 import { Link, useParams } from "react-router-dom"
 import mr from "../../src/Assets/Images/mr.jpg"
+import mrs from "../../src/Assets/Images/women.jpg"
 import teacher from "../../src/Assets/Images/teacher.jpg"
+import { useEffect, useState } from "react";
+import axios from "axios";
 export default function TeacherDetails() {
     let {id}= useParams() ;
-    console.log(id)
+    // console.log(id)
+    const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+    const [teacherDetails, setteacherDetails] = useState([]);
+   
+    async function getteacherDetailsById() {
+        const { data } = await axios.get(`${baseURL}/auth/teachers?_id=${id}`);
+        setteacherDetails(data.data)
+    }
+    useEffect(() => {
+        getteacherDetailsById();
+    }, [teacherDetails?.length])
     const classes = [1, 2, 3, 4,5]
     return <>
         <div className="container py-5">
             <div className="row g-3">
-                <div className="col-sm-12 col-md-6 col-lg-4">
+                {teacherDetails.map((teacher,index)=> <div key={index} className="col-sm-12 col-md-6 col-lg-4">
                     <div className="text-center rounded-5 border-1 border border-muted p-5">
-                        <img src={mr} alt="mr image" className="w-25" />
-                        <p className="bg-light  my-4" >استاذ الفيزياء  </p>
-                        <h3 >مستر محمد ابراهيم</h3>
+                        <img src={teacher.image || teacher.gender == "male" ? mr : mrs} alt="mr image" className="w-25" />
+                        <p className="bg-light  my-4" > {teacher.courseId?.name ? teacher.courseId.name :"لا يوجد" }  </p>
+                        <h3 > {teacher.fullName} </h3>
                         <p className="text-muted fs-6">
                             روابط التواصل
                         </p>
                         <div className="d-flex justify-content-center">
-                            <i className="fa-brands fa-whatsapp fs-5 mx-2"></i>
+                            <i className="fa-brands fa-whatsapp fs-5 mx-2"> </i>
                             <i className="fa-solid fa-envelope fs-5 mx-2"></i>
                             <i className="fa-solid fa-phone fs-5 mx-2"></i>
                         </div>
                     </div>
-                </div>
+                </div>)}
+                
                 {classes.map((item, index) => <div key={index} className="col-sm-12 col-md-6 col-lg-4">
                     <div className='border-1 border border-muted rounded-3'>
                         <Link to={`/cources/5`}>

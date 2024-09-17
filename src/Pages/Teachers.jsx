@@ -12,7 +12,7 @@ export default function Teachers() {
 
     async function getAll() {
         const { data } = await axios.get(`${baseURL}/auth/teachers`);
-        setallTeachers(data.users)
+        setallTeachers(data.data)
     }
     useEffect(() => {
         getAll();
@@ -20,7 +20,7 @@ export default function Teachers() {
     return <>
         <div className="container py-5">
             <div className="row g-2">
-                {allTeachers.length > 0 ? allTeachers?.map((item,index) => <div key={index} className="col-md-4 col-lg-3">
+                {allTeachers?.length > 0 ? allTeachers.map((item,index) => <div key={index} className="col-md-4 col-lg-3">
                     <div className="border border-1 border-muted py-4 px-3 text-center">
                         {/* if not image in api  */}
                         <img src={ item.image || item.gender=="male" ? mr : mrs  } alt="mr image" className="w-25 rounded-circle" />
