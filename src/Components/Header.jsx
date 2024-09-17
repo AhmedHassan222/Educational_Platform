@@ -18,13 +18,15 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
-
+import fakeImage from "../../src/Assets/Images/fakeImage.png";
 // import './styles.css';
 export default function Header() {
-  const [role , setRole] = useState(null)
+  const [role, setRole] = useState(null)
   const [subcategories, setsubcategories] = useState([]);
   const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
   const [allTeachers, setallTeachers] = useState([]);
+  const arr = [1, 2, 3]
+  const arr2 = [1, 2, 3, 4, 5, 6]
   let stage = {
     first: "الصف الاول",
     second: " الصف الثاني",
@@ -32,26 +34,26 @@ export default function Header() {
     fourth: "الصف الرابع",
     fifth: "الصف الخامس",
     sixth: "الصف السادس"
-};
-let grade = {
+  };
+  let grade = {
     primary: "الابتدائي",
     preparatory: "الاعدادي ",
     secondary: "الثانوي",
-};
-async function getAllTeachers() {
-  const { data } = await axios.get(`${baseURL}/auth/teachers`);
-  setallTeachers(data.users)
-}
+  };
+  async function getAllTeachers() {
+    const { data } = await axios.get(`${baseURL}/auth/teachers`);
+    setallTeachers(data.users)
+  }
   async function getAll() {
     const { data } = await axios.get(`${baseURL}/subcategory`);
     setsubcategories(data.Subcategories);
   }
-  useEffect(()=>{
-    if(Cookies.get('token'))
+  useEffect(() => {
+    if (Cookies.get('token'))
       setRole(jwtDecode(Cookies.get('token'))?.role)
     getAll()
     getAllTeachers()
-  },[Cookies.get('token')])
+  }, [Cookies.get('token')])
 
   return (
     <>
@@ -80,9 +82,13 @@ async function getAllTeachers() {
             اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ اﻟﺜﺎﻧﻮﻳﺔ واﻟﺠﺎﻣﻌﻴﺔ , ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.
           </p>
           <div className="row gy-4">
-            {subcategories.map((item, index) => (<div key={index} className="col-md-4">
-              <div className=" border border-1 border-muted  p-3 rounded">
-                <h4 className="h6">{stage[item.name]} {grade[item.categoryId.name]} </h4>
+            {subcategories?.length > 0 ? subcategories.map((item, index) => (<div key={index} className="col-md-4">
+              <div className=" border border-1 border-muted  p-3 rounded-2">
+                <h4 className="h6">{stage[item.name]} {grade[item.categoryId?.name]} </h4>
+              </div>
+            </div>)) : arr.map((item, index) => (<div key={index} className="col-md-4">
+              <div className="card-text placeholder-glow  border border-1 border-muted  p-3 rounded-2">
+                <h4 className="placeholder col-7  p-2"> </h4>
               </div>
             </div>))}
           </div>
@@ -91,28 +97,28 @@ async function getAllTeachers() {
 
       <section className="text-center my-5 py-5">
         <div className="container">
-          <h3 className="mb-3 h4">ﺗﻤﺘﻊ ﺑﺄﻓﻀﻞ اﻟﻄﺮق اﻟﺘﻌﻠﻴﻤﻴﺔ ﻣﻦ ﺧﻠﺎل اﻟﻤﻨﺼﺔ</h3>
-          <p className="h6 mb-5">
+          <h3 className="mb-3 ">ﺗﻤﺘﻊ ﺑﺄﻓﻀﻞ اﻟﻄﺮق اﻟﺘﻌﻠﻴﻤﻴﺔ ﻣﻦ ﺧﻠﺎل اﻟﻤﻨﺼﺔ</h3>
+          <p className="h6 mb-5 mt-4">
             ﺗﻌﻠﻢ ﺑﺄﺣﺪث اﻟﻄﺮق ﻣﻦ ﺧﻠﺎل ﻣﻨﺼﺘﻨﺎ,ﻓﺄﻧﻨﺎ ﻧﻮﻓﺮ ﻟﻚ اﻟﻌﺪﻳﺪ ﻣﻦ اﻟﻜﻮرﺳﺎت
             اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ اﻟﺜﺎﻧﻮﻳﺔ واﻟﺠﺎﻣﻌﻴﺔ , ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.
           </p>
 
-          <div className="row g-3">
+          <div className="row g-3 py-3">
             <div className="col-md-4 ">
               <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
                 <h4 className="my-4 h5">ﻛﻮرﺳﺎت ﻣﻤﻴﺰة </h4>
-                <img src={feature1} className="w-25 my-2" alt="" />
+                <img src={feature1} className={` py-3 ${style.feature}`} alt="" />
                 <p className="p-2 small text-muted ">
                   نعمل جاهدين على توفير كافة المواد على المنصة ومن أكثر من مدرس
                   لتتمكنوا من حضور الدرس مع المدرس المفضل لديكم
                 </p>
               </div>
             </div>
-            <div className="col-md-4 my-4">
+            <div className="col-md-4 ">
               <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
-                <h4 className="my-4">ﻓﻴﺪﻳﻮﻫﺎت ﻋﺎﻟﻴﺔ اﻟﺠﻮدة
+                <h4 className="my-4 h5 ">ﻓﻴﺪﻳﻮﻫﺎت ﻋﺎﻟﻴﺔ اﻟﺠﻮدة
                 </h4>
-                <img src={feature2} className="w-25 my-2" alt="" />
+                <img src={feature2} className={` py-3 ${style.feature}`} alt="" />
                 <p className="p-2 small text-muted ">
                   نعمل على إنتاج محتوى عالي الجودة في استديوهاتنا المتخصصة لأجل
                   ضمان عملية تعليمية مريحة خالية من الشوائب
@@ -120,10 +126,10 @@ async function getAllTeachers() {
                 <br />
               </div>
             </div>
-            <div className="col-md-4 my-4">
+            <div className="col-md-4 ">
               <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
-                <h4 className="my-4">اﺧﺘﺒﺎرات و واﺟﺒﺎت                </h4>
-                <img src={feature3} className="w-25 my-2" alt="" />
+                <h4 className="my-4 h5 ">اﺧﺘﺒﺎرات و واﺟﺒﺎت                </h4>
+                <img src={feature3} className={` py-3 ${style.feature}`} alt="" />
                 <p className="p-2 small text-muted">
                   يتم تصميم الأسئلة والواجبات بعناية لضمان المستوى التعليمي لأبنائنا من الطلاب
                 </p>
@@ -131,11 +137,11 @@ async function getAllTeachers() {
                 <br />
               </div>
             </div>
-            <div className="col-md-4 my-4">
+            <div className="col-md-4 ">
               <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
-                <h4 className="my-4">ﺑﻨﻚ اﺳﺄﻟﺔ
+                <h4 className="my-4 h5 ">ﺑﻨﻚ اﺳﺄﻟﺔ
                 </h4>
-                <img src={feature4} className="w-25 my-2" alt="" />
+                <img src={feature4} className={` py-3 ${style.feature}`} alt="" />
                 <p className="p-2 small text-muted">
                   لن تحتاج إلى أي من الكتب الخارجية, لاننا نقوم بتحديث بنك الاسئلة الخاص بنا دوريا بالتعاون مع نخبة من أكبر مدرسين المواد في الجمهورية
 
@@ -143,11 +149,11 @@ async function getAllTeachers() {
 
               </div>
             </div>
-            <div className="col-md-4 my-4">
+            <div className="col-md-4 ">
               <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
-                <h4 className="my-4">ﺗﻘﻴﻴﻢ ﻣﺴﺘﻤﺮ
+                <h4 className="my-4 h5 ">ﺗﻘﻴﻴﻢ ﻣﺴﺘﻤﺮ
                 </h4>
-                <img src={feature5} className="w-25 my-2" alt="" />
+                <img src={feature5} className={` py-3 ${style.feature}`} alt="" />
                 <p className="p-2 small text-muted mt-4">
                   هدفنا طمانتكم ولذلك يقوم فريق كامل من المساعدين بمتابعة مستوى أبنائنا مع أولياء الأمور
 
@@ -157,10 +163,10 @@ async function getAllTeachers() {
                 <br />
               </div>
             </div>
-            <div className="col-md-4 my-4">
+            <div className="col-md-4 ">
               <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
-                <h4 className="my-4">تفاعلات                </h4>
-                <img src={feature6} className="w-25 my-2" alt="" />
+                <h4 className="my-4 h5 ">تفاعلات                </h4>
+                <img src={feature6} className={` py-3 ${style.feature}`} alt="" />
                 <p className="p-2 small text-muted">
                   ابنائنا الطلبة, يهمنا رايكم ولذلك يمكنكم ارسال ارائكم واستفساراتكم على أي جزء خاص في المنصة سواء كان على الواجبات والامتحانات أو حتى عن المنصة
 
@@ -211,16 +217,23 @@ async function getAllTeachers() {
               prevEl: ".swiper-button-prev",
             }}
           >
-            {allTeachers.map((item, index) => (
+            {allTeachers?.length > 0 ? allTeachers.map((item, index) => (
               <SwiperSlide key={index}>
                 <div className=" py-2 itemSlide">
-                  <img src={ item.image || item.gender=="male" ? mr : mrs  } className="w-75  rounded-circle " alt="" />
+                  <img src={item.image || item.gender == "male" ? mr : mrs} className="w-75  rounded-circle " alt="" />
                   <h4 className="my-4 h6">أ/  {item.fullName}</h4>
                   <p className="my-4 small text-primary">
                     <span className="bg-light text-black p-2 rounded">
-                     {item.courseId.name}
+                      {item.courseId?.name}
                     </span>
                   </p>
+                </div>
+              </SwiperSlide>
+            )) : arr2.map((item, index) => (
+              <SwiperSlide key={index}>
+                <div className=" py-2 itemSlide card-text placeholder-glow">
+                  <img src={fakeImage} className="w-75   rounded-circle " alt="Loaing image" />
+                  <h4 className="my-5 p-2 placeholder col-7"></h4>
                 </div>
               </SwiperSlide>
             ))}
