@@ -22,8 +22,15 @@ export default function Navbar() {
                         <li className="nav-item">
                             <Link className="nav-link small " to={'/profile'}> الملف الشخصي</Link>
                         </li>
-                        <li className="nav-item">
-                            <Link className="nav-link small " to={'/mycources'}>  دوراتي</Link>
+                        <li className="nav-item d-flex ">
+                            <Link className="nav-link small " to={'/mycources'}>
+                                <div className="d-flex align-items-center">
+                                    دوراتي
+                                    <span className={`badge ${style.btnOrange} ms-2 me-1`} style={{ fontSize: '0.8rem' }}>
+                                        5
+                                    </span>
+                                </div>
+                            </Link>
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link small " to={'/teachers'}> المعلمين </Link>

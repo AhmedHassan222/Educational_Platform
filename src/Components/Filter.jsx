@@ -50,6 +50,11 @@ export default function Filter() {
                     </div>) : <div className="text-center p-5"><i className="fa fa-spin fa-spinner"></i></div>}
                 </div> : ""}
             </div>
+            <div className="d-flex flex-nowrap align-items-center">
+                <button className={`  w-75 mx-3 text-white btn ${style.btnOrange} my-2`}> بحث</button>
+                <span className={` w-25 mx-3 text-danger`}> الغاء</span>
+            </div>
+
         </div>
     </>
 }
