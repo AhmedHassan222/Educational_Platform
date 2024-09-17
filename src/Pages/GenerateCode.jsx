@@ -50,7 +50,7 @@ export default function GenerateCode() {
             setIsloading(false)
             console.log(res)
             if (res.data.message === "codes created successfuly") {
-                navigate('admin/allCodes')
+                navigate('/admin/allCodes')
             }
         })
     } catch (error) {

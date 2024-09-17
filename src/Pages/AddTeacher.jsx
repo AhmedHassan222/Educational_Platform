@@ -82,7 +82,7 @@ export default function AddTeacher() {
                 }
             }).then((response) => {
                 if(response.data.message === "Done,please try to Login"){
-                    navigate('admin/allTeachers')
+                    navigate('/admin/allTeachers')
                     
                 }else{
                     Cookies.set("token", response.data.refreshToken)

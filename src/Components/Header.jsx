@@ -21,7 +21,6 @@ import axios from "axios";
 
 // import './styles.css';
 export default function Header() {
-  const [Classes, setClasses] = useState([1, 2, 3, 4, 5, 6]);
   const [role , setRole] = useState(null)
   const [subcategories, setsubcategories] = useState([]);
   const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
