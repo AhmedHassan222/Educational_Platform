@@ -16,7 +16,7 @@ export default function MyCources() {
                 {errorFromJoin? <p className='py-2 text-danger'>لديك مشكلة</p>  :""}
                 {myCourse?.length > 0 ? myCourse?.map((course, index) => course.coursesIds === null ? "" : <div key={index} className="col-6 col-sm-6 col-md-4">
                     <div className='border-1 border border-muted rounded-3'>
-                        <Link to={`/lectures`}>
+                        <Link to={`/lectures/${course.coursesIds.id}`}>
                             <div >
                                 <img src={course?.coursesIds?.photo?.secure_url} alt={course?.coursesIds?.name} className='w-100' />
                             </div>

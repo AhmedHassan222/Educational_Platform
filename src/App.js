@@ -38,7 +38,6 @@ import UpdateCourse from './Pages/UpdateCourse';
 import UpdateVideos from './Pages/UpdateVideos';
 import Lectures from './Pages/Lectures';
 import MyCoursesProvide from './Contexts/MyCoursesContext';
-import FilterContextProvide from './Contexts/FilterContext';
 export default function App() {
   const [token, setToken] = useState(Cookies.get('token') ? Cookies.get('token') : null);
   useEffect(() => {
@@ -92,63 +91,58 @@ export default function App() {
 
 
   return (
-    <FilterContextProvide>
-      <MyCoursesProvide>
-        <Router>
-          <Routes>
-            {/* User Routes */}
-            {token && (jwtDecode(token).role === "User" && (<>
-              <Route path="/cources" element={token && jwtDecode(token).role === "User" ? <LayoutWithNavbar><Cources /></LayoutWithNavbar> : ''} />
-              <Route path="/cources/:id" element={<LayoutWithNavbar><CourceDetails /></LayoutWithNavbar>} />
-              <Route path="/profile" element={<LayoutWithNavbar><Profile /></LayoutWithNavbar>} />
-              <Route path="/mycources" element={<LayoutWithNavbar><MyCources /></LayoutWithNavbar>} />
-              <Route path="/lectures" element={<LayoutWithNavbar><Lectures /></LayoutWithNavbar>} />
-              <Route path="/teachers" element={<LayoutWithNavbar><Teachers /></LayoutWithNavbar>} />
-              <Route path="/teacher/:id" element={<LayoutWithNavbar><TeacherDetails /></LayoutWithNavbar>} />
-              <Route path="/myexam" element={<LayoutWithNavbar><MyExams /></LayoutWithNavbar>} />
-              <Route path="/wallet" element={<LayoutWithNavbar><Wallet /></LayoutWithNavbar>} />
-            </>))}
+    <MyCoursesProvide>
+      <Router>
+        <Routes>
+          {/* User Routes */}
+          {token && (jwtDecode(token).role === "User" && (<>
+            <Route path="/cources" element={token && jwtDecode(token).role === "User" ? <LayoutWithNavbar><Cources /></LayoutWithNavbar> : ''} />
+            <Route path="/cources/:id" element={<LayoutWithNavbar><CourceDetails /></LayoutWithNavbar>} />
+            <Route path="/profile" element={<LayoutWithNavbar><Profile /></LayoutWithNavbar>} />
+            <Route path="/mycources" element={<LayoutWithNavbar><MyCources /></LayoutWithNavbar>} />
+            <Route path="/lectures:id" element={<LayoutWithNavbar><Lectures /></LayoutWithNavbar>} />
+            <Route path="/teachers" element={<LayoutWithNavbar><Teachers /></LayoutWithNavbar>} />
+            <Route path="/teacher/:id" element={<LayoutWithNavbar><TeacherDetails /></LayoutWithNavbar>} />
+            <Route path="/myexam" element={<LayoutWithNavbar><MyExams /></LayoutWithNavbar>} />
+            <Route path="/wallet" element={<LayoutWithNavbar><Wallet /></LayoutWithNavbar>} />
+          </>))}
 
 
-            {/* Admin Routes */}
-            {token && (jwtDecode(token).role === "Teacher" && (<Route path="/teacherAdmin" element={<LayoutWithNavbar><Outlet /></LayoutWithNavbar>}>
-              <Route index element={<AdminPage />} />
-              <Route path="addVideo" element={<AddVideo />} />
-              <Route path="allVideos" element={<GetAllVideos />} />
-              <Route path="updateVideos/:title/:id" element={<UpdateVideos />} />
-            </Route>))}
+          {/* Admin Routes */}
+          {token && (jwtDecode(token).role === "Teacher" && (<Route path="/teacherAdmin" element={<LayoutWithNavbar><Outlet /></LayoutWithNavbar>}>
+            <Route index element={<AdminPage />} />
+            <Route path="addVideo" element={<AddVideo />} />
+            <Route path="allVideos" element={<GetAllVideos />} />
+            <Route path="updateVideos/:title/:id" element={<UpdateVideos />} />
+          </Route>))}
 
 
-            {/* Super Admin Routes */}
-            {token && (jwtDecode(token).role === "Admin" && (<Route path="/admin" element={<LayoutWithNavbar><Outlet /></LayoutWithNavbar>}>
-              <Route index element={<SuperAdminPage />} />
-              <Route path="addTeacher" element={<AddTeacher />} />
-              <Route path="addCategory" element={<AddCategory />} />
-              <Route path="addCourse" element={<AddCourse />} />
-              <Route path="generateCode" element={<GenerateCode />} />
-              <Route path="allCodes" element={<GetAllCodes />} />
-              <Route path="allTeachers" element={<GetAllTeachers />} />
-              <Route path="updatecategory/:name/:id" element={<UpdatedCategory />} />
-              <Route path="updatesubcategory/:name/:id" element={<UpdateSubCategory />} />
-              <Route path="updatecourse/:nameCourse/:id" element={<UpdateCourse />} />
-              <Route path="allCources" element={<GetAllCources />} />
-              <Route path="allCategories" element={<GetAllCategories />} />
-              <Route path="addSubCategory" element={<AddSubCategory />} />
-              <Route path="allSubCategories" element={<GetAllSubCategory />} />
-            </Route>))}
-            {/* Public Routes */}
-            {!token && (<>
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/reset-password" element={< ResetPassword />} /></>)}
-            <Route path="/" element={<LayoutWithNavbar><HomePage /></LayoutWithNavbar>} />
-            <Route path="*" element={<LayoutWithNavbar><NotfoundPage /></LayoutWithNavbar>} />
-          </Routes>
-        </Router>
-      </MyCoursesProvide>
-    </FilterContextProvide>
-
+          {/* Super Admin Routes */}
+          {token && (jwtDecode(token).role === "Admin" && (<Route path="/admin" element={<LayoutWithNavbar><Outlet /></LayoutWithNavbar>}>
+            <Route index element={<SuperAdminPage />} />
+            <Route path="addTeacher" element={<AddTeacher />} />
+            <Route path="addCategory" element={<AddCategory />} />
+            <Route path="addCourse" element={<AddCourse />} />
+            <Route path="generateCode" element={<GenerateCode />} />
+            <Route path="allCodes" element={<GetAllCodes />} />
+            <Route path="allTeachers" element={<GetAllTeachers />} />
+            <Route path="updatecategory/:name/:id" element={<UpdatedCategory />} />
+            <Route path="updatesubcategory/:name/:id" element={<UpdateSubCategory />} />
+            <Route path="updatecourse/:nameCourse/:id" element={<UpdateCourse />} />
+            <Route path="allCources" element={<GetAllCources />} />
+            <Route path="allCategories" element={<GetAllCategories />} />
+            <Route path="addSubCategory" element={<AddSubCategory />} />
+            <Route path="allSubCategories" element={<GetAllSubCategory />} />
+          </Route>))}
+          {/* Public Routes */}
+          {!token && (<>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/reset-password" element={< ResetPassword />} /></>)}
+          <Route path="/" element={<LayoutWithNavbar><HomePage /></LayoutWithNavbar>} />
+          <Route path="*" element={<LayoutWithNavbar><NotfoundPage /></LayoutWithNavbar>} />
+        </Routes>
+      </Router>
+    </MyCoursesProvide>
   );
 }
-
-

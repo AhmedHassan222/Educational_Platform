@@ -1,21 +1,24 @@
 import React, { useEffect } from 'react'
 import teacher from "../../src/Assets/Images/teacher.jpg"
+import { useParams } from 'react-router-dom'
 
 export default function Lectures() {
     let arr=[1,2,3,4]
+    let {_id}=useParams();
+    console.log(_id)
 
     useEffect(() => {
-      document.addEventListener('contextmenu', (e) => e.preventDefault());
-        document.onkeydown = function (e) {                                                     // console                  // View source             // saving 
-          if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') ||e.ctrlKey && e.shiftKey && e.key === "J" || e.ctrlKey && e.key === "u" ||e.ctrlKey && e.key === "s" ||e.key === "PrintScreen") {
-            e.preventDefault()
-            return false;
-          }
-        };
-        return () => {
-          document.removeEventListener('contextmenu', () => {});
-          document.onkeydown = null;
-        };
+      // document.addEventListener('contextmenu', (e) => e.preventDefault());
+      //   document.onkeydown = function (e) {                                                     // console                  // View source             // saving 
+      //     if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') ||e.ctrlKey && e.shiftKey && e.key === "J" || e.ctrlKey && e.key === "u" ||e.ctrlKey && e.key === "s" ||e.key === "PrintScreen") {
+      //       e.preventDefault()
+      //       return false;
+      //     }
+      //   };
+      //   return () => {
+      //     document.removeEventListener('contextmenu', () => {});
+      //     document.onkeydown = null;
+      //   };
     }, [])
     
   return <>
