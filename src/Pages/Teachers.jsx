@@ -40,8 +40,6 @@ export default function Teachers() {
                     </div>
                 </div>)}
 
-                {/* //  <div className="text-center"> <i className="fa fs-1 fa-spinner   fa-spin "></i> </div>  */}
-
             </div>
         </div>
     </>
