@@ -37,6 +37,7 @@ import UpdateSubCategory from './Pages/UpdateSubCategory';
 import UpdateCourse from './Pages/UpdateCourse';
 import UpdateVideos from './Pages/UpdateVideos';
 import Lectures from './Pages/Lectures';
+import MyCoursesProvide from './Contexts/MyCoursesContext';
 export default function App() {
   const [token, setToken] = useState(Cookies.get('token') ? Cookies.get('token') : null);
   useEffect(() => {
@@ -90,7 +91,7 @@ export default function App() {
 
 
   return (
-    <CRUDContextProvide>
+    <MyCoursesProvide>
       <Router>
         <Routes>
           {/* User Routes */}
@@ -142,7 +143,7 @@ export default function App() {
           <Route path="*" element={<LayoutWithNavbar><NotfoundPage /></LayoutWithNavbar>} />
         </Routes>
       </Router>
-    </CRUDContextProvide>
+    </MyCoursesProvide>
   );
 }
 

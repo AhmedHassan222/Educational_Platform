@@ -6,7 +6,7 @@ import style from "../../src/Styles/Teacher.module.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 export default function Teachers() {
-        const arr = [1]
+    const arr = [1, 2, 3, 4]
 
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [allTeachers, setallTeachers] = useState([]);
@@ -21,22 +21,22 @@ export default function Teachers() {
     return <>
         <div className="container py-5">
             <div className="row g-2">
-                {allTeachers?.length > 0 ? allTeachers.map((item,index) => <div key={index} className="col-md-4 col-lg-3">
+                {allTeachers?.length > 0 ? allTeachers.map((item, index) => <div key={index} className="col-md-4 col-lg-3">
                     <div className="border border-1 border-muted py-4 px-3 text-center">
                         {/* if not image in api  */}
-                        <img src={ item.image || item.gender=="male" ? mr : mrs  } alt="mr image" className="w-25 rounded-circle" />
+                        <img src={item.image || item.gender == "male" ? mr : mrs} alt="mr image" className="w-25 rounded-circle" />
                         <p className="text-muted fw-bold my-3"> {item.fullName} </p>
                         <Link to={`/teacher/${item._id} `} className={`w-100 rounded-2 py-2 text-white ${style.btnOrange} border-0 small nav-link`}>ملف المعلم</Link>
                     </div>
-                </div>)   : arr.map((item,index)=> <div key={index}  className="col-md-4 col-lg-3 placeholder">
-                    <div className="border border-1 border-muted py-4 px-3 text-center placeholder">
+                </div>) : arr.map((item, index) => <div key={index} className="col-md-4 col-lg-3 ">
+                    <div className="border border-1 border-muted py-4 px-3 text-center ">
                         <img src={fakeImage} alt="fakeImage" className="w-25 rounded-circle " />
-                            <div class="card-body">
-                                <h5 class="card-title placeholder-glow">
+                        <div class="card-body">
+                            <h5 class="card-title placeholder-glow my-3">
                                 <span class="placeholder col-6"></span>
-                                </h5>
-                            </div>
-                        <Link to={""} className={`w-100 rounded-2 py-2 placeholder  text-white ${style.btnOrange} border-0 small nav-link `}> </Link>
+                            </h5>
+                        </div>
+                        <Link to={""} className={`w-100 rounded-2 py-3 placeholder  text-white ${style.btnOrange} border-0 small nav-link `}> </Link>
                     </div>
                 </div>)}
 

@@ -1,9 +1,11 @@
 import style from "../Styles/Nav.module.css"
 import logo from "../../src/Assets/Images/logo.png"
 import { Link } from "react-router-dom"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { MyCoursesContext } from "../Contexts/MyCoursesContext"
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false)
+    const {numberOfCourses} = useContext(MyCoursesContext)
     return <>
         <nav className="navbar navbar-expand-lg  navbar-light  py-2 bg-white">
             <div className="container">
@@ -27,7 +29,7 @@ export default function Navbar() {
                                 <div className="d-flex align-items-center">
                                     دوراتي
                                     <span className={`badge ${style.btnOrange} ms-2 me-1`} style={{ fontSize: '0.8rem' }}>
-                                        5
+                                        {numberOfCourses}
                                     </span>
                                 </div>
                             </Link>

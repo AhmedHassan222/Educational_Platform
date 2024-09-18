@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 export default function Cources() {
 
-    const arr = [1, 2, 3, 4, 5, 6, 7, 8]
+    const arr = [1, 2, 3, 4, 5, 6]
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
     const stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };

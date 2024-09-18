@@ -4,12 +4,12 @@ import mrs from "../../src/Assets/Images/women.jpg"
 import { useEffect, useState } from "react";
 import axios from "axios";
 export default function TeacherDetails() {
-    let {id}= useParams() ;
+    let { id } = useParams();
     // console.log(id)
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [teacherDetails, setteacherDetails] = useState([]);
     const stage = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
-  
+
     async function getteacherDetailsById() {
         const { data } = await axios.get(`${baseURL}/auth/teachers?_id=${id}`);
         setteacherDetails(data.data)
@@ -17,41 +17,36 @@ export default function TeacherDetails() {
     useEffect(() => {
         getteacherDetailsById();
     }, [teacherDetails?.length])
-    const classes = [1, 2, 3, 4,5]
+    const classes = [1, 2, 3, 4, 5]
     return <>
         <div className="container py-5">
             <div className="row g-3">
-                {teacherDetails.map((item,index)=> <div key={index} className="col-sm-12 col-md-6 col-lg-4">
+                {teacherDetails.map((item, index) => <div key={index} className="col-sm-12 col-md-6 col-lg-4">
                     <div className="text-center rounded-5 border-1 border border-muted p-5">
                         <img src={item.image || item.gender == "male" ? mr : mrs} alt="mr image" className="w-25" />
-                        <p className="bg-light  my-4" > {item.courseId?.name ? item.courseId.name :"لا يوجد" }  </p>
+                        <p className="bg-light  my-4" > {item.courseId?.name ? item.courseId.name : "لا يوجد"}  </p>
                         <h3 > {item.fullName} </h3>
                         <p className="text-muted fs-6">
                             روابط التواصل
                         </p>
                         <div >
                             <table>
-                              <tbody>
-                              <tr>
-                                    <td> <i className="fa-brands fa-whatsapp fs-5 mx-2"> </i>: {item.phoneNumber.replace("+2", "")}</td>
-                                </tr>
-                                <tr>
-                                    <td> <i className="fa-solid fa-envelope fs-5 mx-2"></i>: {item.email}</td>
-                                </tr>
-                                <tr>
-                                    <td> <i className="fa-solid fa-phone fs-5 mx-2"></i>: {item.phoneNumber.replace("+2", "")}</td>
-                                </tr>
-                                
-                              </tbody>
+                                <tbody>
+                                    <tr>
+                                        <td> <i className="fa-brands fa-whatsapp fs-5 mx-2"> </i>: {item.phoneNumber.replace("+2", "")}</td>
+                                    </tr>
+                                    <tr>
+                                        <td> <i className="fa-solid fa-envelope fs-5 mx-2"></i>: {item.email}</td>
+                                    </tr>
+                                    <tr>
+                                        <td> <i className="fa-solid fa-phone fs-5 mx-2"></i>: {item.phoneNumber.replace("+2", "")}</td>
+                                    </tr>
+                                </tbody>
                             </table>
-                           
-                            
-                            
                         </div>
                     </div>
                 </div>)}
-                
-                {teacherDetails.map((item, index) => <div key={index} className="col-sm-12 col-md-6 col-lg-4">
+                {teacherDetails.map((item, index) => <div key={index} className="col-sm-12 col-md-6 col-lg-4 text-center">
                     <div className='border-1 border border-muted rounded-3'>
                         <Link to={`/cources/${item.courseId?.id}`}>
                             <img src={item.image || item.gender == "male" ? mr : mrs} alt="teacher image" className='w-100' />
