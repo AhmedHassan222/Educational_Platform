@@ -38,24 +38,14 @@ export default function CourceDetails() {
                     }
                 }).then((res) => {
                     if (res.data.message === "Done")
-                        setIsloading(false);
-                    if (res.data.message === "Done") {
-                    }
+                        navigate('/mycources')
                 })
-            // if (response.data.message === "Done") {
-            //     navigate(`lectures/${userId}`);  // Navigate to course page if successful
-            // }
-
         } catch (error) {
-            console.log(error);
             setIsloading(false);
-            // seterrorForm(error.message); 
+            seterrorForm(error.message); 
         }
-
     }
 
-    // 7lasyNC1B4 7lasy11Z9F 7lasyU7F85
-    // 7lasyJEKD1 ,7lasyNX1Y2 ,7lasyFCFVC ,7lasyZC0IM
     const handleChange = (e) => {
         const { name, value } = e.target;
         setDataAdded({
@@ -89,7 +79,7 @@ export default function CourceDetails() {
                                         <input className="p-2  w-100" type="text" placeholder="ادخل كود الانضمام" name="code" value={dataAdded.code} onChange={handleChange} />
                                         {isSubmit ? !dataAdded.code ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
                                     </div>
-                                    <button className={` text-white py-2 px-5 border-0 rounded-2 ${style.btnOrange} my-3   `}>    {isLoading ? <i className="fa-spin fa fa-spinner"></i> : "انضمام"}</button>
+                                    <button className={` text-white py-2 px-3 small border-0 rounded-2 ${style.btnOrange} my-2 btn-sm   `}>    {isLoading ? <i className="fa-spin fa fa-spinner"></i> : "انضمام"}</button>
                                     {errorForm ? <p className="text-danger my-4 text-center small">لديك مشكلة في الانضمام</p> : ''}
                                 </form>
                             </div>
