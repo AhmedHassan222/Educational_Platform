@@ -23,11 +23,8 @@ export default function FilterContextProvide(props) {
             setError(error.message);
         }
     }
-
     useEffect(() => {
         search();
-
-
     }, [grade, stage, course, wordSearch])
     return <FilterContext.Provider value={{ wordSearch, setWordSearch, stage, setStage, course, setCourse, grade, setGrade ,filterCourses , error }}>
         {props.children}

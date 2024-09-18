@@ -25,6 +25,7 @@ export default function Cources() {
     useEffect(() => {
         window.scroll(0,0)
         getAll();
+        setDisplayCourses(courses);
     }, [])
     useEffect(() => {
         setDisplayCourses(filterCourses?.length > 0 ? filterCourses : courses)
