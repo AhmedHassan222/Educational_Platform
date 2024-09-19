@@ -14,38 +14,51 @@ export default function Cources() {
     const [courses, setCourses] = useState([]);
     const [errorForm, seterrorForm] = useState([]);
     const [dispalyCourses, setDisplayCourses] = useState([]);
-    const [totalPages, setTotalPages] = useState(0);
-    const [currentPage, setCurrentPage] = useState(1);
     const { stageName, gradeFilterName, setStage, setGrade, error, filterCourses, setGradeName, setStageName, setWordSearch } = useContext(FilterContext);
-    async function getAll(numberOfPage) {
-        console.log(numberOfPage)
+    const [isLoading, setIsloading] = useState(false);
+
+    const [totalPages, setTotalPages] = useState();
+    const [currentPage, setCurrentPage] = useState(1); 
+    const [recordPerPage, setrecordPerPage] = useState(); 
+    const lastIndex=currentPage * recordPerPage ;
+    const fristIndex=lastIndex - recordPerPage ;
+   
+    async function getAll(Page) {
+        setIsloading(true)
         try {
-            const { data } = await axios.get(`${baseURL}/course?page=${numberOfPage}`);
+            const { data } = await axios.get(`${baseURL}/course?page=${Page}`);
             setCourses(data.data);
-            setTotalPages(data.paginationInfo.totalPages) // 2
+            setIsloading(false)
+            setTotalPages(data.paginationInfo.totalPages)
+            setrecordPerPage(data.paginationInfo.perPages)
         } catch (error) {
             seterrorForm(error.message)
         }
     }
     // FUNCTION NEXT 
-    function next() {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1)
-            getAll(currentPage)
-        }
+    function prePage(){
+        setIsloading(true)
+       if(currentPage >1 ){
+        setCurrentPage(currentPage - 1);
+        getAll(currentPage-1)
+        setIsloading(false)
+       }
     }
-    function prev() {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1)
-            getAll(currentPage)
+    function nextPage(){
+        setIsloading(true)
+        if(currentPage < totalPages){
+            setCurrentPage(currentPage + 1);
+            getAll(currentPage+1)
+            setIsloading(false)
         }
     }
 
     // FUNCTION PREV
     useEffect(() => {
+        window.scroll(0,0)
         getAll(currentPage);
         setDisplayCourses(courses);
-    }, [currentPage])
+    }, [courses?.length])
     function resetFilter() {
         setGrade('');
         setStage('');
@@ -58,6 +71,9 @@ export default function Cources() {
     }, [filterCourses])
     return <>
         <section className="py-5 container ">
+        {isLoading ? <div className=" position-fixed start-50 text-light top-50  p-3" style={{ transform: 'translate(-50%, -50%)' ,backgroundColor: 'rgba(0,0,0,0.6)'}}>
+                <i className="fa fa-spin fa-spinner h3"></i>
+            </div> : ""}
             <div className="row g-3 ">
                 <div className="col-lg-3">
                     <Filter />
@@ -118,12 +134,16 @@ export default function Cources() {
                         }
                     </div>
                 </div>
-                <div className='d-flex justify-content-center my-5'>
-                    <button disabled={currentPage === 1} className={`text-white border-0 small p-2  ${style.btnOrange} `} onClick={prev}>السابق</button>
-                    {/* looping */}
-                    {arr.map((item, index) => <span onClick={()=>getAll(item)} className='border border-muted p-2' key={index}>{item}</span>)}
-                    <button disabled={currentPage === totalPages} className={`text-white border-0 small p-2 ${style.btnOrange} `} onClick={next}>التالي</button>
-                </div>
+                        {/* pagination */}
+                    {totalPages >1 ?   <div className=' p-2 text-center d-flex justify-content-center'>
+
+                <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
+                        السابق
+                </button> 
+                <button   onClick={nextPage}className='btn btn-primary mx-2' disabled={currentPage === totalPages}>
+                التالي  
+                </button>
+                    </div> :"" }    
             </div>
         </section>
     </>

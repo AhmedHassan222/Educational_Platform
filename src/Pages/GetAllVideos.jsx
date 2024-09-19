@@ -61,12 +61,16 @@ export default function GetAllVideos() {
     }
 
     const getAllLecture = async(page)=> {
+       try {
         setIsloading(true)
         const { data } = await axios.get(`${baseURL}/lecture?page=${page}`);
         setlectures(data.data)
         setIsloading(false)
         setTotalPages(data.paginationInfo.totalPages)
         setrecordPerPage(data.paginationInfo.perPages)
+       } catch (error) {
+        seterrorForm(error.message)
+       }
         }
     useEffect(() => {
         window.scroll(0,0)
