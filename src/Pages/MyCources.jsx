@@ -14,7 +14,7 @@ export default function MyCources() {
         <section className="py-5 container ">
             <div className="row g-3 ">
                 {errorFromJoin? <p className='py-2 text-danger'>لديك مشكلة</p>  :""}
-                {myCourse?.length > 0 ? myCourse?.map((course, index) => course.coursesIds === null ? "" : <div key={index} className="col-6 col-sm-6 col-md-4">
+                {myCourse?.length > 0 ? myCourse?.map((course, index) => course.coursesIds === null ? "" : <div key={index} className="col-6 col-sm-6 col-md-4 col-lg-3">
                     <div className='border-1 border border-muted rounded-3'>
                         <Link to={`/lectures/${course.coursesIds.id}`}>
                             <div >

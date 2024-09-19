@@ -3,6 +3,7 @@ import fakeImage from "../../src/Assets/Images/fakeImage.png"
 import { Link } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import style from "../../src/Styles/CourseDetails.module.css"
 import { FilterContext } from '../Contexts/FilterContext';
 export default function Cources() {
 
@@ -12,21 +13,46 @@ export default function Cources() {
     const stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
     const [courses, setCourses] = useState([]);
     const [errorForm, seterrorForm] = useState([]);
-    const { filterCourses, error } = useContext(FilterContext)
     const [dispalyCourses, setDisplayCourses] = useState([]);
-    async function getAll() {
+    const [totalPages, setTotalPages] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const { stageName, gradeFilterName, setStage, setGrade, error, filterCourses, setGradeName, setStageName, setWordSearch } = useContext(FilterContext);
+    async function getAll(numberOfPage) {
+        console.log(numberOfPage)
         try {
-            const { data } = await axios.get(`${baseURL}/course`);
+            const { data } = await axios.get(`${baseURL}/course?page=${numberOfPage}`);
             setCourses(data.data);
+            setTotalPages(data.paginationInfo.totalPages) // 2
         } catch (error) {
             seterrorForm(error.message)
         }
     }
+    // FUNCTION NEXT 
+    function next() {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1)
+            getAll(currentPage)
+        }
+    }
+    function prev() {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1)
+            getAll(currentPage)
+        }
+    }
+
+    // FUNCTION PREV
     useEffect(() => {
-        window.scroll(0,0)
-        getAll();
+        getAll(currentPage);
         setDisplayCourses(courses);
-    }, [])
+    }, [currentPage])
+    function resetFilter() {
+        setGrade('');
+        setStage('');
+        setWordSearch('');
+        setGradeName('');
+        setStageName('');
+    }
     useEffect(() => {
         setDisplayCourses(filterCourses?.length > 0 ? filterCourses : courses)
     }, [filterCourses])
@@ -37,8 +63,24 @@ export default function Cources() {
                     <Filter />
                 </div>
                 <div className="col-lg-9  ">
-                    <div className="row g-3">
-
+                    {gradeFilterName || stageName ? <div className="d-flex w-100 mb-4 align-items-center">
+                        {gradeFilterName ? <div className=" ">
+                            <div className="d-flex bg-light justify-content-between py-2  px-2 small align-items-center">
+                                <span className="ms-4 ">{gradeFilterName}</span>
+                                <i onClick={() => { setGrade(''); setGradeName('') }} className='fa-solid fa-x '></i>
+                            </div>
+                        </div> : ''}
+                        {stageName ? <div className=" ">
+                            <div className="d-flex bg-light mx-3 justify-content-between py-2  px-2 small align-items-center">
+                                <span className="mx-4">{stageName}</span>
+                                <i onClick={() => { setStage(''); setStageName('') }} className='fa-solid fa-x '></i>
+                            </div>
+                        </div> : ''}
+                        < div className="text-start" >
+                            <span onClick={resetFilter} className={`mx-3 py-2 px-2 small text-danger`}> الغاء كل الفلاتر</span>
+                        </div >
+                    </div> : ""}
+                    <div className="row g-3 mt-1">
                         {errorForm.length > 0 || error ? <p className="text-danger py-1 text-center small"> يوجد مشكلة  </p> : ''}
                         {dispalyCourses?.length > 0 ? dispalyCourses?.map((item, index) => <div key={index} className="col-6 col-sm-6 col-md-4">
                             <div className='border-1 border border-muted rounded-3'>
@@ -75,6 +117,12 @@ export default function Cources() {
                         </div>)
                         }
                     </div>
+                </div>
+                <div className='d-flex justify-content-center my-5'>
+                    <button disabled={currentPage === 1} className={`text-white border-0 small p-2  ${style.btnOrange} `} onClick={prev}>السابق</button>
+                    {/* looping */}
+                    {arr.map((item, index) => <span onClick={()=>getAll(item)} className='border border-muted p-2' key={index}>{item}</span>)}
+                    <button disabled={currentPage === totalPages} className={`text-white border-0 small p-2 ${style.btnOrange} `} onClick={next}>التالي</button>
                 </div>
             </div>
         </section>

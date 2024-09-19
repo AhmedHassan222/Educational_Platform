@@ -103,7 +103,7 @@ input::placeholder {
 }
 
 
-span:hover 
+span:hover , i:hover 
 {
   cursor: pointer;
 }

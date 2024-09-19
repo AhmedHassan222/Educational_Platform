@@ -1,7 +1,7 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
-import { createContext, useState } from "react"
+import { createContext, useEffect, useState } from "react"
 export let MyCoursesContext = createContext(0)
 export default function MyCoursesProvide(props) {
     const [myCourse, setmyCourse] = useState([])
@@ -20,6 +20,9 @@ export default function MyCoursesProvide(props) {
             setErrorFromJoin(error.message)
         }
     }
+    useEffect(()=>{
+        localStorage.setItem("numberOfCourses",numberOfCourses)
+    },[numberOfCourses])
     return <MyCoursesContext.Provider value={{ myCourse, getAllcoursesByUser, numberOfCourses ,errorFromJoin }}>
         {props.children}
     </MyCoursesContext.Provider>
