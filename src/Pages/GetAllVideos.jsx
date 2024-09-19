@@ -16,8 +16,8 @@ export default function GetAllVideos() {
     const [recordPerPage, setrecordPerPage] = useState(); 
     const lastIndex=currentPage * recordPerPage ;
     const fristIndex=lastIndex - recordPerPage ;
-    const record = lectures.slice(fristIndex,lastIndex);
-    // const number =[...Array(totalPages+1)?.keys()]?.slice(1)
+   
+
     let arr = [1, 2, 3, 4];
 
     async function deleteItem(id) {
@@ -42,33 +42,38 @@ export default function GetAllVideos() {
         const bytes = CryptoJS.AES.decrypt(encrypted, "secretKey");
         return bytes.toString(CryptoJS.enc.Utf8);
     };
-    // function prePage(){
-    //    if(currentPage !==fristIndex){
-    //     setCurrentPage(currentPage - 1);
-    //     console.log()
-    //    }
-    // }
-    // function nextPage(){
-    //     if(currentPage !==lastIndex){
-    //         setCurrentPage(currentPage + 1);
-    //        }
-    // }
-    function changePage(index){
-
+    function prePage(){
+        setIsloading(true)
+       if(currentPage >1 ){
+        setCurrentPage(currentPage - 1);
+        getAllLecture(currentPage-1)
+        setIsloading(false)
+       }
     }
-    const getAllLecture = async(page = 1)=> {
-        const { data } = await axios.get(`${baseURL}/lecture`);
+    function nextPage(){
+        setIsloading(true)
+        if(currentPage < totalPages){
+            setCurrentPage(currentPage + 1);
+            getAllLecture(currentPage+1)
+            setIsloading(false)
+        }
+    }
+
+    const getAllLecture = async(page)=> {
+        setIsloading(true)
+        const { data } = await axios.get(`${baseURL}/lecture?page=${page}`);
         setlectures(data.data)
+        setIsloading(false)
         setTotalPages(data.paginationInfo.totalPages)
         setrecordPerPage(data.paginationInfo.perPages)
-        console.log({"totalPages":totalPages,"currentPage":currentPage,"recordPerPage":recordPerPage,"lastIndex":lastIndex,"fristIndex":fristIndex,"record":record,})
-    }
+        }
     useEffect(() => {
+        window.scroll(0,0)
         getAllLecture(currentPage)
-    }, [lectures?.length,currentPage])
+    }, [lectures?.length])
     return <>
         <section className="py-5 container ">
-            {isLoading ? <div className="bg-white position-fixed start-50 top-50  p-3" style={{ transform: 'translate(-50%, -50%)' }}>
+            {isLoading ? <div className=" position-fixed start-50 text-dark top-50  p-3" style={{ transform: 'translate(-50%, -50%)' }}>
                 <i className="fa fa-spin fa-spinner h3"></i>
             </div> : ""}
             <table className="table table-striped text-center  table-hover table-bordered">
@@ -119,17 +124,15 @@ export default function GetAllVideos() {
             </table>
             {errorForm ? <p className="text-danger py-1 text-center small">لديك مشكلة في  اخر عملية</p> : ''}
 
-                        {/*  */}
-                        <div className='bg-info p-2 text-center'>
+                        {/* pagination */}
+                        <div className=' p-2 text-center d-flex justify-content-center'>
 
-        <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1} >
-          Previous
-        </button>
-        <button   onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-          disabled={currentPage === totalPages}>
-          Next
-        </button>
+                            <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
+                            السابق
+                            </button> 
+                            <button   onClick={nextPage}className='btn btn-primary mx-2' disabled={currentPage === totalPages}>
+                            التالي
+                            </button>
                         </div>
 
 

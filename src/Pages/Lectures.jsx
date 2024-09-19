@@ -8,6 +8,7 @@ export default function Lectures() {
     let {id}=useParams();
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [lectures, setlectures] = useState([]);
+    
     const decryptVideoURL = (encryptedURL) => {
       const bytes = CryptoJS.AES.decrypt(encryptedURL, "Gl?11£5R8:5z£-%");
       return bytes.toString(CryptoJS.enc.Utf8);

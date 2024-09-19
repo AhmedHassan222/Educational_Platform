@@ -15,9 +15,9 @@ export default function Profile() {
     navigate('/login')
     // window.location.reload();
   }
-  async function getAllUserById() {
+  async function getAllUserById(id) {
     try {
-      const { data } = await axios.get(`https://ahmed-shaltout-platform.up.railway.app/auth/teachers?role=User&_id=${user._id}`);
+      const { data } = await axios.get(`https://ahmed-shaltout-platform.up.railway.app/auth/teachers?role=User&_id=${id}`);
       setuserDetails(data)
     } catch (error) {
       console.log(error)
@@ -27,19 +27,19 @@ export default function Profile() {
   useEffect(() => {
     if (Cookies.get('token')){
         setuser(jwtDecode(Cookies.get('token')))
-        getAllUserById()
+        getAllUserById(user._id)
     }
   }, [user?.length])
   
   return (
     <>
       <div className="container py-5">
-        { userDetails.length >0 ?  userDetails.map((userItem,index)=> {
+        { userDetails.length >0 ?  userDetails.map((userItem,index)=> 
           <div key={index}>
             <p>{userItem.fullName}</p>
             <p>{userItem.email}</p>
             <p>{userItem.phoneNumber}</p>
-          </div>}
+          </div>
         ) : ""}
         <div className="d-flex align-items-center justify-content-between  ">
           <h3 >الملف الشخصي </h3>
