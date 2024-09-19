@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function GetAllCources() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     let arr = [1, 2, 3, 4];
@@ -39,7 +41,6 @@ export default function GetAllCources() {
     }
     // GET ALL COURSES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function getAll(page) {
-        setIsloading(true)
         const { data } = await axios.get(`${baseURL}/course?page=${page}`);
         setCourses(data.data)
         setIsloading(false)
@@ -48,7 +49,6 @@ export default function GetAllCources() {
     }
     // DELETE COURSE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function deleteItem(id) {
-        setIsloading(true);
         try {
             await axios
                 .delete(`${baseURL}/course/delete?courseId=${id}`, {
@@ -57,21 +57,31 @@ export default function GetAllCources() {
                     },
                 })
                 .then(() => {
-                    setIsloading(false);
+                    toast.success('قد تم الحذف', {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        // transition: Bounce,
+                        });
                 });
         } catch (error) {
             seterrorForm(error.message)
-            setIsloading(false);
         }
     }
     // USE EFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
-        window.scroll(0,0)
         getAll(currentPage)
-    }, [Courses?.length]);
+    }, [Courses]);
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return (
         <>
+              <ToastContainer />
+
             {isLoading ? <div className="text-white position-fixed start-50 top-50  p-4" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)' }}>
                 <i className="fa fa-spin fa-spinner h3"></i>
             </div> : ""}

@@ -71,7 +71,7 @@ export default function Cources() {
     }, [filterCourses])
     return <>
         <section className="py-5 container ">
-        {isLoading ? <div className=" position-fixed start-50 text-light top-50  p-3" style={{ transform: 'translate(-50%, -50%)' ,backgroundColor: 'rgba(0,0,0,0.6)'}}>
+        {isLoading ? <div className=" position-fixed start-50 text-light top-50  p-3" style={{ transform: 'translate(-50%, -50%)' ,backgroundColor: 'rgba(0,0,0,0.6)' ,zIndex :"999999"}}>
                 <i className="fa fa-spin fa-spinner h3"></i>
             </div> : ""}
             <div className="row g-3 ">

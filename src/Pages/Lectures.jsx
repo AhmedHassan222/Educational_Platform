@@ -55,7 +55,7 @@ export default function Lectures() {
               <div className='shadow p-2'>
                 <iframe
                   width="100%" height="400"
-                  src={`${decryptedURL}`}
+                  src={`${decryptedURL}?modestbranding=1&controls=0&rel=0&showinfo=0&disabledkb=1`}
                   title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerpolicy="strict-origin-when-cross-origin" allowfullscreen
                 ></iframe>
@@ -66,9 +66,9 @@ export default function Lectures() {
               </div>
             </div>
           );
-        }) : (
+        }) : 
           // Handle case when no lectures are available
-          <div className='col-md-4'>
+          arr.map((item,index)=>    <div className='col-md-4'>
             <div className='shadow p-2'>
               <iframe
                 width={"100%"}
@@ -80,9 +80,9 @@ export default function Lectures() {
                 <p className='my-2 lead placeholder col-6'></p>
               </div>
             </div>
-          </div>
-        )
-        }
+          </div> )}
+      
+        
       </div>
     </div>
   );

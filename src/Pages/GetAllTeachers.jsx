@@ -55,7 +55,6 @@ export default function GetAllTeachers() {
         }
     }
     async function getAll(page) {
-        setIsloading(true)
         const { data } = await axios.get(`${baseURL}/auth/teachers?page=${page}`);
         setIsloading(false)
         setallTeachers(data.data)
@@ -65,7 +64,7 @@ export default function GetAllTeachers() {
     useEffect(() => {
         window.scroll(0,0)
         getAll(currentPage);
-    }, [allTeachers?.length]);
+    }, [allTeachers]);
     return <>
         <div className="container py-5">
 
