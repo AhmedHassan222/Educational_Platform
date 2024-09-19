@@ -90,8 +90,6 @@ export default function App() {
 
 
 
-
-
   return (
     <FilterContextProvide>
       <MyCoursesProvide>
