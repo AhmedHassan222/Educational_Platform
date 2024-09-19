@@ -72,7 +72,7 @@ export default function Lectures() {
                 <iframe
                   width={"100%"}
                   height={"350px"}
-                  src="https://www.youtube.com/embed/AJtOGBHhhKc"
+                  src={fakeImage}
                   scrolling="no"
                 ></iframe>
                 <div className='d-flex justify-content-center align-items-center my-2'>
