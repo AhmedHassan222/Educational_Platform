@@ -1,3 +1,4 @@
+
 import { Link, useNavigate, useParams } from "react-router-dom"
 import style from "../../src/Styles/CourseDetails.module.css"
 import { useEffect, useState } from "react"

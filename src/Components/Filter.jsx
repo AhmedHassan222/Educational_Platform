@@ -19,7 +19,7 @@ export default function Filter() {
         const { data } = await axios.get(`${baseURL}/subcategory/`);
         setsupCategories(data.Subcategories)
     }
-  
+
     useEffect(() => {
         getAllCategories();
         getAllSubCategories();
@@ -54,7 +54,8 @@ export default function Filter() {
                     </div>) : <div className="text-center p-5"><i className="fa fa-spin fa-spinner"></i></div>}
                 </div> : ""}
             </div>
-        
+
+
 
         </div>
     </>

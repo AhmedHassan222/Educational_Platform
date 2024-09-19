@@ -35,11 +35,11 @@ export default function GetAllTeachers() {
 
     async function getAll() {
         const { data } = await axios.get(`${baseURL}/auth/teachers`);
-        setallTeachers(data.users)
+        setallTeachers(data.data)
     }
     useEffect(() => {
         getAll();
-    }, [allTeachers]);
+    }, [allTeachers?.length]);
     return <>
         <div className="container py-5">
 
@@ -58,7 +58,7 @@ export default function GetAllTeachers() {
                     </tr>
                 </thead>
                 <tbody>
-                    {allTeachers.length > 0 ? allTeachers?.map((item, index) => <tr key={index}>
+                    {allTeachers?.length > 0 ? allTeachers?.map((item, index) => <tr key={index}>
                         <th scope="row">{index + 1}</th>
                         <td>{item.fullName}</td>
                         <td>{item.email}</td>

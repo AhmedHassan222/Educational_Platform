@@ -44,9 +44,7 @@ export default function GetAllCodes() {
         {isLoading ? <div className="text-white position-fixed start-50 top-50  p-4" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)' }}>
           <i className="fa fa-spin fa-spinner h3"></i>
         </div> : ""}
-      </div>
-
-      <div>
+        <div>
         {codes?.length > 0 ? codes?.map((item, index) => (
           <div
             key={index}
@@ -83,7 +81,10 @@ export default function GetAllCodes() {
               </div>
             ))}
           </div>
-        )) : "ahmed"}
+        )) : <div className="text-center">
+          <i className="fa fa-spin fa-spinner fs-2"></i>
+        </div> }
+      </div>
       </div>
       {errorForm ? (
         <p className="text-danger py-1 text-center small">

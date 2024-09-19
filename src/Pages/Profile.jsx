@@ -2,16 +2,45 @@ import image from "../Assets/Images/default-avatar.png";
 import Styles from "../Styles/Profile.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useEffect,useState } from "react";
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 export default function Profile() {
   let navigate = useNavigate();
+  const [user, setuser] = useState("")
+  const [userDetails, setuserDetails] = useState([]);
+
   function logOut(){
     Cookies.remove('token');
     navigate('/login')
     // window.location.reload();
   }
+  async function getAllUserById() {
+    try {
+      const { data } = await axios.get(`https://ahmed-shaltout-platform.up.railway.app/auth/teachers?role=User&_id=${user._id}`);
+      setuserDetails(data)
+    } catch (error) {
+      console.log(error)
+    }
+   
+}
+  useEffect(() => {
+    if (Cookies.get('token')){
+        setuser(jwtDecode(Cookies.get('token')))
+        getAllUserById()
+    }
+  }, [user?.length])
+  
   return (
     <>
       <div className="container py-5">
+        { userDetails.length >0 ?  userDetails.map((userItem,index)=> {
+          <div key={index}>
+            <p>{userItem.fullName}</p>
+            <p>{userItem.email}</p>
+            <p>{userItem.phoneNumber}</p>
+          </div>}
+        ) : ""}
         <div className="d-flex align-items-center justify-content-between  ">
           <h3 >الملف الشخصي </h3>
 
@@ -64,8 +93,7 @@ export default function Profile() {
           </div>
           <div className="col-md-6">
             <div className="p-2">
-              <h4>ahmed yasser </h4>
-              <p className="text-muted">level (2) - Helwan university</p>
+              <h4>{user?.fullName} </h4>
             </div>
           </div>
           <div className="col-md-5">
@@ -84,21 +112,10 @@ export default function Profile() {
         </div>
         <div className="p-3 border-1 border border-muted">
           <div className="d-flex">
-            <i className="fa-solid fa-hashtag fs-4 ms-5 "></i>
-            <div className="">
-              <p className="text-muted h5">معرف الطالب
-              </p>
-              <p>75954</p>
-            </div>
-          </div>
-        </div>
-        <div className="p-3 border-1 border border-muted">
-          <div className="d-flex">
             <i className="fa-regular fa-user fs-5 ms-5"></i>
             <div className="">
-              <p className="text-muted h5">معرف الطالب
-              </p>
-              <p>ahmed yasser</p>
+              <p className="text-muted h5">معرف الطالب</p>
+              <p >{user.fullName}</p>
             </div>
           </div>
         </div>
@@ -107,12 +124,8 @@ export default function Profile() {
           <div className="d-flex">
             <i className="fa-regular fa-envelope fs-5 ms-5"></i>
             <div className="">
-              <p className="text-muted h5">
-                البريد الإلكتروني
-
-              </p>
-              <p>ahmed1020@gmail.com
-              </p>
+              <p className="text-muted h5">  البريد الإلكتروني  </p>
+              <p>{user.email} </p>
             </div>
           </div>
         </div>
@@ -121,11 +134,8 @@ export default function Profile() {
           <div className="d-flex">
             <i className="fa-regular fa-phone fs-5 ms-5"></i>
             <div className="">
-              <p className="text-muted h5">رقم الهاتف
-
-              </p>
-              <p>+2001202499898
-              </p>
+              <p className="text-muted h5">رقم الهاتف </p>
+              <p>+2001202499898</p>
             </div>
           </div>
         </div>
@@ -134,25 +144,8 @@ export default function Profile() {
           <div className="d-flex">
             <i className="fa-regular fa-graduation-cap fs-5 ms-5"></i>
             <div className="">
-              <p className="text-muted h5"> الصف الدراسي
-
-              </p>
-              <p>level (2) - Helwan university
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="p-3 border-1 border border-muted">
-          <div className="d-flex">
-            <i className="fa-solid fa-lock fs-5 ms-5"></i>
-            <div className="">
-              <p className="text-muted h5">  كلمة المرور
-
-
-              </p>
-              <p>****************
-              </p>
+              <p className="text-muted h5"> الصف الدراسي</p>
+              <p>level (2) - Helwan university</p>
             </div>
           </div>
         </div>
