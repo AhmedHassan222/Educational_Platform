@@ -9,6 +9,7 @@ export default function Filter() {
     const [isOpenCourses, setIsOpenCourses] = useState(false);
     const [supCategories, setsupCategories] = useState([]);
     const [Courses, setCourses] = useState([]);
+    const [searchWord, setsearchWord] = useState("");
     async function getAllSubCategories() {
         const { data } = await axios.get(`${baseURL}/subcategory/`);
         setsupCategories(data.Subcategories)
@@ -19,11 +20,11 @@ export default function Filter() {
     }
     useEffect(() => {
         getAllSubCategories();
-        getAllCourses();
+        getAllCourses()
     }, []);
     return <>
         <div>
-            <input type="text" className="w-100 p-3 bg-light" placeholder="ابحث عن دورة" />
+            <input type="text" className="w-100 p-3 bg-light"  placeholder="ابحث عن دورة" />
             <div className="border border-1 border-muted my-3 rounded-2">
                 <div className="d-flex justify-content-between  pt-3 px-3 pb-2  align-items-center">
                     <p className="text-black small pt-2">الصفوف الدراسية</p>
@@ -54,7 +55,6 @@ export default function Filter() {
                 <button className={`  w-75 mx-3 text-white btn ${style.btnOrange} my-2`}> بحث</button>
                 <span className={` w-25 mx-3 text-danger`}> الغاء</span>
             </div>
-
         </div>
     </>
 }

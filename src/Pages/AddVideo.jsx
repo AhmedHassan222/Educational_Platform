@@ -23,7 +23,7 @@ export default function AddVideo() {
     // FUNCTION GET ALL COURSES >>>>>>>>>>>>>>>>>>>>>>>>>>
     async function getAllCourses() {
         const { data } = await axios.get(`${baseURL}/course`);
-        setCourses(data.courses);
+        setCourses(data.data);
     }
     // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {

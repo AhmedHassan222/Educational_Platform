@@ -8,11 +8,11 @@ export default function MyCources() {
     useEffect(() => {
         window.scroll(0, 0)
         getAllcoursesByUser()
-        console.log(myCourse)
     }, [myCourse?.length])
     return <>
         <section className="py-5 container ">
             <div className="row g-3 ">
+                
                 {myCourse?.length > 0 ? myCourse?.map((course, index) => course.coursesIds === null ? "" : <div key={index} className="col-6 col-sm-6 col-md-4">
                     <div className='border-1 border border-muted rounded-3'>
                         <Link to={`/lectures/${course.coursesIds.id}`}>

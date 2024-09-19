@@ -41,7 +41,7 @@ export default function AddTeacher() {
     }
     useEffect(() => {
         getAll();
-    }, [Courses.length]);
+    }, [Courses?.length]);
     //function one >>
     const handleChange = (e) => {
         const _formData = { ...formData };
@@ -218,7 +218,7 @@ export default function AddTeacher() {
 
                     <button type="submit" className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>{Isloading ? <i className="fa-spin fa fa-spinner"></i> : "انشاء حساب"}</button>
                     {serverError ? <p className="text-danger py-1 text-center small">لديك مشكلة في انشاء الحساب</p> : ''}
-                    {refreshToken.length > 0 ? <p className="text-danger py-1 text-center small">  حاول مرة أخري   </p> : ''}
+                    {refreshToken?.length > 0 ? <p className="text-danger py-1 text-center small">  حاول مرة أخري   </p> : ''}
                 </form>
             </div>
         </div>

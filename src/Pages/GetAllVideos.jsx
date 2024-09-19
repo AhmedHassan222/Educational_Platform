@@ -11,25 +11,15 @@ export default function GetAllVideos() {
     const [errorForm, seterrorForm] = useState("");
     const [isLoading, setIsloading] = useState(false);
 
+    const [totalPages, setTotalPages] = useState();
+    const [currentPage, setCurrentPage] = useState(1); 
+    const [recordPerPage, setrecordPerPage] = useState(); 
+    const lastIndex=currentPage * recordPerPage ;
+    const fristIndex=lastIndex - recordPerPage ;
+    const record = lectures.slice(fristIndex,lastIndex);
+    // const number =[...Array(totalPages+1)?.keys()]?.slice(1)
     let arr = [1, 2, 3, 4];
 
-    // Function to decrypt text
-    function decryptText(encryptedText) {
-        try {
-            const decryptedBytes = CryptoJS.AES.decrypt(encryptedText, "secretKey");
-            const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
-
-            // Ensure decryptedText is valid UTF-8
-            if (!decryptedText) {
-                console.log("Malformed UTF-8 data")
-            }
-
-            return decryptedText;
-        } catch (error) {
-            console.error("Decryption failed:", error);
-            return null;
-        }
-    }
     async function deleteItem(id) {
         setIsloading(true);
         try {
@@ -52,13 +42,30 @@ export default function GetAllVideos() {
         const bytes = CryptoJS.AES.decrypt(encrypted, "secretKey");
         return bytes.toString(CryptoJS.enc.Utf8);
     };
-    async function getAllLecture() {
+    // function prePage(){
+    //    if(currentPage !==fristIndex){
+    //     setCurrentPage(currentPage - 1);
+    //     console.log()
+    //    }
+    // }
+    // function nextPage(){
+    //     if(currentPage !==lastIndex){
+    //         setCurrentPage(currentPage + 1);
+    //        }
+    // }
+    function changePage(index){
+
+    }
+    const getAllLecture = async(page = 1)=> {
         const { data } = await axios.get(`${baseURL}/lecture`);
         setlectures(data.data)
+        setTotalPages(data.paginationInfo.totalPages)
+        setrecordPerPage(data.paginationInfo.perPages)
+        console.log({"totalPages":totalPages,"currentPage":currentPage,"recordPerPage":recordPerPage,"lastIndex":lastIndex,"fristIndex":fristIndex,"record":record,})
     }
     useEffect(() => {
-        getAllLecture()
-    }, [lectures])
+        getAllLecture(currentPage)
+    }, [lectures?.length,currentPage])
     return <>
         <section className="py-5 container ">
             {isLoading ? <div className="bg-white position-fixed start-50 top-50  p-3" style={{ transform: 'translate(-50%, -50%)' }}>
@@ -111,6 +118,21 @@ export default function GetAllVideos() {
                 </tbody>
             </table>
             {errorForm ? <p className="text-danger py-1 text-center small">لديك مشكلة في  اخر عملية</p> : ''}
+
+                        {/*  */}
+                        <div className='bg-info p-2 text-center'>
+
+        <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1} >
+          Previous
+        </button>
+        <button   onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}>
+          Next
+        </button>
+                        </div>
+
+
         </section>
     </>
 }
