@@ -38,6 +38,8 @@ import UpdateCourse from './Pages/UpdateCourse';
 import UpdateVideos from './Pages/UpdateVideos';
 import Lectures from './Pages/Lectures';
 import MyCoursesProvide from './Contexts/MyCoursesContext';
+import FilterContextProvide from './Contexts/FilterContext';
+
 export default function App() {
   const [token, setToken] = useState(Cookies.get('token') ? Cookies.get('token') : null);
   useEffect(() => {
@@ -91,6 +93,7 @@ export default function App() {
 
 
   return (
+    <FilterContextProvide>
     <MyCoursesProvide>
       <Router>
         <Routes>
@@ -100,14 +103,12 @@ export default function App() {
             <Route path="/cources/:id" element={<LayoutWithNavbar><CourceDetails /></LayoutWithNavbar>} />
             <Route path="/profile" element={<LayoutWithNavbar><Profile /></LayoutWithNavbar>} />
             <Route path="/mycources" element={<LayoutWithNavbar><MyCources /></LayoutWithNavbar>} />
-            <Route path="/lectures/:id" element={<LayoutWithNavbar><Lectures /></LayoutWithNavbar>} />
+            <Route path="/lectures" element={<LayoutWithNavbar><Lectures /></LayoutWithNavbar>} />
             <Route path="/teachers" element={<LayoutWithNavbar><Teachers /></LayoutWithNavbar>} />
             <Route path="/teacher/:id" element={<LayoutWithNavbar><TeacherDetails /></LayoutWithNavbar>} />
             <Route path="/myexam" element={<LayoutWithNavbar><MyExams /></LayoutWithNavbar>} />
             <Route path="/wallet" element={<LayoutWithNavbar><Wallet /></LayoutWithNavbar>} />
           </>))}
-
-
           {/* Admin Routes */}
           {token && (jwtDecode(token).role === "Teacher" && (<Route path="/teacherAdmin" element={<LayoutWithNavbar><Outlet /></LayoutWithNavbar>}>
             <Route index element={<AdminPage />} />
@@ -115,8 +116,6 @@ export default function App() {
             <Route path="allVideos" element={<GetAllVideos />} />
             <Route path="updateVideos/:title/:id" element={<UpdateVideos />} />
           </Route>))}
-
-
           {/* Super Admin Routes */}
           {token && (jwtDecode(token).role === "Admin" && (<Route path="/admin" element={<LayoutWithNavbar><Outlet /></LayoutWithNavbar>}>
             <Route index element={<SuperAdminPage />} />
@@ -144,7 +143,7 @@ export default function App() {
         </Routes>
       </Router>
     </MyCoursesProvide>
+  </FilterContextProvide>
+
   );
 }
-
-

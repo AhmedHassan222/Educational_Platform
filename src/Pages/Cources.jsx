@@ -1,8 +1,9 @@
 import Filter from './../Components/Filter';
 import fakeImage from "../../src/Assets/Images/fakeImage.png"
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import { FilterContext } from '../Contexts/FilterContext';
 export default function Cources() {
 
     const arr = [1, 2, 3, 4, 5, 6]
@@ -11,6 +12,8 @@ export default function Cources() {
     const stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
     const [courses, setCourses] = useState([]);
     const [errorForm, seterrorForm] = useState([]);
+    const { filterCourses, error } = useContext(FilterContext)
+    const [dispalyCourses, setDisplayCourses] = useState([]);
     async function getAll() {
         try {
             const { data } = await axios.get(`${baseURL}/course`);
@@ -20,9 +23,13 @@ export default function Cources() {
         }
     }
     useEffect(() => {
-        window.scroll(0, 0)
+        window.scroll(0,0)
         getAll();
+        setDisplayCourses(courses);
     }, [])
+    useEffect(() => {
+        setDisplayCourses(filterCourses?.length > 0 ? filterCourses : courses)
+    }, [filterCourses])
     return <>
         <section className="py-5 container ">
             <div className="row g-3 ">
@@ -31,8 +38,9 @@ export default function Cources() {
                 </div>
                 <div className="col-lg-9  ">
                     <div className="row g-3">
-                        {errorForm.length > 0 ? <p className="text-danger py-1 text-center small"> يوجد مشكلة  </p> : ''}
-                        {courses?.length > 0 ? courses?.map((item, index) => <div key={index} className="col-6 col-sm-6 col-md-4">
+
+                        {errorForm.length > 0 || error ? <p className="text-danger py-1 text-center small"> يوجد مشكلة  </p> : ''}
+                        {dispalyCourses?.length > 0 ? dispalyCourses?.map((item, index) => <div key={index} className="col-6 col-sm-6 col-md-4">
                             <div className='border-1 border border-muted rounded-3'>
                                 <Link to={`/cources/${item._id}`}>
                                     <img src={item.photo.secure_url} alt="teacher image" className='w-100' />

@@ -102,3 +102,8 @@ input::placeholder {
   color: black;
 }
 
+
+span:hover 
+{
+  cursor: pointer;
+}
