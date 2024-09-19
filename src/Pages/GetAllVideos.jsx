@@ -42,6 +42,7 @@ export default function GetAllVideos() {
         const bytes = CryptoJS.AES.decrypt(encrypted, "secretKey");
         return bytes.toString(CryptoJS.enc.Utf8);
     };
+    
     function prePage(){
         setIsloading(true)
        if(currentPage >1 ){
@@ -73,15 +74,13 @@ export default function GetAllVideos() {
     }, [lectures?.length])
     return <>
         <section className="py-5 container ">
-            {isLoading ? <div className=" position-fixed start-50 text-dark top-50  p-3" style={{ transform: 'translate(-50%, -50%)' }}>
+            {isLoading ? <div className=" position-fixed start-50 text-light top-50  p-3" style={{ transform: 'translate(-50%, -50%)' ,backgroundColor: 'rgba(0,0,0,0.6)'}}>
                 <i className="fa fa-spin fa-spinner h3"></i>
             </div> : ""}
             <table className="table table-striped text-center  table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th className="py-3" scope="col">
-                            #
-                        </th>
+                       
                         <th className="py-3" scope="col">
                             صورة الكورس
                         </th>
@@ -100,9 +99,7 @@ export default function GetAllVideos() {
                     {lectures?.length > 0
                         ? lectures.map((item, index) => (
                             <tr key={index}>
-                                <td className="pt-3" >{index + 1}</td>
                                 <td className="col-2"><img src={item.photo.secure_url} className="w-100" alt={item.name} /></td>
-                                {/* decryptText(item.videoURL) */}
                                 <td className="pt-3" > <Link to={``} target='_blank'>{item.title}</Link> </td>
                                 <td className="pt-3">{moment(item.createdAt).format('YYYY/MM/DD')}</td>
                                 <td className="pt-3">
@@ -124,16 +121,16 @@ export default function GetAllVideos() {
             </table>
             {errorForm ? <p className="text-danger py-1 text-center small">لديك مشكلة في  اخر عملية</p> : ''}
 
-                        {/* pagination */}
-                        <div className=' p-2 text-center d-flex justify-content-center'>
+                       {/* pagination */}
+             {totalPages >1 ?   <div className=' p-2 text-center d-flex justify-content-center'>
 
-                            <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
-                            السابق
-                            </button> 
-                            <button   onClick={nextPage}className='btn btn-primary mx-2' disabled={currentPage === totalPages}>
-                            التالي
-                            </button>
-                        </div>
+                <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
+                        السابق
+                </button> 
+                <button   onClick={nextPage}className='btn btn-primary mx-2' disabled={currentPage === totalPages}>
+                التالي  
+                </button>
+                </div> :"" }    
 
 
         </section>

@@ -10,6 +10,12 @@ export default function GetAllTeachers() {
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [allTeachers, setallTeachers] = useState([]);
     const arr = [1, 2, 3, 4];
+    const [totalPages, setTotalPages] = useState();
+    const [currentPage, setCurrentPage] = useState(1); 
+    const [recordPerPage, setrecordPerPage] = useState(); 
+    const lastIndex=currentPage * recordPerPage ;
+    const fristIndex=lastIndex - recordPerPage ;
+   
     async function deleteItem(id, emailTeacher) {
         setIsloading(true);
 
@@ -32,24 +38,43 @@ export default function GetAllTeachers() {
             setIsloading(false);  // Stop loading in case of error
         }
     }
-
-    async function getAll() {
-        const { data } = await axios.get(`${baseURL}/auth/teachers`);
+    function prePage(){
+        setIsloading(true)
+       if(currentPage >1 ){
+        setCurrentPage(currentPage - 1);
+        getAll(currentPage-1)
+        setIsloading(false)
+       }
+    }
+    function nextPage(){
+        setIsloading(true)
+        if(currentPage < totalPages){
+            setCurrentPage(currentPage + 1);
+            getAll(currentPage+1)
+            setIsloading(false)
+        }
+    }
+    async function getAll(page) {
+        setIsloading(true)
+        const { data } = await axios.get(`${baseURL}/auth/teachers?page=${page}`);
+        setIsloading(false)
         setallTeachers(data.data)
+        setTotalPages(data.paginationInfo.totalPages)
+        setrecordPerPage(data.paginationInfo.perPages)
     }
     useEffect(() => {
-        getAll();
+        window.scroll(0,0)
+        getAll(currentPage);
     }, [allTeachers?.length]);
     return <>
         <div className="container py-5">
 
-            {isLoading ? <div className="text-white position-fixed start-50 top-50  p-4" style={{ transform: 'translate(-50%, -50%)',backgroundColor:'rgba(0,0,0,0.6)' }}>
+            {isLoading ? <div className="text-light position-fixed start-50 top-50  p-4" style={{ transform: 'translate(-50%, -50%)',backgroundColor: 'rgba(0,0,0,0.6)' }}>
                 <i className="fa fa-spin fa-spinner fs-3"></i>
             </div> : ""}
             <table className="table table-striped  table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
                         <th scope="col">الاسم</th>
                         <th scope="col">الايميل</th>
                         <th scope="col">تابع الي</th>
@@ -59,7 +84,6 @@ export default function GetAllTeachers() {
                 </thead>
                 <tbody>
                     {allTeachers?.length > 0 ? allTeachers?.map((item, index) => <tr key={index}>
-                        <th scope="row">{index + 1}</th>
                         <td>{item.fullName}</td>
                         <td>{item.email}</td>
                         <td>{item.courseId?.name} - {stage[item.stage]}</td>
@@ -84,6 +108,16 @@ export default function GetAllTeachers() {
             </table>
             {errorForm.length > 0 ? <p className=" text-danger py-1 text-center small"> لديك مشكلة في اخر عملية </p> : ''}
 
+                       {/* pagination */}
+             {totalPages >1 ?   <div className=' p-2 text-center d-flex justify-content-center'>
+
+                    <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
+                            السابق
+                    </button> 
+                    <button   onClick={nextPage}className='btn btn-primary mx-2' disabled={currentPage === totalPages}>
+                    التالي  
+                    </button>
+                </div> :"" }
         </div>
     </>
 }

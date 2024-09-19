@@ -9,6 +9,12 @@ export default function GetAllCodes() {
   const [errorForm, seterrorForm] = useState("");
   const [isLoading, setIsloading] = useState(false);
   const componentRef = useRef(); // the section you want to print.
+  const [totalPages, setTotalPages] = useState();
+  const [currentPage, setCurrentPage] = useState(1); 
+  const [recordPerPage, setrecordPerPage] = useState(); 
+  const lastIndex=currentPage * recordPerPage ;
+  const fristIndex=lastIndex - recordPerPage ;
+ 
   async function deleteItem(id) {
     setIsloading(true);
     console.log(id);
@@ -27,16 +33,37 @@ export default function GetAllCodes() {
 
     }
   }
-  async function getAll() {
-    const { data } = await axios.get(`${baseURL}/codes`);
+  async function getAll(page) {
+    setIsloading(true)
+    const { data } = await axios.get(`${baseURL}/codes?page=${page}`);
     setcodes(data.data); // [0:{ id : "" ,codes:[] },1:{id:" ",codes:[]}]
+    setIsloading(false)
+    setTotalPages(data.paginationInfo.totalPages)
+    setrecordPerPage(data.paginationInfo.perPages)
   }
   function print() {
     window.print();
   }
+  function prePage(){
+    setIsloading(true)
+   if(currentPage >1 ){
+    setCurrentPage(currentPage - 1);
+    getAll(currentPage-1)
+    setIsloading(false)
+   }
+}
+function nextPage(){
+    setIsloading(true)
+    if(currentPage < totalPages){
+        setCurrentPage(currentPage + 1);
+        getAll(currentPage+1)
+        setIsloading(false)
+    }
+}
   useEffect(() => {
-    getAll();
-  }, [codes]);
+    window.scroll(0,0)
+    getAll(currentPage);
+  }, [codes?.length]);
 
   return (
     <>
@@ -81,18 +108,28 @@ export default function GetAllCodes() {
               </div>
             ))}
           </div>
-        )) : <div className="text-center">
-          <i className="fa fa-spin fa-spinner fs-2"></i>
-        </div> }
-      </div>
-      </div>
-      {errorForm ? (
+        )) : "" }
+        {errorForm ? (
         <p className="text-danger py-1 text-center small">
           لديك مشكلة في اخر عملية
         </p>
       ) : (
         ""
       )}
+      </div>
+             {/* pagination */}
+             {totalPages >1 ?   <div className=' p-2 text-center d-flex justify-content-center'>
+
+          <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
+                  السابق
+          </button> 
+          <button   onClick={nextPage}className='btn btn-primary mx-2' disabled={currentPage === totalPages}>
+       التالي  
+          </button>
+          </div> :"" }
+          
+      </div>
+     
     </>
   );
 }
