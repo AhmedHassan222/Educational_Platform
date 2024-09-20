@@ -11,8 +11,9 @@ export default function AddTeacher() {
     //Variables here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-         fullName: "", email: "", password: "", repassword: "",
-          stage: "", phoneNumber: "+2" ,gender:"",subjecTeacher:""});
+        fullName: "", email: "", password: "", repassword: "",
+        stage: "", phoneNumber: "", gender: "", subjecTeacher: ""
+    });
     const [error, setError] = useState([]);
     const [serverError, setServerError] = useState("");
     const [Isloading, setIsloading] = useState(false);
@@ -55,7 +56,7 @@ export default function AddTeacher() {
         validate.error ? setError(validate.error.details) : addTeacher();
         setIsloading(false);
         addTeacher();
-        };
+    };
     // function three >>
     const validationForm = () => {
         let schema = Joi.object({
@@ -68,23 +69,24 @@ export default function AddTeacher() {
             stage: Joi.string().required(),
             gender: Joi.string().required(),
             subjecTeacher: Joi.string().required(),
-            phoneNumber: Joi.string().regex(/^\+20[0-9]{10}$/).required(),
+            phoneNumber: Joi.string().regex(/^\01(0125)[0-9]{8}$/).required(),
         });
         return schema.validate(formData, { abortEarly: false });
     };
     // function four >>
     async function addTeacher() {
         setIsloading(true)
+        formData.phoneNumber = `+2${formData.phoneNumber}`
         try {
             await axios.post(`${baseURL}/auth/addTeacher?courseId=${CoursesId}`, formData, {
                 headers: {
                     "token": `online__${Cookies.get('token')}`
                 }
             }).then((response) => {
-                if(response.data.message === "Done,please try to Login"){
+                if (response.data.message === "Done,please try to Login") {
                     navigate('/admin/allTeachers')
-                    
-                }else{
+
+                } else {
                     Cookies.set("token", response.data.refreshToken)
                     setrefreshToken(response.data.message)
                 }
@@ -95,7 +97,7 @@ export default function AddTeacher() {
         }
         setIsloading(false)
     }
- 
+
 
     return (
         <div className="container py-5">
@@ -184,10 +186,10 @@ export default function AddTeacher() {
                     </div>
                     {/* to know course Id */}
                     <div className=" mb-4">
-                        <select className="w-100 p-2 text-muted"autoComplete="off"  onChange={(e)=>{setCoursesId(e.target.value)}}  >
+                        <select className="w-100 p-2 text-muted" autoComplete="off" onChange={(e) => { setCoursesId(e.target.value) }}  >
                             <option value="">المادة </option>
-                            {Courses?.map((course,index)=> 
-                                  <option key={index} value={course.id} >{course.name} </option>
+                            {Courses?.map((course, index) =>
+                                <option key={index} value={course.id} >{course.name} </option>
                             )}
                         </select>
                         {error?.map((err, index) =>
@@ -196,13 +198,13 @@ export default function AddTeacher() {
                             </div> : ""
                         )}
                     </div>
-                      {/* subjecTeacher */}
-                      
-                      <div className=" mb-4">
-                        <textarea className="w-100 p-2"  id="subjecTeacher" name="subjecTeacher" placeholder="معلومات عن المدرس"  value={formData.subjecTeacher} onChange={handleChange}></textarea>
+                    {/* subjecTeacher */}
+
+                    <div className=" mb-4">
+                        <textarea className="w-100 p-2" id="subjecTeacher" name="subjecTeacher" placeholder="معلومات عن المدرس" value={formData.subjecTeacher} onChange={handleChange}></textarea>
                         {error?.map((err, index) =>
                             err.context.label === "subjecTeacher" ? <div key={index}>
-                                 {!formData.subjecTeacher ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
+                                {!formData.subjecTeacher ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
                             </div> : ""
                         )}
                     </div>

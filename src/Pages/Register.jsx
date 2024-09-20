@@ -8,7 +8,7 @@ import Joi from "joi";
 export default function Register() {
     //Variables here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({ fullName: "", email: "", password: "", repassword: "", gender: "", grade: "", stage: "", phoneNumber: "+2", parentsPhoneNumber: "+2" });
+    const [formData, setFormData] = useState({ fullName: "", email: "", password: "", repassword: "", gender: "", grade: "", stage: "", phoneNumber: "", parentsPhoneNumber: "" });
     const [error, setError] = useState([]);
     const [serverError, setServerError] = useState("");
     const [Isloading, setIsloading] = useState(false);
@@ -52,14 +52,16 @@ export default function Register() {
             gender: Joi.string().required(),
             grade: Joi.string().required(),
             stage: Joi.string().required(),
-            phoneNumber: Joi.string().regex(/^\+20[0-9]{10}$/).required(),
-            parentsPhoneNumber: Joi.string().regex(/^\+20[0-9]{10}$/).required(),
+            phoneNumber: Joi.string().regex(/^\01(0125)[0-9]{8}$/).required(),
+            parentsPhoneNumber: Joi.string().regex(/^\01(0125)[0-9]{8}$/).required(),
         });
         return schema.validate(formData, { abortEarly: false });
     };
     // function four >>
     async function sendApi() {
         setIsloading(true)
+        formData.phoneNumber = `+2${formData.phoneNumber}`
+        formData.parentsPhoneNumber = `+2${formData.parentsPhoneNumber}`
         await axios.post(`https://ahmed-shaltout-platform.up.railway.app/auth/signup`, formData)
             .then((response) => {
                 if (response.data.message === "Sign up success please confirm email")

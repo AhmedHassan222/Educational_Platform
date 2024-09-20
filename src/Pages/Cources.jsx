@@ -24,11 +24,9 @@ export default function Cources() {
     const fristIndex=lastIndex - recordPerPage ;
    
     async function getAll(Page) {
-        setIsloading(true)
         try {
             const { data } = await axios.get(`${baseURL}/course?page=${Page}`);
             setCourses(data.data);
-            setIsloading(false)
             setTotalPages(data.paginationInfo.totalPages)
             setrecordPerPage(data.paginationInfo.perPages)
         } catch (error) {

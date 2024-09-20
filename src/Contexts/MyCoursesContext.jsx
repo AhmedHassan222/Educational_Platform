@@ -15,7 +15,13 @@ export default function MyCoursesProvide(props) {
         try {
             const { data } = await axios.get(`${baseURL}/join/?userId=${user?._id}`);
             setmyCourse(data.data[0].courses);
-            setNumberOfCourses(myCourse.length);
+            console.log(`${baseURL}/join/?userId=${user?._id}`)
+            let count = 0;
+            for (let i = 0; i < myCourse.length; i++) {
+                if(myCourse[i].isPaid && myCourse[i].coursesIds !== null)
+                    count++;
+            }
+            setNumberOfCourses(count);
         } catch (error) {
             setErrorFromJoin(error.message)
         }

@@ -20,3 +20,8 @@
 {
     background-color: rgba(204,81,15,255); 
 }
+
+.cursorPointer:hover 
+{
+    cursor: pointer;
+}

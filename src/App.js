@@ -65,7 +65,7 @@ export default function App() {
             {/* Teacher routes */}
             <Route element={<ProtectedRoute allowedRoles={['Teacher']} />}>
               <Route path="/teacherAdmin" element={<LayoutWithNavbar><Outlet /></LayoutWithNavbar>}>
-                <Route index element={<AdminPage />} />
+                <Route index element={<Navigate to={'allVideos'}/>} />
                 <Route path="addVideo" element={<AddVideo />} />
                 <Route path="allVideos" element={<GetAllVideos />} />
                 <Route path="updateVideos/:title/:id" element={<UpdateVideos />} />
@@ -75,7 +75,7 @@ export default function App() {
             {/* Admin routes */}
             <Route element={<ProtectedRoute allowedRoles={['Admin']} />}>
               <Route path="/admin" element={<LayoutWithNavbar><Outlet /></LayoutWithNavbar>}>
-                <Route index element={<SuperAdminPage />} />
+                <Route index element={<Navigate to={'allCources'}/>} />
                 <Route path="addTeacher" element={<AddTeacher />} />
                 <Route path="addCategory" element={<AddCategory />} />
                 <Route path="addCourse" element={<AddCourse />} />
