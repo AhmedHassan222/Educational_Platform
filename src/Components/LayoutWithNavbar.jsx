@@ -14,10 +14,11 @@ export default function LayoutWithNavbar({ children }) {
             setRole(jwtDecode(Cookies.get('token'))?.role)
     }, [Cookies.get('token')])
     return <>
-        {!Cookies.get('token') ? <NavbarGuest /> : ''}
-        {role === "User" ? <Navbar /> : ''}
-        {role === "Teacher" ? <NavbarAdmin /> : ''}
-        {role === "Admin" ? <NavbarSuperAdmin /> : ''}
+        {!Cookies.get('token') ? <NavbarGuest /> : <>
+            {role === "User" ? <Navbar /> : ''}
+            {role === "Teacher" ? <NavbarAdmin /> : ''}
+            {role === "Admin" ? <NavbarSuperAdmin /> : ''}
+        </>}
         {children}
         <Footer />
     </>

@@ -31,9 +31,9 @@ export default function Teachers() {
                 </div>) : arr.map((item, index) => <div key={index} className="col-md-4 col-lg-3 ">
                     <div className="border border-1 border-muted py-4 px-3 text-center ">
                         <img src={fakeImage} alt="fakeImage" className="w-25 rounded-circle " />
-                        <div class="card-body">
-                            <h5 class="card-title placeholder-glow my-3">
-                                <span class="placeholder col-6"></span>
+                        <div className="card-body">
+                            <h5 className="card-title placeholder-glow my-3">
+                                <span className="placeholder col-6"></span>
                             </h5>
                         </div>
                         <Link to={""} className={`w-100 rounded-2 py-3 placeholder  text-white ${style.btnOrange} border-0 small nav-link `}> </Link>

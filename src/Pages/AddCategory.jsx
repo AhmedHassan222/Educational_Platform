@@ -1,15 +1,14 @@
-import { useContext, useState } from "react";
+import {  useState } from "react";
 import style from "../../src/Styles/Auth.module.css"
 import Cookies from 'js-cookie';
-import { CRUDContext } from "../Contexts/CRUDContext";
 import axios from "axios";
 import Joi from "joi";
 import { useNavigate } from "react-router-dom";
 export default function AddCategory() {
     let navigate = useNavigate()
+    const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [error, setError] = useState([]);
     const [errorForm, seterrorForm] = useState("");
-    const { baseURL } = useContext(CRUDContext)
     const [dataAdded, setdataAdded] = useState({
         name: "",
     });

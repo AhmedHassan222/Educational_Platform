@@ -1,7 +1,6 @@
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import style from "../../src/Styles/Auth.module.css"
 import Cookies from 'js-cookie';
-import { CRUDContext } from "../Contexts/CRUDContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 export default function AddSubCategory() {
@@ -11,9 +10,9 @@ export default function AddSubCategory() {
   const [isSubmit, setIsSubmit] = useState(false);
   const grade = { primary: "الابتدائية", preparatory: "الاعدادية ", secondary: "الثانوية", };
   const [errorForm, seterrorForm] = useState("");
-  const { baseURL } = useContext(CRUDContext)
   const [dataAdded, setdataAdded] = useState({ name: "" });
   const [Isloading, setIsloading] = useState(false);
+  const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
   const navigate = useNavigate()
   // FUNCTION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   // FUNCTION GET ALL CATEGORIES

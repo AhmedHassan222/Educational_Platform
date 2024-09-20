@@ -64,7 +64,6 @@ export default function LoginPage() {
               navigate('/cources');
           }
         }
-        // window.location.reload();
       }
     } catch (error) {
       setServerError(error.response?.data.Error || 'Something went wrong');
