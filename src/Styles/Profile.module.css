@@ -1,6 +1,18 @@
 .defaultImg{
-    width: 10% !important;
+    width: 10% ;
+}
+.defaultImg:hover
+{
+    cursor: pointer;
 }
 .defaultDrop{
     width: 5%;
+}
+
+@media screen  and (min-width:0px) and (max-width:576px) {
+    .defaultImg 
+    {
+        width: 20%;
+    }
+    
 }
