@@ -59,18 +59,18 @@ export default function CourceDetails() {
             {course?.length > 0 ? <div className="row g-5">
                 <div className="col-sm-12 col-md-4">
                     <div>
-                        <img src={course[0].photo.secure_url} alt={course[0].name} className="w-100 rounded-3" />
+                        <img src={course[0].photo.secure_url} alt={course[0]?.name} className="w-100 rounded-3" />
                     </div>
                 </div>
                 <div className="col-sm-12  col-md-8 ">
                     <div>
-                        <h3 className=' mb-3'> {course[0].name} </h3>
+                        <h3 className=' mb-3'> {course[0]?.name} </h3>
                         <div className="d-flex align-items-start mt-2">
                             <i className="fa-solid fa-play ms-1 pt-1 text-danger "></i>
                             <p className='text-muted '>{course[0]?.lectures?.length} محاضرات</p>
                         </div>
                         <div className="d-flex">
-                            <p className="bg-light fitContent p-2 ms-3"> {stage[course[0].subCategoryId.name]} {grade[course[0].categoryId.name]} </p>
+                            <p className="bg-light fitContent p-2 ms-3"> {stage[course[0].subCategoryId?.name]} {grade[course[0].categoryId?.name]} </p>
                         </div>
                         <Link to={'/teacher'} className="bg-light fitContent p-2 nav-link ">  {course[0].teacher.fullName} </Link>
                         {openForm ? <div className=" py-2">

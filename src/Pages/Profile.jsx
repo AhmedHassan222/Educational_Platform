@@ -14,7 +14,7 @@ export default function Profile() {
   const [errorForm, seterrorForm] = useState("");
   const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي", };
   const stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
-
+  const [id, setId] = useState(null)
   function logOut() {
     Cookies.remove('token');
     navigate('/login')
@@ -39,8 +39,9 @@ export default function Profile() {
     if (Cookies.get('token')) {
       user = jwtDecode(Cookies.get('token'))
       getAllUserById(user._id)
+      setId(user._id)
     }
-  }, [userDetails?.length])
+  }, [userDetails])
   //  add image profile >>>>>>>>>>>>>>>>>>>>
   //variabel >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const [isSubmit, setIsSubmit] = useState(false);
@@ -68,19 +69,21 @@ export default function Profile() {
     setIsloading(true);
     formData.append("image", image);
     try {
-      await axios.post(`${baseURL}/auth/profile`, formData, {
+      await axios.patch(`${baseURL}/auth/profile`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           "token": `online__${Cookies.get('token')}`
         }
       }).then((res) => {
         setIsloading(false);
-        setAddImageForm(false)
-        console.log(res)
+        if (res.data.message === "Done ") {
+          setAddImageForm(false)
+        }
+
       });
     } catch (error) {
-      console.log(error)
       setIsloading(false);
+      setAddImageForm(true)
       seterrorForm(error);
     }
   }
@@ -89,7 +92,7 @@ export default function Profile() {
   //  ***********************************************************************
   // update form 
   // variable >>>>>>>>>>>
-  const [updateObject, setUpdateObject] = useState({ fullName: "", email: "", grade: "", stage: "", phoneNumber: "" });
+  const [updateObject, setUpdateObject] = useState({ fullName: "", grade: "", stage: "", phoneNumber: "" });
   const [error, setError] = useState([]);
   let stageArabic = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
   let gradeArabic = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
@@ -113,13 +116,10 @@ export default function Profile() {
   // function three >>
   const validationForm = () => {
     let schema = Joi.object({
-      fullName: Joi.string().min(3).max(100).required(),
-      email: Joi.string()
-        .email({ tlds: { allow: ["com", "net", "org"] } })
-        .required(),
-      grade: Joi.string().required(),
-      stage: Joi.string().required(),
-      phoneNumber: Joi.string().regex(/^\01(0125)[0-9]{8}$/).required(),
+      fullName: Joi.string().min(3).max(100),
+      grade: Joi.string(),
+      stage: Joi.string(),
+      phoneNumber: Joi.string().regex(/^\01(0125)[0-9]{8}$/),
     });
     return schema.validate(formData, { abortEarly: false });
   };
@@ -127,16 +127,68 @@ export default function Profile() {
   async function sendApi() {
     setIsloading(true)
     formData.phoneNumber = `+2${formData.phoneNumber}`
-    await axios.post(`https://ahmed-shaltout-platform.up.railway.app`, updateObject)
+    await axios.patch(`https://ahmed-shaltout-platform.up.railway.app/auth/update?userId=${id}`, updateObject)
       .then((response) => {
-        console.log(response)
+        if (response.data.message === "User updated successfully")
+          setUpdateForm(false)
       }).catch((error) => {
         setServerError(error.response?.data?.message);
-        console.log(error)
+        setUpdateForm(true)
       });
     setIsloading(false)
   }
 
+  // change password 
+  const [passwordFrom, setPasswordForm] = useState(false)
+  const [inputType, setInputType] = useState('password');
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [inputType2, setInputType2] = useState('password');
+  const [showrePassword, setShowrePassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+    setInputType(inputType === 'password' ? 'text' : 'password');
+  };
+  const togglerePasswordVisibility = () => {
+    setShowrePassword(!showrePassword);
+    setInputType2(inputType2 === 'password' ? 'text' : 'password');
+  };
+
+
+  const [updatePassObject, setUpdatePassObject] = useState({ oldPass: "", newPass: "" })
+  const handlepassForm = (e) => {
+    const _formData = { ...formData };
+    _formData[e.target.name] = e.target.value;
+    setUpdatePassObject(_formData);
+  };
+  // function two >>
+  const updatePasssword = (e) => {
+    e.preventDefault();
+    const validate = validationFormPassword();
+    validate.error ? setError(validate.error.details) : updateAPI();
+    setIsloading(false);
+  };
+  // function three >>
+  const validationFormPassword = () => {
+    let schema = Joi.object({
+      oldPass: Joi.string().regex(/^[a-zA-Z0-9]{8,}$/).required(),
+      newPass: Joi.valid(Joi.ref("password")).required(),
+    });
+    return schema.validate(updatePassObject, { abortEarly: false });
+  };
+  // function four >>
+  async function updateAPI() {
+    setIsloading(true)
+    await axios.patch(`https://ahmed-shaltout-platform.up.railway.app/auth/changePass`, updatePassObject)
+      .then((response) => {
+        console.log(response)
+      }).catch((error) => {
+        console.log(error)
+        setServerError(error.response?.data?.message);
+        setUpdateForm(true)
+      });
+    setIsloading(false)
+  }
 
   return (
     <>
@@ -148,7 +200,6 @@ export default function Profile() {
             <div className=" mb-4">
               <input placeholder=" اضف صورة " type="file" className="w-100 p-2 small" name="image" onChange={handleImageChange} />
               {isSubmit ? <>
-                {!image ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
                 {image ? !validExtensions.includes(image?.type) ? <p className="small fw-medium  py-2 text-end text-danger">هذا الامتداد غير صحيح</p> : "" : ""}
               </> : ""}
             </div>
@@ -168,17 +219,6 @@ export default function Profile() {
                 err.context.label === "fullName" ? <div key={index}>
                   {err.type === "string.min" ? <p className="small fw-medium py-2 text-end text-danger">يجب أن لا يقل عدد الحروف عن 3</p> : ""}
                   {err.type === "string.max" ? <p className="small fw-medium py-2 text-end text-danger">يجب الا يزيد عدد الحروف عن  100 حرف</p> : ""}
-                  {!formData.fullName ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
-                </div> : ""
-              )}
-            </div>
-            <div className=" mb-4">
-              <label className="w-100 small text-end" htmlFor="email">{userDetails[0]?.email}</label>
-              <input placeholder="عدل الايميل " type="email" className="w-100 p-2 small" id="email" name="email" value={formData.email} onChange={handleChange} />
-              {error?.map((err, index) =>
-                err.context.label === "email" ? <div key={index}>
-                  {err.type === "string.email" ? <p className="small fw-medium py-2 text-end text-danger"> البريد الإلكتروني غير صحيح</p> : ""}
-                  {!formData.email ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
                 </div> : ""
               )}
             </div>
@@ -190,11 +230,6 @@ export default function Profile() {
                 <option value="second">الصف الثاني </option>
                 <option value="third">الصف الثالث </option>
               </select>
-              {error?.map((err, index) =>
-                err.context.label === "grade" ? <div key={index}>
-                  {!formData.grade ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
-                </div> : ""
-              )}
             </div>
             <div className=" mb-4">
               <label className="w-100 small text-end" htmlFor="stage">{grade[userDetails[0]?.stage]}</label>
@@ -204,35 +239,66 @@ export default function Profile() {
                 <option value="preparatory">الاعدادية </option>
                 <option value="secondary">الثانوية </option>
               </select>
-              {error?.map((err, index) =>
-                err.context.label === "stage" ? <div key={index}>
-                  {!formData.stage ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
-                </div> : ""
-              )}
             </div>
             <div className=" mb-4">
               <label className="w-100 small text-end" htmlFor="phoneNumber">{userDetails[0]?.phoneNumber}</label>
               <input placeholder="رقم الهاتف" type="text" className="w-100 p-2 small" id="phoneNumber" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} />
+            </div>
+            <button type="submit" className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>{Isloading ? <i className="fa-spin fa fa-spinner"></i> : " حفظ"}</button>
+            {serverError ? <p className="text-danger py-1 text-center small">لديك مشكلة في تعديل الملف </p> : ''}
+          </form>
+        </div >
+      </div > : ''
+      }
+      {passwordFrom ? <div className="container py-5 px-3">
+        <div className="text-center rounded-4  border-1 widthCustom mx-auto ">
+          <h3 className="text-end mb-4"> تغيير كلمة المرور</h3>
+          <form onSubmit={updatePasssword}>
+            <div className=" mb-4 ">
+              <div className="position-relative">
+                {inputType !== "password" ?
+                  <i onClick={togglePasswordVisibility} className={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i> :
+                  <i onClick={togglePasswordVisibility} className={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>
+                }
+                <input placeholder="    كلمة المرور الحالية" type={inputType} className="w-100 p-2 " id="oldPass" name="oldPass" value={updatePassObject.oldPass} onChange={handlepassForm} />
+
+              </div>
               {error?.map((err, index) =>
-                err.context.label === "phoneNumber" ? <div key={index}>
-                  {/* {!formData.phoneNumber.startsWith("+20") && formData.phoneNumber ? <p className="small fw-medium py-2 text-end text-danger"> يجب أن تبدأ +20 ثم رقم الهاتف</p> : ""} */}
-                  {!formData.phoneNumber ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
+                err.context.label === "password" ? <div key={index}>
+                  {err.type === "string.pattern.base" ? <p className="small fw-medium py-2 text-end text-danger">    يجب ان تحتوي كلمة  المرور علي 8 احروف او ارقام</p> : ""}
+                  {!updatePassObject.password ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
                 </div> : ""
               )}
             </div>
-            <button type="submit" className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>{Isloading ? <i className="fa-spin fa fa-spinner"></i> : "انشاء حساب"}</button>
-            {serverError ? <p className="text-danger py-1 text-center small">لديك مشكلة في انشاء الحساب</p> : ''}
+            <div className=" mb-4">
+              <div className="position-relative">
+                {inputType2 !== "password" ?
+                  <i onClick={togglerePasswordVisibility} className={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i> :
+                  <i onClick={togglerePasswordVisibility} className={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>
+                }
+                <input placeholder=" كلمة المرور الجديدة" type={inputType2} className="w-100 p-2" id="newPass" name="newPass" value={updatePassObject.newPass} onChange={handlepassForm} />
+
+              </div>
+              {error?.map((err, index) =>
+                err.context.label === "password" ? <div key={index}>
+                  {err.type === "string.pattern.base" ? <p className="small fw-medium py-2 text-end text-danger">    يجب ان تحتوي كلمة  المرور علي 8 احروف او ارقام</p> : ""}
+                  {!updatePassObject.password ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
+                </div> : ""
+              )}
+            </div>
+            <button type="submit" className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>{Isloading ? <i className="fa-spin fa fa-spinner"></i> : " حفظ"}</button>
+            {serverError ? <p className="text-danger py-1 text-center small">لديك مشكلة في تعديل الملف </p> : ''}
           </form>
         </div >
       </div > : ''
       }
       {/* ----------------- */}
       {
-        !addImageForm && !updaetForm ? <div className="container py-5">
+        !addImageForm && !updaetForm && !passwordFrom ? <div className="container py-5">
           <div className="d-flex align-items-center justify-content-between  ">
             <h3 className="h4" >الملف الشخصي </h3>
             <div className="d-flex align-items-center w-50 justify-content-end  text-start">
-              <img src={avatar} id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" className={`${Styles.defaultImg}  rounded-circle mx-2`} alt="default image " />
+              <img src={userDetails[0]?.profileImage?.secure_url ? userDetails[0]?.profileImage.secure_url : avatar} id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" className={`${Styles.defaultImg}  rounded-circle mx-2`} alt="default image " />
               <ul className="dropdown-menu p-1 small text-end" aria-labelledby="dropdownMenuButton1" >
                 <li className="p-2">
                   <span onClick={() => setUpdateForm(true)} className="w-100">تعديل الملف الشخصي </span>
@@ -249,11 +315,11 @@ export default function Profile() {
           {Array.isArray(userDetails) && userDetails.length > 0 ?
             <div className="p-3">
               <div className="row border my-4 border-1 p-2 border-muted  align-items-center">
-                <div className="col-2 col-md-1 position-relative">
-                  <img onClick={() => setAddImageForm(true)} src={avatar} className={` w-100 `} alt="default image" />
-                  {userDetails[0]?.photo?.secure_url ? <i className="fa-solid fa-pen position-absolute p-2 rounded-circle bg-white top-50 start-50 small"></i> : ""}
+                <div className="col-2  position-relative">
+                  <img onClick={() => userDetails[0]?.profileImage?.secure_url ? '' : setAddImageForm(true)} src={userDetails[0]?.profileImage?.secure_url ? userDetails[0]?.profileImage.secure_url : avatar} className={` w-100 `} alt="default image" />
+                  {userDetails[0]?.profileImage?.secure_url ? <i style={{ left: '75%' }} className="fa-solid fa-pen position-absolute p-2 rounded-circle bg-white top-50  small "></i> : ""}
                 </div>
-                <div className="col-10 col-md-11">
+                <div className="col-10 ">
                   <div >
                     <h3 className="h4">  {userDetails[0].fullName}</h3>
                   </div>
@@ -295,14 +361,24 @@ export default function Profile() {
                   </div>
                 </div>
               </div>
+              <div className="p-3 border-1 border border-muted">
+                <div className="d-flex">
+                  <i className="fa-solid fa-lock fs-5 ms-5"></i>
+                  <div className="">
+                    <p className="text-muted h5">تغيير كلمة المرور  </p>
+                    <p>******************</p>
+                    <button onClick={() => setPasswordForm(true)} className={` my-1 p-2 border-0 rounded-2 ${style.btnOrange}   w-100 `}>{Isloading ? <i className="fa-spin fa fa-spinner"></i> : " تغيير"}</button>
+                  </div>
+                </div>
+              </div>
             </div>
             :
             <div className="p-3">
               <div className="row border my-4 border-1 p-2 border-muted  align-items-center">
-                <div className="col-2 col-md-1">
+                <div className="col-2 ">
                   <img src={fakeImage} className={` w-100 `} alt="loading image" />
                 </div>
-                <div className="col-10 col-md-11">
+                <div className="col-10 ">
                   <div className="text-card-top placeholder-glow">
                     <h3 className="h4 placeholder col-4">  </h3>
                   </div>
@@ -337,10 +413,11 @@ export default function Profile() {
               </div>
               <div className="p-3 border-1 border border-muted text-card-top placeholder-glow">
                 <div className="d-flex">
-                  <i className="fa-solid fa-phone fs-5 ms-5"></i>
+                  <i className="fa-solid fa-lock fs-5 ms-5"></i>
                   <div className="">
-                    <p className="text-muted h5">رقم الهاتف </p>
+                    <p className="text-muted h5"> تغيير كلمة المرور </p>
                     <p className="placeholder col-12 "></p>
+
                   </div>
                 </div>
               </div>
