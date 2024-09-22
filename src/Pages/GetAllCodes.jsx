@@ -39,7 +39,7 @@ export default function GetAllCodes() {
             setIsloading(false)
         })
     } catch (error) {
-      toast.error('لديك مشكلة في حذف الاكواد ', {
+      toast.error('لا يحق لك الحذف هذا الاكواد ', {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -145,6 +145,9 @@ function nextPage(){
           <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
                   السابق
           </button> 
+          <div className='mx-2'>
+                    الصفحة {currentPage}
+                </div>
           <button   onClick={nextPage}className='btn btn-primary mx-2' disabled={currentPage === totalPages}>
        التالي  
           </button>

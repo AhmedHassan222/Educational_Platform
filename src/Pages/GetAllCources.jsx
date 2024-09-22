@@ -61,7 +61,7 @@ export default function GetAllCources() {
                 })
                 .then(() => {
                     setIsloading(false)
-                    toast.success('قد تم الحذف', {
+                    toast.success('قد تم الحذف  ', {
                         position: "top-center",
                         autoClose: 3000,
                         hideProgressBar: false,
@@ -74,7 +74,7 @@ export default function GetAllCources() {
                        
                 });
         } catch (error) {
-            toast.error('لديك مشكلة في حذف الكورس ', {
+            toast.error('لا يحق لك الحذف هذا الكورس ', {
                 position: "top-center",
                 autoClose: 3000,
                 hideProgressBar: false,
@@ -165,6 +165,9 @@ export default function GetAllCources() {
                 <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
                         السابق
                 </button> 
+                <div className='mx-2'>
+                    الصفحة {currentPage}
+                </div>
                 <button   onClick={nextPage}className='btn btn-primary mx-2' disabled={currentPage === totalPages}>
                 التالي  
                 </button>

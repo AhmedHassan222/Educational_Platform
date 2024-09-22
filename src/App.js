@@ -40,6 +40,9 @@ import Cookies from 'js-cookie';
 // Contexts
 import MyCoursesProvide from './Contexts/MyCoursesContext';
 import FilterContextProvide from './Contexts/FilterContext';
+import AddAssign from './Pages/AddAssign';
+import AllAssignment from './Pages/AllAssignment';
+import UpdateAssignment from './Pages/UpdateAssignment';
 
 export default function App() {
   return (
@@ -68,6 +71,9 @@ export default function App() {
                 <Route index element={<Navigate to={'allVideos'}/>} />
                 <Route path="addVideo" element={<AddVideo />} />
                 <Route path="allVideos" element={<GetAllVideos />} />
+                <Route path="addAssign" element={<AddAssign />} />
+                <Route path="UpdateAssignment/:id" element={<UpdateAssignment />} />
+                <Route path="AllAssignment" element={<AllAssignment />} />
                 <Route path="updateVideos/:title/:id" element={<UpdateVideos />} />
               </Route>
             </Route>

@@ -2,7 +2,8 @@ import { Link, useNavigate } from "react-router-dom"
 import logo from "../../src/Assets/Images/logo.png"
 import Cookies from "js-cookie"
 import style from "../../src/Styles/Nav.module.css"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { date } from "joi"
 export default function NavbarAdmin() {
     const [isOpen, setIsOpen] = useState(false)
     let navigate = useNavigate();
@@ -10,6 +11,13 @@ export default function NavbarAdmin() {
         Cookies.remove('token');
         navigate('/login')
     }
+    useEffect(() => {
+        let data=Cookies.get("token")
+        if(!data){
+            logOut()
+        }
+    }, [date])
+    
     return <>
         <nav className="navbar navbar-expand-lg  navbar-light  py-2 bg-white">
             <div className="container">
@@ -28,6 +36,8 @@ export default function NavbarAdmin() {
                             <ul className="dropdown-menu">
                                 <li><Link className="dropdown-item" to="/teacherAdmin/allVideos">كل الفيديوهات</Link></li>
                                 <li><Link className="dropdown-item" to="/teacherAdmin/addVideo">اضف فيديو</Link></li>
+                                <li><Link className="dropdown-item" to="/teacherAdmin/addAssign">اضف تاسك</Link></li>
+                                <li><Link className="dropdown-item" to="/teacherAdmin/AllAssignment">كل تاسك</Link></li>
                             </ul>
                         </li>
                         <li className="dropdown mx-2 pt-1">

@@ -13,8 +13,6 @@ export default function Lectures() {
     const bytes = CryptoJS.AES.decrypt(encryptedURL, "Gl?11£5R8:5z£-%");
     return bytes.toString(CryptoJS.enc.Utf8);
   };
-
-
   async function getCoursesDetailsById() {
     try {
       const { data } = await axios.get(`${baseURL}/lecture?courseId=${id}`);
@@ -24,10 +22,8 @@ export default function Lectures() {
     }
 
   }
-
   useEffect(() => {
     getCoursesDetailsById()
-
     // document.addEventListener('contextmenu', (e) => e.preventDefault());
     //   document.onkeydown = function (e) {                                                     // console                  // View source             // saving 
     //     if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') ||e.ctrlKey && e.shiftKey && e.key === "J" || e.ctrlKey && e.key === "u" ||e.ctrlKey && e.key === "s" ||e.key === "PrintScreen") {
@@ -40,9 +36,6 @@ export default function Lectures() {
     //     document.onkeydown = null;
     //   };
   }, [lectures?.length])
-
-
-
   // alkymXGYZ8 alkymB4PKU alkymRRFOE alkym1LLRY alkymZ0PKZ
   return (
     <div className="container p-5">
@@ -51,7 +44,7 @@ export default function Lectures() {
           const decryptedURL = decryptVideoURL(lecture.videoURL);
           return (
 
-            <div key={index} className='col-md-4'>
+            <div key={index} className='col-6 col-md-4 col-lg-3'>
               <div className='shadow p-2'>
                 <iframe
                   width="100%" height="400"
@@ -68,7 +61,7 @@ export default function Lectures() {
           );
         }) : 
           // Handle case when no lectures are available
-          arr.map((item,index)=>    <div className='col-md-4'>
+          arr.map((item,index)=>    <div className='col-6 col-md-4 col-lg-3'>
             <div className='shadow p-2'>
               <iframe
                 width={"100%"}

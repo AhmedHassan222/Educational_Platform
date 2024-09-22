@@ -32,7 +32,7 @@ export default function GetAllTeachers() {
                 }
             }).then((res)=>{
                 setIsloading(false);  // Stop loading indicator after the request completes
-                toast.success('قد تم الحذف', {
+                toast.success('لا يحق لك الحذف هذا المدرس ', {
                     position: "top-center",
                     autoClose: 3000,
                     hideProgressBar: false,
@@ -134,6 +134,9 @@ export default function GetAllTeachers() {
                     <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
                             السابق
                     </button> 
+                    <div className='mx-2'>
+                    الصفحة {currentPage}
+                    </div>
                     <button   onClick={nextPage}className='btn btn-primary mx-2' disabled={currentPage === totalPages}>
                     التالي  
                     </button>
