@@ -4,6 +4,8 @@ import axios from 'axios';
 import CryptoJS from "crypto-js";
 import moment from "moment";
 import Cookies from 'js-cookie';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function GetAllVideos() {
 
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
@@ -29,12 +31,30 @@ export default function GetAllVideos() {
                         token: `online__${Cookies.get("token")}`,
                     },
                 }).then(()=>{
-                    setIsloading(false);
+                    setIsloading(false)
+                    toast.success('قد تم الحذف', {
+                        position: "top-center",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        });
                 })
         } catch (error) {
-            seterrorForm(error.message)
-            setIsloading(false);
-
+            toast.error('لديك مشكلة في حذف الفيديو ', {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });     
+                setIsloading(false)   
         }
 
     }
@@ -64,12 +84,20 @@ export default function GetAllVideos() {
        try {
         setIsloading(true)
         const { data } = await axios.get(`${baseURL}/lecture?page=${page}`);
-        setlectures(data.data)
-        setIsloading(false)
-        setTotalPages(data.paginationInfo.totalPages)
-        setrecordPerPage(data.paginationInfo.perPages)
+        if (data && data.paginationInfo) {
+            setlectures(data.data)
+            setIsloading(false)
+            setTotalPages(data.paginationInfo.totalPages || 1); // Default to 1 if undefined
+            setrecordPerPage(data.paginationInfo.perPages || 10); // Default to 10 per page
+          } else {
+            setlectures([])
+            setIsloading(false)
+            setTotalPages(1);
+            setrecordPerPage(10);
+          }
        } catch (error) {
         seterrorForm(error.message)
+        setIsloading(false)
        }
         }
     useEffect(() => {
@@ -78,6 +106,8 @@ export default function GetAllVideos() {
     }, [lectures?.length])
     return <>
         <section className="py-5 container ">
+        <ToastContainer />
+
             {isLoading ? <div className=" position-fixed start-50 text-light top-50  p-3" style={{ transform: 'translate(-50%, -50%)' ,backgroundColor: 'rgba(0,0,0,0.6)'}}>
                 <i className="fa fa-spin fa-spinner h3"></i>
             </div> : ""}

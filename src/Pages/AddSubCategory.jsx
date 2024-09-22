@@ -39,6 +39,7 @@ export default function AddSubCategory() {
   // FUNCTION ADD SUB CATEGORY >>>>>>>>>>>>>>>>>>>>>>>>>>
   async function addItem() {
     setIsloading(true);
+    console.log(dataAdded)
     try {
       await axios.post(`${baseURL}/subcategory/create?categoryId=${categoryId}`, dataAdded, {
         headers: {
@@ -46,11 +47,13 @@ export default function AddSubCategory() {
         }
       }).then((res) => {
         setIsloading(false)
+        console.log(res)
         if (res.data.message === "sub-category created successfuly")
           navigate('/admin/allSubCategories')
       })
     } catch (error) {
       setIsloading(false)
+      console.log(error)
       seterrorForm(error.message)
     }
 

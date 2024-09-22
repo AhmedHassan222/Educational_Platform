@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function GetAllCodes() {
   const [codes, setcodes] = useState([]);
   const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
-  const [errorForm, seterrorForm] = useState("");
   const [isLoading, setIsloading] = useState(false);
   const printRef = useRef(); // the section you want to print.
   let arr=[1,2,3,4,5]
@@ -19,6 +18,7 @@ export default function GetAllCodes() {
   const fristIndex=lastIndex - recordPerPage ;
  
   async function deleteItem(id) {
+    setIsloading(true);
     try {
       await axios
         .delete(`${baseURL}/codes/delete?codeId=${id}`, {
@@ -35,22 +35,35 @@ export default function GetAllCodes() {
             draggable: true,
             progress: undefined,
             theme: "light",
-            // transition: Bounce,
             });
+            setIsloading(false)
         })
     } catch (error) {
-      seterrorForm(error.message)
-      setIsloading(false);
-      console.log(error)
+      toast.error('لديك مشكلة في حذف الاكواد ', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });     
+        setIsloading(false)    
 
     }
   }
   async function getAll(page) {
     const { data } = await axios.get(`${baseURL}/codes?page=${page}`);
-    setcodes(data.data);
-    setIsloading(false)
-    setTotalPages(data.paginationInfo.totalPages)
-    setrecordPerPage(data.paginationInfo.perPages)
+    if (data && data.paginationInfo) {
+      setcodes(data.data);
+      setTotalPages(data.paginationInfo.totalPages || 1); // Default to 1 if undefined
+      setrecordPerPage(data.paginationInfo.perPages || 10); // Default to 10 per page
+    } else {
+      setcodes([]);
+      setTotalPages(1);
+      setrecordPerPage(10);
+    }
   }
   const handlePrint = useReactToPrint({ content:()=> printRef.current, });
 
@@ -58,7 +71,6 @@ export default function GetAllCodes() {
     setIsloading(true)
    if(currentPage >1 ){
     setCurrentPage(currentPage - 1);
-    getAll(currentPage-1)
     setIsloading(false)
    }
 }
@@ -66,12 +78,12 @@ function nextPage(){
     setIsloading(true)
     if(currentPage < totalPages){
         setCurrentPage(currentPage + 1);
-        getAll(currentPage+1)
         setIsloading(false)
     }
 }
   useEffect(() => {
     getAll(currentPage);
+    setIsloading(false)
   }, [codes]);
 
   return (
@@ -122,17 +134,10 @@ function nextPage(){
           </div>
         )) :
         <div className="text-center ">
-          <i className="fa fa-spin fa-spinner h3"></i>
+            <p>لا يوجد اكواد </p>
         </div>
             
             }
-        {errorForm ? (
-        <p className="text-danger py-1 text-center small">
-          لديك مشكلة في اخر عملية
-        </p>
-      ) : (
-        ""
-      )}
       </div>
              {/* pagination */}
              {totalPages >1 ?   <div className=' p-2 text-center d-flex justify-content-center'>

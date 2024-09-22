@@ -11,11 +11,10 @@ export default function GetAllCources() {
     let arr = [1, 2, 3, 4];
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [Courses, setCourses] = useState([]);
-    const [errorForm, seterrorForm] = useState("");
     const stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
     const [isLoading, setIsloading] = useState(false);
     const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
-    const [totalPages, setTotalPages] = useState();
+    const [totalPages, setTotalPages] = useState(1);
     const [currentPage, setCurrentPage] = useState(1); 
     const [recordPerPage, setrecordPerPage] = useState(); 
     const lastIndex=currentPage * recordPerPage ;
@@ -27,7 +26,6 @@ export default function GetAllCources() {
         setIsloading(true)
         if(currentPage < totalPages){
             setCurrentPage(currentPage + 1);
-            getAll(currentPage+1)
             setIsloading(false)
         }
     }
@@ -35,20 +33,25 @@ export default function GetAllCources() {
         setIsloading(true)
        if(currentPage >1 ){
         setCurrentPage(currentPage - 1);
-        getAll(currentPage-1)
         setIsloading(false)
        }
     }
     // GET ALL COURSES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function getAll(page) {
         const { data } = await axios.get(`${baseURL}/course?page=${page}`);
-        setCourses(data.data)
-        setIsloading(false)
-        setTotalPages(data.paginationInfo.totalPages)
-        setrecordPerPage(data.paginationInfo.perPages)
+        if (data && data.paginationInfo) {
+            setCourses(data.data)
+            setTotalPages(data.paginationInfo.totalPages || 1); // Default to 1 if undefined
+            setrecordPerPage(data.paginationInfo.perPages || 10); // Default to 10 per page
+          } else {
+            setCourses([])
+            setTotalPages(1);
+            setrecordPerPage(10);
+          }
     }
     // DELETE COURSE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function deleteItem(id) {
+        setIsloading(true);
         try {
             await axios
                 .delete(`${baseURL}/course/delete?courseId=${id}`, {
@@ -57,20 +60,31 @@ export default function GetAllCources() {
                     },
                 })
                 .then(() => {
+                    setIsloading(false)
                     toast.success('قد تم الحذف', {
                         position: "top-center",
-                        autoClose: 5000,
+                        autoClose: 3000,
                         hideProgressBar: false,
                         closeOnClick: true,
                         pauseOnHover: true,
                         draggable: true,
                         progress: undefined,
                         theme: "light",
-                        // transition: Bounce,
                         });
+                       
                 });
         } catch (error) {
-            seterrorForm(error.message)
+            toast.error('لديك مشكلة في حذف الكورس ', {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });     
+                setIsloading(false)    
         }
     }
     // USE EFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -112,21 +126,23 @@ export default function GetAllCources() {
                                 <tr key={index}>
                                     <td className="col-2"><img src={item.photo.secure_url} className="w-100" alt={item.name} /></td>
                                     <td className="pt-3" >{item.name}</td>
-                                    <td className="pt-3" >{stage[item.subCategoryId.name]} {grade[item.categoryId.name]}</td>
+                                    <td className="pt-3" >{stage[item.subCategoryId?.name]} {grade[item.categoryId?.name]}</td>
                                     <td className="pt-3">{moment(item.createdAt).format('YYYY/MM/DD')}</td>
-                                    <td className="pt-3">
+                                    <td className="pt-3   ">
+                                    <div className=" d-flex align-items-center  justify-content-center ">
                                         <button
-                                            className="btn btn-sm btn-danger ms-2"
-                                            onClick={() => { deleteItem(item._id) }}
-                                        >
-                                            حذف
-                                        </button>
-                                        <Link
-                                            className="btn btn-primary btn-sm"
-                                            to={`/admin/updatecourse/${item.name}/${item.id}`}
-                                        >
-                                            تعديل
-                                        </Link>
+                                                className="btn btn-sm btn-danger   ms-2"
+                                                onClick={() => { deleteItem(item._id) }}
+                                            >
+                                                حذف
+                                            </button>
+                                            <Link
+                                                className="btn btn-primary btn-sm"
+                                                to={`/admin/updatecourse/${item.name}/${item.id}`}
+                                            >
+                                                تعديل
+                                            </Link>
+                                    </div>
                                     </td>
                                 </tr>
                             ))
@@ -141,9 +157,7 @@ export default function GetAllCources() {
                                 </tr>
                             ))}
                     </tbody>
-                </table>
-                {errorForm ? <p className="text-danger py-1 text-center small"> لديك مشكلة في اخر عملية </p> : ''}
-            
+                </table>            
             
                       {/* pagination */}
              {totalPages >1 ?   <div className=' p-2 text-center d-flex justify-content-center'>

@@ -1,16 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function GetAllTeachers() {
 
-    const [errorForm, seterrorForm] = useState("");
     const [isLoading, setIsloading] = useState(false);
     const stage = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [allTeachers, setallTeachers] = useState([]);
     const arr = [1, 2, 3, 4];
-    const [totalPages, setTotalPages] = useState();
+    const [totalPages, setTotalPages] = useState(1);
     const [currentPage, setCurrentPage] = useState(1); 
     const [recordPerPage, setrecordPerPage] = useState(); 
     const lastIndex=currentPage * recordPerPage ;
@@ -30,19 +30,39 @@ export default function GetAllTeachers() {
                 data: {
                     email: emailTeacher  // Send email in request body
                 }
+            }).then((res)=>{
+                setIsloading(false);  // Stop loading indicator after the request completes
+                toast.success('قد تم الحذف', {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    });
+
             })
 
-            setIsloading(false);  // Stop loading indicator after the request completes
         } catch (error) {
-            seterrorForm(error.message);  // Handle error
-            setIsloading(false);  // Stop loading in case of error
+            toast.error('لديك مشكلة في حذف المدرس', {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                });         
+                setIsloading(false);  // Stop loading in case of error
         }
     }
     function prePage(){
         setIsloading(true)
        if(currentPage >1 ){
         setCurrentPage(currentPage - 1);
-        getAll(currentPage-1)
         setIsloading(false)
        }
     }
@@ -50,28 +70,32 @@ export default function GetAllTeachers() {
         setIsloading(true)
         if(currentPage < totalPages){
             setCurrentPage(currentPage + 1);
-            getAll(currentPage+1)
             setIsloading(false)
         }
     }
     async function getAll(page) {
         const { data } = await axios.get(`${baseURL}/auth/teachers?page=${page}`);
-        setIsloading(false)
-        setallTeachers(data.data)
-        setTotalPages(data.paginationInfo.totalPages)
-        setrecordPerPage(data.paginationInfo.perPages)
+        if (data && data.paginationInfo) {
+            setallTeachers(data.data)
+            setTotalPages(data.paginationInfo.totalPages || 1); // Default to 1 if undefined
+            setrecordPerPage(data.paginationInfo.perPages || 10); // Default to 10 per page
+          } else {
+            setallTeachers([])
+            setTotalPages(1);
+            setrecordPerPage(10);
+          }
     }
     useEffect(() => {
-        window.scroll(0,0)
         getAll(currentPage);
     }, [allTeachers]);
     return <>
         <div className="container py-5">
-
-            {isLoading ? <div className="text-light position-fixed start-50 top-50  p-4" style={{ transform: 'translate(-50%, -50%)',backgroundColor: 'rgba(0,0,0,0.6)' }}>
+        <ToastContainer />
+        {isLoading ? <div className="text-light position-fixed start-50 top-50  p-4" style={{ transform: 'translate(-50%, -50%)',backgroundColor: 'rgba(0,0,0,0.6)' }}>
                 <i className="fa fa-spin fa-spinner fs-3"></i>
             </div> : ""}
-            <table className="table table-striped  table-hover table-bordered">
+                <div className="w-100  overflow-x-scroll">
+                <table className="table text-center  table-striped  table-hover table-bordered">
                 <thead>
                     <tr>
                         <th scope="col">الاسم</th>
@@ -83,14 +107,12 @@ export default function GetAllTeachers() {
                 </thead>
                 <tbody>
                     {allTeachers?.length > 0 ? allTeachers?.map((item, index) => <tr key={index}>
-                        <td>{item.fullName}</td>
+                        <td className="col">{item.fullName}</td>
                         <td>{item.email}</td>
                         <td>{item.courseId?.name} - {stage[item.stage]}</td>
                         <td>{item.phoneNumber.replace("+2", "")}</td>
-                        <td>
-                            <div className="d-flex ">
-                                <button className="btn btn-sm btn-danger ms-2" onClick={() => { deleteItem(item._id, item.email) }}>  حذف</button>
-                            </div> </td>
+                        <td> <button className="btn btn-sm btn-danger ms-2" onClick={() => { deleteItem(item._id, item.email) }}>  حذف</button>
+                             </td>
                     </tr>
                     ) : arr.map((item, index) => (
                         <tr key={index}>
@@ -104,11 +126,10 @@ export default function GetAllTeachers() {
                     ))}
                 </tbody>
 
-            </table>
-            {errorForm.length > 0 ? <p className=" text-danger py-1 text-center small"> لديك مشكلة في اخر عملية </p> : ''}
-
+                 </table>
+                </div>
                        {/* pagination */}
-             {totalPages >1 ?   <div className=' p-2 text-center d-flex justify-content-center'>
+                {totalPages >1 ?   <div className=' p-2 text-center d-flex justify-content-center'>
 
                     <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
                             السابق

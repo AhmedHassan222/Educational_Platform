@@ -33,24 +33,26 @@ export default function AddCategory() {
         const validate = validationForm();
         if (validate.error) {
             setError(validate.error.details)
+            setIsloading(false)
+
         } else {
             addItem()
+            setIsloading(false)
         }
-        setIsloading(false)
-        console.log(error)
     };
     async function addItem() {
+        setIsloading(true)
         try {
             await axios.post(`${baseURL}/category/create`, dataAdded, {
                 headers: {
                     "token": `online__${Cookies.get('token')}`
                 }
             }).then((res) => {
-                console.log(res)
+                setIsloading(false)
                 navigate('/admin/allCategories')
             })
         } catch (error) {
-            // console.log(error)
+            setIsloading(false)
             seterrorForm(error)
         }
 

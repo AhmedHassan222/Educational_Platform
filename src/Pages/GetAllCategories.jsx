@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 import moment from 'moment';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function GetAllCategories() {
   // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const arr = [1, 2, 3, 4];
@@ -32,6 +34,16 @@ export default function GetAllCategories() {
           },
         }).then(() => {
           setIsloading(false);
+          toast.success('قد تم الحذف', {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
         });
     } catch (error) {
       setIsloading(false);
@@ -45,6 +57,7 @@ export default function GetAllCategories() {
         <i className="fa fa-spin fa-spinner h3"></i>
       </div> : ""}
       <div className="container py-5">
+      <ToastContainer />
         <table className="table table-striped text-center  table-hover table-bordered">
           <thead>
             <tr>
