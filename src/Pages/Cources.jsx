@@ -18,11 +18,11 @@ export default function Cources() {
     const [isLoading, setIsloading] = useState(false);
 
     const [totalPages, setTotalPages] = useState();
-    const [currentPage, setCurrentPage] = useState(1); 
-    const [recordPerPage, setrecordPerPage] = useState(); 
-    const lastIndex=currentPage * recordPerPage ;
-    const fristIndex=lastIndex - recordPerPage ;
-   
+    const [currentPage, setCurrentPage] = useState(1);
+    const [recordPerPage, setrecordPerPage] = useState();
+    const lastIndex = currentPage * recordPerPage;
+    const fristIndex = lastIndex - recordPerPage;
+
     async function getAll(Page) {
         try {
             const { data } = await axios.get(`${baseURL}/course?page=${Page}`);
@@ -34,26 +34,26 @@ export default function Cources() {
         }
     }
     // FUNCTION NEXT 
-    function prePage(){
+    function prePage() {
         setIsloading(true)
-       if(currentPage >1 ){
-        setCurrentPage(currentPage - 1);
-        getAll(currentPage-1)
-        setIsloading(false)
-       }
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+            getAll(currentPage - 1)
+            setIsloading(false)
+        }
     }
-    function nextPage(){
+    function nextPage() {
         setIsloading(true)
-        if(currentPage < totalPages){
+        if (currentPage < totalPages) {
             setCurrentPage(currentPage + 1);
-            getAll(currentPage+1)
+            getAll(currentPage + 1)
             setIsloading(false)
         }
     }
 
     // FUNCTION PREV
     useEffect(() => {
-        window.scroll(0,0)
+        window.scroll(0, 0)
         getAll(currentPage);
         setDisplayCourses(courses);
     }, [courses?.length])
@@ -69,7 +69,7 @@ export default function Cources() {
     }, [filterCourses])
     return <>
         <section className="py-5 container ">
-        {isLoading ? <div className=" position-fixed start-50 text-light top-50  p-3" style={{ transform: 'translate(-50%, -50%)' ,backgroundColor: 'rgba(0,0,0,0.6)' ,zIndex :"999999"}}>
+            {isLoading ? <div className=" position-fixed start-50 text-light top-50  p-3" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)', zIndex: "999999" }}>
                 <i className="fa fa-spin fa-spinner h3"></i>
             </div> : ""}
             <div className="row g-3 ">
@@ -132,6 +132,7 @@ export default function Cources() {
                         }
                     </div>
                 </div>
+<<<<<<< HEAD
                         {/* pagination */}
                     {totalPages >1 ?   <div className=' p-2 text-center d-flex justify-content-center align-items-center'>
 
@@ -145,6 +146,20 @@ export default function Cources() {
                 التالي  
                 </button>
                     </div> :"" }    
+=======
+                {/* pagination */}
+                {totalPages > 1 ? <div className=' p-2 text-center d-flex justify-content-center align-items-center'>
+                    <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
+                        السابق
+                    </button>
+                    <div className='mx-2'>
+                        الصفحة {currentPage}
+                    </div>
+                    <button onClick={nextPage} className='btn btn-primary mx-2' disabled={currentPage === totalPages}>
+                        التالي
+                    </button>
+                </div> : ""}
+>>>>>>> f2f848f5f5c5a7cfd5365911009aff900f87576a
             </div>
         </section>
     </>

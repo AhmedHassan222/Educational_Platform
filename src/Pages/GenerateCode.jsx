@@ -107,7 +107,7 @@ export default function GenerateCode() {
               <div className="my-4">
                         <select className="w-100 p-2 text-muted" autoComplete="off" name="name" onChange={(e) => setcourseId(e.target.value)}  >
                             <option value="">   الصف  الدراسي </option>
-                            {Courses?.map((course, index) => <option key={index} value={course._id}>{course.name}-{stage[course.subCategoryId.name]} {grade[course.categoryId.name]}</option>)}
+                            {Courses?.map((course, index) => <option key={index} value={course?._id}>{course?.name}-{stage[course?.subCategoryId?.name]} {grade[course?.categoryId?.name]}</option>)}
                         </select>
                         {isSubmit ? !courseId ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
                     </div>
