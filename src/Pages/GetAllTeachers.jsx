@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
 export default function GetAllTeachers() {
-
+    const navigate = useNavigate();
     const [isLoading, setIsloading] = useState(false);
     const stage = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
@@ -32,7 +33,39 @@ export default function GetAllTeachers() {
                 }
             }).then((res) => {
                 setIsloading(false);  // Stop loading indicator after the request completes
-                toast.success('لا يحق لك الحذف هذا المدرس ', {
+                if (res.data.message === "Refresh token") {
+                    toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
+                      position: "top-center",
+                      autoClose: 3000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "light",
+                    });
+                    Cookies.set('token', res?.data?.refreshToken, { expires: 7 });
+                  }else{
+                    toast.success('قد تم الحذف  ', {
+                      position: "top-center",
+                      autoClose: 3000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "light",
+                  });
+                  }
+
+            })
+
+        } catch (error) {
+            if(error.response.data.Error ==='wrong  token'){
+                Cookies.remove('token');
+                navigate('/login')
+            }else{
+                toast.error('لديك مشكلة في الحذف ', {
                     position: "top-center",
                     autoClose: 3000,
                     hideProgressBar: false,
@@ -42,20 +75,8 @@ export default function GetAllTeachers() {
                     progress: undefined,
                     theme: "light",
                 });
-
-            })
-
-        } catch (error) {
-            toast.error('لديك مشكلة في حذف المدرس', {
-                position: "top-center",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
+            }
+          
             setIsloading(false);  // Stop loading in case of error
         }
     }

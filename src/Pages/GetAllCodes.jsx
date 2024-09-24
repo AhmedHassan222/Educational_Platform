@@ -5,8 +5,11 @@ import style from "../../src/Styles/Auth.module.css";
 import { useReactToPrint } from "react-to-print";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
 export default function GetAllCodes() {
   const [codes, setcodes] = useState([]);
+  const navigate = useNavigate();
+
   const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
   const [isLoading, setIsloading] = useState(false);
   const printRef = useRef(); // the section you want to print.
@@ -26,33 +29,50 @@ export default function GetAllCodes() {
             token: `online__${Cookies.get("token")}`,
           },
         }).then((res) => {
-          console.log(res)
-          toast.success('قد تم الحذف', {
+          setIsloading(false)
+          if (res.data.message === "Refresh token") {
+            toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
+              position: "top-center",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+            Cookies.set('token', res?.data?.refreshToken, { expires: 7 });
+          }else{
+            toast.success('قد تم الحذف  ', {
+              position: "top-center",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+          });
+          }
+        
+        })
+    } catch (error) {
+      setIsloading(false)
+      if(error.response.data.Error ==='wrong  token'){
+        Cookies.remove('token');
+        navigate('/login')
+    }else{
+        toast.error('لديك مشكلة في الحذف ', {
             position: "top-center",
-            autoClose: 5000,
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
             theme: "light",
-          });
-          setIsloading(false)
-        })
-    } catch (error) {
-      toast.error('لا يحق لك الحذف هذا الاكواد ', {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      setIsloading(false)
-
-    }
+        });
+    }}
   }
   async function getAll(page) {
     const { data } = await axios.get(`${baseURL}/codes?page=${page}`);

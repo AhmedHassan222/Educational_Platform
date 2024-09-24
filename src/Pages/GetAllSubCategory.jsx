@@ -1,13 +1,15 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function GetAllSubCategory() {
   // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   let arr = [1, 2, 3, 4];
+  const navigate = useNavigate();
+
   const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
   const [supCategories, setsupCategories] = useState([]);
   let stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
@@ -44,36 +46,37 @@ export default function GetAllSubCategory() {
               theme: "light",
             });
             Cookies.set('token', res?.data?.refreshToken, { expires: 7 });
+          }else{
+            toast.success('قد تم الحذف  ', {
+              position: "top-center",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+          });
           }
         });
     } catch (error) {
       setIsloading(false);
-      console.log(error)
-      if (error?.response?.data?.Error === "subCategory name is duplicated! please enter Another name") {
-        toast.error("الصف الذي تحاول اضافته مضاف بالفعل", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        }
-        );
-      } else {
-        toast.error(" هناك مشكلة في حذف الصف", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        }
-        );
-      }
+      if(error.response.data.Error ==='wrong  token'){
+        Cookies.remove('token');
+        navigate('/login')
+    }else{
+        toast.error('لديك مشكلة في الحذف ', {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+    }
+     
     }
   }
   // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

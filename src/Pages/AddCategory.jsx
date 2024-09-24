@@ -4,6 +4,8 @@ import Cookies from 'js-cookie';
 import axios from "axios";
 import Joi from "joi";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function AddCategory() {
     let navigate = useNavigate()
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
@@ -49,16 +51,49 @@ export default function AddCategory() {
                 }
             }).then((res) => {
                 setIsloading(false)
+               if(res.data.message === "category created successfuly"){
                 navigate('/admin/allCategories')
+
+               }
+               if (res.data.message === "Refresh token") {
+                toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
+                  position: "top-center",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
+                Cookies.set('token', res?.data?.refreshToken, { expires: 7 });
+              }
             })
         } catch (error) {
             setIsloading(false)
-            seterrorForm(error)
+            if(error.response.data.Error ==='wrong  token'){
+                Cookies.remove('token');
+                navigate('/login')
+            }else{
+                toast.error(" هناك مشكلة في اضافة ", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                  });
+            }
+           
         }
 
     }
     return <>
         <div className="container py-5">
+        <ToastContainer />
+
             <div className="text-center rounded-4  border-1 widthCustom mx-auto">
                 <form encType="multipart/form-data" onSubmit={handleSubmit}>
 

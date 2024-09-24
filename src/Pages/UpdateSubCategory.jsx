@@ -5,7 +5,8 @@ import Cookies from "js-cookie";
 import { useState } from "react";
 import style from "../../src/Styles/Auth.module.css"
 import { useNavigate, useParams } from "react-router-dom";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function UpdatedSubCategory() {
   const { name, id } = useParams()
   let navagite = useNavigate()
@@ -31,9 +32,36 @@ export default function UpdatedSubCategory() {
           if (res.status === 200) {
             navagite('/admin/allSubCategories')
           }
+          if (res.data.message === "Refresh token") {
+            toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
+              position: "top-center",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+            Cookies.set('token', res?.data?.refreshToken, { expires: 7 });
+          }
         });
     } catch (error) {
-      seterrorForm(error.message)
+      if(error.response.data.Error ==='wrong  token'){
+        Cookies.remove('token');
+        navagite('/login')
+    }else{
+        toast.error(" هناك مشكلة في التحديث", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+    }
     }
   }
 
@@ -64,6 +92,8 @@ export default function UpdatedSubCategory() {
   return <>
 
     <div className="container py-5">
+    <ToastContainer />
+
       <div className="text-center rounded-4  border-1 widthCustom mx-auto">
         <form encType="multipart/form-data" onSubmit={handleSubmit}>
 

@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -7,6 +5,8 @@ import style from "../../src/Styles/Auth.module.css";
 import "../Styles/index.css";
 import axios from "axios";
 import Joi from "joi";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function AddTeacher() {
     //Variables here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
     const navigate = useNavigate();
@@ -15,7 +15,6 @@ export default function AddTeacher() {
         stage: "", phoneNumber: "", gender: "", subjecTeacher: ""
     });
     const [error, setError] = useState([]);
-    const [serverError, setServerError] = useState("");
     const [Isloading, setIsloading] = useState(false);
     const [inputType, setInputType] = useState('password');
     const [showPassword, setShowPassword] = useState(false);
@@ -85,15 +84,39 @@ export default function AddTeacher() {
             }).then((response) => {
                 if (response.data.message === "Done,please try to Login") {
                     navigate('/admin/allTeachers')
-
-                } else {
-                    Cookies.set("token", response.data.refreshToken)
-                    setrefreshToken(response.data.message)
                 }
+                if (response.data.message === "Refresh token") {
+                    toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
+                      position: "top-center",
+                      autoClose: 3000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "light",
+                    });
+                    Cookies.set('token', response?.data?.refreshToken, { expires: 7 });
+                  }
+                
 
             })
         } catch (error) {
-            setServerError(error.message)
+            if(error.response.data.Error ==='wrong  token'){
+                Cookies.remove('token');
+                navigate('/login')
+            }else{
+                toast.error(" هناك مشكلة في اضافة المدرس", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                  });
+            }
         }
         setIsloading(false)
     }
@@ -101,6 +124,8 @@ export default function AddTeacher() {
 
     return (
         <div className="container py-5">
+                  <ToastContainer />
+
             <div className="text-center rounded-4  border-1 widthCustom mx-auto">
                 <form onSubmit={submitRegisterForm}>
                     {/* full name  */}
@@ -219,8 +244,6 @@ export default function AddTeacher() {
                     </div>
 
                     <button type="submit" className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>{Isloading ? <i className="fa-spin fa fa-spinner"></i> : "انشاء حساب"}</button>
-                    {serverError ? <p className="text-danger py-1 text-center small">لديك مشكلة في انشاء الحساب</p> : ''}
-                    {refreshToken?.length > 0 ? <p className="text-danger py-1 text-center small">  حاول مرة أخري   </p> : ''}
                 </form>
             </div>
         </div>

@@ -3,11 +3,11 @@ import style from "../../src/Styles/Auth.module.css";
 import Cookies from 'js-cookie';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function AddCourse() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const navigate = useNavigate();
-    const [errorForm, seterrorForm] = useState("");
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
     const stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
@@ -62,11 +62,37 @@ export default function AddCourse() {
                 if (res.data.message === "course created successfuly") {
                     navigate('/admin/allCources');
                 }
+                if (res.data.message === "Refresh token") {
+                    toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
+                      position: "top-center",
+                      autoClose: 3000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "light",
+                    });
+                    Cookies.set('token', res?.data?.refreshToken, { expires: 7 });
+                  }
             });
         } catch (error) {
-            console.log(error)
             setIsloading(false);
-            seterrorForm(error);
+            if(error.response.data.Error ==='wrong  token'){
+                Cookies.remove('token');
+                navigate('/login')
+            }else{
+                toast.error(" هناك مشكلة في اضافة الكورس", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                  });
+            }
         }
     }
 
@@ -74,6 +100,8 @@ export default function AddCourse() {
     // RENDER HTML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
         <div className="container py-5">
+        <ToastContainer />
+
             <div className="text-center rounded-4  border-1 widthCustom mx-auto">
                 <form encType='multibart/form-data' onSubmit={handleSubmit}>
                     <div className=" mb-4">
@@ -95,7 +123,6 @@ export default function AddCourse() {
                         {isSubmit ? !subcategoryId ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
                     </div>
                     <button type="submit" className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>{Isloading ? <i className="fa-spin fa fa-spinner"></i> : "اضف"}</button>
-                    {errorForm ? <p className="text-danger py-1 text-center small">لديك مشكلة في  اضافة كورس</p> : ''}
                 </form>
             </div >
         </div >

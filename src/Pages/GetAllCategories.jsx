@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import moment from 'moment';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,8 +11,9 @@ export default function GetAllCategories() {
   const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
   const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
   const [categories, setcategories] = useState([]);
-  const [errorForm, seterrorForm] = useState("");
   const [isLoading, setIsloading] = useState(false);
+  const navigate = useNavigate();
+
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   // FUNCTION GET ALL CATEGORIES >>>>>>>>>>>>>>>>>>>>>>>>>>>>
   async function getAll() {
@@ -32,23 +33,51 @@ export default function GetAllCategories() {
           headers: {
             token: `online__${Cookies.get("token")}`,
           },
-        }).then(() => {
+        }).then((res) => {
           setIsloading(false);
-          toast.success('قد تم الحذف', {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
+          if (res.data.message === "Refresh token") {
+            toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
+              position: "top-center",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
             });
+            Cookies.set('token', res?.data?.refreshToken, { expires: 7 });
+          }else{
+            toast.success('قد تم الحذف  ', {
+              position: "top-center",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+          });
+          }
         });
     } catch (error) {
       setIsloading(false);
-      seterrorForm(error);
+      if(error.response.data.Error ==='wrong  token'){
+        Cookies.remove('token');
+        navigate('/login')
+    }else{
+      toast.error('  يوجد مشكلة في الحذف ', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
     }
+        }
   }
   // RENGER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   return (
@@ -100,7 +129,6 @@ export default function GetAllCategories() {
               ))}
           </tbody>
         </table>
-        {errorForm ? <p className="text-danger py-1 text-center small"> لديك مشكلة في اخر عملية </p> : ''}
       </div>
     </>
   );

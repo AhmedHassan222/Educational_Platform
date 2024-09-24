@@ -4,6 +4,8 @@ import Cookies from "js-cookie";
 import { useState } from "react";
 import style from "../../src/Styles/Auth.module.css"
 import { useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function UpdateCourse() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const { id,nameCourse } = useParams()
@@ -11,7 +13,6 @@ export default function UpdateCourse() {
     const formData = new FormData();
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [Isloading, setIsloading] = useState(false);
-    const [errorForm, seterrorForm] = useState("");
     const [image, setImage] = useState(null);
     const [name, setName] = useState(nameCourse);
     const [isSubmit, setIsSubmit] = useState(false);
@@ -34,10 +35,37 @@ export default function UpdateCourse() {
                     if (res.status === 200) {
                         navagite('/admin/allCources')
                     }
+                    if (res.data.message === "Refresh token") {
+                        toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
+                          position: "top-center",
+                          autoClose: 3000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: "light",
+                        });
+                        Cookies.set('token', res?.data?.refreshToken, { expires: 7 });
+                      }
                 });
         } catch (error) {
             setIsloading(false);
-            seterrorForm(error.message)
+            if(error.response.data.Error ==='wrong  token'){
+                Cookies.remove('token');
+                navagite('/login')
+            }else{
+                toast.error(" هناك مشكلة في التحديث", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                  });
+            }
         }
     }
     // HANDLE IMAGE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -54,6 +82,8 @@ export default function UpdateCourse() {
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
         <div className="container py-5">
+        <ToastContainer />
+
             <div className="text-center rounded-4  border-1 widthCustom mx-auto">
                 <form encType="multipart/form-data" onSubmit={handleSubmit}>
                     <div className=" mb-4 text-end">
@@ -69,7 +99,6 @@ export default function UpdateCourse() {
                         {isSubmit ? name === "" ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
                     </div>
                     <button type="submit" className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>    {Isloading ? <i className="fa fa-spin fa-spinner"></i> : "حفظ"}</button>
-                    {errorForm ? <p className="text-danger my-4 text-center small">لديك مشكلة في تعديل الكورس</p> : ''}
                 </form>
             </div>
         </div>

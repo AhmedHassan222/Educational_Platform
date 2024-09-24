@@ -7,11 +7,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function AddSubCategory() {
   // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  const [categoryId, setCategoryId] = useState(null);
+  const [categoryId, setCategoryId] = useState(null)
+
   const [categories, setcategories] = useState([]);
   const [isSubmit, setIsSubmit] = useState(false);
   const grade = { primary: "الابتدائية", preparatory: "الاعدادية ", secondary: "الثانوية", };
-  const [errorForm, seterrorForm] = useState("");
   const [dataAdded, setdataAdded] = useState({ name: "" });
   const [Isloading, setIsloading] = useState(false);
   const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
@@ -66,19 +66,10 @@ export default function AddSubCategory() {
       })
     } catch (error) {
       setIsloading(false)
-      if (error?.response?.data?.Error === "subCategory name is duplicated! please enter Another name") {
-        toast.error("الصف الذي تحاول اضافته مضاف بالفعل", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        }
-        );
-      } else {
+      if(error.response.data.Error ==='wrong  token'){
+        Cookies.remove('token');
+        navigate('/login')
+     } else {
         toast.error(" هناك مشكلة في اضافة صف", {
           position: "top-center",
           autoClose: 3000,

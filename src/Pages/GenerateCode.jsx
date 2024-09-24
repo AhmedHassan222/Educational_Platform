@@ -3,7 +3,8 @@ import style from "../../src/Styles/Auth.module.css";
 import axios from "axios";
 import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function GenerateCode() {
 
   const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
@@ -49,10 +50,37 @@ export default function GenerateCode() {
             if (res.data.message === "codes created successfuly") {
                 navigate('/admin/allCodes')
             }
+            if (res.data.message === "Refresh token") {
+              toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+              Cookies.set('token', res?.data?.refreshToken, { expires: 7 });
+            }
         })
     } catch (error) {
         setIsloading(false)
-        seterrorForm(error.message)
+        if(error.response.data.Error ==='wrong  token'){
+          Cookies.remove('token');
+          navigate('/login')
+      }else{
+          toast.error(" هناك مشكلة في انشاء الاكواد ", {
+              position: "top-center",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+      }
     }
 }
   const handleSubmit = (e) => {
@@ -66,6 +94,8 @@ export default function GenerateCode() {
   return (
     <>
       <div className="container py-5">
+      <ToastContainer />
+
         <div className="text-center rounded-4  border-1 widthCustom mx-auto">
           <form encType="multipart/form-data" onSubmit={handleSubmit}>
             {/* numsOfCodes */}

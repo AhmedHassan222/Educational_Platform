@@ -2,13 +2,15 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function GetAllCources() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     let arr = [1, 2, 3, 4];
+    const navigate = useNavigate();
+
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [Courses, setCourses] = useState([]);
     const stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
@@ -59,31 +61,49 @@ export default function GetAllCources() {
                         token: `online__${Cookies.get("token")}`,
                     },
                 })
-                .then(() => {
+                .then((res) => {
                     setIsloading(false)
-                    toast.success('قد تم الحذف  ', {
-                        position: "top-center",
-                        autoClose: 3000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    });
-
+                    if (res.data.message === "Refresh token") {
+                        toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
+                          position: "top-center",
+                          autoClose: 3000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: "light",
+                        });
+                        Cookies.set('token', res?.data?.refreshToken, { expires: 7 });
+                      }else{
+                        toast.success('قد تم الحذف  ', {
+                          position: "top-center",
+                          autoClose: 3000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: "light",
+                      });
+                      }
                 });
         } catch (error) {
-            toast.error('لا يحق لك الحذف هذا الكورس ', {
-                position: "top-center",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
+            if(error.response.data.Error ==='wrong  token'){
+                Cookies.remove('token');
+                navigate('/login')
+            }else{
+                toast.error('لديك مشكلة في الحذف ', {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
             setIsloading(false)
         }
     }
