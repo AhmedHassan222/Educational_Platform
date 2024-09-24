@@ -21,9 +21,6 @@ export default function Navbar() {
                         <li className="nav-item">
                             <Link className="nav-link small  active" aria-current="page" to="/cources">  الدورات التعليمية</Link>
                         </li>
-                        <li className="nav-item">
-                            <Link className="nav-link small " to={'/profile'}> الملف الشخصي</Link>
-                        </li>
                         <li className="nav-item d-flex ">
                             <Link className="nav-link small " to={'/mycources'}>
                                 <div className="d-flex align-items-center">
@@ -38,10 +35,7 @@ export default function Navbar() {
                             <Link className="nav-link small " to={'/teachers'}> المعلمين </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link small " to={'/myexam'}> نتائج امتحاناتي </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link small " to={'/wallet'}> المحفظة الالكترونية </Link>
+                            <Link className="nav-link small " to={'/profile'}> الملف الشخصي</Link>
                         </li>
                     </ul>
                 </div>

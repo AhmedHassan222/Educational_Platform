@@ -15,26 +15,26 @@ export default function GetAllCources() {
     const [isLoading, setIsloading] = useState(false);
     const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
     const [totalPages, setTotalPages] = useState(1);
-    const [currentPage, setCurrentPage] = useState(1); 
-    const [recordPerPage, setrecordPerPage] = useState(); 
-    const lastIndex=currentPage * recordPerPage ;
-    const fristIndex=lastIndex - recordPerPage ;
-   
+    const [currentPage, setCurrentPage] = useState(1);
+    const [recordPerPage, setrecordPerPage] = useState();
+    const lastIndex = currentPage * recordPerPage;
+    const fristIndex = lastIndex - recordPerPage;
+
     // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     // FUNCTION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    function nextPage(){
+    function nextPage() {
         setIsloading(true)
-        if(currentPage < totalPages){
+        if (currentPage < totalPages) {
             setCurrentPage(currentPage + 1);
             setIsloading(false)
         }
     }
-    function prePage(){
+    function prePage() {
         setIsloading(true)
-       if(currentPage >1 ){
-        setCurrentPage(currentPage - 1);
-        setIsloading(false)
-       }
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+            setIsloading(false)
+        }
     }
     // GET ALL COURSES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function getAll(page) {
@@ -43,11 +43,11 @@ export default function GetAllCources() {
             setCourses(data.data)
             setTotalPages(data.paginationInfo.totalPages || 1); // Default to 1 if undefined
             setrecordPerPage(data.paginationInfo.perPages || 10); // Default to 10 per page
-          } else {
+        } else {
             setCourses([])
             setTotalPages(1);
             setrecordPerPage(10);
-          }
+        }
     }
     // DELETE COURSE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function deleteItem(id) {
@@ -70,8 +70,8 @@ export default function GetAllCources() {
                         draggable: true,
                         progress: undefined,
                         theme: "light",
-                        });
-                       
+                    });
+
                 });
         } catch (error) {
             toast.error('لا يحق لك الحذف هذا الكورس ', {
@@ -83,8 +83,8 @@ export default function GetAllCources() {
                 draggable: true,
                 progress: undefined,
                 theme: "light",
-                });     
-                setIsloading(false)    
+            });
+            setIsloading(false)
         }
     }
     // USE EFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -94,7 +94,7 @@ export default function GetAllCources() {
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return (
         <>
-              <ToastContainer />
+            <ToastContainer />
 
             {isLoading ? <div className="text-white position-fixed start-50 top-50  p-4" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)' }}>
                 <i className="fa fa-spin fa-spinner h3"></i>
@@ -129,8 +129,8 @@ export default function GetAllCources() {
                                     <td className="pt-3" >{stage[item.subCategoryId?.name]} {grade[item.categoryId?.name]}</td>
                                     <td className="pt-3">{moment(item.createdAt).format('YYYY/MM/DD')}</td>
                                     <td className="pt-3   ">
-                                    <div className=" d-flex align-items-center  justify-content-center ">
-                                        <button
+                                        <div className=" d-flex align-items-center  justify-content-center ">
+                                            <button
                                                 className="btn btn-sm btn-danger   ms-2"
                                                 onClick={() => { deleteItem(item._id) }}
                                             >
@@ -142,7 +142,7 @@ export default function GetAllCources() {
                                             >
                                                 تعديل
                                             </Link>
-                                    </div>
+                                        </div>
                                     </td>
                                 </tr>
                             ))
@@ -153,28 +153,27 @@ export default function GetAllCources() {
                                     <td className="placeholder-glow   p-4"></td>
                                     <td className="placeholder-glow   p-4"></td>
                                     <td className="placeholder-glow   p-4"></td>
-                                    <td className="placeholder-glow   p-4"></td>
                                 </tr>
                             ))}
                     </tbody>
-                </table>            
-            
-                      {/* pagination */}
-             {totalPages >1 ?   <div className=' p-2 text-center d-flex justify-content-center'>
+                </table>
 
-                <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
+                {/* pagination */}
+                {totalPages > 1 ? <div className=' p-2 text-center d-flex justify-content-center'>
+
+                    <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
                         السابق
-                </button> 
-                <div className='mx-2'>
-                    الصفحة {currentPage}
-                </div>
-                <button   onClick={nextPage}className='btn btn-primary mx-2' disabled={currentPage === totalPages}>
-                التالي  
-                </button>
-            </div> :"" }
-            
-            
-            
+                    </button>
+                    <div className='mx-2'>
+                        الصفحة {currentPage}
+                    </div>
+                    <button onClick={nextPage} className='btn btn-primary mx-2' disabled={currentPage === totalPages}>
+                        التالي
+                    </button>
+                </div> : ""}
+
+
+
             </div>
         </>
     );

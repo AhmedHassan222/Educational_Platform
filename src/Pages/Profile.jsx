@@ -95,6 +95,7 @@ export default function Profile() {
           }
         });
     } catch (error) {
+      console.log(error)
       setIsloading(false);
       setAddImageForm(true);
       seterrorForm(error);

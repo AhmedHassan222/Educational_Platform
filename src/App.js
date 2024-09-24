@@ -62,14 +62,14 @@ export default function App() {
               <Route path="/myexam" element={<LayoutWithNavbar><MyExams /></LayoutWithNavbar>} />
             </Route>
 
-            <Route element={<ProtectedRoute allowedRoles={['User',"Teacher"]} />}>
+            <Route element={<ProtectedRoute allowedRoles={['User', "Teacher"]} />}>
               <Route path="/profile" element={<LayoutWithNavbar> <Profile /></LayoutWithNavbar>} />
             </Route>
 
             {/* Teacher routes */}
             <Route element={<ProtectedRoute allowedRoles={['Teacher']} />}>
               <Route path="/teacherAdmin" element={<LayoutWithNavbar><Outlet /></LayoutWithNavbar>}>
-                <Route index element={<Navigate to={'allVideos'}/>} />
+                <Route index element={<Navigate to={'allVideos'} />} />
                 <Route path="addVideo" element={<AddVideo />} />
                 <Route path="allVideos" element={<GetAllVideos />} />
                 <Route path="addAssign" element={<AddAssign />} />
@@ -82,7 +82,7 @@ export default function App() {
             {/* Admin routes */}
             <Route element={<ProtectedRoute allowedRoles={['Admin']} />}>
               <Route path="/admin" element={<LayoutWithNavbar><Outlet /></LayoutWithNavbar>}>
-                <Route index element={<Navigate to={'allCources'}/>} />
+                <Route index element={<Navigate to={'allCources'} />} />
                 <Route path="addTeacher" element={<AddTeacher />} />
                 <Route path="addCategory" element={<AddCategory />} />
                 <Route path="addCourse" element={<AddCourse />} />
@@ -102,9 +102,9 @@ export default function App() {
 
             {/* Public routes */}
             <Route path="/" element={<LayoutWithNavbar><HomePage /></LayoutWithNavbar>} />
-            <Route path="/login" element={Cookies.get('token')? <Navigate to={'/'}/> : <LoginPage />} />
-            <Route path="/register" element={Cookies.get('token')? <Navigate to={'/'}/> : <Register />} />
-            <Route path="/reset-password" element={Cookies.get('token')? <Navigate to={'/'}/> : <ResetPassword />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="*" element={<LayoutWithNavbar><NotfoundPage /></LayoutWithNavbar>} />
 
 
