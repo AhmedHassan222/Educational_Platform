@@ -67,10 +67,10 @@ export default function Header() {
           <div >
             <img src={logo} className="w-25 wow animate__animated animate__bounceIn" alt="sky academy logo" />
 
-            <h1 className="mb-3 "> سكاي اونلاين اكاديمي </h1>
+            <h1 className="mb-3 "> الهلال اونلاين  </h1>
             <p className="  w-md-50 mx-auto mb-5">
               ﺗﻌﻠﻢ ﺑﺄﺣﺪث اﻟﻄﺮق ﻣﻦ ﺧﻠﺎل ﻣﻨﺼﺘﻨﺎ,ﻓإﻧﻨﺎ ﻧﻮﻓﺮ ﻟﻚ اﻟﻌﺪﻳﺪ ﻣﻦ اﻟﻜﻮرﺳﺎت
-              اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ الإعدادية والثانوية, ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.
+              اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ الابتدائية و الإعدادية والثانوية, ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.
             </p>
             {role === "User" ? <Link className={`nav-link text-white rounded-2 fitContent mx-auto my-2 text-center py-3 px-5 ${style.btnOrange}`} to={'/cources'}>تصفح الكورسات </Link>
               : ""}
@@ -84,7 +84,7 @@ export default function Header() {
           </h3>
           <p className="mb-5 h5 small ">
             ﺗﻌﻠﻢ ﺑﺄﺣﺪث اﻟﻄﺮق ﻣﻦ ﺧﻠﺎل ﻣﻨﺼﺘﻨﺎ,ﻓﺄﻧﻨﺎ ﻧﻮﻓﺮ ﻟﻚ اﻟﻌﺪﻳﺪ ﻣﻦ اﻟﻜﻮرﺳﺎت
-            اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ اﻟﺜﺎﻧﻮﻳﺔ واﻟﺠﺎﻣﻌﻴﺔ , ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.
+            اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ الابتدائية و الإعدادية والثانوية , ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.
           </p>
           <div className="row gy-4 py-4">
             {subcategories?.length > 0 ? subcategories.map((item, index) => (<div key={index} className="col-md-4 wow animate__animated animate__bounceI">

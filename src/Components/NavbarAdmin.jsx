@@ -41,6 +41,9 @@ export default function NavbarAdmin() {
                             </ul>
                         </li>
                         <li className="dropdown mx-2 pt-1">
+                           <Link  to={"/profile"}>الملف الشخصي</Link>
+                        </li>
+                        <li className="dropdown mx-2 pt-1">
                             <span onClick={logOut}>خروج</span>
                         </li>
                     </ul>

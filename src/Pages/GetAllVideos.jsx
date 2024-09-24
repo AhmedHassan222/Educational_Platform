@@ -107,7 +107,7 @@ export default function GetAllVideos() {
         getAllLecture(currentPage)
     }, [lectures?.length])
     return <>
-        <section className="py-5 container ">
+        <section className="py-5 container overflow-x-auto ">
         <ToastContainer />
             {isLoading ? <div className=" position-fixed start-50 text-light top-50  p-3" style={{ transform: 'translate(-50%, -50%)' ,backgroundColor: 'rgba(0,0,0,0.6)'}}>
                 <i className="fa fa-spin fa-spinner h3"></i>

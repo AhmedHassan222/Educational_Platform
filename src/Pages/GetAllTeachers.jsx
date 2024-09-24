@@ -94,7 +94,7 @@ export default function GetAllTeachers() {
         {isLoading ? <div className="text-light position-fixed start-50 top-50  p-4" style={{ transform: 'translate(-50%, -50%)',backgroundColor: 'rgba(0,0,0,0.6)' }}>
                 <i className="fa fa-spin fa-spinner fs-3"></i>
             </div> : ""}
-                <div className="w-100  overflow-x-scroll">
+                <div className="w-100  overflow-x-auto">
                 <table className="table text-center  table-striped  table-hover table-bordered">
                 <thead>
                     <tr>

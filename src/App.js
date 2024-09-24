@@ -17,7 +17,6 @@ import Profile from './Pages/Profile';
 import MyCources from './Pages/MyCources';
 import Teachers from './Pages/Teachers';
 import MyExams from './Pages/MyExams';
-import Wallet from './Pages/Wallet';
 import TeacherDetails from './Pages/TeacherDetails';
 import AddTeacher from './Pages/AddTeacher';
 import AddCategory from './Pages/AddCategory';
@@ -43,6 +42,7 @@ import FilterContextProvide from './Contexts/FilterContext';
 import AddAssign from './Pages/AddAssign';
 import AllAssignment from './Pages/AllAssignment';
 import UpdateAssignment from './Pages/UpdateAssignment';
+import ProfileTeacher from './Pages/ProfileTeacher';
 
 export default function App() {
   return (
@@ -56,13 +56,16 @@ export default function App() {
             <Route element={<ProtectedRoute allowedRoles={['User']} />}>
               <Route path="/cources" element={<LayoutWithNavbar><Cources /></LayoutWithNavbar>} />
               <Route path="/cources/:id" element={<LayoutWithNavbar><CourceDetails /></LayoutWithNavbar>} />
-              <Route path="/profile" element={<LayoutWithNavbar><Profile /></LayoutWithNavbar>} />
               <Route path="/mycources" element={<LayoutWithNavbar><MyCources /></LayoutWithNavbar>} />
               <Route path="/lectures/:id" element={<LayoutWithNavbar><Lectures /></LayoutWithNavbar>} />
               <Route path="/teachers" element={<LayoutWithNavbar><Teachers /></LayoutWithNavbar>} />
               <Route path="/teacher/:id" element={<LayoutWithNavbar><TeacherDetails /></LayoutWithNavbar>} />
               <Route path="/myexam" element={<LayoutWithNavbar><MyExams /></LayoutWithNavbar>} />
-              <Route path="/wallet" element={<LayoutWithNavbar><Wallet /></LayoutWithNavbar>} />
+            </Route>
+
+            <Route element={<ProtectedRoute allowedRoles={['User',"Teacher"]} />}>
+            <Route path="/profile" element={<LayoutWithNavbar> <Profile /></LayoutWithNavbar>} />
+
             </Route>
 
             {/* Teacher routes */}

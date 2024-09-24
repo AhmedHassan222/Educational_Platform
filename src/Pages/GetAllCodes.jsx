@@ -25,7 +25,8 @@ export default function GetAllCodes() {
           headers: {
             token: `online__${Cookies.get("token")}`,
           },
-        }).then(() => {
+        }).then((res) => {
+          console.log(res)
           toast.success('قد تم الحذف', {
             position: "top-center",
             autoClose: 5000,

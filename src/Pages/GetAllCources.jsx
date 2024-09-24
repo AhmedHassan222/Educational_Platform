@@ -99,7 +99,7 @@ export default function GetAllCources() {
             {isLoading ? <div className="text-white position-fixed start-50 top-50  p-4" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)' }}>
                 <i className="fa fa-spin fa-spinner h3"></i>
             </div> : ""}
-            <div className="container py-5">
+            <div className="container py-5 overflow-x-auto ">
                 <table className="table table-striped text-center  table-hover table-bordered">
                     <thead>
                         <tr>
