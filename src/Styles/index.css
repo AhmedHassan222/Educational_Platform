@@ -3,6 +3,9 @@
   --mainColorOrange: rgba(255,101,19,255);
   --mainColorBlue: rgba(17,98,164,255);
 }
+link ,a {
+  text-decoration: none;
+}
 * 
 {
   margin:0;

@@ -40,8 +40,8 @@ export default function NavbarAdmin() {
                                 <li><Link className="dropdown-item" to="/teacherAdmin/AllAssignment">كل تاسك</Link></li>
                             </ul>
                         </li>
-                        <li className="dropdown mx-2 pt-1">
-                           <Link  to={"/profile"}>الملف الشخصي</Link>
+                        <li className="dropdown mx-2 pt-1 " >
+                           <Link style={{color:"black"}} to={"/profile"}>الملف الشخصي</Link>
                         </li>
                         <li className="dropdown mx-2 pt-1">
                             <span onClick={logOut}>خروج</span>

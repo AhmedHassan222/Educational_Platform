@@ -608,7 +608,7 @@ export default function Profile() {
                   </div>
                 </div>
               </div>
-              {role ==="user" ?<div className="p-3 border-1 border border-muted">
+              {role ==="User" ?<div className="p-3 border-1 border border-muted">
                 <div className="d-flex">
                   <i className="fa-solid fa-graduation-cap fs-5 ms-5"></i>
                   <div className="">

@@ -42,7 +42,6 @@ import FilterContextProvide from './Contexts/FilterContext';
 import AddAssign from './Pages/AddAssign';
 import AllAssignment from './Pages/AllAssignment';
 import UpdateAssignment from './Pages/UpdateAssignment';
-import ProfileTeacher from './Pages/ProfileTeacher';
 
 export default function App() {
   return (
@@ -64,8 +63,7 @@ export default function App() {
             </Route>
 
             <Route element={<ProtectedRoute allowedRoles={['User',"Teacher"]} />}>
-            <Route path="/profile" element={<LayoutWithNavbar> <Profile /></LayoutWithNavbar>} />
-
+              <Route path="/profile" element={<LayoutWithNavbar> <Profile /></LayoutWithNavbar>} />
             </Route>
 
             {/* Teacher routes */}
