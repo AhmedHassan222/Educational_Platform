@@ -132,7 +132,6 @@ export default function Cources() {
                         }
                     </div>
                 </div>
-<<<<<<< HEAD
                         {/* pagination */}
                     {totalPages >1 ?   <div className=' p-2 text-center d-flex justify-content-center align-items-center'>
 
@@ -146,20 +145,6 @@ export default function Cources() {
                 التالي  
                 </button>
                     </div> :"" }    
-=======
-                {/* pagination */}
-                {totalPages > 1 ? <div className=' p-2 text-center d-flex justify-content-center align-items-center'>
-                    <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
-                        السابق
-                    </button>
-                    <div className='mx-2'>
-                        الصفحة {currentPage}
-                    </div>
-                    <button onClick={nextPage} className='btn btn-primary mx-2' disabled={currentPage === totalPages}>
-                        التالي
-                    </button>
-                </div> : ""}
->>>>>>> f2f848f5f5c5a7cfd5365911009aff900f87576a
             </div>
         </section>
     </>

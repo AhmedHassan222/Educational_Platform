@@ -21,10 +21,6 @@ export default function Navbar() {
                         <li className="nav-item">
                             <Link className="nav-link small  active" aria-current="page" to="/cources">  الدورات التعليمية</Link>
                         </li>
-<<<<<<< HEAD
-                       
-=======
->>>>>>> f2f848f5f5c5a7cfd5365911009aff900f87576a
                         <li className="nav-item d-flex ">
                             <Link className="nav-link small " to={'/mycources'}>
                                 <div className="d-flex align-items-center">
