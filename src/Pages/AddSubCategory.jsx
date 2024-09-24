@@ -3,6 +3,8 @@ import style from "../../src/Styles/Auth.module.css"
 import Cookies from 'js-cookie';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function AddSubCategory() {
   // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const [categoryId, setCategoryId] = useState(null);
@@ -39,7 +41,6 @@ export default function AddSubCategory() {
   // FUNCTION ADD SUB CATEGORY >>>>>>>>>>>>>>>>>>>>>>>>>>
   async function addItem() {
     setIsloading(true);
-    console.log(dataAdded)
     try {
       await axios.post(`${baseURL}/subcategory/create?categoryId=${categoryId}`, dataAdded, {
         headers: {
@@ -47,19 +48,54 @@ export default function AddSubCategory() {
         }
       }).then((res) => {
         setIsloading(false)
-        console.log(res)
         if (res.data.message === "sub-category created successfuly")
           navigate('/admin/allSubCategories')
+        if (res.data.message === "Refresh token") {
+          toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          Cookies.set('token', res?.data?.refreshToken, { expires: 7 });
+        }
       })
     } catch (error) {
       setIsloading(false)
-      console.log(error)
-      seterrorForm(error.message)
+      if (error?.response?.data?.Error === "subCategory name is duplicated! please enter Another name") {
+        toast.error("الصف الذي تحاول اضافته مضاف بالفعل", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
+        );
+      } else {
+        toast.error(" هناك مشكلة في اضافة صف", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
+        );
+      }
     }
-
   }
   return <>
     <div className="container py-5">
+      <ToastContainer />
       <div className="text-center rounded-4  border-1 widthCustom mx-auto">
         <form encType="multipart/form-data" onSubmit={handleSubmit}>
           <div className=" mb-4">
@@ -82,7 +118,7 @@ export default function AddSubCategory() {
             </div>
           </div>
           <button type="submit" className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>    {Isloading ? <i className="fa fa-spin fa-spinner"></i> : "اضف"}</button>
-          {errorForm ? <p className="text-danger my-4 text-center small">لديك مشكلة في اضافة فئة</p> : ''}
+
         </form>
       </div>
     </div>

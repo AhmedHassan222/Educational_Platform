@@ -152,7 +152,6 @@ export default function GetAllVideos() {
                                 <td className="placeholder-glow   p-4"></td>
                                 <td className="placeholder-glow   p-4"></td>
                                 <td className="placeholder-glow   p-4"></td>
-                                <td className="placeholder-glow   p-4"></td>
                             </tr>
                         ))}
                 </tbody>

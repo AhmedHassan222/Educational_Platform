@@ -376,7 +376,7 @@ export default function Profile() {
               </div>
               <div className=" mb-4">
                 <label className="w-100 small text-end" htmlFor="phoneNumber">
-                  {userDetails[0]?.phoneNumber}
+                  {userDetails[0]?.phoneNumber.replace("+2", "")}
                 </label>
                 <input
                   placeholder="رقم الهاتف"
