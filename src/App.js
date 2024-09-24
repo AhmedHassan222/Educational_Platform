@@ -4,8 +4,6 @@ import ProtectedRoute from './Components/ProtectedRoute'; // Import the Protecte
 import LayoutWithNavbar from './Components/LayoutWithNavbar';
 
 // Pages
-import AdminPage from './Pages/AdminPage';
-import SuperAdminPage from './Pages/SuperAdminPage';
 import LoginPage from './Pages/LoginPage';
 import HomePage from './Pages/HomePage';
 import NotfoundPage from './Pages/NotfoundPage';
@@ -16,7 +14,6 @@ import ResetPassword from './Pages/ResetPassword';
 import Profile from './Pages/Profile';
 import MyCources from './Pages/MyCources';
 import Teachers from './Pages/Teachers';
-import MyExams from './Pages/MyExams';
 import TeacherDetails from './Pages/TeacherDetails';
 import AddTeacher from './Pages/AddTeacher';
 import AddCategory from './Pages/AddCategory';
@@ -59,7 +56,6 @@ export default function App() {
               <Route path="/lectures/:id" element={<LayoutWithNavbar><Lectures /></LayoutWithNavbar>} />
               <Route path="/teachers" element={<LayoutWithNavbar><Teachers /></LayoutWithNavbar>} />
               <Route path="/teacher/:id" element={<LayoutWithNavbar><TeacherDetails /></LayoutWithNavbar>} />
-              <Route path="/myexam" element={<LayoutWithNavbar><MyExams /></LayoutWithNavbar>} />
             </Route>
 
             <Route element={<ProtectedRoute allowedRoles={['User',"Teacher"]} />}>

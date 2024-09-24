@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import fakeImage from "../../src/Assets/Images/fakeImage.png"
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
 export default function Lectures() {
@@ -8,22 +8,48 @@ export default function Lectures() {
   let { id } = useParams();
   const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
   const [lectures, setlectures] = useState([]);
+  const [errorForm, seterrorForm] = useState([]);
+  const [isLoading, setIsloading] = useState(false);
 
+  const [totalPages, setTotalPages] = useState();
+  const [currentPage, setCurrentPage] = useState(1); 
+  const [recordPerPage, setrecordPerPage] = useState(); 
+  const lastIndex=currentPage * recordPerPage ;
+  const fristIndex=lastIndex - recordPerPage ;
+ 
   const decryptVideoURL = (encryptedURL) => {
     const bytes = CryptoJS.AES.decrypt(encryptedURL, "Gl?11£5R8:5z£-%");
     return bytes.toString(CryptoJS.enc.Utf8);
   };
-  async function getCoursesDetailsById() {
+  async function getAll(page) {
     try {
-      const { data } = await axios.get(`${baseURL}/lecture?courseId=${id}`);
+      const { data } = await axios.get(`${baseURL}/lecture?courseId=${id}?page=${page}`);
       setlectures(data.data);
     } catch (error) {
-
+      console.log(error)
+      // seterrorForm(error.message)
     }
 
   }
+     function prePage(){
+        setIsloading(true)
+       if(currentPage >1 ){
+        setCurrentPage(currentPage - 1);
+        getAll(currentPage-1)
+        setIsloading(false)
+       }
+    }
+    function nextPage(){
+        setIsloading(true)
+        if(currentPage < totalPages){
+            setCurrentPage(currentPage + 1);
+            getAll(currentPage+1)
+            setIsloading(false)
+        }
+    }
+
   useEffect(() => {
-    getCoursesDetailsById()
+    getAll()
     // document.addEventListener('contextmenu', (e) => e.preventDefault());
     //   document.onkeydown = function (e) {                                                     // console                  // View source             // saving 
     //     if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') ||e.ctrlKey && e.shiftKey && e.key === "J" || e.ctrlKey && e.key === "u" ||e.ctrlKey && e.key === "s" ||e.key === "PrintScreen") {
@@ -37,46 +63,51 @@ export default function Lectures() {
     //   };
   }, [lectures?.length])
   // alkymXGYZ8 alkymB4PKU alkymRRFOE alkym1LLRY alkymZ0PKZ
-  return (
-    <div className="container p-5">
-      <div className="row gy-4">
-        {lectures.length > 0 ? lectures.map((lecture, index) => {
-          const decryptedURL = decryptVideoURL(lecture.videoURL);
-          return (
+  return <>
+       <div className="row g-3 mt-1">
+                        {errorForm.length > 0 ? <p className="text-danger py-1 text-center small"> يوجد مشكلة  </p> : ''}
+                        {lectures?.length > 0 ? lectures?.map((item, index) => <div key={index} className="col-6 col-sm-6 col-md-4">
+                            <div className='border-1 border border-muted rounded-3'>
+                                <Link to={`/cources/${item._id}`}>
+                                    <img src={item.photo.secure_url} alt="teacher image" className='w-100' />
+                                </Link>
+                                <div className="p-3">
+                                    <Link className='nav-link text-black' to={`/cources/${item._id}`}>
+                                        <h3 className='h5 mb-3'>{item?.title} </h3>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>) : arr.map((item, index) => <div key={index} className="col-6 col-sm-6 col-md-4">
+                            <div className="card" aria-hidden="true">
+                                <img src={fakeImage} className="card-img-top w-100" alt="..." />
+                                <div className="card-body">
+                                    <h5 className="card-title placeholder-glow">
+                                        <span className="placeholder col-6"></span>
+                                    </h5>
+                                    <p className="card-text placeholder-glow">
+                                        <span className="placeholder col-7"></span>
+                                        <span className="placeholder col-4"></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>)
+                        }
+                    </div>
 
-            <div key={index} className='col-6 col-md-4 col-lg-3'>
-              <div className='shadow p-2'>
-                <iframe
-                  width="100%" height="400"
-                  src={`${decryptedURL}?modestbranding=1&controls=0&rel=0&showinfo=0&disabledkb=1`}
-                  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerpolicy="strict-origin-when-cross-origin" allowfullscreen
-                ></iframe>
-                <div className='d-flex justify-content-center align-items-center my-2'>
-                  <i className="fa-solid fa-play ms-1 fs-4 text-danger small"></i>
-                  <p className='my-2 lead'>المحاضرة {index + 1}</p>
-                </div>
-              </div>
-            </div>
-          );
-        }) : 
-          // Handle case when no lectures are available
-          arr.map((item,index)=>    <div className='col-6 col-md-4 col-lg-3'>
-            <div className='shadow p-2'>
-              <iframe
-                width={"100%"}
-                height={"350px"}
-                src={fakeImage}
-                scrolling="no"
-              ></iframe>
-              <div className='d-flex justify-content-center align-items-center my-2'>
-                <p className='my-2 lead placeholder col-6'></p>
-              </div>
-            </div>
-          </div> )}
-      
-        
-      </div>
-    </div>
-  );
+
+                {/* paginations */}
+                    {totalPages >1 ?   <div className=' p-2 text-center d-flex justify-content-center align-items-center'>
+
+<button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
+        السابق
+</button> 
+<div className='mx-2'>
+    الصفحة {currentPage}
+</div>
+<button   onClick={nextPage}className='btn btn-primary mx-2' disabled={currentPage === totalPages}>
+التالي  
+</button>
+                     </div> :"" }   
+  </>
+ 
 }

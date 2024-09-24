@@ -102,9 +102,9 @@ export default function Cources() {
                                     <img src={item.photo.secure_url} alt="teacher image" className='w-100' />
                                 </Link>
                                 <div className="p-3">
-                                    <p className="text-muted my-2">{stage[item.subCategoryId.name]} {grade[item.categoryId.name]} </p>
+                                    <p className="text-muted my-2">{stage[item.subCategoryId?.name]} {grade[item.categoryId?.name]} </p>
                                     <Link className='nav-link text-black' to={`/cources/${item._id}`}>
-                                        <h3 className='h5 mb-3'>{item.name} </h3>
+                                        <h3 className='h5 mb-3'>{item?.name} </h3>
                                     </Link>
                                     <div className="d-flex align-items-start mt-2">
                                         <i className="fa-solid fa-play ms-1 pt-1 text-danger small"></i>
@@ -133,11 +133,14 @@ export default function Cources() {
                     </div>
                 </div>
                         {/* pagination */}
-                    {totalPages >1 ?   <div className=' p-2 text-center d-flex justify-content-center'>
+                    {totalPages >1 ?   <div className=' p-2 text-center d-flex justify-content-center align-items-center'>
 
                 <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
                         السابق
                 </button> 
+                <div className='mx-2'>
+                    الصفحة {currentPage}
+                </div>
                 <button   onClick={nextPage}className='btn btn-primary mx-2' disabled={currentPage === totalPages}>
                 التالي  
                 </button>
