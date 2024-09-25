@@ -13,7 +13,6 @@ export default function GetAllCategories() {
   const [categories, setcategories] = useState([]);
   const [isLoading, setIsloading] = useState(false);
   const navigate = useNavigate();
-
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   // FUNCTION GET ALL CATEGORIES >>>>>>>>>>>>>>>>>>>>>>>>>>>>
   async function getAll() {

@@ -6,6 +6,7 @@ import axios from "axios"
 import Cookies from "js-cookie"
 import fakeImage from "../../src/Assets/Images/fakeImage.png"
 export default function CourceDetails() {
+    // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     let navigate = useNavigate()
     const [course, setCourse] = useState([]);
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
@@ -13,20 +14,21 @@ export default function CourceDetails() {
     const stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
     const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
     const [errorForm, seterrorForm] = useState("");
-    const [dataAdded, setDataAdded] = useState({
-        code: ''
-    })
+    const [dataAdded, setDataAdded] = useState({ code: '' })
     const [isSubmit, setIsSubmit] = useState(false);
     const [isLoading, setIsloading] = useState(false)
     const [openForm, setOpenForm] = useState(false);
+    // FUNCTIONS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    // FUNCTION GET COURSE BY ID >>>>>>>>>>>>>>>>>>>>>>>
     async function getCourseById() {
         const { data } = await axios.get(`${baseURL}/course?_id=${id}`);
         setCourse(data.data)
     }
+    // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
         getCourseById();
     }, [course?.length])
-    // FUCNTION JOIN COURSE 
+    // FUCNTION JOIN COURSE  >>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function joinCourse(e) {
         e.preventDefault();
         setIsloading(true);
@@ -46,7 +48,7 @@ export default function CourceDetails() {
             seterrorForm(error.message); 
         }
     }
-
+    // FUNCTION HANDLE OBJECT >>>>>>>>>>>>>>>>>>>>>>>>>
     const handleChange = (e) => {
         const { name, value } = e.target;
         setDataAdded({
@@ -54,6 +56,7 @@ export default function CourceDetails() {
             [name]: value,
         });
     };
+    // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
         <section className="container py-5 ">
             {course?.length > 0 ? <div className="row g-5">

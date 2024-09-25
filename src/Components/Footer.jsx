@@ -1,15 +1,13 @@
 import React from 'react';
 import logo from "../../src/Assets/Images/logo.png"
 import { Link } from 'react-router-dom';
-
 export default function Footer() {
     return (
-        <footer className="text-center text-lg-start bg-body-tertiary text-muted">
+        <footer className="text-center text-lg-start bg-body-tertiary text-muted container">
             <section className="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
                 <div className="me-5 d-none d-lg-block">
                     <span>تواصل معنا عبر شبكات التواصل الاجتماعي:</span>
                 </div>
-
                 <div>
                     <Link title="Go to facebook" to={'https://www.facebook.com/'} className="me-4 text-reset">
                         <i className="fab fa-facebook-f"></i>
@@ -31,36 +29,38 @@ export default function Footer() {
                     </Link>
                 </div>
             </section>
-
             <section className="">
-                <div className="container text-center text-md-start mt-5">
+                <div className=" text-center text-md-start mt-5">
                     <div className="row mt-3">
-                        <div className="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4 text-center">
-                            <img src={logo} alt="sky academy online" className="mb-4 w-25" />
+                        <div className="col-md-3 col-lg-5 col-xl-3 mx-auto mb-4 text-center">
+                            <img src={logo} alt="sky academy online" className=" w-25" />
                             <p>
-                                منصة التعليم توفر بيئة تفاعلية غنية بالموارد التعليمية المتنوعة، تُمكن المتعلمين من اكتساب المهارات والمعرفة بطريقة مرنة ومناسبة لاحتياجاتهم الشخصية. تجمع بين التعليم الذاتي والتفاعل مع المعلمين والمجتمع التعليمي لتعزيز الفهم وتحقيق الأهداف الأكاديمية والمهنية.
-                            </p>
+                                ﺗﻌﻠﻢ ﺑﺄﺣﺪث اﻟﻄﺮق ﻣﻦ ﺧﻠﺎل ﻣﻨﺼﺘﻨﺎ,ﻓإﻧﻨﺎ ﻧﻮﻓﺮ ﻟﻚ اﻟﻌﺪﻳﺪ ﻣﻦ اﻟﻜﻮرﺳﺎت اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ الابتدائية و الإعدادية والثانوية, ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.</p>
                         </div>
-
-                        <div className="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-                            <h6 className="text-uppercase fw-bold mb-4">
-                                الخدمات
-                            </h6>
-
-                        </div>
-
-                        <div className="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-                            <h6 className="text-uppercase fw-bold mb-4">
+                        <div className="col-md-3 col-lg-3 col-xl-2 mx-auto mb-2">
+                            <h3 className="text-uppercase fw-bold h5">
                                 روابط مفيدة
-                            </h6>
-
+                            </h3>
+                            <ul className="navbar-nav me-auto mb-1 mb-lg-0">
+                                <li className="nav-item">
+                                    <Link className="nav-link small   active" aria-current="page" to="/cources">  الدورات التعليمية</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link small " to={'/mycources'}> دوراتي </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link small " to={'/teachers'}> المعلمين </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link small " to={'/profile'}> الملف الشخصي</Link>
+                                </li>
+                            </ul>
                         </div>
-
-                        <div className="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-                            <h6 className="text-uppercase fw-bold mb-4">تواصل معنا</h6>
+                        <div className="col-md-4 col-lg-4 col-xl-3 mx-auto mb-md-0 mb-4">
+                            <h3 className="text-uppercase fw-bold mb-3 h5 ">تواصل معنا</h3>
                             <p><i className="fas fa-home me-3"></i> ابو يوسف العجمي</p>
                             <p>
-                                <i className="fas fa-envelope me-3"></i>
+                                <i className="fas fa-envelope me-4"></i>
                                 info@example.com
                             </p>
                             <p><i className="fas fa-phone me-3"></i> + 01 234 567 88</p>
@@ -69,9 +69,8 @@ export default function Footer() {
                     </div>
                 </div>
             </section>
-
             <div className="text-center p-4" style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}>
-                © 2024 Copyright
+                developed by 3A
             </div>
         </footer>
     );

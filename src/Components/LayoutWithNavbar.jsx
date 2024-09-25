@@ -7,7 +7,6 @@ import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 export default function LayoutWithNavbar({ children }) {
-    const [Classes, setClasses] = useState([1, 2, 3, 4, 5, 6]);
     const [role, setRole] = useState(null)
     useEffect(() => {
         if (Cookies.get('token'))
@@ -20,7 +19,7 @@ export default function LayoutWithNavbar({ children }) {
             {role === "Admin" ? <NavbarSuperAdmin /> : ''}
         </>}
         {children}
-        <Footer />
+        {Cookies.get('token') ? role === "User" ? <Footer /> : "" : ""}
     </>
 };
 

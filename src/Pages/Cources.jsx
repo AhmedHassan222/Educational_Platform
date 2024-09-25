@@ -3,34 +3,27 @@ import fakeImage from "../../src/Assets/Images/fakeImage.png"
 import { Link } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import style from "../../src/Styles/CourseDetails.module.css"
 import { FilterContext } from '../Contexts/FilterContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function Cources() {
-
+    // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const arr = [1, 2, 3, 4, 5, 6]
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
     const stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
     const [courses, setCourses] = useState([]);
-    const [errorForm, seterrorForm] = useState([]);
     const [dispalyCourses, setDisplayCourses] = useState([]);
     const { stageName, gradeFilterName, setStage, setGrade, error, filterCourses, setGradeName, setStageName, setWordSearch } = useContext(FilterContext);
     const [isLoading, setIsloading] = useState(false);
-
     const [totalPages, setTotalPages] = useState();
     const [currentPage, setCurrentPage] = useState(1);
-    const [recordPerPage, setrecordPerPage] = useState();
-    const lastIndex = currentPage * recordPerPage;
-    const fristIndex = lastIndex - recordPerPage;
-
+    // FUNCTION GET ALL >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function getAll(Page) {
         try {
             const { data } = await axios.get(`${baseURL}/course?page=${Page}`);
             setCourses(data.data);
             setTotalPages(data.paginationInfo.totalPages)
-            setrecordPerPage(data.paginationInfo.perPages)
         } catch (error) {
             toast.error(" هناك مشكلة  ", {
                 position: "top-center",
@@ -41,9 +34,10 @@ export default function Cources() {
                 draggable: true,
                 progress: undefined,
                 theme: "light",
-              });        }
+            });
+        }
     }
-    // FUNCTION NEXT 
+    // FUNCTION PAGINATION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     function prePage() {
         setIsloading(true)
         if (currentPage > 1) {
@@ -60,13 +54,16 @@ export default function Cources() {
             setIsloading(false)
         }
     }
-
-    // FUNCTION PREV
+    // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
         window.scroll(0, 0)
         getAll(currentPage);
         setDisplayCourses(courses);
     }, [courses?.length])
+    useEffect(() => {
+        setDisplayCourses(filterCourses?.length > 0 ? filterCourses : courses)
+    }, [filterCourses])
+    // FUNCTION RESET FILTER >>>>>>>>>>>>>>>>>>>>>>>>>
     function resetFilter() {
         setGrade('');
         setStage('');
@@ -74,10 +71,9 @@ export default function Cources() {
         setGradeName('');
         setStageName('');
     }
-    useEffect(() => {
-        setDisplayCourses(filterCourses?.length > 0 ? filterCourses : courses)
-    }, [filterCourses])
+    // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
+        <ToastContainer />
         <section className="py-5 container ">
             {isLoading ? <div className=" position-fixed start-50 text-light top-50  p-3" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)', zIndex: "999999" }}>
                 <i className="fa fa-spin fa-spinner h3"></i>
@@ -105,7 +101,6 @@ export default function Cources() {
                         </div >
                     </div> : ""}
                     <div className="row g-3 mt-1">
-                        {errorForm.length > 0 || error ? <p className="text-danger py-1 text-center small"> يوجد مشكلة  </p> : ''}
                         {dispalyCourses?.length > 0 ? dispalyCourses?.map((item, index) => <div key={index} className="col-6 col-sm-6 col-md-4">
                             <div className='border-1 border border-muted rounded-3'>
                                 <Link to={`/cources/${item._id}`}>
@@ -142,19 +137,18 @@ export default function Cources() {
                         }
                     </div>
                 </div>
-                        {/* pagination */}
-                    {totalPages >1 ?   <div className=' p-2 text-center d-flex justify-content-center align-items-center'>
-
-                <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
+                {/* pagination */}
+                {totalPages > 1 ? <div className=' p-2 text-center d-flex justify-content-center align-items-center'>
+                    <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
                         السابق
-                </button> 
-                <div className='mx-2'>
-                    الصفحة {currentPage}
-                </div>
-                <button   onClick={nextPage}className='btn btn-primary mx-2' disabled={currentPage === totalPages}>
-                التالي  
-                </button>
-                    </div> :"" }    
+                    </button>
+                    <div className='mx-2'>
+                        الصفحة {currentPage}
+                    </div>
+                    <button onClick={nextPage} className='btn btn-primary mx-2' disabled={currentPage === totalPages}>
+                        التالي
+                    </button>
+                </div> : ""}
             </div>
         </section>
     </>

@@ -2,8 +2,6 @@ import React from 'react';
 import { HashRouter as Router, Route, Routes, Outlet, Navigate } from 'react-router-dom';
 import ProtectedRoute from './Components/ProtectedRoute'; // Import the ProtectedRoute component
 import LayoutWithNavbar from './Components/LayoutWithNavbar';
-
-// Pages
 import LoginPage from './Pages/LoginPage';
 import HomePage from './Pages/HomePage';
 import NotfoundPage from './Pages/NotfoundPage';
@@ -32,23 +30,18 @@ import UpdateSubCategory from './Pages/UpdateSubCategory';
 import UpdateCourse from './Pages/UpdateCourse';
 import UpdateVideos from './Pages/UpdateVideos';
 import Lectures from './Pages/Lectures';
-import Cookies from 'js-cookie';
-// Contexts
 import MyCoursesProvide from './Contexts/MyCoursesContext';
 import FilterContextProvide from './Contexts/FilterContext';
 import AddAssign from './Pages/AddAssign';
 import AllAssignment from './Pages/AllAssignment';
 import UpdateAssignment from './Pages/UpdateAssignment';
 import WatchVideo from './Pages/WatchVideo';
-
 export default function App() {
   return (
     <FilterContextProvide>
       <MyCoursesProvide>
         <Router>
           <Routes>
-
-
             {/* User routes */}
             <Route element={<ProtectedRoute allowedRoles={['User']} />}>
               <Route path="/cources" element={<LayoutWithNavbar><Cources /></LayoutWithNavbar>} />
@@ -59,11 +52,10 @@ export default function App() {
               <Route path="/watch/:id" element={<LayoutWithNavbar><WatchVideo /></LayoutWithNavbar>} />
               <Route path="/teacher/:id" element={<LayoutWithNavbar><TeacherDetails /></LayoutWithNavbar>} />
             </Route>
-
+            {/* user and teacher routes*/}
             <Route element={<ProtectedRoute allowedRoles={['User', "Teacher"]} />}>
               <Route path="/profile" element={<LayoutWithNavbar> <Profile /></LayoutWithNavbar>} />
             </Route>
-
             {/* Teacher routes */}
             <Route element={<ProtectedRoute allowedRoles={['Teacher']} />}>
               <Route path="/teacherAdmin" element={<LayoutWithNavbar><Outlet /></LayoutWithNavbar>}>
@@ -76,7 +68,6 @@ export default function App() {
                 <Route path="updateVideos/:title/:id" element={<UpdateVideos />} />
               </Route>
             </Route>
-
             {/* Admin routes */}
             <Route element={<ProtectedRoute allowedRoles={['Admin']} />}>
               <Route path="/admin" element={<LayoutWithNavbar><Outlet /></LayoutWithNavbar>}>
@@ -96,16 +87,12 @@ export default function App() {
                 <Route path="allSubCategories" element={<GetAllSubCategory />} />
               </Route>
             </Route>
-
-
             {/* Public routes */}
             <Route path="/" element={<LayoutWithNavbar><HomePage /></LayoutWithNavbar>} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<Register />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="*" element={<LayoutWithNavbar><NotfoundPage /></LayoutWithNavbar>} />
-
-
           </Routes>
         </Router>
       </MyCoursesProvide>

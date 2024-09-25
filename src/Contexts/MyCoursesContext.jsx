@@ -5,7 +5,7 @@ import { createContext, useState } from "react"
 export let MyCoursesContext = createContext(0)
 export default function MyCoursesProvide(props) {
     const [myCourse, setmyCourse] = useState([])
-    const [numberOfCourses, setNumberOfCourses] = useState(0)
+    const [numberOfCourses, setNumberOfCourses] = useState(localStorage.getItem('numberOfCourses'))
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [errorFromJoin,setErrorFromJoin] = useState('');
     async function getAllcoursesByUser() {
@@ -15,13 +15,13 @@ export default function MyCoursesProvide(props) {
         try {
             const { data } = await axios.get(`${baseURL}/join/?userId=${user?._id}`);
             setmyCourse(data.data[0].courses);
-            console.log(`${baseURL}/join/?userId=${user?._id}`)
             let count = 0;
             for (let i = 0; i < myCourse.length; i++) {
                 if(myCourse[i].isPaid && myCourse[i].coursesIds !== null)
                     count++;
             }
             setNumberOfCourses(count);
+            localStorage.setItem('numberOfCourses',count)
         } catch (error) {
             setErrorFromJoin(error.message)
         }

@@ -21,9 +21,8 @@ export default function NavbarSuperAdmin() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-
                         <li className="dropdown mx-2">
-                            <button className="border-0 bg-transparent pt-1 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button className="border-0 bg-transparent pt-1 dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 المدرسين
                             </button>
                             <ul className="dropdown-menu">
@@ -32,7 +31,7 @@ export default function NavbarSuperAdmin() {
                             </ul>
                         </li>
                         <li className="dropdown mx-2">
-                            <button className="border-0 bg-transparent pt-1 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button className="border-0 bg-transparent pt-1 dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 المراحل
                             </button>
                             <ul className="dropdown-menu">
@@ -41,7 +40,7 @@ export default function NavbarSuperAdmin() {
                             </ul>
                         </li>
                         <li className="dropdown mx-2">
-                            <button className="border-0 bg-transparent pt-1 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button className="border-0 bg-transparent pt-1 dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 الصفوف
                             </button>
                             <ul className="dropdown-menu">
@@ -50,7 +49,7 @@ export default function NavbarSuperAdmin() {
                             </ul>
                         </li>
                         <li className="dropdown mx-2">
-                            <button className="border-0 bg-transparent pt-1 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button className="border-0 bg-transparent pt-1 dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 الكورسات
                             </button>
                             <ul className="dropdown-menu">
@@ -59,7 +58,7 @@ export default function NavbarSuperAdmin() {
                             </ul>
                         </li>
                         <li className="dropdown mx-2">
-                            <button className="border-0 bg-transparent pt-1 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button className="border-0 bg-transparent pt-1 dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 الاكواد
                             </button>
                             <ul className="dropdown-menu">

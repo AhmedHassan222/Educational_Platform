@@ -1,11 +1,9 @@
 import style from "../Styles/Nav.module.css"
 import logo from "../../src/Assets/Images/logo.png"
 import { Link } from "react-router-dom"
-import { useContext, useState } from "react"
-import { MyCoursesContext } from "../Contexts/MyCoursesContext"
+import { useState } from "react"
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false)
-    const {numberOfCourses} = useContext(MyCoursesContext)
     return <>
         <nav className="navbar navbar-expand-lg  navbar-light  py-2 bg-white">
             <div className="container">
@@ -17,7 +15,6 @@ export default function Navbar() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-
                         <li className="nav-item">
                             <Link className="nav-link small  active" aria-current="page" to="/cources">  الدورات التعليمية</Link>
                         </li>
@@ -26,7 +23,7 @@ export default function Navbar() {
                                 <div className="d-flex align-items-center">
                                     دوراتي
                                     <span className={`badge ${style.btnOrange} ms-2 me-1`} style={{ fontSize: '0.8rem' }}>
-                                        {numberOfCourses}
+                                        {localStorage.getItem('numberOfCourses')}
                                     </span>
                                 </div>
                             </Link>

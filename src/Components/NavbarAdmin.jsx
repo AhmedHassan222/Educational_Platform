@@ -2,8 +2,7 @@ import { Link, useNavigate } from "react-router-dom"
 import logo from "../../src/Assets/Images/logo.png"
 import Cookies from "js-cookie"
 import style from "../../src/Styles/Nav.module.css"
-import { useEffect, useState } from "react"
-import { date } from "joi"
+import { useState } from "react"
 export default function NavbarAdmin() {
     const [isOpen, setIsOpen] = useState(false)
     let navigate = useNavigate();
@@ -11,13 +10,6 @@ export default function NavbarAdmin() {
         Cookies.remove('token');
         navigate('/login')
     }
-    useEffect(() => {
-        let data=Cookies.get("token")
-        if(!data){
-            logOut()
-        }
-    }, [date])
-    
     return <>
         <nav className="navbar navbar-expand-lg  navbar-light  py-2 bg-white">
             <div className="container">
@@ -29,19 +21,26 @@ export default function NavbarAdmin() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="dropdown mx-2">
-                            <button className="border-0 bg-transparent pt-1 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <li className="dropdown mx-2 ">
+                            <button className="border-0 bg-transparent pt-1 dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 الفيديوهات
                             </button>
                             <ul className="dropdown-menu">
                                 <li><Link className="dropdown-item" to="/teacherAdmin/allVideos">كل الفيديوهات</Link></li>
                                 <li><Link className="dropdown-item" to="/teacherAdmin/addVideo">اضف فيديو</Link></li>
-                                <li><Link className="dropdown-item" to="/teacherAdmin/addAssign">اضف تاسك</Link></li>
-                                <li><Link className="dropdown-item" to="/teacherAdmin/AllAssignment">كل تاسك</Link></li>
+                            </ul>
+                        </li>
+                        <li className="dropdown mx-2">
+                            <button className="border-0 bg-transparent pt-1 dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                الواجبات
+                            </button>
+                            <ul className="dropdown-menu">
+                                <li><Link className="dropdown-item" to="/teacherAdmin/addAssign">اضف واجب</Link></li>
+                                <li><Link className="dropdown-item" to="/teacherAdmin/AllAssignment">كل الواجبات</Link></li>
                             </ul>
                         </li>
                         <li className="dropdown mx-2 pt-1 " >
-                           <Link style={{color:"black"}} to={"/profile"}>الملف الشخصي</Link>
+                            <Link style={{ color: "black" }} to={"/profile"}>الملف الشخصي</Link>
                         </li>
                         <li className="dropdown mx-2 pt-1">
                             <span onClick={logOut}>خروج</span>

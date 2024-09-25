@@ -22,7 +22,6 @@ export default function AddTeacher() {
     const [showrePassword, setShowrePassword] = useState(false);
     const [Courses, setCourses] = useState([]);
     const [CoursesId, setCoursesId] = useState("");
-    const [refreshToken, setrefreshToken] = useState("");
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     // FUNCTION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     // FUNCTION SHOW AND HIDDEN PASSWORD
@@ -39,16 +38,17 @@ export default function AddTeacher() {
         const { data } = await axios.get(`${baseURL}/course`);
         setCourses(data.data)
     }
+    // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
         getAll();
     }, [Courses?.length]);
-    //function one >>
+    //function HANDLE OBJECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const handleChange = (e) => {
         const _formData = { ...formData };
         _formData[e.target.name] = e.target.value;
         setFormData(_formData);
     };
-    // function two >>
+    // function SUBMIT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const submitRegisterForm = (e) => {
         e.preventDefault();
         const validate = validationForm();
@@ -56,7 +56,7 @@ export default function AddTeacher() {
         setIsloading(false);
         addTeacher();
     };
-    // function three >>
+    // function VALIDATION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const validationForm = () => {
         let schema = Joi.object({
             fullName: Joi.string().min(3).max(100).required(),
@@ -72,7 +72,7 @@ export default function AddTeacher() {
         });
         return schema.validate(formData, { abortEarly: false });
     };
-    // function four >>
+    // function ADD TEACHER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function addTeacher() {
         setIsloading(true)
         formData.phoneNumber = `+2${formData.phoneNumber}`
@@ -87,25 +87,23 @@ export default function AddTeacher() {
                 }
                 if (response.data.message === "Refresh token") {
                     toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
-                      position: "top-center",
-                      autoClose: 3000,
-                      hideProgressBar: false,
-                      closeOnClick: true,
-                      pauseOnHover: true,
-                      draggable: true,
-                      progress: undefined,
-                      theme: "light",
+                        position: "top-center",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
                     });
                     Cookies.set('token', response?.data?.refreshToken, { expires: 7 });
-                  }
-                
-
+                }
             })
         } catch (error) {
-            if(error.response.data.Error ==='wrong  token'){
+            if (error.response.data.Error === 'wrong  token') {
                 Cookies.remove('token');
                 navigate('/login')
-            }else{
+            } else {
                 toast.error(" هناك مشكلة في اضافة المدرس", {
                     position: "top-center",
                     autoClose: 3000,
@@ -115,17 +113,15 @@ export default function AddTeacher() {
                     draggable: true,
                     progress: undefined,
                     theme: "light",
-                  });
+                });
             }
         }
         setIsloading(false)
     }
-
-
+    // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return (
         <div className="container py-5">
-                  <ToastContainer />
-
+            <ToastContainer />
             <div className="text-center rounded-4  border-1 widthCustom mx-auto">
                 <form onSubmit={submitRegisterForm}>
                     {/* full name  */}
@@ -157,7 +153,6 @@ export default function AddTeacher() {
                                 <i onClick={togglePasswordVisibility} className={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>
                             }
                             <input placeholder="ادخل كلمة المرور" type={inputType} className="w-100 p-2 " id="password" name="password" value={formData.password} onChange={handleChange} />
-
                         </div>
                         {error?.map((err, index) =>
                             err.context.label === "password" ? <div key={index}>
@@ -174,7 +169,6 @@ export default function AddTeacher() {
                                 <i onClick={togglerePasswordVisibility} className={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>
                             }
                             <input placeholder="تأكيد كلمة المرور " type={inputType2} className="w-100 p-2" id="repassword" name="repassword" value={formData.repassword} onChange={handleChange} />
-
                         </div>
                         {error?.map((err, index) =>
                             err.context.label === "repassword" ? <div key={index}>
@@ -224,7 +218,6 @@ export default function AddTeacher() {
                         )}
                     </div>
                     {/* subjecTeacher */}
-
                     <div className=" mb-4">
                         <textarea className="w-100 p-2" id="subjecTeacher" name="subjecTeacher" placeholder="معلومات عن المدرس" value={formData.subjecTeacher} onChange={handleChange}></textarea>
                         {error?.map((err, index) =>
@@ -242,7 +235,6 @@ export default function AddTeacher() {
                             </div> : ""
                         )}
                     </div>
-
                     <button type="submit" className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>{Isloading ? <i className="fa-spin fa fa-spinner"></i> : "انشاء حساب"}</button>
                 </form>
             </div>

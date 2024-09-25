@@ -61,24 +61,24 @@ export default function AddVideo() {
                 }
                 if (res.data.message === "Refresh token") {
                     toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
-                      position: "top-center",
-                      autoClose: 3000,
-                      hideProgressBar: false,
-                      closeOnClick: true,
-                      pauseOnHover: true,
-                      draggable: true,
-                      progress: undefined,
-                      theme: "light",
+                        position: "top-center",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
                     });
                     Cookies.set('token', res?.data?.refreshToken, { expires: 7 });
-                  }
+                }
             })
         } catch (error) {
             setIsloading(false)
-            if(error.response.data.Error ==='wrong  token'){
+            if (error.response.data.Error === 'wrong  token') {
                 Cookies.remove('token');
                 navigate('/login')
-            }else{
+            } else {
                 toast.error(" هناك مشكلة في اضافة الفيديو", {
                     position: "top-center",
                     autoClose: 3000,
@@ -88,7 +88,7 @@ export default function AddVideo() {
                     draggable: true,
                     progress: undefined,
                     theme: "light",
-                  });
+                });
             }
         }
     }

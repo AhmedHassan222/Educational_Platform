@@ -3,6 +3,7 @@ import style from "../../src/Styles/Filter.module.css"
 import axios from "axios";
 import { FilterContext } from "../Contexts/FilterContext";
 export default function Filter() {
+    // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     let stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
     let grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
@@ -11,19 +12,23 @@ export default function Filter() {
     const [supCategories, setsupCategories] = useState([]);
     const [categories, setCategories] = useState([]);
     const { setWordSearch, setStage, setGrade, setGradeName, setStageName } = useContext(FilterContext)
+    // FUNCTIONS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    // FUNCTION GET ALL CATEGORIES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function getAllCategories() {
         const { data } = await axios.get(`${baseURL}/category/`);
         setCategories(data.categories)
     }
+    // FUNCTION GET ALL SUB CATEGORIES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function getAllSubCategories() {
         const { data } = await axios.get(`${baseURL}/subcategory/`);
         setsupCategories(data.Subcategories)
     }
+    // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
         getAllCategories();
         getAllSubCategories();
     }, []);
-    // FUNCTION RESET FILTER
+    // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
         <div>
             <input onChange={(e) => setWordSearch(e.target.value.toLocaleLowerCase())} type="text" className="w-100 p-3 bg-light" placeholder="ابحث عن دورة" />

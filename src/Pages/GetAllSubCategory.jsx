@@ -9,7 +9,6 @@ export default function GetAllSubCategory() {
   // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   let arr = [1, 2, 3, 4];
   const navigate = useNavigate();
-
   const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
   const [supCategories, setsupCategories] = useState([]);
   let stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
@@ -76,14 +75,13 @@ export default function GetAllSubCategory() {
             theme: "light",
         });
     }
-     
     }
   }
   // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   useEffect(() => {
     getAll();
   }, [supCategories]);
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   return (
     <>
       <ToastContainer />

@@ -19,33 +19,29 @@ export default function AddCourse() {
     const [isSubmit, setIsSubmit] = useState(false);
     const validExtensions = ["image/png", "image/jpeg", "image/gif"];
     const formData = new FormData();
-    
+
     // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     // FUNCTION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    
     // FUNCTION HANDLE IMAGE >>
     const handleImageChange = (e) => {
         const file = Array.from(e.target.files)[0];
         setImage(file);
     };
-
     // GET ALL SUB CATEGORIES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const getAllsubCategoryies = async () => {
         const { data } = await axios.get(`${baseURL}/subcategory`);
         setsubCategoryies(data.Subcategories);
     };
-
+    // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
         getAllsubCategoryies(); // Only call this once when the component mounts
     }, []);
-
     // HANDLE SUBMIT FORM >>
     const handleSubmit = (e) => {
         setIsSubmit(true);
         e.preventDefault();
         addItem();
     };
-
     // FUNCTION ADD COURSE
     async function addItem() {
         setIsloading(true);
@@ -64,24 +60,24 @@ export default function AddCourse() {
                 }
                 if (res.data.message === "Refresh token") {
                     toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
-                      position: "top-center",
-                      autoClose: 3000,
-                      hideProgressBar: false,
-                      closeOnClick: true,
-                      pauseOnHover: true,
-                      draggable: true,
-                      progress: undefined,
-                      theme: "light",
+                        position: "top-center",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
                     });
                     Cookies.set('token', res?.data?.refreshToken, { expires: 7 });
-                  }
+                }
             });
         } catch (error) {
             setIsloading(false);
-            if(error.response.data.Error ==='wrong  token'){
+            if (error.response.data.Error === 'wrong  token') {
                 Cookies.remove('token');
                 navigate('/login')
-            }else{
+            } else {
                 toast.error(" هناك مشكلة في اضافة الكورس", {
                     position: "top-center",
                     autoClose: 3000,
@@ -91,17 +87,14 @@ export default function AddCourse() {
                     draggable: true,
                     progress: undefined,
                     theme: "light",
-                  });
+                });
             }
         }
     }
-
-
     // RENDER HTML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
         <div className="container py-5">
-        <ToastContainer />
-
+            <ToastContainer />
             <div className="text-center rounded-4  border-1 widthCustom mx-auto">
                 <form encType='multibart/form-data' onSubmit={handleSubmit}>
                     <div className=" mb-4">

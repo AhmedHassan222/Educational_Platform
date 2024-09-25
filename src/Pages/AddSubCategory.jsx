@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function AddSubCategory() {
   // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const [categoryId, setCategoryId] = useState(null)
-
   const [categories, setcategories] = useState([]);
   const [isSubmit, setIsSubmit] = useState(false);
   const grade = { primary: "الابتدائية", preparatory: "الاعدادية ", secondary: "الثانوية", };
@@ -66,10 +65,10 @@ export default function AddSubCategory() {
       })
     } catch (error) {
       setIsloading(false)
-      if(error.response.data.Error ==='wrong  token'){
+      if (error.response.data.Error === 'wrong  token') {
         Cookies.remove('token');
         navigate('/login')
-     } else {
+      } else {
         toast.error(" هناك مشكلة في اضافة صف", {
           position: "top-center",
           autoClose: 3000,
@@ -109,7 +108,6 @@ export default function AddSubCategory() {
             </div>
           </div>
           <button type="submit" className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>    {Isloading ? <i className="fa fa-spin fa-spinner"></i> : "اضف"}</button>
-
         </form>
       </div>
     </div>

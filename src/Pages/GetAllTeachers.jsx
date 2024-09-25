@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 export default function GetAllTeachers() {
+    // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const navigate = useNavigate();
     const [isLoading, setIsloading] = useState(false);
     const stage = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
@@ -13,13 +14,10 @@ export default function GetAllTeachers() {
     const arr = [1, 2, 3, 4];
     const [totalPages, setTotalPages] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
-    const [recordPerPage, setrecordPerPage] = useState();
-    const lastIndex = currentPage * recordPerPage;
-    const fristIndex = lastIndex - recordPerPage;
-
+    // FUNCTIONS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    // FUNCTION DELETE ITEM >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function deleteItem(id, emailTeacher) {
         setIsloading(true);
-
         try {
             await axios.delete(`${baseURL}/auth/deleteTeacher`, {
                 headers: {
@@ -35,36 +33,34 @@ export default function GetAllTeachers() {
                 setIsloading(false);  // Stop loading indicator after the request completes
                 if (res.data.message === "Refresh token") {
                     toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
-                      position: "top-center",
-                      autoClose: 3000,
-                      hideProgressBar: false,
-                      closeOnClick: true,
-                      pauseOnHover: true,
-                      draggable: true,
-                      progress: undefined,
-                      theme: "light",
+                        position: "top-center",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
                     });
                     Cookies.set('token', res?.data?.refreshToken, { expires: 7 });
-                  }else{
+                } else {
                     toast.success('قد تم الحذف  ', {
-                      position: "top-center",
-                      autoClose: 3000,
-                      hideProgressBar: false,
-                      closeOnClick: true,
-                      pauseOnHover: true,
-                      draggable: true,
-                      progress: undefined,
-                      theme: "light",
-                  });
-                  }
-
+                        position: "top-center",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                }
             })
-
         } catch (error) {
-            if(error.response.data.Error ==='wrong  token'){
+            if (error.response.data.Error === 'wrong  token') {
                 Cookies.remove('token');
                 navigate('/login')
-            }else{
+            } else {
                 toast.error('لديك مشكلة في الحذف ', {
                     position: "top-center",
                     autoClose: 3000,
@@ -76,10 +72,10 @@ export default function GetAllTeachers() {
                     theme: "light",
                 });
             }
-          
             setIsloading(false);  // Stop loading in case of error
         }
     }
+    // PAGENATION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     function prePage() {
         setIsloading(true)
         if (currentPage > 1) {
@@ -94,21 +90,22 @@ export default function GetAllTeachers() {
             setIsloading(false)
         }
     }
+    // GET ALL >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function getAll(page) {
         const { data } = await axios.get(`${baseURL}/auth/teachers?page=${page}`);
         if (data && data.paginationInfo) {
             setallTeachers(data.data)
             setTotalPages(data.paginationInfo.totalPages || 1); // Default to 1 if undefined
-            setrecordPerPage(data.paginationInfo.perPages || 10); // Default to 10 per page
         } else {
             setallTeachers([])
             setTotalPages(1);
-            setrecordPerPage(10);
         }
     }
+    // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
         getAll(currentPage);
     }, [allTeachers]);
+    // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
         <div className="container py-5">
             <ToastContainer />
@@ -145,12 +142,10 @@ export default function GetAllTeachers() {
                             </tr>
                         ))}
                     </tbody>
-
                 </table>
             </div>
             {/* pagination */}
             {totalPages > 1 ? <div className=' p-2 text-center d-flex justify-content-center'>
-
                 <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
                     السابق
                 </button>

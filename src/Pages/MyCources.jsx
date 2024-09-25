@@ -4,11 +4,11 @@ import { MyCoursesContext } from '../Contexts/MyCoursesContext';
 import fakeImage from "../../src/Assets/Images/fakeImage.png"
 export default function MyCources() {
     const arr = [1, 2, 3, 4, 5, 6, 7, 8]
-    const { myCourse, getAllcoursesByUser, errorFromJoin } = useContext(MyCoursesContext)
+    const { myCourse, getAllcoursesByUser, errorFromJoin , numberOfCourses } = useContext(MyCoursesContext)
     useEffect(() => {
         window.scroll(0, 0)
         getAllcoursesByUser()
-        console.log(myCourse)
+        localStorage.setItem('numberOfCourses',numberOfCourses)
     }, [myCourse?.length])
     return <>
         <section className="py-5 container ">

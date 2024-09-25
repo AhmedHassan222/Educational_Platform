@@ -10,7 +10,6 @@ export default function GetAllCources() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     let arr = [1, 2, 3, 4];
     const navigate = useNavigate();
-
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [Courses, setCourses] = useState([]);
     const stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
@@ -18,10 +17,6 @@ export default function GetAllCources() {
     const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
     const [totalPages, setTotalPages] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
-    const [recordPerPage, setrecordPerPage] = useState();
-    const lastIndex = currentPage * recordPerPage;
-    const fristIndex = lastIndex - recordPerPage;
-
     // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     // FUNCTION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     function nextPage() {
@@ -44,11 +39,9 @@ export default function GetAllCources() {
         if (data && data.paginationInfo) {
             setCourses(data.data)
             setTotalPages(data.paginationInfo.totalPages || 1); // Default to 1 if undefined
-            setrecordPerPage(data.paginationInfo.perPages || 10); // Default to 10 per page
         } else {
             setCourses([])
             setTotalPages(1);
-            setrecordPerPage(10);
         }
     }
     // DELETE COURSE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -65,34 +58,34 @@ export default function GetAllCources() {
                     setIsloading(false)
                     if (res.data.message === "Refresh token") {
                         toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
-                          position: "top-center",
-                          autoClose: 3000,
-                          hideProgressBar: false,
-                          closeOnClick: true,
-                          pauseOnHover: true,
-                          draggable: true,
-                          progress: undefined,
-                          theme: "light",
+                            position: "top-center",
+                            autoClose: 3000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
                         });
                         Cookies.set('token', res?.data?.refreshToken, { expires: 7 });
-                      }else{
+                    } else {
                         toast.success('قد تم الحذف  ', {
-                          position: "top-center",
-                          autoClose: 3000,
-                          hideProgressBar: false,
-                          closeOnClick: true,
-                          pauseOnHover: true,
-                          draggable: true,
-                          progress: undefined,
-                          theme: "light",
-                      });
-                      }
+                            position: "top-center",
+                            autoClose: 3000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                        });
+                    }
                 });
         } catch (error) {
-            if(error.response.data.Error ==='wrong  token'){
+            if (error.response.data.Error === 'wrong  token') {
                 Cookies.remove('token');
                 navigate('/login')
-            }else{
+            } else {
                 toast.error('لديك مشكلة في الحذف ', {
                     position: "top-center",
                     autoClose: 3000,
@@ -177,10 +170,8 @@ export default function GetAllCources() {
                             ))}
                     </tbody>
                 </table>
-
                 {/* pagination */}
-                {totalPages > 1 ? <div className=' p-2 text-center d-flex justify-content-center'>
-
+                {totalPages > 1 ? <div className=' p-2 tet-center d-flex justify-content-center align-items-center'>
                     <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
                         السابق
                     </button>
@@ -191,9 +182,6 @@ export default function GetAllCources() {
                         التالي
                     </button>
                 </div> : ""}
-
-
-
             </div>
         </>
     );
