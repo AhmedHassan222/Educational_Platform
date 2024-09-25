@@ -40,7 +40,7 @@ export default function Lectures() {
         <div className="row g-3 mt-1">
           {lectures?.length > 0
             ? lectures?.map((item, index) => (
-              <div key={index} className="col-6 col-sm-6 col-md-4">
+              <div key={index} className="col-6 col-sm-6 col-md-4 col-lg-3">
                 <div className="border-1 p-3 border border-muted rounded-3">
                   <img src={item.photo.secure_url} alt="teacher image" className="w-100" />
                   <h3 className="h5 my-4">{item?.title} </h3>
@@ -54,7 +54,7 @@ export default function Lectures() {
               </div>
             ))
             : arr.map((item, index) => (
-              <div key={index} className="col-6 col-sm-6 col-md-4">
+              <div key={index} className="col-6 col-sm-6 col-md-4 col-lg-3">
                 <div className="card" aria-hidden="true">
                   <img src={fakeImage} className="card-img-top w-100" alt="Loading Image" />
                   <div className="card-body">
