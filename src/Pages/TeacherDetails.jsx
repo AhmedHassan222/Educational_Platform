@@ -24,7 +24,7 @@ export default function TeacherDetails() {
             <div className="row g-3">
                 {teacherDetails?.length > 0 ?   teacherDetails.map((item, index) => <div key={index} className="col-sm-12 col-md-6 col-lg-4">
                     <div className="text-center rounded-5 border-1 border border-muted p-5">
-                        <img src={item.image || item.gender == "male" ? mr : mrs} alt="mr image" className="w-25" />
+                    <img src={item?.profileImage ? item?.profileImage?.secure_url : item.gender ==="male" ? mr :mrs  } className="w-25  rounded-circle " alt={item.fullName} />
                         <p className="bg-light  my-4" > {item.courseId?.name ? item.courseId.name : "لا يوجد"}  </p>
                         <h3 > {item.fullName} </h3>
                         <p className="text-muted fs-6">
@@ -64,7 +64,7 @@ export default function TeacherDetails() {
               {teacherDetails?.length > 0 ? teacherDetails.map((item, index) => <div key={index} className="col-sm-12 col-md-6 col-lg-4 text-center">
                     <div className='border-1 border border-muted rounded-3'>
                         <Link to={`/cources/${item.courseId?.id}`}>
-                            <img src={item.image || item.gender == "male" ? mr : mrs} alt="teacher image" className='w-100' />
+                        <img src={item?.profileImage ? item?.profileImage?.secure_url : item.gender ==="male" ? mr :mrs  } className="w-75  rounded-circle " alt={item.fullName} />
                         </Link>
                         <div className="p-3">
                             <p className="text-muted my-2"> المرحلة {stage[item.stage]} 2025  </p>

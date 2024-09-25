@@ -5,6 +5,8 @@ import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import style from "../../src/Styles/CourseDetails.module.css"
 import { FilterContext } from '../Contexts/FilterContext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function Cources() {
 
     const arr = [1, 2, 3, 4, 5, 6]
@@ -30,8 +32,16 @@ export default function Cources() {
             setTotalPages(data.paginationInfo.totalPages)
             setrecordPerPage(data.paginationInfo.perPages)
         } catch (error) {
-            seterrorForm(error.message)
-        }
+            toast.error(" هناك مشكلة  ", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });        }
     }
     // FUNCTION NEXT 
     function prePage() {

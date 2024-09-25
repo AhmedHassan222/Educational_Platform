@@ -8,11 +8,13 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import fakeImage from "../../src/Assets/Images/fakeImage.png";
 import Joi from "joi";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function Profile() {
-  let navigate = useNavigate();
+  let navagite = useNavigate();
   const [userDetails, setuserDetails] = useState([]);
   const [errorForm, seterrorForm] = useState("");
-  const [role, setrole] = useState('');
+  const [role, setrole] = useState("");
   const grade = {
     primary: "الابتدائي",
     preparatory: "الاعدادي ",
@@ -29,9 +31,9 @@ export default function Profile() {
   const [id, setId] = useState(null);
   function logOut() {
     Cookies.remove("token");
-    navigate("/login");
+    navagite("/login");
   }
-  async function getAllUserById(role,id) {
+  async function getAllUserById(role, id) {
     try {
       const { data } = await axios.get(
         `${baseURL}/auth/teachers?role=${role}&_id=${id}`
@@ -49,9 +51,9 @@ export default function Profile() {
     let user;
     if (Cookies.get("token")) {
       user = jwtDecode(Cookies.get("token"));
-      getAllUserById(user?.role,user._id);
+      getAllUserById(user?.role, user._id);
       setId(user._id);
-      setrole(user.role)
+      setrole(user.role);
     }
   }, [userDetails]);
   //  add image profile >>>>>>>>>>>>>>>>>>>>
@@ -93,12 +95,38 @@ export default function Profile() {
           if (res.data.message === "Done ") {
             setAddImageForm(false);
           }
+          if (res.data.message === "Refresh token") {
+            toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
+              position: "top-center",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+            Cookies.set("token", res?.data?.refreshToken, { expires: 7 });
+          }
         });
     } catch (error) {
-      console.log(error)
       setIsloading(false);
       setAddImageForm(true);
-      seterrorForm(error);
+      if (error.response.data.Error === "wrong  token") {
+        Cookies.remove("token");
+        navagite("/login");
+      } else {
+        toast.error(" هناك مشكلة في اضافة", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
     }
   }
 
@@ -162,15 +190,43 @@ export default function Profile() {
         `https://ahmed-shaltout-platform.up.railway.app/auth/update?userId=${id}`,
         updateObject
       )
-      .then((response) => {
-        if (response.data.message === "User updated successfully")
+      .then((res) => {
+        if (res.data.message === "User updated successfully") {
           setUpdateForm(false);
+        }
+        if (res.data.message === "Refresh token") {
+          toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          Cookies.set("token", res?.data?.refreshToken, { expires: 7 });
+        }
       })
       .catch((error) => {
-        setServerError(error.response?.data?.message);
+        setIsloading(false);
         setUpdateForm(true);
+        if (error.response.data.Error === "wrong  token") {
+          Cookies.remove("token");
+          navagite("/login");
+        } else {
+          toast.error(" هناك مشكلة في التحديث", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
       });
-    setIsloading(false);
   }
 
   // change password
@@ -197,14 +253,14 @@ export default function Profile() {
     const _updateObject = { ...updatePassObject };
     _updateObject[e.target.name] = e.target.value;
     setUpdatePassObject(_updateObject);
-    console.log(updatePassObject)
+    console.log(updatePassObject);
   };
 
   // function two >>
   const updatePasssword = (e) => {
     e.preventDefault();
     const validate = validationFormPassword();
-    console.log(validate)
+    console.log(validate);
     validate.error ? setError(validate.error.details) : updateAPI();
   };
   // function three >>
@@ -214,8 +270,8 @@ export default function Profile() {
         .regex(/^[a-zA-Z0-9]{8,}$/)
         .required(),
       newPass: Joi.string()
-      .regex(/^[a-zA-Z0-9]{8,}$/)
-      .required(),
+        .regex(/^[a-zA-Z0-9]{8,}$/)
+        .required(),
     });
     return schema.validate(updatePassObject, { abortEarly: false });
   };
@@ -232,22 +288,48 @@ export default function Profile() {
         })
         .then((res) => {
           setIsloading(false);
-          console.log(res)
-          if(res.data.message ==="Done, please try to login "){
+          if (res.data.message === "Done, please try to login ") {
             setPasswordForm(false);
           }
-         
+          if (res.data.message === "Refresh token") {
+            toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
+              position: "top-center",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+            Cookies.set("token", res?.data?.refreshToken, { expires: 7 });
+          }
         });
     } catch (error) {
-      console.log(error);
       setIsloading(false);
-      setServerError(error.response?.data?.message);
       setPasswordForm(true);
+      if (error.response.data.Error === "wrong  token") {
+        Cookies.remove("token");
+        navagite("/login");
+      } else {
+        toast.error(" هناك مشكلة في التحديث", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
     }
   }
 
   return (
     <>
+            <ToastContainer />
+
       {/* add imaeg profile */}
       {addImageForm ? (
         <div className="container py-5 px-3">
@@ -540,7 +622,6 @@ export default function Profile() {
                 id="dropdownMenuButton1"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
-                
                 className={`${Styles.defaultImg}  rounded-circle mx-2`}
                 alt="default image "
               />
@@ -585,8 +666,10 @@ export default function Profile() {
                   />
                   {userDetails[0]?.profileImage?.secure_url ? (
                     <i
-                    onClick={()=>{setAddImageForm(true)}}
-                      style={{ left: "75%",bottom:"5%" }}
+                      onClick={() => {
+                        setAddImageForm(true);
+                      }}
+                      style={{ left: "75%", bottom: "5%" }}
                       className="fa-solid fa-pen position-absolute p-2 rounded-circle bg-white   small "
                     ></i>
                   ) : (
@@ -599,29 +682,36 @@ export default function Profile() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="p-3 border-1 border border-muted">
                 <div className="d-flex">
                   <i className="fa-solid fa-user fs-5 ms-5"></i>
                   <div>
-                    <p className="text-muted h5"> {role === "User" ? "اسم الطالب": "اسم المدرس" }</p>
+                    <p className="text-muted h5">
+                      {" "}
+                      {role === "User" ? "اسم الطالب" : "اسم المدرس"}
+                    </p>
                     <p>{userDetails[0].fullName}</p>
                   </div>
                 </div>
               </div>
-              {role ==="User" ?<div className="p-3 border-1 border border-muted">
-                <div className="d-flex">
-                  <i className="fa-solid fa-graduation-cap fs-5 ms-5"></i>
-                  <div className="">
-                    <p className="text-muted h5"> الصف الدراسي</p>
-                    <p>
-                      {stageArabic[userDetails[0].grade]}{" "}
-                      {gradeArabic[userDetails[0].stage]}
-                    </p>
+              {role === "User" ? (
+                <div className="p-3 border-1 border border-muted">
+                  <div className="d-flex">
+                    <i className="fa-solid fa-graduation-cap fs-5 ms-5"></i>
+                    <div className="">
+                      <p className="text-muted h5"> الصف الدراسي</p>
+                      <p>
+                        {stageArabic[userDetails[0].grade]}{" "}
+                        {gradeArabic[userDetails[0].stage]}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div> :"" }
-              
+              ) : (
+                ""
+              )}
+
               <div className="p-3 border-1 border border-muted">
                 <div className="d-flex">
                   <i className="fa-solid fa-envelope fs-5 ms-5"></i>
@@ -680,21 +770,27 @@ export default function Profile() {
                 <div className="d-flex">
                   <i className="fa-solid fa-user fs-5 ms-5"></i>
                   <div>
-                    <p className="text-muted h5">{role ==="User" ? "اسم الطالب": " اسم المدرس"} </p>
+                    <p className="text-muted h5">
+                      {role === "User" ? "اسم الطالب" : " اسم المدرس"}{" "}
+                    </p>
                     <p className="placeholder col-12 "></p>
                   </div>
                 </div>
               </div>
-              {role === "User" ?  <div className="p-3 border-1 border border-muted text-card-top placeholder-glow">
-                <div className="d-flex">
-                  <i className="fa-solid fa-graduation-cap fs-5 ms-5"></i>
-                  <div className="">
-                    <p className="text-muted h5"> الصف الدراسي</p>
-                    <p className="placeholder col-12 "></p>
+              {role === "User" ? (
+                <div className="p-3 border-1 border border-muted text-card-top placeholder-glow">
+                  <div className="d-flex">
+                    <i className="fa-solid fa-graduation-cap fs-5 ms-5"></i>
+                    <div className="">
+                      <p className="text-muted h5"> الصف الدراسي</p>
+                      <p className="placeholder col-12 "></p>
+                    </div>
                   </div>
                 </div>
-              </div> :""}
-             
+              ) : (
+                ""
+              )}
+
               <div className="p-3 border-1 border border-muted text-card-top placeholder-glow">
                 <div className="d-flex">
                   <i className="fa-solid fa-envelope fs-5 ms-5"></i>
@@ -716,14 +812,6 @@ export default function Profile() {
             </div>
           )}
         </div>
-      ) : (
-        ""
-      )}
-      {errorForm.length > 0 ? (
-        <p className=" text-danger py-1 text-center small">
-          {" "}
-          لديك مشكلة في اخر عملية{" "}
-        </p>
       ) : (
         ""
       )}

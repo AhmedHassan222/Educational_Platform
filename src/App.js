@@ -39,6 +39,7 @@ import FilterContextProvide from './Contexts/FilterContext';
 import AddAssign from './Pages/AddAssign';
 import AllAssignment from './Pages/AllAssignment';
 import UpdateAssignment from './Pages/UpdateAssignment';
+import WatchVideo from './Pages/WatchVideo';
 
 export default function App() {
   return (
@@ -55,6 +56,7 @@ export default function App() {
               <Route path="/mycources" element={<LayoutWithNavbar><MyCources /></LayoutWithNavbar>} />
               <Route path="/lectures/:id" element={<LayoutWithNavbar><Lectures /></LayoutWithNavbar>} />
               <Route path="/teachers" element={<LayoutWithNavbar><Teachers /></LayoutWithNavbar>} />
+              <Route path="/watch/:id" element={<LayoutWithNavbar><WatchVideo /></LayoutWithNavbar>} />
               <Route path="/teacher/:id" element={<LayoutWithNavbar><TeacherDetails /></LayoutWithNavbar>} />
             </Route>
 

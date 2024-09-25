@@ -84,7 +84,7 @@ export default function Header() {
           </h3>
           <p className="mb-5 h5 small ">
             ﺗﻌﻠﻢ ﺑﺄﺣﺪث اﻟﻄﺮق ﻣﻦ ﺧﻠﺎل ﻣﻨﺼﺘﻨﺎ,ﻓﺄﻧﻨﺎ ﻧﻮﻓﺮ ﻟﻚ اﻟﻌﺪﻳﺪ ﻣﻦ اﻟﻜﻮرﺳﺎت
-            اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ الابتدائية و الإعدادية والثانوية , ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.
+            اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ اﻟﺜﺎﻧﻮﻳﺔ  , ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.
           </p>
           <div className="row gy-4 py-4">
             {subcategories?.length > 0 ? subcategories.map((item, index) => (<div key={index} className="col-md-4 wow animate__animated animate__bounceI">
@@ -225,7 +225,7 @@ export default function Header() {
             {allTeachers?.length > 0 ? allTeachers.map((item, index) => (
               <SwiperSlide key={index}>
                 <div className=" py-2 itemSlide">
-                  <img src={item.image || item.gender == "male" ? mr : mrs} className="w-75  rounded-circle " alt="" />
+                  <img src={item?.profileImage ? item?.profileImage?.secure_url : item.gender ==="male" ? mr :mrs  } className="w-75  rounded-circle " alt={item.fullName} />
                   <h4 className="my-4 h6">أ/  {item.fullName}</h4>
                   <p className="my-4 small text-primary">
                     <span className="bg-light text-black p-2 rounded">

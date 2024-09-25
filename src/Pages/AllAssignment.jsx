@@ -120,10 +120,10 @@ export default function AllAssignment() {
                         {tasks?.length > 0
                             ? tasks.map((item, index) => (
                                 <tr key={index}>
-                                    <td className="col-2">{item.title} </td>
-                                    <td className="pt-3" >{item.courseId.name}</td>
-                                    <td className="pt-3" >{item.lectureId.title}</td>
-                                    <td className="pt-3">{item.createdBy.fullName}</td>
+                                    <td className="col-2">{item?.title} </td>
+                                    <td className="pt-3" >{item.courseId?.name}</td>
+                                    <td className="pt-3" >{item.lectureId?.title}</td>
+                                    <td className="pt-3">{item.createdBy?.fullName}</td>
                                     <td className="pt-3   ">
                                     <div className=" d-flex align-items-center  justify-content-center ">
                                         <button

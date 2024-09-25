@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import CryptoJS from "crypto-js";
@@ -10,9 +10,8 @@ export default function GetAllVideos() {
 
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [lectures, setlectures] = useState([]);
-    const [errorForm, seterrorForm] = useState("");
     const [isLoading, setIsloading] = useState(false);
-
+    const navigate = useNavigate();
     const [totalPages, setTotalPages] = useState();
     const [currentPage, setCurrentPage] = useState(1); 
     const [recordPerPage, setrecordPerPage] = useState(); 
@@ -32,31 +31,50 @@ export default function GetAllVideos() {
                     headers: {
                         token: `online__${Cookies.get("token")}`,
                     },
-                }).then(()=>{
+                }).then((res)=>{
                     setIsloading(false)
-                    toast.success('لا يحق لك الحذف هذاالفيديو ', {
-                        position: "top-center",
-                        autoClose: 3000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
+                    if (res.data.message === "Refresh token") {
+                        toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
+                          position: "top-center",
+                          autoClose: 3000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: "light",
                         });
+                        Cookies.set('token', res?.data?.refreshToken, { expires: 7 });
+                      }else{
+                        toast.success('قد تم الحذف  ', {
+                          position: "top-center",
+                          autoClose: 3000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: "light",
+                      });
+                      }
                 })
         } catch (error) {
-            toast.error('لديك مشكلة في حذف الفيديو ', {
-                position: "top-center",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                });     
-                setIsloading(false)   
+            setIsloading(false)   
+            if(error.response.data.Error ==='wrong  token'){
+                Cookies.remove('token');
+                navigate('/login')
+            }else{
+                toast.error('لديك مشكلة في الحذف ', {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
         }
 
     }
@@ -98,8 +116,17 @@ export default function GetAllVideos() {
             setrecordPerPage(10);
           }
        } catch (error) {
-        seterrorForm(error.message)
         setIsloading(false)
+        toast.error(" يوجد مشكلة لديك", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
        }
         }
     useEffect(() => {
@@ -156,7 +183,6 @@ export default function GetAllVideos() {
                         ))}
                 </tbody>
             </table>
-            {errorForm ? <p className="text-danger py-1 text-center small">لديك مشكلة في  اخر عملية</p> : ''}
 
                        {/* pagination */}
              {totalPages >1 ?   <div className=' p-2 text-center d-flex justify-content-center align-items-center'>
