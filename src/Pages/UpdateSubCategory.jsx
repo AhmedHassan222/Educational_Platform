@@ -13,13 +13,14 @@ export default function UpdatedSubCategory() {
   const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
   const [Isloading, setIsloading] = useState(false);
   const [error, setError] = useState([]);
-  const [errorForm, seterrorForm] = useState("");
   const [updateSubCategory, setupdateSubCategory] = useState({ name: "" });
-
+  // FUNCTION UPDATE SUBCATEGORY
   async function updateItem() {
+    setIsloading(true)
     const validate = validationForm();
     if (validate.error) {
       setError(validate.error.details);
+      setIsloading(false)
     }
     try {
       await axios
@@ -29,6 +30,7 @@ export default function UpdatedSubCategory() {
           },
         })
         .then((res) => {
+          setIsloading(false)
           if (res.status === 200) {
             navagite('/admin/allSubCategories')
           }
@@ -47,6 +49,7 @@ export default function UpdatedSubCategory() {
           }
         });
     } catch (error) {
+      setIsloading(false)
       if(error.response.data.Error ==='wrong  token'){
         Cookies.remove('token');
         navagite('/login')
@@ -64,41 +67,34 @@ export default function UpdatedSubCategory() {
     }
     }
   }
-
+  // FUNCTION HANDLE OBJECT >>>>>>>>>>>>>>>>>>>>>>>>>>>
   const handleChange = (event) => {
     const selectedValue = event.target.value;
     setupdateSubCategory({ name: selectedValue });
   };
-
+  // FUNCTION VALIDATION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const validationForm = () => {
     let schema = Joi.object({
       name: Joi.string().required(),
     });
     return schema.validate(updateSubCategory, { abortEarly: false });
   };
+  // FUNCTION HANDLE OBJECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const handleSubmit = (e) => {
-    setIsloading(true)
     e.preventDefault();
-
     const validate = validationForm();
     if (validate.error) {
       setError(validate.error.details)
     } else {
       updateItem()
     }
-    setIsloading(false)
   };
-
   return <>
-
     <div className="container py-5">
     <ToastContainer />
-
       <div className="text-center rounded-4  border-1 widthCustom mx-auto">
         <form encType="multipart/form-data" onSubmit={handleSubmit}>
-
           <div className=" mb-4">
-
             <select className="w-100 p-2 text-muted" id="name" name="name" value={updateSubCategory.name?updateSubCategory.name:name} onChange={handleChange}  >
               <option value="">الصف الدراسي </option>
               <option value="first">الصف الاول</option>
@@ -114,13 +110,9 @@ export default function UpdatedSubCategory() {
               </div> : ""
             )}
           </div>
-
           <button type="submit" className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>    {Isloading ? <i className="fa fa-spin fa-spinner"></i> : "حفظ"}</button>
-          {errorForm ? <p className="text-danger my-4 text-center small">لديك مشكلة في التعديل</p> : ''}
         </form>
       </div>
     </div>
-
-
   </>;
 }

@@ -6,18 +6,20 @@ import style from "../../src/Styles/Teacher.module.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 export default function Teachers() {
+    // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const arr = [1, 2, 3, 4]
-
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [allTeachers, setallTeachers] = useState([]);
-
+    // FUNCTION GET ALL TEACHERS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function getAll() {
         const { data } = await axios.get(`${baseURL}/auth/teachers`);
         setallTeachers(data.data)
     }
+    // USEEFFECT  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
         getAll();
     }, [allTeachers]);
+    // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
         <div className="container py-5">
             <div className="row g-2">
@@ -39,7 +41,6 @@ export default function Teachers() {
                         <Link to={""} className={`w-100 rounded-2 py-3 placeholder  text-white ${style.btnOrange} border-0 small nav-link `}> </Link>
                     </div>
                 </div>)}
-
             </div>
         </div>
     </>

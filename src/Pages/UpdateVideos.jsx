@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function UpdateVideos() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    const { id,title } = useParams()
+    const { id, title } = useParams()
     let navagite = useNavigate();
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [Isloading, setIsloading] = useState(false);
@@ -36,24 +36,24 @@ export default function UpdateVideos() {
                     }
                     if (res.data.message === "Refresh token") {
                         toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
-                          position: "top-center",
-                          autoClose: 3000,
-                          hideProgressBar: false,
-                          closeOnClick: true,
-                          pauseOnHover: true,
-                          draggable: true,
-                          progress: undefined,
-                          theme: "light",
+                            position: "top-center",
+                            autoClose: 3000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
                         });
                         Cookies.set('token', res?.data?.refreshToken, { expires: 7 });
-                      }
+                    }
                 });
         } catch (error) {
             setIsloading(false)
-            if(error.response.data.Error ==='wrong  token'){
+            if (error.response.data.Error === 'wrong  token') {
                 Cookies.remove('token');
                 navagite('/login')
-            }else{
+            } else {
                 toast.error(" هناك مشكلة في التحديث", {
                     position: "top-center",
                     autoClose: 3000,
@@ -63,10 +63,11 @@ export default function UpdateVideos() {
                     draggable: true,
                     progress: undefined,
                     theme: "light",
-                  });
+                });
             }
         }
     }
+    // FUNCTION HANGLE OBJECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const handleChange = (e) => {
         const { name, value } = e.target;
         setupdatedVideo({
@@ -85,10 +86,8 @@ export default function UpdateVideos() {
         updateItem();
     }
     return <>
-
         <div className="container py-5">
-        <ToastContainer />
-
+            <ToastContainer />
             <div className="text-center rounded-4  border-1 widthCustom mx-auto">
                 <form encType="multipart/form-data" onSubmit={handleSubmit}>
                     <div className=" mb-4">
@@ -123,14 +122,10 @@ export default function UpdateVideos() {
                             onChange={handleChange}
                         />
                         {isSubmit ? updatedVideo.videoURL === "" ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
-
                     </div>
-
                     <button type="submit" className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}> {Isloading ? <i className="fa-spin fa fa-spinner"></i> : "تعديل"}</button>
                 </form>
-
             </div>
         </div>
-
     </>
 }

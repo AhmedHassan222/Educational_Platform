@@ -4,36 +4,35 @@ import { Link, useParams } from "react-router-dom";
 import CryptoJS from "crypto-js";
 import style from "../../src/Styles/Auth.module.css";
 import fakeImage from "../../src/Assets/Images/fakeImage.png";
-
+import { ToastContainer, toast } from 'react-toastify';
 export default function WatchVideo() {
+  // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const [lectures, setlectures] = useState([]);
   const [tasks, settasks] = useState([]);
   const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
   const { id } = useParams();
-  const grade = {
-    primary: "الابتدائي",
-    preparatory: "الاعدادي ",
-    secondary: "الثانوي",
-  };
-  let stage = {
-    first: "الصف الاول",
-    second: " الصف الثاني",
-    third: "الصف الثالث",
-    fourth: "الصف الرابع",
-    fifth: "الصف الخامس",
-    sixth: "الصف السادس",
-  };
+  const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
+  const stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
   const decryptVideoURL = (encryptedURL) => {
     const bytes = CryptoJS.AES.decrypt(encryptedURL, "Gl?11£5R8:5z£-%");
     return bytes.toString(CryptoJS.enc.Utf8);
   };
+  // FUNCTION GET LECTURE BY ID >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   async function getLectureById() {
     try {
       const { data } = await axios.get(`${baseURL}/lecture?_id=${id}`);
       setlectures(data.data);
-      console.log(lectures);
     } catch (error) {
-      console.log(error);
+      toast.error(" لديك مشكلة في الخادم", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   }
   async function getAssignment() {
@@ -41,26 +40,26 @@ export default function WatchVideo() {
       const { data } = await axios.get(`${baseURL}/assignment?lectureId=${id}`);
       settasks(data.data);
     } catch (error) {
-      console.log(error);
+      toast.error(" لديك مشكلة في الخادم", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   }
+  // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   useEffect(() => {
     getLectureById();
     getAssignment();
-    //    document.addEventListener('contextmenu', (e) => e.preventDefault());
-    //   document.onkeydown = function (e) {                                                     // console                  // View source             // saving
-    //     if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') ||e.ctrlKey && e.shiftKey && e.key === "J" || e.ctrlKey && e.key === "u" ||e.ctrlKey && e.key === "s" ||e.key === "PrintScreen") {
-    //       e.preventDefault()
-    //       return false;
-    //     }
-    //   };
-    //   return () => {
-    //     document.removeEventListener('contextmenu', () => {});
-    //     document.onkeydown = null;
-    //   };
   }, [lectures?.length, tasks?.length]);
   return (
     <>
+      <ToastContainer />
       <div className="container py-5">
         {lectures?.length > 0 ? (
           lectures.map((item, index) => {
@@ -88,7 +87,6 @@ export default function WatchVideo() {
                     </span>
                   </div>
                   <p className="fs-5">استاذ/ {item?.teacher?.fullName}</p>
-
                   <button
                     className={` my-2 py-2 px-4 border-0 rounded-2 ${style.btnOrange}  `}
                   >
@@ -113,7 +111,7 @@ export default function WatchVideo() {
                 <span className="placeholder col-7"></span>
               </div>
               <span className="placeholder col-4 "></span>
-             <br />
+              <br />
               <button
                 type="submit"
                 className={` my-4 px-5 py-2 border-0 rounded-2 ${style.btnOrange}  `}
@@ -126,10 +124,4 @@ export default function WatchVideo() {
       </div>
     </>
   );
-}
-{
-  /* <video controls autoPlay   width="600">
-                <source src={"https://www.tiktok.com/@bbclearningenglish/video/7274977134207077665"} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video> */
 }

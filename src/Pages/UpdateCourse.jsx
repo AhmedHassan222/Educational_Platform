@@ -1,5 +1,4 @@
 import axios from "axios";
-import React, { useEffect } from "react";
 import Cookies from "js-cookie";
 import { useState } from "react";
 import style from "../../src/Styles/Auth.module.css"
@@ -8,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function UpdateCourse() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    const { id,nameCourse } = useParams()
+    const { id, nameCourse } = useParams()
     let navagite = useNavigate()
     const formData = new FormData();
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
@@ -22,7 +21,7 @@ export default function UpdateCourse() {
         setIsloading(true);
         // HANDLE FORM DATA >>
         formData.append("image", image);
-        formData.append("name", name); 
+        formData.append("name", name);
         try {
             await axios
                 .put(`${baseURL}/course/update?courseId=${id}`, formData, {
@@ -37,24 +36,24 @@ export default function UpdateCourse() {
                     }
                     if (res.data.message === "Refresh token") {
                         toast.error("انتهت صلاحية الجلسة, حاول مرة اخري", {
-                          position: "top-center",
-                          autoClose: 3000,
-                          hideProgressBar: false,
-                          closeOnClick: true,
-                          pauseOnHover: true,
-                          draggable: true,
-                          progress: undefined,
-                          theme: "light",
+                            position: "top-center",
+                            autoClose: 3000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
                         });
                         Cookies.set('token', res?.data?.refreshToken, { expires: 7 });
-                      }
+                    }
                 });
         } catch (error) {
             setIsloading(false);
-            if(error.response.data.Error ==='wrong  token'){
+            if (error.response.data.Error === 'wrong  token') {
                 Cookies.remove('token');
                 navagite('/login')
-            }else{
+            } else {
                 toast.error(" هناك مشكلة في التحديث", {
                     position: "top-center",
                     autoClose: 3000,
@@ -64,7 +63,7 @@ export default function UpdateCourse() {
                     draggable: true,
                     progress: undefined,
                     theme: "light",
-                  });
+                });
             }
         }
     }
@@ -82,8 +81,8 @@ export default function UpdateCourse() {
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
         <div className="container py-5">
-        <ToastContainer />
-
+            {/* ERRORS */}
+            <ToastContainer />
             <div className="text-center rounded-4  border-1 widthCustom mx-auto">
                 <form encType="multipart/form-data" onSubmit={handleSubmit}>
                     <div className=" mb-4 text-end">
@@ -91,7 +90,7 @@ export default function UpdateCourse() {
                         <input placeholder=" اضف صورة " id="image" type="file" className="w-100 p-2" name="image" onChange={handleImageChange} />
                         {isSubmit ? <>
                             {!image ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
-                            {  !validExtensions.includes(image?.type) ? <p className="small fw-medium  py-2 text-end text-danger">هذا الامتداد غير صحيح</p> : "" }
+                            {!validExtensions.includes(image?.type) ? <p className="small fw-medium  py-2 text-end text-danger">هذا الامتداد غير صحيح</p> : ""}
                         </> : ""}
                     </div>
                     <div className=" mb-4">

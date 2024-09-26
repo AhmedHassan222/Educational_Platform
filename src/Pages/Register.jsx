@@ -78,17 +78,6 @@ export default function Register() {
                         progress: undefined,
                         theme: "light",
                     });
-                if (error.response.data.Error === "Email Already Exist")
-                    toast.error("هذا الايميل تم التسجيل به مسبقا , قم بتسجيل الدخول", {
-                        position: "top-center",
-                        autoClose: 3000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    });
             });
     }
     return (

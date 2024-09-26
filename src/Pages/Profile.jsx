@@ -11,42 +11,56 @@ import Joi from "joi";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function Profile() {
-  let navagite = useNavigate();
+  // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  const navagite = useNavigate();
   const [userDetails, setuserDetails] = useState([]);
-  const [errorForm, seterrorForm] = useState("");
   const [role, setrole] = useState("");
-  const grade = {
-    primary: "الابتدائي",
-    preparatory: "الاعدادي ",
-    secondary: "الثانوي",
-  };
-  const stage = {
-    first: "الصف الاول",
-    second: " الصف الثاني",
-    third: "الصف الثالث",
-    fourth: "الصف الرابع",
-    fifth: "الصف الخامس",
-    sixth: "الصف السادس",
-  };
   const [id, setId] = useState(null);
+  const [isSubmit, setIsSubmit] = useState(false);
+  const formData = new FormData();
+  const [image, setImage] = useState(null);
+  const [Isloading, setIsloading] = useState(false);
+  const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+  const validExtensions = ["image/png", "image/jpeg", "image/gif"];
+  const [addImageForm, setAddImageForm] = useState(false);
+  const [updaetForm, setUpdateForm] = useState(false);
+  const [updateObject, setUpdateObject] = useState({ fullName: "", grade: "", stage: "", phoneNumber: "", });
+  const [error, setError] = useState([]);
+  const stageArabic = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس", };
+  const gradeArabic = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي", };
+  const [passwordFrom, setPasswordForm] = useState(false);
+  const [inputType, setInputType] = useState("password");
+  const [showPassword, setShowPassword] = useState(false);
+  const [inputType2, setInputType2] = useState("password");
+  const [showrePassword, setShowrePassword] = useState(false);
+  const [updatePassObject, setUpdatePassObject] = useState({ oldPass: "", newPass: "", });
+  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  // **************************************************************************************
+  // FUNCTIONS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  // FUNCITON LOGOUT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   function logOut() {
     Cookies.remove("token");
     navagite("/login");
   }
+  // FUNTION GET USER (STUDENT & TEACHER) BY ID >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   async function getAllUserById(role, id) {
     try {
-      const { data } = await axios.get(
-        `${baseURL}/auth/teachers?role=${role}&_id=${id}`
-      );
-      if (Array.isArray(data)) {
-        setuserDetails(data);
-      } else {
-        setuserDetails(data.data);
-      }
+      const { data } = await axios.get(`${baseURL}/auth/teachers?role=${role}&_id=${id}`);
+      setuserDetails(data.data);
     } catch (error) {
-      seterrorForm(error.message);
+      toast.error("هناك مشكلة في الخادم", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   }
+  // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   useEffect(() => {
     let user;
     if (Cookies.get("token")) {
@@ -56,29 +70,18 @@ export default function Profile() {
       setrole(user.role);
     }
   }, [userDetails]);
-  //  add image profile >>>>>>>>>>>>>>>>>>>>
-  //variabel >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  const [isSubmit, setIsSubmit] = useState(false);
-  const formData = new FormData();
-  const [image, setImage] = useState(null);
-  const [Isloading, setIsloading] = useState(false);
-  const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
-  const validExtensions = ["image/png", "image/jpeg", "image/gif"];
-  const [addImageForm, setAddImageForm] = useState(false);
-  const [updaetForm, setUpdateForm] = useState(false);
-  // function
-  // HANDLE SUBMIT FORM >>
+  // FUNCTION HANDLE SUBMIT TO ADD AND UPDATE PROFILE IMAGE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const handleSubmit = (e) => {
     setIsSubmit(true);
     e.preventDefault();
     addImage();
   };
-  // FUNCTION HANDLE IMAGE >>
+  // FUNCTION HANDLE IMAGE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const handleImageChange = (e) => {
     const file = Array.from(e.target.files)[0];
     setImage(file);
   };
-  // FUNCTION ADD IMAGE
+  // FUNCTION ADD & UPDATE IMAGE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   async function addImage() {
     setIsloading(true);
     formData.append("image", image);
@@ -129,49 +132,19 @@ export default function Profile() {
       }
     }
   }
-
-  // ------------------------------------------------------------------------
-  //  ***********************************************************************
-  // update form
-  // variable >>>>>>>>>>>
-  const [updateObject, setUpdateObject] = useState({
-    fullName: "",
-    grade: "",
-    stage: "",
-    phoneNumber: "",
-  });
-  const [error, setError] = useState([]);
-  let stageArabic = {
-    first: "الصف الاول",
-    second: " الصف الثاني",
-    third: "الصف الثالث",
-    fourth: "الصف الرابع",
-    fifth: "الصف الخامس",
-    sixth: "الصف السادس",
-  };
-  let gradeArabic = {
-    primary: "الابتدائي",
-    preparatory: "الاعدادي ",
-    secondary: "الثانوي",
-  };
-  const [serverError, setServerError] = useState("");
-  // functions
-  // Function here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
-  //function one >>
+  //function HANDLE OBJECT TO UPDATE USER INFO >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const handleChange = (e) => {
     const _updateObject = { ...updateObject };
     _updateObject[e.target.name] = e.target.value;
     setUpdateObject(_updateObject);
   };
-  // function two >>
+  // function UPDATE USER INFO >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const update = (e) => {
     e.preventDefault();
     const validate = validationForm();
     validate.error ? setError(validate.error.details) : sendApi();
-    setIsloading(false);
-    sendApi();
   };
-  // function three >>
+  // function VALIDATION TO UPDATE USER INFO >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const validationForm = () => {
     let schema = Joi.object({
       fullName: Joi.string().min(3).max(100),
@@ -181,15 +154,11 @@ export default function Profile() {
     });
     return schema.validate(formData, { abortEarly: false });
   };
-  // function four >>
+  // function SEND DATA TO API FOR UPDATE USER INFO >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   async function sendApi() {
     setIsloading(true);
     formData.phoneNumber = `+2${formData.phoneNumber}`;
-    await axios
-      .patch(
-        `https://ahmed-shaltout-platform.up.railway.app/auth/update?userId=${id}`,
-        updateObject
-      )
+    await axios.patch(`https://ahmed-shaltout-platform.up.railway.app/auth/update?userId=${id}`, updateObject)
       .then((res) => {
         if (res.data.message === "User updated successfully") {
           setUpdateForm(false);
@@ -228,14 +197,7 @@ export default function Profile() {
         }
       });
   }
-
-  // change password
-  const [passwordFrom, setPasswordForm] = useState(false);
-  const [inputType, setInputType] = useState("password");
-  const [showPassword, setShowPassword] = useState(false);
-
-  const [inputType2, setInputType2] = useState("password");
-  const [showrePassword, setShowrePassword] = useState(false);
+  // FUNCTIONS TO SHOW AND HIDE PASSWORD ************************************************
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
     setInputType(inputType === "password" ? "text" : "password");
@@ -244,26 +206,20 @@ export default function Profile() {
     setShowrePassword(!showrePassword);
     setInputType2(inputType2 === "password" ? "text" : "password");
   };
-
-  const [updatePassObject, setUpdatePassObject] = useState({
-    oldPass: "",
-    newPass: "",
-  });
+  // ***********************************************************************************
+  // FUNCTION TO handle OBJECT PASSWORD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const handlepassForm = (e) => {
     const _updateObject = { ...updatePassObject };
     _updateObject[e.target.name] = e.target.value;
     setUpdatePassObject(_updateObject);
-    console.log(updatePassObject);
   };
-
-  // function two >>
+  // function SUBMIT FORM TO UPDATE PASSWORD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const updatePasssword = (e) => {
     e.preventDefault();
     const validate = validationFormPassword();
-    console.log(validate);
     validate.error ? setError(validate.error.details) : updateAPI();
   };
-  // function three >>
+  // function VALIDATION FOR UPDATE PASSWORD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const validationFormPassword = () => {
     let schema = Joi.object({
       oldPass: Joi.string()
@@ -275,17 +231,15 @@ export default function Profile() {
     });
     return schema.validate(updatePassObject, { abortEarly: false });
   };
-  // function four >>
-
+  // function UPDATE PASSWORD AND CALL API >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   async function updateAPI() {
     setIsloading(true);
     try {
-      await axios
-        .patch(`${baseURL}/auth/changePass`, updatePassObject, {
-          headers: {
-            token: `online__${Cookies.get("token")}`,
-          },
-        })
+      await axios.patch(`${baseURL}/auth/changePass`, updatePassObject, {
+        headers: {
+          token: `online__${Cookies.get("token")}`,
+        },
+      })
         .then((res) => {
           setIsloading(false);
           if (res.data.message === "Done, please try to login ") {
@@ -325,496 +279,427 @@ export default function Profile() {
       }
     }
   }
-
-  return (
-    <>
-            <ToastContainer />
-
-      {/* add imaeg profile */}
-      {addImageForm ? (
-        <div className="container py-5 px-3">
-          <div className="text-center rounded-4  border-1 widthCustom mx-auto ">
-            <h3 className="text-end mb-4">اضافة صورة</h3>
-            <form encType="multibart/form-data" onSubmit={handleSubmit}>
-              <div className=" mb-4">
-                <input
-                  placeholder=" اضف صورة "
-                  type="file"
-                  className="w-100 p-2 small"
-                  name="image"
-                  onChange={handleImageChange}
-                />
-                {isSubmit ? (
-                  <>
-                    {image ? (
-                      !validExtensions.includes(image?.type) ? (
-                        <p className="small fw-medium  py-2 text-end text-danger">
-                          هذا الامتداد غير صحيح
-                        </p>
-                      ) : (
-                        ""
-                      )
+  // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  return <>
+    {/* ERRORS */}
+    <ToastContainer />
+    {/* ADD & UPDATE imaeg profile */}
+    {addImageForm ? (
+      <div className="container py-5 px-3">
+        <div className="text-center rounded-4  border-1 widthCustom mx-auto ">
+          <h3 className="text-end mb-4">اضافة صورة</h3>
+          <form encType="multibart/form-data" onSubmit={handleSubmit}>
+            <div className=" mb-4">
+              <input placeholder=" اضف صورة " type="file" className="w-100 p-2 small" name="image" onChange={handleImageChange} />
+              {isSubmit ? (<> {image ? (!validExtensions.includes(image?.type) ? (<p className="small fw-medium  py-2 text-end text-danger">      هذا الامتداد غير صحيح    </p>) : ("")) : ("")}     </>) : ("")}
+            </div>
+            <button type="submit" className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}             > {Isloading ? <i className="fa-spin fa fa-spinner"></i> : "اضف"}    </button>
+          </form>
+        </div>
+      </div>
+    ) : ("")}
+    {/* UPDATE USER INFO */}
+    {updaetForm ? (
+      <div className="container py-5 px-3">
+        <div className="text-center rounded-4  border-1 widthCustom mx-auto ">
+          <h3 className="text-end mb-4"> تعديل الملف الشخصي</h3>
+          <form onSubmit={update}>
+            <div className=" mb-4">
+              <label className="w-100 small text-end" htmlFor="fullName">
+                {userDetails[0]?.fullName}
+              </label>
+              <input placeholder="عدل الاسم " type="text" className="w-100 p-2 small" id="fullName" name="fullName" value={formData.fullName} onChange={handleChange} />
+              {error?.map((err, index) =>
+                err.context.label === "fullName" ? (
+                  <div key={index}>
+                    {err.type === "string.min" ? (
+                      <p className="small fw-medium py-2 text-end text-danger">  يجب أن لا يقل عدد الحروف عن 3          </p>) : ("")}
+                    {err.type === "string.max" ? (
+                      <p className="small fw-medium py-2 text-end text-danger">
+                        يجب الا يزيد عدد الحروف عن 100 حرف
+                      </p>
                     ) : (
                       ""
                     )}
-                  </>
+                  </div>
+                ) : (
+                  ""
+                )
+              )}
+            </div>
+            <div className=" mb-4">
+              <label className="w-100 small text-end" htmlFor="grade">
+                {stageArabic[userDetails[0]?.grade]}
+              </label>
+              <select
+                className="w-100 p-2 text-muted small"
+                id="grade"
+                name="grade"
+                value={formData.grade}
+                onChange={handleChange}
+              >
+                <option value="">الصف </option>
+                <option value="first">الصف الاول </option>
+                <option value="second">الصف الثاني </option>
+                <option value="third">الصف الثالث </option>
+              </select>
+            </div>
+            <div className=" mb-4">
+              <label className="w-100 small text-end" htmlFor="stage">
+                {gradeArabic[userDetails[0]?.stage]}
+              </label>
+              <select
+                className="w-100 p-2 text-muted small"
+                id="stage"
+                name="stage"
+                value={formData.stage}
+                onChange={handleChange}
+              >
+                <option value="">المرحلة </option>
+                <option value="primary">الابتدائية</option>
+                <option value="preparatory">الاعدادية </option>
+                <option value="secondary">الثانوية </option>
+              </select>
+            </div>
+            <div className=" mb-4">
+              <label className="w-100 small text-end" htmlFor="phoneNumber">
+                {userDetails[0]?.phoneNumber.replace("+2", "")}
+              </label>
+              <input
+                placeholder="رقم الهاتف"
+                type="text"
+                className="w-100 p-2 small"
+                id="phoneNumber"
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+              />
+            </div>
+            <button
+              type="submit"
+              className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}
+            >
+              {Isloading ? <i className="fa-spin fa fa-spinner"></i> : " حفظ"}
+            </button>
+          </form>
+        </div>
+      </div>
+    ) : ("")}
+    {/* UPDATE PASSWORD */}
+    {passwordFrom ? (
+      <div className="container py-5 px-3">
+        <div className="text-center rounded-4  border-1 widthCustom mx-auto ">
+          <h3 className="text-end mb-4"> تغيير كلمة المرور</h3>
+          <form onSubmit={updatePasssword}>
+            <div className=" mb-4 ">
+              <div className="position-relative">
+                {inputType !== "password" ? (
+                  <i
+                    onClick={togglePasswordVisibility}
+                    className={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}
+                  ></i>
+                ) : (
+                  <i
+                    onClick={togglePasswordVisibility}
+                    className={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}
+                  ></i>
+                )}
+                <input
+                  placeholder="    كلمة المرور الحالية"
+                  type={inputType}
+                  className="w-100 p-2 "
+                  id="oldPass"
+                  name="oldPass"
+                  value={updatePassObject.oldPass}
+                  onChange={handlepassForm}
+                />
+              </div>
+              {error?.map((err, index) =>
+                err.context.label === "password" ? (
+                  <div key={index}>
+                    {err.type === "string.pattern.base" ? (
+                      <p className="small fw-medium py-2 text-end text-danger">
+                        {" "}
+                        يجب ان تحتوي كلمة المرور علي 8 احروف او ارقام
+                      </p>
+                    ) : (
+                      ""
+                    )}
+                    {!updatePassObject.password ? (
+                      <p className="small fw-medium py-2 text-end text-danger">
+                        لا يمكن ارسال هذا الحقل فارغا
+                      </p>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                ) : (
+                  ""
+                )
+              )}
+            </div>
+            <div className=" mb-4">
+              <div className="position-relative">
+                {inputType2 !== "password" ? (
+                  <i
+                    onClick={togglerePasswordVisibility}
+                    className={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}
+                  ></i>
+                ) : (
+                  <i
+                    onClick={togglerePasswordVisibility}
+                    className={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}
+                  ></i>
+                )}
+                <input
+                  placeholder=" كلمة المرور الجديدة"
+                  type={inputType2}
+                  className="w-100 p-2"
+                  id="newPass"
+                  name="newPass"
+                  value={updatePassObject.newPass}
+                  onChange={handlepassForm}
+                />
+              </div>
+              {error?.map((err, index) =>
+                err.context.label === "password" ? (
+                  <div key={index}>
+                    {err.type === "string.pattern.base" ? (
+                      <p className="small fw-medium py-2 text-end text-danger">
+                        {" "}
+                        يجب ان تحتوي كلمة المرور علي 8 احروف او ارقام
+                      </p>
+                    ) : (
+                      ""
+                    )}
+                    {!updatePassObject.password ? (
+                      <p className="small fw-medium py-2 text-end text-danger">
+                        لا يمكن ارسال هذا الحقل فارغا
+                      </p>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                ) : (
+                  ""
+                )
+              )}
+            </div>
+            <button
+              type="submit"
+              className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}
+            >
+              {Isloading ? <i className="fa-spin fa fa-spinner"></i> : " حفظ"}
+            </button>
+          </form>
+        </div>
+      </div>
+    ) : ("")}
+    {/* PROFILE */}
+    {!addImageForm && !updaetForm && !passwordFrom ? (
+      <div className="container py-5">
+        <div className="d-flex align-items-center justify-content-between  ">
+          <h3 className="h4">الملف الشخصي </h3>
+          <div className="d-flex align-items-center w-50 justify-content-end  text-start">
+            <img
+              src={
+                userDetails[0]?.profileImage?.secure_url
+                  ? userDetails[0]?.profileImage.secure_url
+                  : avatar
+              }
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              className={`${Styles.defaultImg}  rounded-circle mx-2`}
+              alt="default image "
+            />
+            <ul
+              className="dropdown-menu p-1 small text-end"
+              aria-labelledby="dropdownMenuButton1"
+            >
+              <li className="p-2">
+                <span onClick={() => setUpdateForm(true)} className="w-100">
+                  تعديل الملف الشخصي{" "}
+                </span>
+              </li>
+              <li className="p-2">
+                <div
+                  onClick={logOut}
+                  className="dropdown-item d-flex justify-content-between align-items-center"
+                >
+                  <span>تسجيل الخروج </span>
+                  <i className="fa-solid fa-right-from-bracket fs-6 mx-2 "></i>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        {Array.isArray(userDetails) && userDetails.length > 0 ? (
+          <div className="p-3">
+            <div className="row border my-4 border-1 p-2 border-muted  align-items-center">
+              <div className="col-2  position-relative">
+                <img
+                  onClick={() =>
+                    userDetails[0]?.profileImage?.secure_url
+                      ? ""
+                      : setAddImageForm(true)
+                  }
+                  src={
+                    userDetails[0]?.profileImage?.secure_url
+                      ? userDetails[0]?.profileImage.secure_url
+                      : avatar
+                  }
+                  className={` w-100 `}
+                  alt="default image"
+                />
+                {userDetails[0]?.profileImage?.secure_url ? (
+                  <i
+                    onClick={() => {
+                      setAddImageForm(true);
+                    }}
+                    style={{ left: "75%", bottom: "5%" }}
+                    className="fa-solid fa-pen position-absolute p-2 rounded-circle bg-white   small "
+                  ></i>
                 ) : (
                   ""
                 )}
               </div>
-              <button
-                type="submit"
-                className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}
-              >
-                {Isloading ? <i className="fa-spin fa fa-spinner"></i> : "اضف"}
-              </button>
-              {errorForm ? (
-                <p className="text-danger py-1 text-center small">
-                  لديك مشكلة في رفع الصورة{" "}
-                </p>
-              ) : (
-                ""
-              )}
-            </form>
-          </div>
-        </div>
-      ) : (
-        ""
-      )}
-      {updaetForm ? (
-        <div className="container py-5 px-3">
-          <div className="text-center rounded-4  border-1 widthCustom mx-auto ">
-            <h3 className="text-end mb-4"> تعديل الملف الشخصي</h3>
-            <form onSubmit={update}>
-              <div className=" mb-4">
-                <label className="w-100 small text-end" htmlFor="fullName">
-                  {userDetails[0]?.fullName}
-                </label>
-                <input
-                  placeholder="عدل الاسم "
-                  type="text"
-                  className="w-100 p-2 small"
-                  id="fullName"
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleChange}
-                />
-                {error?.map((err, index) =>
-                  err.context.label === "fullName" ? (
-                    <div key={index}>
-                      {err.type === "string.min" ? (
-                        <p className="small fw-medium py-2 text-end text-danger">
-                          يجب أن لا يقل عدد الحروف عن 3
-                        </p>
-                      ) : (
-                        ""
-                      )}
-                      {err.type === "string.max" ? (
-                        <p className="small fw-medium py-2 text-end text-danger">
-                          يجب الا يزيد عدد الحروف عن 100 حرف
-                        </p>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  ) : (
-                    ""
-                  )
-                )}
-              </div>
-              <div className=" mb-4">
-                <label className="w-100 small text-end" htmlFor="grade">
-                  {stage[userDetails[0]?.grade]}
-                </label>
-                <select
-                  className="w-100 p-2 text-muted small"
-                  id="grade"
-                  name="grade"
-                  value={formData.grade}
-                  onChange={handleChange}
-                >
-                  <option value="">الصف </option>
-                  <option value="first">الصف الاول </option>
-                  <option value="second">الصف الثاني </option>
-                  <option value="third">الصف الثالث </option>
-                </select>
-              </div>
-              <div className=" mb-4">
-                <label className="w-100 small text-end" htmlFor="stage">
-                  {grade[userDetails[0]?.stage]}
-                </label>
-                <select
-                  className="w-100 p-2 text-muted small"
-                  id="stage"
-                  name="stage"
-                  value={formData.stage}
-                  onChange={handleChange}
-                >
-                  <option value="">المرحلة </option>
-                  <option value="primary">الابتدائية</option>
-                  <option value="preparatory">الاعدادية </option>
-                  <option value="secondary">الثانوية </option>
-                </select>
-              </div>
-              <div className=" mb-4">
-                <label className="w-100 small text-end" htmlFor="phoneNumber">
-                  {userDetails[0]?.phoneNumber.replace("+2", "")}
-                </label>
-                <input
-                  placeholder="رقم الهاتف"
-                  type="text"
-                  className="w-100 p-2 small"
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  value={formData.phoneNumber}
-                  onChange={handleChange}
-                />
-              </div>
-              <button
-                type="submit"
-                className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}
-              >
-                {Isloading ? <i className="fa-spin fa fa-spinner"></i> : " حفظ"}
-              </button>
-              {serverError ? (
-                <p className="text-danger py-1 text-center small">
-                  لديك مشكلة في تعديل الملف{" "}
-                </p>
-              ) : (
-                ""
-              )}
-            </form>
-          </div>
-        </div>
-      ) : (
-        ""
-      )}
-      {passwordFrom ? (
-        <div className="container py-5 px-3">
-          <div className="text-center rounded-4  border-1 widthCustom mx-auto ">
-            <h3 className="text-end mb-4"> تغيير كلمة المرور</h3>
-            <form onSubmit={updatePasssword}>
-              <div className=" mb-4 ">
-                <div className="position-relative">
-                  {inputType !== "password" ? (
-                    <i
-                      onClick={togglePasswordVisibility}
-                      className={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}
-                    ></i>
-                  ) : (
-                    <i
-                      onClick={togglePasswordVisibility}
-                      className={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}
-                    ></i>
-                  )}
-                  <input
-                    placeholder="    كلمة المرور الحالية"
-                    type={inputType}
-                    className="w-100 p-2 "
-                    id="oldPass"
-                    name="oldPass"
-                    value={updatePassObject.oldPass}
-                    onChange={handlepassForm}
-                  />
+              <div className="col-10 ">
+                <div>
+                  <h3 className="h4"> {userDetails[0].fullName}</h3>
                 </div>
-                {error?.map((err, index) =>
-                  err.context.label === "password" ? (
-                    <div key={index}>
-                      {err.type === "string.pattern.base" ? (
-                        <p className="small fw-medium py-2 text-end text-danger">
-                          {" "}
-                          يجب ان تحتوي كلمة المرور علي 8 احروف او ارقام
-                        </p>
-                      ) : (
-                        ""
-                      )}
-                      {!updatePassObject.password ? (
-                        <p className="small fw-medium py-2 text-end text-danger">
-                          لا يمكن ارسال هذا الحقل فارغا
-                        </p>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  ) : (
-                    ""
-                  )
-                )}
               </div>
-              <div className=" mb-4">
-                <div className="position-relative">
-                  {inputType2 !== "password" ? (
-                    <i
-                      onClick={togglerePasswordVisibility}
-                      className={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}
-                    ></i>
-                  ) : (
-                    <i
-                      onClick={togglerePasswordVisibility}
-                      className={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}
-                    ></i>
-                  )}
-                  <input
-                    placeholder=" كلمة المرور الجديدة"
-                    type={inputType2}
-                    className="w-100 p-2"
-                    id="newPass"
-                    name="newPass"
-                    value={updatePassObject.newPass}
-                    onChange={handlepassForm}
-                  />
+            </div>
+
+            <div className="p-3 border-1 border border-muted">
+              <div className="d-flex">
+                <i className="fa-solid fa-user fs-5 ms-5"></i>
+                <div>
+                  <p className="text-muted h5">
+                    {" "}
+                    {role === "User" ? "اسم الطالب" : "اسم المدرس"}
+                  </p>
+                  <p>{userDetails[0].fullName}</p>
                 </div>
-                {error?.map((err, index) =>
-                  err.context.label === "password" ? (
-                    <div key={index}>
-                      {err.type === "string.pattern.base" ? (
-                        <p className="small fw-medium py-2 text-end text-danger">
-                          {" "}
-                          يجب ان تحتوي كلمة المرور علي 8 احروف او ارقام
-                        </p>
-                      ) : (
-                        ""
-                      )}
-                      {!updatePassObject.password ? (
-                        <p className="small fw-medium py-2 text-end text-danger">
-                          لا يمكن ارسال هذا الحقل فارغا
-                        </p>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  ) : (
-                    ""
-                  )
-                )}
               </div>
-              <button
-                type="submit"
-                className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}
-              >
-                {Isloading ? <i className="fa-spin fa fa-spinner"></i> : " حفظ"}
-              </button>
-              {serverError ? (
-                <p className="text-danger py-1 text-center small">
-                  لديك مشكلة في تعديل الملف{" "}
-                </p>
-              ) : (
-                ""
-              )}
-            </form>
-          </div>
-        </div>
-      ) : (
-        ""
-      )}
-      {/* ----------------- */}
-      {!addImageForm && !updaetForm && !passwordFrom ? (
-        <div className="container py-5">
-          <div className="d-flex align-items-center justify-content-between  ">
-            <h3 className="h4">الملف الشخصي </h3>
-            <div className="d-flex align-items-center w-50 justify-content-end  text-start">
-              <img
-                src={
-                  userDetails[0]?.profileImage?.secure_url
-                    ? userDetails[0]?.profileImage.secure_url
-                    : avatar
-                }
-                id="dropdownMenuButton1"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                className={`${Styles.defaultImg}  rounded-circle mx-2`}
-                alt="default image "
-              />
-              <ul
-                className="dropdown-menu p-1 small text-end"
-                aria-labelledby="dropdownMenuButton1"
-              >
-                <li className="p-2">
-                  <span onClick={() => setUpdateForm(true)} className="w-100">
-                    تعديل الملف الشخصي{" "}
-                  </span>
-                </li>
-                <li className="p-2">
-                  <div
-                    onClick={logOut}
-                    className="dropdown-item d-flex justify-content-between align-items-center"
+            </div>
+            {role === "User" ? (
+              <div className="p-3 border-1 border border-muted">
+                <div className="d-flex">
+                  <i className="fa-solid fa-graduation-cap fs-5 ms-5"></i>
+                  <div className="">
+                    <p className="text-muted h5"> الصف الدراسي</p>
+                    <p>
+                      {stageArabic[userDetails[0].grade]}{" "}
+                      {gradeArabic[userDetails[0].stage]}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+
+            <div className="p-3 border-1 border border-muted">
+              <div className="d-flex">
+                <i className="fa-solid fa-envelope fs-5 ms-5"></i>
+                <div className="">
+                  <p className="text-muted h5"> البريد الإلكتروني </p>
+                  <p>{userDetails[0].email} </p>
+                </div>
+              </div>
+            </div>
+            <div className="p-3 border-1 border border-muted">
+              <div className="d-flex">
+                <i className="fa-solid fa-phone fs-5 ms-5"></i>
+                <div className="">
+                  <p className="text-muted h5">رقم الهاتف </p>
+                  <p>{userDetails[0].phoneNumber.replace("+2", "")}</p>
+                </div>
+              </div>
+            </div>
+            <div className="p-3 border-1 border border-muted">
+              <div className="d-flex">
+                <i className="fa-solid fa-lock fs-5 ms-5"></i>
+                <div className="">
+                  <p className="text-muted h5">تغيير كلمة المرور </p>
+                  <p>******************</p>
+                  <button
+                    onClick={() => setPasswordForm(true)}
+                    className={` my-1 p-2 border-0 rounded-2 ${style.btnOrange}   w-100 `}
                   >
-                    <span>تسجيل الخروج </span>
-                    <i className="fa-solid fa-right-from-bracket fs-6 mx-2 "></i>
-                  </div>
-                </li>
-              </ul>
+                    {Isloading ? (
+                      <i className="fa-spin fa fa-spinner"></i>
+                    ) : (
+                      " تغيير"
+                    )}
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-          {Array.isArray(userDetails) && userDetails.length > 0 ? (
-            <div className="p-3">
-              <div className="row border my-4 border-1 p-2 border-muted  align-items-center">
-                <div className="col-2  position-relative">
-                  <img
-                    onClick={() =>
-                      userDetails[0]?.profileImage?.secure_url
-                        ? ""
-                        : setAddImageForm(true)
-                    }
-                    src={
-                      userDetails[0]?.profileImage?.secure_url
-                        ? userDetails[0]?.profileImage.secure_url
-                        : avatar
-                    }
-                    className={` w-100 `}
-                    alt="default image"
-                  />
-                  {userDetails[0]?.profileImage?.secure_url ? (
-                    <i
-                      onClick={() => {
-                        setAddImageForm(true);
-                      }}
-                      style={{ left: "75%", bottom: "5%" }}
-                      className="fa-solid fa-pen position-absolute p-2 rounded-circle bg-white   small "
-                    ></i>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div className="col-10 ">
-                  <div>
-                    <h3 className="h4"> {userDetails[0].fullName}</h3>
-                  </div>
-                </div>
+        ) : (
+          <div className="p-3">
+            <div className="row border my-4 border-1 p-2 border-muted  align-items-center">
+              <div className="col-2 ">
+                <img
+                  src={fakeImage}
+                  className={` w-100 `}
+                  alt="loading image"
+                />
               </div>
-
-              <div className="p-3 border-1 border border-muted">
-                <div className="d-flex">
-                  <i className="fa-solid fa-user fs-5 ms-5"></i>
-                  <div>
-                    <p className="text-muted h5">
-                      {" "}
-                      {role === "User" ? "اسم الطالب" : "اسم المدرس"}
-                    </p>
-                    <p>{userDetails[0].fullName}</p>
-                  </div>
-                </div>
-              </div>
-              {role === "User" ? (
-                <div className="p-3 border-1 border border-muted">
-                  <div className="d-flex">
-                    <i className="fa-solid fa-graduation-cap fs-5 ms-5"></i>
-                    <div className="">
-                      <p className="text-muted h5"> الصف الدراسي</p>
-                      <p>
-                        {stageArabic[userDetails[0].grade]}{" "}
-                        {gradeArabic[userDetails[0].stage]}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                ""
-              )}
-
-              <div className="p-3 border-1 border border-muted">
-                <div className="d-flex">
-                  <i className="fa-solid fa-envelope fs-5 ms-5"></i>
-                  <div className="">
-                    <p className="text-muted h5"> البريد الإلكتروني </p>
-                    <p>{userDetails[0].email} </p>
-                  </div>
-                </div>
-              </div>
-              <div className="p-3 border-1 border border-muted">
-                <div className="d-flex">
-                  <i className="fa-solid fa-phone fs-5 ms-5"></i>
-                  <div className="">
-                    <p className="text-muted h5">رقم الهاتف </p>
-                    <p>{userDetails[0].phoneNumber.replace("+2", "")}</p>
-                  </div>
-                </div>
-              </div>
-              <div className="p-3 border-1 border border-muted">
-                <div className="d-flex">
-                  <i className="fa-solid fa-lock fs-5 ms-5"></i>
-                  <div className="">
-                    <p className="text-muted h5">تغيير كلمة المرور </p>
-                    <p>******************</p>
-                    <button
-                      onClick={() => setPasswordForm(true)}
-                      className={` my-1 p-2 border-0 rounded-2 ${style.btnOrange}   w-100 `}
-                    >
-                      {Isloading ? (
-                        <i className="fa-spin fa fa-spinner"></i>
-                      ) : (
-                        " تغيير"
-                      )}
-                    </button>
-                  </div>
+              <div className="col-10 ">
+                <div className="text-card-top placeholder-glow">
+                  <h3 className="h4 placeholder col-4"> </h3>
                 </div>
               </div>
             </div>
-          ) : (
-            <div className="p-3">
-              <div className="row border my-4 border-1 p-2 border-muted  align-items-center">
-                <div className="col-2 ">
-                  <img
-                    src={fakeImage}
-                    className={` w-100 `}
-                    alt="loading image"
-                  />
-                </div>
-                <div className="col-10 ">
-                  <div className="text-card-top placeholder-glow">
-                    <h3 className="h4 placeholder col-4"> </h3>
-                  </div>
-                </div>
-              </div>
-              <div className="p-3 border-1 border border-muted text-card-top placeholder-glow">
-                <div className="d-flex">
-                  <i className="fa-solid fa-user fs-5 ms-5"></i>
-                  <div>
-                    <p className="text-muted h5">
-                      {role === "User" ? "اسم الطالب" : " اسم المدرس"}{" "}
-                    </p>
-                    <p className="placeholder col-12 "></p>
-                  </div>
-                </div>
-              </div>
-              {role === "User" ? (
-                <div className="p-3 border-1 border border-muted text-card-top placeholder-glow">
-                  <div className="d-flex">
-                    <i className="fa-solid fa-graduation-cap fs-5 ms-5"></i>
-                    <div className="">
-                      <p className="text-muted h5"> الصف الدراسي</p>
-                      <p className="placeholder col-12 "></p>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                ""
-              )}
-
-              <div className="p-3 border-1 border border-muted text-card-top placeholder-glow">
-                <div className="d-flex">
-                  <i className="fa-solid fa-envelope fs-5 ms-5"></i>
-                  <div className="">
-                    <p className="text-muted h5"> البريد الإلكتروني </p>
-                    <p className="placeholder col-12 "></p>
-                  </div>
-                </div>
-              </div>
-              <div className="p-3 border-1 border border-muted text-card-top placeholder-glow">
-                <div className="d-flex">
-                  <i className="fa-solid fa-lock fs-5 ms-5"></i>
-                  <div className="">
-                    <p className="text-muted h5"> تغيير كلمة المرور </p>
-                    <p className="placeholder col-12 "></p>
-                  </div>
+            <div className="p-3 border-1 border border-muted text-card-top placeholder-glow">
+              <div className="d-flex">
+                <i className="fa-solid fa-user fs-5 ms-5"></i>
+                <div>
+                  <p className="text-muted h5">
+                    {role === "User" ? "اسم الطالب" : " اسم المدرس"}{" "}
+                  </p>
+                  <p className="placeholder col-12 "></p>
                 </div>
               </div>
             </div>
-          )}
-        </div>
-      ) : (
-        ""
-      )}
-    </>
-  );
+            {role === "User" ? (
+              <div className="p-3 border-1 border border-muted text-card-top placeholder-glow">
+                <div className="d-flex">
+                  <i className="fa-solid fa-graduation-cap fs-5 ms-5"></i>
+                  <div className="">
+                    <p className="text-muted h5"> الصف الدراسي</p>
+                    <p className="placeholder col-12 "></p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+
+            <div className="p-3 border-1 border border-muted text-card-top placeholder-glow">
+              <div className="d-flex">
+                <i className="fa-solid fa-envelope fs-5 ms-5"></i>
+                <div className="">
+                  <p className="text-muted h5"> البريد الإلكتروني </p>
+                  <p className="placeholder col-12 "></p>
+                </div>
+              </div>
+            </div>
+            <div className="p-3 border-1 border border-muted text-card-top placeholder-glow">
+              <div className="d-flex">
+                <i className="fa-solid fa-lock fs-5 ms-5"></i>
+                <div className="">
+                  <p className="text-muted h5"> تغيير كلمة المرور </p>
+                  <p className="placeholder col-12 "></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    ) : ("")}
+  </>
 }

@@ -11,7 +11,6 @@ export default function NotfoundPage() {
                 </p>
                 <div className="d-flex justify-content-center">
                     <Link className={` nav-link  fitContent my-2 py-2 px-4 ${style.btnOrange} rounded-2 text-white`} to={'/'}> عودة</Link>
-
                 </div>
             </div>
         </section>
