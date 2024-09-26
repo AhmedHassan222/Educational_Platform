@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Educational_Platform/static/css/main.80ba2075.css",
-    "main.js": "/Educational_Platform/static/js/main.bae636f6.js",
+    "main.css": "/Educational_Platform/static/css/main.496b8b21.css",
+    "main.js": "/Educational_Platform/static/js/main.e87d0d1d.js",
     "static/js/453.3828d331.chunk.js": "/Educational_Platform/static/js/453.3828d331.chunk.js",
     "static/media/fa-solid-900.ttf": "/Educational_Platform/static/media/fa-solid-900.07ed6d5fa32c1d54af0f.ttf",
     "static/media/fa-brands-400.ttf": "/Educational_Platform/static/media/fa-brands-400.0ff70dcbf135d859ebf3.ttf",
@@ -17,14 +17,16 @@
     "static/media/feature-6.d23de85.svg": "/Educational_Platform/static/media/feature-6.d23de85.944c372f301b727d6a13135023853baa.svg",
     "static/media/feature-2.3cb2b9c.svg": "/Educational_Platform/static/media/feature-2.3cb2b9c.0a5209dccc8a07e99a5eeed77a9fa12d.svg",
     "static/media/fa-v4compatibility.ttf": "/Educational_Platform/static/media/fa-v4compatibility.0f6cb412603527bda691.ttf",
+    "static/media/male-avatar-boy-face-man-user-6-svgrepo-com.svg": "/Educational_Platform/static/media/male-avatar-boy-face-man-user-6-svgrepo-com.ef1246af1d7eea24486695a121163b98.svg",
+    "static/media/female-avatar-girl-face-woman-user-3-svgrepo-com.svg": "/Educational_Platform/static/media/female-avatar-girl-face-woman-user-3-svgrepo-com.27320cea611a566bb1e092c945bf89a2.svg",
     "static/media/fa-v4compatibility.woff2": "/Educational_Platform/static/media/fa-v4compatibility.6cfec8414be20e2c3426.woff2",
     "index.html": "/Educational_Platform/index.html",
-    "main.80ba2075.css.map": "/Educational_Platform/static/css/main.80ba2075.css.map",
-    "main.bae636f6.js.map": "/Educational_Platform/static/js/main.bae636f6.js.map",
+    "main.496b8b21.css.map": "/Educational_Platform/static/css/main.496b8b21.css.map",
+    "main.e87d0d1d.js.map": "/Educational_Platform/static/js/main.e87d0d1d.js.map",
     "453.3828d331.chunk.js.map": "/Educational_Platform/static/js/453.3828d331.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.80ba2075.css",
-    "static/js/main.bae636f6.js"
+    "static/css/main.496b8b21.css",
+    "static/js/main.e87d0d1d.js"
   ]
 }
