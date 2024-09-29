@@ -5,6 +5,8 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import Cookies from "js-cookie"
 import fakeImage from "../../src/Assets/Images/fakeImage.png"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function CourceDetails() {
     // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     let navigate = useNavigate()
@@ -44,8 +46,21 @@ export default function CourceDetails() {
                         navigate('/mycources')
                 })
         } catch (error) {
+            console.log(error)
             setIsloading(false);
-            seterrorForm(error.message); 
+            // seterrorForm(error.message); 
+            if(error.response.data.Error === "Invalid or expired code"){
+                toast.error(" الكود غير صحيح  ", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                  });
+            }
         }
     }
     // FUNCTION HANDLE OBJECT >>>>>>>>>>>>>>>>>>>>>>>>>
@@ -59,6 +74,8 @@ export default function CourceDetails() {
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
         <section className="container py-5 ">
+        <ToastContainer />
+
             {course?.length > 0 ? <div className="row g-5">
                 <div className="col-sm-12 col-md-4">
                     <div>
@@ -88,7 +105,6 @@ export default function CourceDetails() {
                                 </form>
                             </div>
                         </div> : <button onClick={() => setOpenForm(true)} className={`my-4 border-0  py-2 px-5 text-white ${style.btnOrange} rounded-3`}>انضم الان</button>}
-                        {errorForm ? <p className="text-danger py-1 text-center small"> لديك مشكلة في اخر عملية </p> : ''}
                     </div>
                 </div>
             </div> : <div className="row g-3">

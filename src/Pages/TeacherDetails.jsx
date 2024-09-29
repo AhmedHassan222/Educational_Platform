@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom"
-import mr from "../../src/Assets/Images/download.jpg"
-import mrs from "../../src/Assets/Images/women.jpg"
+import mr from "../../src/Assets/Images/SVG_Images/male-avatar-boy-face-man-user-6-svgrepo-com.svg"
+import mrs from "../../src/Assets/Images/SVG_Images/female-avatar-girl-face-woman-user-3-svgrepo-com.svg"
 import fakeImage from "../../src/Assets/Images/fakeImage.png"
 import { useEffect, useState } from "react";
 import axios from "axios";

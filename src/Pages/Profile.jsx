@@ -118,8 +118,9 @@ export default function Profile() {
       if (error.response.data.Error === "wrong  token") {
         Cookies.remove("token");
         navagite("/login");
-      } else {
-        toast.error(" هناك مشكلة في اضافة", {
+      } 
+      if(error.response.data.Error === "In-valid extintions ") {
+        toast.error("png jpeg gif ادخال الصورة بهذا الامتداد", {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -141,6 +142,7 @@ export default function Profile() {
   // function UPDATE USER INFO >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const update = (e) => {
     e.preventDefault();
+    setIsSubmit(true)
     const validate = validationForm();
     validate.error ? setError(validate.error.details) : sendApi();
   };
@@ -160,6 +162,7 @@ export default function Profile() {
     formData.phoneNumber = `+2${formData.phoneNumber}`;
     await axios.patch(`https://ahmed-shaltout-platform.up.railway.app/auth/update?userId=${id}`, updateObject)
       .then((res) => {
+        setIsloading(false);
         if (res.data.message === "User updated successfully") {
           setUpdateForm(false);
         }
@@ -180,21 +183,11 @@ export default function Profile() {
       .catch((error) => {
         setIsloading(false);
         setUpdateForm(true);
+        console.log(error)
         if (error.response.data.Error === "wrong  token") {
           Cookies.remove("token");
           navagite("/login");
-        } else {
-          toast.error(" هناك مشكلة في التحديث", {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        }
+        } 
       });
   }
   // FUNCTIONS TO SHOW AND HIDE PASSWORD ************************************************
@@ -291,9 +284,15 @@ export default function Profile() {
           <form encType="multibart/form-data" onSubmit={handleSubmit}>
             <div className=" mb-4">
               <input placeholder=" اضف صورة " type="file" className="w-100 p-2 small" name="image" onChange={handleImageChange} />
-              {isSubmit ? (<> {image ? (!validExtensions.includes(image?.type) ? (<p className="small fw-medium  py-2 text-end text-danger">      هذا الامتداد غير صحيح    </p>) : ("")) : ("")}     </>) : ("")}
+
+
+              {isSubmit ? <>
+                            {!image ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
+                            {image ? !validExtensions.includes(image?.type) ? <p className="small fw-medium  py-2 text-end text-danger">هذا الامتداد غير صحيح</p> : "" : ""}
+                        </> : ""}
             </div>
-            <button type="submit" className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}             > {Isloading ? <i className="fa-spin fa fa-spinner"></i> : "اضف"}    </button>
+            <button type="submit" className={`w-75 my-4 p-2 border-0 rounded-2 ${style.btnOrange} `}> {Isloading ? <i className="fa-spin fa fa-spinner"></i> : "اضف"}    </button>
+            <span onClick={()=> setAddImageForm(false)} className="text-danger  mx-4 w-25">تجاهل  </span>
           </form>
         </div>
       </div>
@@ -301,7 +300,7 @@ export default function Profile() {
     {/* UPDATE USER INFO */}
     {updaetForm ? (
       <div className="container py-5 px-3">
-        <div className="text-center rounded-4  border-1 widthCustom mx-auto ">
+        <div className=" rounded-4  border-1 widthCustom mx-auto ">
           <h3 className="text-end mb-4"> تعديل الملف الشخصي</h3>
           <form onSubmit={update}>
             <div className=" mb-4">
@@ -375,12 +374,15 @@ export default function Profile() {
                 onChange={handleChange}
               />
             </div>
-            <button
+              <div>
+              <button
               type="submit"
-              className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}
+              className={`w-75 my-4 p-2 border-0 rounded-2 ${style.btnOrange}  `}
             >
               {Isloading ? <i className="fa-spin fa fa-spinner"></i> : " حفظ"}
             </button>
+            <span onClick={()=> setUpdateForm(false)} className="text-danger  mx-4 w-25">تجاهل  </span>
+              </div>
           </form>
         </div>
       </div>
@@ -485,12 +487,15 @@ export default function Profile() {
                 )
               )}
             </div>
-            <button
+             <div>
+             <button
               type="submit"
-              className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}
+              className={`w-75 my-4 p-2 border-0 rounded-2 ${style.btnOrange}  `}
             >
               {Isloading ? <i className="fa-spin fa fa-spinner"></i> : " حفظ"}
             </button>
+            <span onClick={()=> setPasswordForm(false)} className="text-danger  mx-4 w-25">تجاهل  </span>
+             </div>
           </form>
         </div>
       </div>

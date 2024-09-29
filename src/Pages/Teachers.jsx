@@ -26,7 +26,7 @@ export default function Teachers() {
                 {allTeachers?.length > 0 ? allTeachers.map((item, index) => <div key={index} className="col-md-4 col-lg-3">
                     <div className="border border-1 border-muted py-4 px-3 text-center">
                         {/* if not image in api  */}
-                        <img src={item?.profileImage ? item?.profileImage?.secure_url : item.gender ==="male" ? mr :mrs  } className="w-75  rounded-circle " alt={item.fullName} />
+                        <img src={item?.profileImage ? item?.profileImage?.secure_url : item.gender ==="male" ? mr :mrs  } style={{width: "100px" ,height:" 100px"}} className="  rounded-circle " alt={item.fullName} />
                         <p className="text-muted fw-bold my-3"> {item.fullName} </p>
                         <Link to={`/teacher/${item._id} `} className={`w-100 rounded-2 py-2 text-white ${style.btnOrange} border-0 small nav-link`}>ملف المعلم</Link>
                     </div>

@@ -63,11 +63,24 @@ export default function GenerateCode() {
       })
     } catch (error) {
       setIsloading(false)
-      if (error.response.data.Error === 'wrong  token') {
+      if (error?.response?.data?.Error === 'wrong  token') {
         Cookies.remove('token');
         navigate('/login')
-      } else {
-        toast.error(" هناك مشكلة في انشاء الاكواد ", {
+      } 
+      if  ( error?.response?.data?.Error[0][0].message ==='must today or more')  {
+        toast.error(" يجب انشاء الاكواد من اليوم او من بعد  ", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+      if ( error?.response?.data?.Error[0][0].message ==="must After from date "){
+        toast.error(" يجب نهاية الاكواد من بعد تاريخ انشاءه", {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -96,16 +109,22 @@ export default function GenerateCode() {
             {/* numsOfCodes */}
             <div className=" mb-4">
               <input placeholder=" ادخل العدد الذي تريده " type="number" className="w-100 p-2" name="numberOfCodes" value={formData.numberOfCodes} onChange={handleChange} />
+              {isSubmit ? !formData.numberOfCodes ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
+
             </div>
             {/* fromDate */}
             <div className="mb-4">
               <label htmlFor="fromDate" className="py-2 text-end w-100 ">البداية</label>
               <input id="fromDate" type="date" className="w-100 p-2" name="fromDate" value={formData.fromDate} onChange={handleChange} />
+              {isSubmit ? !formData.fromDate ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
+
             </div>
             {/* toDate */}
             <div className="mb-4">
               <label htmlFor="toDate" className="py-2 text-end w-100 ">النهاية</label>
               <input id="toDate" type="date" className="w-100 p-2" name="toDate" value={formData.toDate} onChange={handleChange} />
+              {isSubmit ? !formData.toDate ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
+
             </div>
             {/* to know who's course  */}
             <div className="my-4">
