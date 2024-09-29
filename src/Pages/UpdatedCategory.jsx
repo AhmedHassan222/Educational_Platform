@@ -14,6 +14,7 @@ export default function UpdatedCategory() {
   const [Isloading, setIsloading] = useState(false);
   const [updateCategory, setupdateCategory] = useState({ name: "" });
   const [isSubmit, setIsSubmit] = useState(false);
+  const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
   // FUNCTION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   // FUNCTION UPDATE CATEGORY >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   async function updateItem() {
@@ -45,22 +46,36 @@ export default function UpdatedCategory() {
           }
         });
     } catch (error) {
+      console.log(error)
       setIsloading(false);
-      if(error.response.data.Error ==='wrong  token'){
+      if (error?.response?.data?.Error === 'wrong  token') {
         Cookies.remove('token');
         navagite('/login')
-    }else{
-        toast.error(" هناك مشكلة في التحديث", {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-    }
+      }
+      if (error?.response?.data?.Error === "category name is duplicated")
+        toast.error("    هذه المرحلة مضافة بالفعل ", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      if (error?.response?.data?.Error === "new name same old name please enter anothe name ") {
+        toast.error(" يجب ان تقوم بتعديل المرحلة الي مرحلة جديدة", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+
+      }
     }
   }
   // FUNCTION HANDLE OBJECT >>>>>>>>>>>>>>>>>>>
@@ -77,19 +92,20 @@ export default function UpdatedCategory() {
   // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   return <>
     <div className="container py-5">
-    <ToastContainer />
-      <div className="text-center rounded-4  border-1 widthCustom mx-auto">
+      <ToastContainer />
+      <div className=" rounded-4  border-1 widthCustom mx-auto">
         <form encType="multipart/form-data" onSubmit={handleSubmit}>
           <div className=" mb-4">
-            <select className="w-100 p-2 text-muted" id="name" name="name" value={updateCategory.name ? updateCategory.name : name} onChange={handleChange}  >
-              <option value="">المرحلة </option>
-              <option value="primary">الابتدائية</option>
-              <option value="preparatory">الاعدادية </option>
-              <option value="secondary">الثانوية </option>
+            <label htmlFor="name" >{grade[name]}</label>
+            <select className="w-100 p-2 text-muted my-2" id="name" name="name" value={updateCategory.name ? updateCategory.name : ''} onChange={handleChange}  >
+              <option value="">المرحلة</option>
+              {name !== "primary" ? <option value="primary">الابتدائية</option> : ''}
+              {name !== "preparatory" ? <option value="preparatory">الاعدادية</option> : ''}
+              {name !== "secondary" ? <option value="secondary">الثانوية</option> : ''}
             </select>
             {isSubmit ? updateCategory.name === "" ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
           </div>
-          <button type="submit" className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>    {Isloading ? <i className="fa-spin fa fa-spinner"></i> : "اضف"}</button>
+          <button type="submit" className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>    {Isloading ? <i className="fa-spin fa fa-spinner"></i> : "حفظ"}</button>
         </form>
       </div>
     </div>

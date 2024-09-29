@@ -26,8 +26,8 @@ export default function NavbarSuperAdmin() {
                                 المدرسين
                             </button>
                             <ul className="dropdown-menu">
-                                <li><Link className="dropdown-item" to="/admin/allTeachers">كل المعلميين</Link></li>
-                                <li><Link className="dropdown-item" to="/admin/addTeacher">اضف مدرس</Link></li>
+                                <li><Link className="dropdown-item text-end" to="/admin/allTeachers">كل المعلميين</Link></li>
+                                <li><Link className="dropdown-item text-end" to="/admin/addTeacher">اضف مدرس</Link></li>
                             </ul>
                         </li>
                         <li className="dropdown mx-2">
@@ -35,8 +35,8 @@ export default function NavbarSuperAdmin() {
                                 المراحل
                             </button>
                             <ul className="dropdown-menu">
-                                <li><Link className="dropdown-item" to="/admin/allCategories">كل المراحل</Link></li>
-                                <li><Link className="dropdown-item" to="/admin/addCategory">اضف مرحلة</Link></li>
+                                <li><Link className="dropdown-item text-end" to="/admin/allCategories">كل المراحل</Link></li>
+                                <li><Link className="dropdown-item text-end" to="/admin/addCategory">اضف مرحلة</Link></li>
                             </ul>
                         </li>
                         <li className="dropdown mx-2">
@@ -44,8 +44,8 @@ export default function NavbarSuperAdmin() {
                                 الصفوف
                             </button>
                             <ul className="dropdown-menu">
-                                <li><Link className="dropdown-item" to="/admin/allSubCategories">كل الصفوف</Link></li>
-                                <li><Link className="dropdown-item" to="/admin/addSubCategory">اضف صف</Link></li>
+                                <li><Link className="dropdown-item text-end" to="/admin/allSubCategories">كل الصفوف</Link></li>
+                                <li><Link className="dropdown-item text-end" to="/admin/addSubCategory">اضف صف</Link></li>
                             </ul>
                         </li>
                         <li className="dropdown mx-2">
@@ -53,8 +53,8 @@ export default function NavbarSuperAdmin() {
                                 الكورسات
                             </button>
                             <ul className="dropdown-menu">
-                                <li><Link className="dropdown-item" to="/admin/allCources">كل الكورسات</Link></li>
-                                <li><Link className="dropdown-item" to="/admin/addCourse">اضف كورس</Link></li>
+                                <li><Link className="dropdown-item text-end" to="/admin/allCources">كل الكورسات</Link></li>
+                                <li><Link className="dropdown-item text-end" to="/admin/addCourse">اضف كورس</Link></li>
                             </ul>
                         </li>
                         <li className="dropdown mx-2">
@@ -62,8 +62,8 @@ export default function NavbarSuperAdmin() {
                                 الاكواد
                             </button>
                             <ul className="dropdown-menu">
-                                <li><Link className="dropdown-item" to="/admin/allCodes">كل الاكواد</Link></li>
-                                <li><Link className="dropdown-item" to="/admin/generateCode">انشاء اكواد </Link></li>
+                                <li><Link className="dropdown-item text-end" to="/admin/allCodes">كل الاكواد</Link></li>
+                                <li><Link className="dropdown-item text-end" to="/admin/generateCode">انشاء اكواد </Link></li>
                             </ul>
                         </li>
                         <li className="dropdown mx-2 pt-1">

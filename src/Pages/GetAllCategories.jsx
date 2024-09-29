@@ -61,7 +61,7 @@ export default function GetAllCategories() {
         });
     } catch (error) {
       setIsloading(false);
-      if(error.response.data.Error ==='wrong  token'){
+      if(error?.response?.data?.Error ==='wrong  token'){
         Cookies.remove('token');
         navigate('/login')
     }else{
@@ -81,11 +81,11 @@ export default function GetAllCategories() {
   // RENGER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   return (
     <>
+    <ToastContainer />
       {isLoading ? <div className="text-white position-fixed start-50 top-50  p-4" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)' }}>
         <i className="fa fa-spin fa-spinner h3"></i>
       </div> : ""}
       <div className="container py-5 overflow-x-auto">
-      <ToastContainer />
         <table className="table table-striped text-center  table-hover table-bordered">
           <thead>
             <tr>
@@ -105,20 +105,20 @@ export default function GetAllCategories() {
           </thead>
           <tbody>
             {categories?.length > 0
-              ? categories.map((item, index) => (
+              ? categories?.map((item, index) => (
                 <tr key={index}>
                   <th scope="row">{index + 1}</th>
-                  <td>{grade[item.name]}</td>
-                  <td>{moment(item.createdAt).format('YYYY/MM/DD')}</td>
+                  <td>{grade[item?.name]}</td>
+                  <td>{moment(item?.createdAt).format('YYYY/MM/DD')}</td>
                   <td className="d-flex justify-content-center justify-content-center">
-                    <button className="btn btn-sm btn-danger ms-2" onClick={() => { deleteItem(item.id); }} >حذف</button>
+                    <button className="btn btn-sm btn-danger ms-2" onClick={() => { deleteItem(item?.id); }} >حذف</button>
                     <div>
-                      <Link className="btn btn-primary btn-sm" to={`/admin/updatecategory/${item.name}/${item.id}`}>تعديل</Link>
+                      <Link className="btn btn-primary btn-sm" to={`/admin/updatecategory/${item?.name}/${item?.id}`}>تعديل</Link>
                     </div>
                   </td>
                 </tr>
               ))
-              : arr.map((item, index) => (
+              : arr.map(( index) => (
                 <tr key={index}>
                   <th className="placeholder-glow   p-4"></th>
                   <td className="placeholder-glow   p-4"></td>

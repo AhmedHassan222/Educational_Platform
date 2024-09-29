@@ -31,16 +31,9 @@ export default function AddCategory() {
     };
     // FUNCTION SUBMIT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const handleSubmit = (e) => {
-        setIsloading(true)
         e.preventDefault();
         const validate = validationForm();
-        if (validate.error) {
-            setError(validate.error.details)
-            setIsloading(false)
-        } else {
-            addItem()
-            setIsloading(false)
-        }
+        validate?.error ? setError(validate?.error?.details) : addItem();
     };
     // FUNCTION ADD CATEGORY >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function addItem() {
@@ -71,11 +64,8 @@ export default function AddCategory() {
             })
         } catch (error) {
             setIsloading(false)
-            if (error.response.data.Error === 'wrong  token') {
-                Cookies.remove('token');
-                navigate('/login')
-            } else {
-                toast.error(" هناك مشكلة في اضافة ", {
+            if (error?.response?.data?.Error === "category name is duplicated")
+                toast.error("    هذه المرحلة مضافة بالفعل ", {
                     position: "top-center",
                     autoClose: 3000,
                     hideProgressBar: false,
@@ -85,7 +75,10 @@ export default function AddCategory() {
                     progress: undefined,
                     theme: "light",
                 });
-            }
+            if (error.response.data.Error === 'wrong  token') {
+                Cookies.remove('token');
+                navigate('/login')
+            } 
         }
     }
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

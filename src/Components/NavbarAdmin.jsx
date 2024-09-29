@@ -26,8 +26,8 @@ export default function NavbarAdmin() {
                                 الفيديوهات
                             </button>
                             <ul className="dropdown-menu">
-                                <li><Link className="dropdown-item" to="/teacherAdmin/allVideos">كل الفيديوهات</Link></li>
-                                <li><Link className="dropdown-item" to="/teacherAdmin/addVideo">اضف فيديو</Link></li>
+                                <li><Link className="dropdown-item text-end" to="/teacherAdmin/allVideos">كل الفيديوهات</Link></li>
+                                <li><Link className="dropdown-item text-end" to="/teacherAdmin/addVideo">اضف فيديو</Link></li>
                             </ul>
                         </li>
                         <li className="dropdown mx-2">
@@ -35,8 +35,8 @@ export default function NavbarAdmin() {
                                 الواجبات
                             </button>
                             <ul className="dropdown-menu">
-                                <li><Link className="dropdown-item" to="/teacherAdmin/addAssign">اضف واجب</Link></li>
-                                <li><Link className="dropdown-item" to="/teacherAdmin/AllAssignment">كل الواجبات</Link></li>
+                                <li><Link className="dropdown-item text-end" to="/teacherAdmin/addAssign">اضف واجب</Link></li>
+                                <li><Link className="dropdown-item text-end" to="/teacherAdmin/AllAssignment">كل الواجبات</Link></li>
                             </ul>
                         </li>
                         <li className="dropdown mx-2 pt-1 " >
