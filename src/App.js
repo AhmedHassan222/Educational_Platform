@@ -62,10 +62,10 @@ export default function App() {
                 <Route index element={<Navigate to={'allVideos'} />} />
                 <Route path="addVideo" element={<AddVideo />} />
                 <Route path="allVideos" element={<GetAllVideos />} />
+                <Route path="updateVideos/:title/:id" element={<UpdateVideos />} />
                 <Route path="addAssign" element={<AddAssign />} />
                 <Route path="UpdateAssignment/:id" element={<UpdateAssignment />} />
                 <Route path="AllAssignment" element={<AllAssignment />} />
-                <Route path="updateVideos/:title/:id" element={<UpdateVideos />} />
               </Route>
             </Route>
             {/* Admin routes */}
