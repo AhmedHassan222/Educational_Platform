@@ -4,14 +4,17 @@ import { MyCoursesContext } from '../Contexts/MyCoursesContext';
 import fakeImage from "../../src/Assets/Images/fakeImage.png"
 export default function MyCources() {
     const arr = [1, 2, 3, 4, 5, 6, 7, 8]
-    const { myCourse, getAllcoursesByUser, errorFromJoin , numberOfCourses } = useContext(MyCoursesContext)
+    const { myCourse, getAllcoursesByUser, errorFromJoin, numberOfCourses } = useContext(MyCoursesContext)
     useEffect(() => {
         window.scroll(0, 0)
         getAllcoursesByUser()
-        localStorage.setItem('numberOfCourses',numberOfCourses)
+        localStorage.setItem('numberOfCourses', numberOfCourses)
     }, [myCourse?.length])
     return <>
         <section className="py-5 container ">
+            <div className=' py-5'>
+                {myCourse?.filter(course => course?.isPaid && course?.coursesIds !== null) ? 'لا يوجد كورسات مضافة حتي الان' : ''}
+            </div>
             <div className="row g-3 ">
                 {errorFromJoin ? <p className='py-2 text-danger'>لديك مشكلة</p> : ""}
                 {myCourse?.length > 0 ? myCourse?.filter(course => course?.isPaid && course?.coursesIds !== null).map((course, index) => course.coursesIds === null ? "" : <div key={index} className="col-6 col-sm-6 col-md-4 col-lg-3">

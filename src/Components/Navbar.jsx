@@ -22,9 +22,9 @@ export default function Navbar() {
                             <Link className="nav-link small " to={'/mycources'}>
                                 <div className="d-flex align-items-center">
                                     دوراتي
-                                    <span className={`badge ${style.btnOrange} ms-2 me-1`} style={{ fontSize: '0.8rem' }}>
+                                    {localStorage.getItem('numberOfCourses') > 0 ? <span className={`badge ${style.btnOrange} ms-2 me-1`} style={{ fontSize: '0.8rem' }}>
                                         {localStorage.getItem('numberOfCourses')}
-                                    </span>
+                                    </span> : ''}
                                 </div>
                             </Link>
                         </li>

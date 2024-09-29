@@ -118,8 +118,8 @@ export default function Profile() {
       if (error.response.data.Error === "wrong  token") {
         Cookies.remove("token");
         navagite("/login");
-      } 
-      if(error.response.data.Error === "In-valid extintions ") {
+      }
+      if (error.response.data.Error === "In-valid extintions ") {
         toast.error("png jpeg gif ادخال الصورة بهذا الامتداد", {
           position: "top-center",
           autoClose: 3000,
@@ -187,7 +187,7 @@ export default function Profile() {
         if (error.response.data.Error === "wrong  token") {
           Cookies.remove("token");
           navagite("/login");
-        } 
+        }
       });
   }
   // FUNCTIONS TO SHOW AND HIDE PASSWORD ************************************************
@@ -287,12 +287,15 @@ export default function Profile() {
 
 
               {isSubmit ? <>
-                            {!image ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
-                            {image ? !validExtensions.includes(image?.type) ? <p className="small fw-medium  py-2 text-end text-danger">هذا الامتداد غير صحيح</p> : "" : ""}
-                        </> : ""}
+                {!image ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
+                {image ? !validExtensions.includes(image?.type) ? <p className="small fw-medium  py-2 text-end text-danger">هذا الامتداد غير صحيح</p> : "" : ""}
+              </> : ""}
             </div>
-            <button type="submit" className={`w-75 my-4 p-2 border-0 rounded-2 ${style.btnOrange} `}> {Isloading ? <i className="fa-spin fa fa-spinner"></i> : "اضف"}    </button>
-            <span onClick={()=> setAddImageForm(false)} className="text-danger  mx-4 w-25">تجاهل  </span>
+            <div className="w-100  d-flex align-items-center">
+              <button type="submit" className={`w-50 my-4 p-2 border-0 rounded-2 ${style.btnOrange} `}> {Isloading ? <i className="fa-spin fa fa-spinner"></i> : "اضف"}    </button>
+              <span onClick={() => setAddImageForm(false)} className="text-danger me-4">تجاهل  </span>
+
+            </div>
           </form>
         </div>
       </div>
@@ -374,15 +377,12 @@ export default function Profile() {
                 onChange={handleChange}
               />
             </div>
-              <div>
-              <button
-              type="submit"
-              className={`w-75 my-4 p-2 border-0 rounded-2 ${style.btnOrange}  `}
-            >
-              {Isloading ? <i className="fa-spin fa fa-spinner"></i> : " حفظ"}
-            </button>
-            <span onClick={()=> setUpdateForm(false)} className="text-danger  mx-4 w-25">تجاهل  </span>
-              </div>
+            <div>
+              <button type="submit" className={`w-50 my-4 p-2 border-0 rounded-2 ${style.btnOrange}  `}      >
+                {Isloading ? <i className="fa-spin fa fa-spinner"></i> : " حفظ"}
+              </button>
+              <span onClick={() => setUpdateForm(false)} className="text-danger me-4">تجاهل  </span>
+            </div>
           </form>
         </div>
       </div>
@@ -487,15 +487,15 @@ export default function Profile() {
                 )
               )}
             </div>
-             <div>
-             <button
-              type="submit"
-              className={`w-75 my-4 p-2 border-0 rounded-2 ${style.btnOrange}  `}
-            >
-              {Isloading ? <i className="fa-spin fa fa-spinner"></i> : " حفظ"}
-            </button>
-            <span onClick={()=> setPasswordForm(false)} className="text-danger  mx-4 w-25">تجاهل  </span>
-             </div>
+            <div className="w-100 d-flex align-items-center">
+              <button
+                type="submit"
+                className={`w-50 my-4 p-2 border-0 rounded-2 ${style.btnOrange}  `}
+              >
+                {Isloading ? <i className="fa-spin fa fa-spinner"></i> : " حفظ"}
+              </button>
+              <span onClick={() => setPasswordForm(false)} className="text-danger me-4">تجاهل  </span>
+            </div>
           </form>
         </div>
       </div>
