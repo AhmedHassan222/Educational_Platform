@@ -73,22 +73,13 @@ export default function AddCourse() {
                 }
             });
         } catch (error) {
+            console.log(error)
             setIsloading(false);
             if (error.response.data.Error === 'wrong  token') {
                 Cookies.remove('token');
                 navigate('/login')
-            } else {
-                toast.error(" هناك مشكلة في اضافة الكورس", {
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                });
             }
+
         }
     }
     // RENDER HTML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

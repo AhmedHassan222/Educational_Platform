@@ -14,6 +14,7 @@ export default function UpdatedSubCategory() {
   const [Isloading, setIsloading] = useState(false);
   const [error, setError] = useState([]);
   const [updateSubCategory, setupdateSubCategory] = useState({ name: "" });
+  let stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
   // FUNCTION UPDATE SUBCATEGORY
   async function updateItem() {
     setIsloading(true)
@@ -49,22 +50,25 @@ export default function UpdatedSubCategory() {
           }
         });
     } catch (error) {
+      console.log(error)
       setIsloading(false)
-      if(error.response.data.Error ==='wrong  token'){
+      if (error?.response?.data?.Error === "new name is dublicated please enter anothe name ") {
+        toast.error(" هذا الصف موجود بالفعل", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+
+      if (error.response.data.Error === 'wrong  token') {
         Cookies.remove('token');
         navagite('/login')
-    }else{
-        toast.error(" هناك مشكلة في التحديث", {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-    }
+      }
     }
   }
   // FUNCTION HANDLE OBJECT >>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -91,18 +95,19 @@ export default function UpdatedSubCategory() {
   };
   return <>
     <div className="container py-5">
-    <ToastContainer />
-      <div className="text-center rounded-4  border-1 widthCustom mx-auto">
+      <ToastContainer />
+      <div className=" rounded-4  border-1 widthCustom mx-auto">
         <form encType="multipart/form-data" onSubmit={handleSubmit}>
           <div className=" mb-4">
-            <select className="w-100 p-2 text-muted" id="name" name="name" value={updateSubCategory.name?updateSubCategory.name:name} onChange={handleChange}  >
+            <label htmlFor="name" >{stage[name]}</label>
+            <select className="w-100 p-2 text-muted" id="name" name="name" value={updateSubCategory.name ? updateSubCategory.name : ""} onChange={handleChange}  >
               <option value="">الصف الدراسي </option>
-              <option value="first">الصف الاول</option>
-              <option value="second">الصف الثاني </option>
-              <option value="third">الصف الثالث </option>
-              <option value="fourth">الصف الرابع </option>
-              <option value="fifth">الصف الخامس </option>
-              <option value="sixth">الصف السادس </option>
+              {name !== "first" ? <option value="first">الصف الاول</option> : ''}
+              {name !== "second" ? <option value="second">الصف الثاني</option> : ''}
+              {name !== "third" ? <option value="third">الصف الثالث</option> : ''}
+              {name !== "fourth" ? <option value="fourth">الصف الرابع</option> : ''}
+              {name !== "fifth" ? <option value="fifth">الصف الخامس</option> : ''}
+              {name !== "sixth" ? <option value="sixth">الصف السادس</option> : ''}
             </select>
             {error?.map((err, index) =>
               err.context.label === "name" ? <div key={index}>

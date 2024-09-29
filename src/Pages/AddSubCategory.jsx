@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import style from "../../src/Styles/Auth.module.css"
 import Cookies from 'js-cookie';
 import axios from "axios";
@@ -21,7 +21,10 @@ export default function AddSubCategory() {
     const { data } = await axios.get(`${baseURL}/category`);
     setcategories(data.categories);
   }
-  getAllCategories();
+  // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  useEffect(() => {
+    getAllCategories(); // Only call this once when the component mounts
+  }, []);
   // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   // FUNCTION HANDLE OBJECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const handleChange = (e) => {
@@ -68,8 +71,9 @@ export default function AddSubCategory() {
       if (error.response.data.Error === 'wrong  token') {
         Cookies.remove('token');
         navigate('/login')
-      } else {
-        toast.error(" هناك مشكلة في اضافة صف", {
+      }
+      if (error?.response?.data?.Error === "subCategory name is duplicated! please enter Another name") {
+        toast.error("هذا الصف  مضاف بالفعل", {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -78,8 +82,7 @@ export default function AddSubCategory() {
           draggable: true,
           progress: undefined,
           theme: "light",
-        }
-        );
+        });
       }
     }
   }
@@ -99,13 +102,13 @@ export default function AddSubCategory() {
               <option value="sixth">الصف السادس </option>
             </select>
             {isSubmit ? dataAdded.name === "" ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
-            <div className="my-4">
-              <select className="w-100 p-2 text-muted" autoComplete="off" name="name" onChange={(e) => setCategoryId(e.target.value)}  >
-                <option value="">  المرحلة الدراسية </option>
-                {categories.map((category, index) => <option key={index} value={category.id}>{grade[category.name]}</option>)}
-              </select>
-              {isSubmit ? !categoryId ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
-            </div>
+          </div>
+          <div className="my-4">
+            <select className="w-100 p-2 text-muted" autoComplete="off" onChange={(e) => setCategoryId(e.target.value)}  >
+              <option value="">  المرحلة الدراسية </option>
+              {categories?.length > 0 ? categories.map((category, index) => <option key={index} value={category.id}>{grade[category.name]}</option>) : <option className=" p-5 ">انتظر التحميل...</option>}
+            </select>
+            {isSubmit ? !categoryId ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
           </div>
           <button type="submit" className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>    {Isloading ? <i className="fa fa-spin fa-spinner"></i> : "اضف"}</button>
         </form>
