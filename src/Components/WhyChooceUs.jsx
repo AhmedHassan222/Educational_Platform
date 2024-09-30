@@ -22,7 +22,7 @@ export default function WhyChooseUs() {
                     اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ اﻟﺜﺎﻧﻮﻳﺔ واﻟﺠﺎﻣﻌﻴﺔ , ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.
                 </p>
                 <div className="row g-3 py-4">
-                    <div className="col-md-4   wow animate__animated animate__bounceInRight"  >
+                    <div className="col-md-4   wow animate__animated animate__bounceIn"  >
                         <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
                             <h4 className="my-4 h5">ﻛﻮرﺳﺎت ﻣﻤﻴﺰة </h4>
                             <img src={feature1} className={` py-3 ${style.feature}  `} alt="" />
@@ -44,7 +44,7 @@ export default function WhyChooseUs() {
                             <br />
                         </div>
                     </div>
-                    <div className="col-md-4  wow animate__animated animate__bounceInLeft"  >
+                    <div className="col-md-4  wow animate__animated animate__bounceIn"  >
                         <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
                             <h4 className="my-4 h5 ">اﺧﺘﺒﺎرات و واﺟﺒﺎت                </h4>
                             <img src={feature3} className={` py-3 ${style.feature}`} alt="" />
@@ -55,7 +55,7 @@ export default function WhyChooseUs() {
                             <br />
                         </div>
                     </div>
-                    <div className="col-md-4  wow animate__animated animate__bounceInRight"  >
+                    <div className="col-md-4  wow animate__animated animate__bounceIn"  >
                         <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
                             <h4 className="my-4 h5 ">ﺑﻨﻚ اﺳﺄﻟﺔ
                             </h4>
@@ -77,7 +77,7 @@ export default function WhyChooseUs() {
                             <br />
                         </div>
                     </div>
-                    <div className="col-md-4  wow animate__animated animate__bounceInLeft"  >
+                    <div className="col-md-4  wow animate__animated animate__bounceIn"  >
                         <div className={` ${style.caption} rounded-4 border border-1 border-muted py-2`}>
                             <h4 className="my-4 h5 ">تفاعلات                </h4>
                             <img src={feature6} className={` py-3 ${style.feature}`} alt="" />

@@ -5,23 +5,74 @@ import fakeImage from "../../src/Assets/Images/fakeImage.png"
 import style from "../../src/Styles/Teacher.module.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function Teachers() {
     // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const arr = [1, 2, 3, 4]
+    const [isLoading, setIsloading] = useState(false);
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [allTeachers, setallTeachers] = useState([]);
+    const [totalPages, setTotalPages] = useState();
+    const [currentPage, setCurrentPage] = useState(1);
     // FUNCTION GET ALL TEACHERS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    async function getAll() {
-        const { data } = await axios.get(`${baseURL}/auth/teachers`);
-        setallTeachers(data.data)
+    async function getAll(page) {
+        setIsloading(true)
+    try {
+       
+        const { data } = await axios.get(`${baseURL}/auth/teachers?page=${page}`);
+        setIsloading(false)
+        if (data && data.paginationInfo) {
+            setallTeachers(data.data)
+            setTotalPages(data.paginationInfo.totalPages || 1); // Default to 1 if undefined
+        } else {
+            setallTeachers([])
+            setTotalPages(1);
+        }
+    } catch (error) {
+        setIsloading(false)
+        toast.error(" يوجد مشكلة لديك", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+    }
+    
+    }
+       // PAGENATION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+       function prePage() {
+        setIsloading(true)
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+            getAll(currentPage -1);
+            setIsloading(false)
+        }
+    }
+    function nextPage() {
+        setIsloading(true)
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+            getAll(currentPage + 1);
+            setIsloading(false)
+        }
     }
     // USEEFFECT  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
-        getAll();
-    }, [allTeachers]);
+        getAll(currentPage);
+    }, [allTeachers?.length]);
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
         <div className="container py-5">
+        <ToastContainer />
+
+        {isLoading ? <div className=" position-fixed start-50 text-light top-50  p-3" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)' }}>
+                <i className="fa fa-spin fa-spinner h3"></i>
+            </div> : ""}
             <div className="row g-2">
                 {allTeachers?.length > 0 ? allTeachers.map((item, index) => <div key={index} className="col-md-4 col-lg-3">
                     <div className="border border-1 border-muted py-4 px-3 text-center">
@@ -42,6 +93,19 @@ export default function Teachers() {
                     </div>
                 </div>)}
             </div>
+            
+               {/* pagination */}
+               {totalPages > 1 ? <div className=' p-2 my-5 text-center align-items-center d-flex justify-content-center'>
+                <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
+                    السابق
+                </button>
+                <div className='mx-2'>
+                    الصفحة {currentPage}
+                </div>
+                <button onClick={nextPage} className='btn btn-primary mx-2' disabled={currentPage === totalPages}>
+                    التالي
+                </button>
+            </div> : ""}
         </div>
     </>
 }

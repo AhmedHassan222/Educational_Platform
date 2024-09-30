@@ -22,7 +22,7 @@ export default function Header() {
         <div className={`${style.headerContent} my-4`}>
           <div >
             <img src={logo} className="w-25 wow animate__animated animate__bounceIn" alt="sky academy logo" />
-            <h1 className="mb-3 "> الهلال اونلاين  </h1>
+            <h1 className="mb-3 ">   سكاي اونلاين اكاديمي </h1>
             <p className="  w-md-50 mx-auto mb-5">
               ﺗﻌﻠﻢ ﺑﺄﺣﺪث اﻟﻄﺮق ﻣﻦ ﺧﻠﺎل ﻣﻨﺼﺘﻨﺎ,ﻓإﻧﻨﺎ ﻧﻮﻓﺮ ﻟﻚ اﻟﻌﺪﻳﺪ ﻣﻦ اﻟﻜﻮرﺳﺎت
               اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ الابتدائية و الإعدادية والثانوية, ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.

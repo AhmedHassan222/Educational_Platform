@@ -30,11 +30,8 @@ export default function LoginPage() {
   // function two >>
   const submitLoginForm = (e) => {
     e.preventDefault();
-    setIsloading(true);
     const validate = validationForm();
     validate.error ? setError(validate.error.details) : sendApi();
-    setIsloading(false);
-    sendApi();
   };
   // function three >>
   const validationForm = () => {
@@ -48,6 +45,7 @@ export default function LoginPage() {
       const response = await axios.post(`https://ahmed-shaltout-platform.up.railway.app/auth/signin`, formData);
 
       if (response.data.message === "login success") {
+        setIsloading(false);
         const { token } = response.data;
         Cookies.set('token', token, { expires: 7 });
         const decodedToken = jwtDecode(token);
@@ -66,6 +64,7 @@ export default function LoginPage() {
         }
       }
     } catch (error) {
+      setIsloading(false);
       if (error.response.data.message === "Validation Error")
         toast.error("مشكلة في تسجيل الدخول , اتبع التعليمات ", {
           position: "top-center",
@@ -96,7 +95,7 @@ export default function LoginPage() {
   return (
     <>
       <ToastContainer />
-      <div className="d-flex  justify-content-center  container py-5">
+      <div className="d-flex  justify-content-center  container  py-5">
         <div className="rounded-4  border-1  widthCustom text-center">
           <Link to={"/"}>
             <img src={logo} alt="sky academy logo" className="mb-2 w-25" />

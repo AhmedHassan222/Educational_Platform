@@ -1,13 +1,17 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
-import { createContext, useState } from "react"
+import { createContext, useEffect, useState } from "react"
 export let MyCoursesContext = createContext(0)
 export default function MyCoursesProvide(props) {
     const [myCourse, setmyCourse] = useState([])
     const [numberOfCourses, setNumberOfCourses] = useState(localStorage.getItem('numberOfCourses'))
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [errorFromJoin,setErrorFromJoin] = useState('');
+    useEffect(() => {
+     localStorage.setItem("numberOfCourses",numberOfCourses)
+    }, [numberOfCourses])
+    
     async function getAllcoursesByUser() {
         let user;
         if (Cookies.get('token'))

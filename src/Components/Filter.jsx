@@ -55,7 +55,7 @@ export default function Filter() {
                     <hr className="text-muted" />
                     {supCategories?.length > 0 ? supCategories.map((item, index) => <div key={index} className={`d-flex pt-1 px-3 ${style.item}`}>
                         <i className="fa-solid fa-graduation-cap ms-2 py-1"></i>
-                        <p onClick={() => { setStage(item._id); setStageName(stage[item.name]) }} className="text-muted "> {stage[item.name]}   </p>
+                        <p onClick={() => { setStage(item._id); setStageName(stage[item.name]); setGrade(item?.categoryId?._id); setGradeName(grade[item?.categoryId?.name]) }} className="text-muted "> {stage[item?.name]} {grade[item?.categoryId?.name]}  </p>
                     </div>) : <div className="text-center p-5"><i className="fa fa-spin fa-spinner"></i></div>}
                 </div> : ""}
             </div>

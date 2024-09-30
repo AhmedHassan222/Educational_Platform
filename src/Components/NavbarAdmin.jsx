@@ -1,15 +1,10 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import logo from "../../src/Assets/Images/logo.png"
-import Cookies from "js-cookie"
 import style from "../../src/Styles/Nav.module.css"
 import { useState } from "react"
 export default function NavbarAdmin() {
     const [isOpen, setIsOpen] = useState(false)
-    let navigate = useNavigate();
-    function logOut() {
-        Cookies.remove('token');
-        navigate('/login')
-    }
+
     return <>
         <nav className="navbar navbar-expand-lg  navbar-light  py-2 bg-white">
             <div className="container">
@@ -41,9 +36,6 @@ export default function NavbarAdmin() {
                         </li>
                         <li className="dropdown mx-2 pt-1 " >
                             <Link style={{ color: "black" }} to={"/profile"}>الملف الشخصي</Link>
-                        </li>
-                        <li className="dropdown mx-2 pt-1">
-                            <span onClick={logOut}>خروج</span>
                         </li>
                     </ul>
                 </div>

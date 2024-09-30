@@ -15,7 +15,7 @@ export default function Swapper() {
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     // FUNCTIONS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function getAllTeachers() {
-        const { data } = await axios.get(`${baseURL}/auth/teachers`);
+        const { data } = await axios.get(`${baseURL}/auth/teachers?size=100`);
         setallTeachers(data.data)
     }
     // USEEFFECT  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -64,7 +64,7 @@ export default function Swapper() {
                                 <h4 className="my-4 h6">أ/  {item.fullName}</h4>
                                 <p className="my-4 small text-primary">
                                     <span className="bg-light text-black p-2 rounded">
-                                        {item.courseId?.name}
+                                        {item?.courseId?.name ?item?.courseId?.name  :"لا يوجد" }
                                     </span>
                                 </p>
                             </div>

@@ -145,7 +145,7 @@ export default function GetAllTeachers() {
                 </table>
             </div>
             {/* pagination */}
-            {totalPages > 1 ? <div className=' p-2 text-center d-flex justify-content-center'>
+            {totalPages > 1 ? <div className=' p-2 text-center d-flex align-items-center justify-content-center'>
                 <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
                     السابق
                 </button>

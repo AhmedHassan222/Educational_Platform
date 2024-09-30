@@ -128,7 +128,8 @@ export default function GetAllVideos() {
             {isLoading ? <div className=" position-fixed start-50 text-light top-50  p-3" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)' }}>
                 <i className="fa fa-spin fa-spinner h3"></i>
             </div> : ""}
-            <table className="table table-striped  text-center  table-hover table-bordered">
+           <div className='w-100 overflow-x-scroll'>
+           <table className="table table-striped  text-center  table-hover table-bordered">
                 <thead>
                     <tr>
                         <th className="py-3" scope="col">
@@ -170,8 +171,9 @@ export default function GetAllVideos() {
                         ))}
                 </tbody>
             </table>
+           </div>
             {/* pagination */}
-            {totalPages > 1 ? <div className=' p-2 text-center d-flex justify-content-center align-items-center'>
+            {totalPages > 1 ? <div className=' p-2 my-5 text-center d-flex justify-content-center align-items-center'>
                 <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
                     السابق
                 </button>
