@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Educational_Platform/static/css/main.496b8b21.css",
-    "main.js": "/Educational_Platform/static/js/main.e87d0d1d.js",
+    "main.css": "/Educational_Platform/static/css/main.877d2bbb.css",
+    "main.js": "/Educational_Platform/static/js/main.6262ce49.js",
     "static/js/453.3828d331.chunk.js": "/Educational_Platform/static/js/453.3828d331.chunk.js",
     "static/media/fa-solid-900.ttf": "/Educational_Platform/static/media/fa-solid-900.07ed6d5fa32c1d54af0f.ttf",
     "static/media/fa-brands-400.ttf": "/Educational_Platform/static/media/fa-brands-400.0ff70dcbf135d859ebf3.ttf",
@@ -21,12 +21,12 @@
     "static/media/female-avatar-girl-face-woman-user-3-svgrepo-com.svg": "/Educational_Platform/static/media/female-avatar-girl-face-woman-user-3-svgrepo-com.27320cea611a566bb1e092c945bf89a2.svg",
     "static/media/fa-v4compatibility.woff2": "/Educational_Platform/static/media/fa-v4compatibility.6cfec8414be20e2c3426.woff2",
     "index.html": "/Educational_Platform/index.html",
-    "main.496b8b21.css.map": "/Educational_Platform/static/css/main.496b8b21.css.map",
-    "main.e87d0d1d.js.map": "/Educational_Platform/static/js/main.e87d0d1d.js.map",
+    "main.877d2bbb.css.map": "/Educational_Platform/static/css/main.877d2bbb.css.map",
+    "main.6262ce49.js.map": "/Educational_Platform/static/js/main.6262ce49.js.map",
     "453.3828d331.chunk.js.map": "/Educational_Platform/static/js/453.3828d331.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.496b8b21.css",
-    "static/js/main.e87d0d1d.js"
+    "static/css/main.877d2bbb.css",
+    "static/js/main.6262ce49.js"
   ]
 }
