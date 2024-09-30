@@ -75,18 +75,48 @@ export default function AddAssign() {
             if (error.response.data.Error === 'wrong  token') {
                 Cookies.remove('token');
                 navigate('/login')
-            } else {
-                toast.error(" هناك مشكلة في اضافة ", {
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                });
-            }
+            } 
+            if(error.response.data.Error === "In-valid extintions ")
+                {
+                   toast.error(" امتداد الملف غير صحيح", {
+                       position: "top-center",
+                       autoClose: 3000,
+                       hideProgressBar: false,
+                       closeOnClick: true,
+                       pauseOnHover: true,
+                       draggable: true,
+                       progress: undefined,
+                       theme: "light",
+                   });
+                }
+            if(error.response.data.message === "Validation Error")
+                   {
+                      toast.error("اتبع التعلميات", {
+                          position: "top-center",
+                          autoClose: 3000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: "light",
+                      });
+                    }
+                    
+            if(error.response.data.Error === "invalid course id ")
+                   {
+                      toast.error("لا يمكن اضافة ملف لهذا المحاضرة", {
+                          position: "top-center",
+                          autoClose: 3000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: "light",
+                      });
+                    }
+
         }
     }
     // FUNCTION SUBMIT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

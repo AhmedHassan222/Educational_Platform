@@ -50,21 +50,37 @@ export default function UpdateVideos() {
                 });
         } catch (error) {
             setIsloading(false)
+            console.log(error)
             if (error.response.data.Error === 'wrong  token') {
                 Cookies.remove('token');
                 navagite('/login')
-            } else {
-                toast.error(" هناك مشكلة في التحديث", {
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                });
-            }
+            } 
+            if(error.response.data.Error === "In-valid extintions ")
+                {
+                   toast.error(" امتداد الصورة غير صحيح", {
+                       position: "top-center",
+                       autoClose: 3000,
+                       hideProgressBar: false,
+                       closeOnClick: true,
+                       pauseOnHover: true,
+                       draggable: true,
+                       progress: undefined,
+                       theme: "light",
+                   });
+               }
+               if(error.response.data.message === "Validation Error")
+                {
+                   toast.error("اتبع التعلميات", {
+                       position: "top-center",
+                       autoClose: 3000,
+                       hideProgressBar: false,
+                       closeOnClick: true,
+                       pauseOnHover: true,
+                       draggable: true,
+                       progress: undefined,
+                       theme: "light",
+                   });
+               }
         }
     }
     // FUNCTION HANGLE OBJECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -94,7 +110,6 @@ export default function UpdateVideos() {
                         <label className="py-3" htmlFor="image">برجاء اختيار صورة جديدة</label>
                         <input placeholder=" ادخل الصورة" type="file" className="w-100 p-2" name="image" onChange={handleImageChange} />
                         {isSubmit ? <>
-                            {!image ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
                             {image ? !validExtensions.includes(image?.type) ? <p className="small fw-medium  py-2 text-end text-danger">هذا الامتداد غير صحيح</p> : "" : ""}
                         </> : ""}
                     </div>
@@ -109,7 +124,6 @@ export default function UpdateVideos() {
                             onChange={handleChange}
                             value={updatedVideo.title}
                         />
-                        {isSubmit ? updatedVideo.title === "" ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
                     </div>
                     {/* videoUrl */}
                     <div className=" mb-4">
@@ -121,7 +135,6 @@ export default function UpdateVideos() {
                             value={updatedVideo.videoURL}
                             onChange={handleChange}
                         />
-                        {isSubmit ? updatedVideo.videoURL === "" ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
                     </div>
                     <button type="submit" className={`w-100 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}> {Isloading ? <i className="fa-spin fa fa-spinner"></i> : "تعديل"}</button>
                 </form>

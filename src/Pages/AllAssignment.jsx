@@ -3,12 +3,13 @@ import React, { useEffect, useState } from 'react'
 import Cookies from "js-cookie";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 export default function AllAssignment() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     let arr = [1, 2, 3, 4];
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [tasks, settasks] = useState([]);
+    let navagite = useNavigate();
     const [isLoading, setIsloading] = useState(false);
     const [totalPages, setTotalPages] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
@@ -64,17 +65,12 @@ export default function AllAssignment() {
                     });
                 });
         } catch (error) {
-            toast.error('لا يحق لك الحذف هذا الناسك ', {
-                position: "top-center",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
             setIsloading(false)
+            if(error?.response?.data?.Error ==='wrong  token'){
+                Cookies.remove('token');
+                navagite('/login')
+            }
+           
         }
     }
     // USE EFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

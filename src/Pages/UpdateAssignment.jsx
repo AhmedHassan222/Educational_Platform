@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 export default function UpdateAssignment() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const { id } = useParams()
-    let navagite = useNavigate()
+    let navagite = useNavigate();
     const formData = new FormData();
     const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
     const [Isloading, setIsloading] = useState(false);
@@ -51,18 +51,34 @@ export default function UpdateAssignment() {
             if (error.response.data.Error === 'wrong  token') {
                 Cookies.remove('token');
                 navagite('/login')
-            } else {
-                toast.error(" هناك مشكلة في التحديث", {
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                });
-            }
+            } 
+            if(error.response.data.Error === "In-valid extintions ")
+                {
+                   toast.error(" امتداد الملف غير صحيح", {
+                       position: "top-center",
+                       autoClose: 3000,
+                       hideProgressBar: false,
+                       closeOnClick: true,
+                       pauseOnHover: true,
+                       draggable: true,
+                       progress: undefined,
+                       theme: "light",
+                   });
+               }
+               if(error.response.data.message === "Validation Error")
+                {
+                   toast.error("اتبع التعلميات", {
+                       position: "top-center",
+                       autoClose: 3000,
+                       hideProgressBar: false,
+                       closeOnClick: true,
+                       pauseOnHover: true,
+                       draggable: true,
+                       progress: undefined,
+                       theme: "light",
+                   });
+               }
+            
         }
     }
     // HANDLE IMAGE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -96,14 +112,12 @@ export default function UpdateAssignment() {
                             <label className="py-3" htmlFor="filePdf">برجاء اختيار ملف جديدة</label>
                             <input placeholder=" ادخل ملف" id='filePdf' type="file" className="w-100 p-2" name="filePdf" onChange={handleFileChange} />
                             {isSubmit ? <>
-                                {!files ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
                                 {files ? !validExtensions.includes(files?.type) ? <p className="small fw-medium  py-2 text-end text-danger">هذا الامتداد غير صحيح</p> : "" : ""}
                             </> : ""}
                         </div>
                         {/* title */}
                         <div className=" mb-4">
                             <input placeholder=" عنوان " value={assign.title} autoComplete="off" type="text" className="w-100 p-2 text-black" name="title" onChange={handleChange} />
-                            {isSubmit ? assign.title === "" ? <p className="small fw-medium  py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : "" : ""}
                         </div>
                         {/* desc */}
                         <div className=" mb-4">

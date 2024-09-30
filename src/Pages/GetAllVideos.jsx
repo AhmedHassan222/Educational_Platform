@@ -56,18 +56,7 @@ export default function GetAllVideos() {
             if (error.response.data.Error === 'wrong  token') {
                 Cookies.remove('token');
                 navigate('/login')
-            } else {
-                toast.error('لديك مشكلة في الحذف ', {
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                });
-            }
+            } 
         }
 
     }
@@ -104,7 +93,7 @@ export default function GetAllVideos() {
             }
         } catch (error) {
             setIsloading(false)
-            toast.error(" يوجد مشكلة لديك", {
+            toast.error(" يوجد مشكلة لديك حاول مرة اخري"  , {
                 position: "top-center",
                 autoClose: 3000,
                 hideProgressBar: false,

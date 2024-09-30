@@ -85,17 +85,6 @@ export default function GetAllCources() {
             if (error.response.data.Error === 'wrong  token') {
                 Cookies.remove('token');
                 navigate('/login')
-            } else {
-                toast.error('لديك مشكلة في الحذف ', {
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                });
             }
             setIsloading(false)
         }
