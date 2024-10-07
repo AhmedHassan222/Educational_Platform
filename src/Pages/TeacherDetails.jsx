@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import mr from "../../src/Assets/Images/SVG_Images/male-avatar-boy-face-man-user-6-svgrepo-com.svg"
 import mrs from "../../src/Assets/Images/SVG_Images/female-avatar-girl-face-woman-user-3-svgrepo-com.svg"
 import fakeImage from "../../src/Assets/Images/fakeImage.png"
@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from "react-helmet";
 export default function TeacherDetails() {
     // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const { id } = useParams();
@@ -40,13 +41,18 @@ export default function TeacherDetails() {
     useEffect(() => {
         getteacherDetailsById();
         getAllCourses()
-        console.log( Courses.filter((item)=> item?.teacher?.id == id))
-    }, [teacherDetails?.length,Courses?.length])
+        console.log(Courses.filter((item) => item?.teacher?.id == id))
+    }, [teacherDetails?.length, Courses?.length])
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
+        <Helmet>
+            <title>Teacher Details - Sky Online Acadimy</title>
+        </Helmet>
         <div className="container py-5">
-        <ToastContainer />
-
+            <ToastContainer />
             <div className="row g-3">
                 {teacherDetails?.length > 0 ? teacherDetails.map((item, index) => <div key={index} className="col-sm-12 col-md-6 col-lg-4">
                     <div className="text-center rounded-5 border-1 border border-muted p-5">
@@ -85,9 +91,9 @@ export default function TeacherDetails() {
                         </div>
                     </div>
                 </div>)}
-                {Courses?.length > 0 ? Courses.filter((item)=> item?.teacher?.id === id).map((item, index) => <div key={index} className="col-sm-12 col-md-6 col-lg-4 text-center">
+                {Courses?.length > 0 ? Courses.filter((item) => item?.teacher?.id === id).map((item, index) => <div key={index} className="col-sm-12 col-md-6 col-lg-4 text-center">
                     <div className='border-1 border border-muted rounded-3'>
-                            <img src={item?.photo?.secure_url} className="w-100 " alt={item?.name} />
+                        <img src={item?.photo?.secure_url} className="w-100 " alt={item?.name} />
                         <div className="p-3">
                             <p className="text-muted my-2"> {item?.name}  </p>
                             <p className="text-muted my-2"> {item?.lectures?.length | 0} المحاضرة </p>
@@ -95,9 +101,9 @@ export default function TeacherDetails() {
                     </div>
                 </div>) : arr.map((index) => <div key={index} className="col-sm-12 col-md-6 col-lg-4  mt-5 text-center">
                     <div className='border-1 border border-muted rounded-3'>
-                        
-                            <img src={fakeImage} alt="teacher image" className='w-100' />
-                     
+
+                        <img src={fakeImage} alt="teacher image" className='w-100' />
+
                         <div className="p-3">
                             <p className="text-muted fs-6 placeholder col-8">  </p>
                         </div>

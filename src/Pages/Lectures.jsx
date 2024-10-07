@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import style from "../../src/Styles/Auth.module.css";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
+import { Helmet } from "react-helmet";
 export default function Lectures() {
   // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   let arr = [1, 2, 3];
@@ -25,16 +26,22 @@ export default function Lectures() {
         draggable: true,
         progress: undefined,
         theme: "light",
-    });
+      });
     }
   }
   // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>
   useEffect(() => {
     getAll();
   }, [lectures?.length]);
+  useEffect(() => {
+    window.scroll(0, 0)
+  }, [])
   // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   return (
     <>
+      <Helmet>
+        <title>Lectures - Sky Online Acadimy</title>
+      </Helmet>
       <ToastContainer />
       <div className="container py-5">
         <div className="row g-3 mt-1">

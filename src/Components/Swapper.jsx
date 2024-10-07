@@ -27,9 +27,10 @@ export default function Swapper() {
         <section className="my-5 text-center ">
             <div className="container">
                 <div className="my-5">
-                    <h3 className="mb-3">ﻧﺨﺒﺔ ﻣﻦ اﻓﻀﻞ المدرسين  </h3>
-                    <p>
+                    <h3 className="mb-3 title">ﻧﺨﺒﺔ ﻣﻦ اﻓﻀﻞ المدرسين  </h3>
+                    <p className="subTitle fw-light"> 
                         ﺗﻌﻠﻢ ﺑﺄﺣﺪث اﻟﻄﺮق ﻣﻦ ﺧﻠﺎل ﻣﻨﺼﺘﻨﺎ,ﻓﺄﻧﻨﺎن ﻧﻮﻓﺮ ﻟﻚ اﻟﻌﺪﻳﺪ ﻣﻦ اﻟﻜﻮرﺳﺎت
+                        <br />
                         اﻟﺨﺎﺻﺔ ﺑجميع المراحل التعليمية , ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ..
                     </p>
                 </div>

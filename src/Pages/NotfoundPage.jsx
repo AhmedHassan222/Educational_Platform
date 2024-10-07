@@ -1,7 +1,15 @@
 import { Link } from "react-router-dom";
 import style from "../../src/Styles/Teacher.module.css"
+import { useEffect } from "react";
+import { Helmet } from "react-helmet";
 export default function NotfoundPage() {
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
     return <>
+        <Helmet>
+            <title>404 - Notfound - Sky Online Acadimy</title>
+        </Helmet>
         <section className="d-flex justify-content-center vh-100 align-items-center">
             <div className=" text-center">
                 <h1>404</h1>

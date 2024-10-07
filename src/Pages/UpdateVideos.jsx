@@ -1,10 +1,11 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import style from "../../src/Styles/Auth.module.css"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from 'react-helmet';
 export default function UpdateVideos() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const { id, title } = useParams()
@@ -17,6 +18,10 @@ export default function UpdateVideos() {
     const validExtensions = ["image/png", "image/jpeg", "image/gif"];
     const formData = new FormData();
     // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
+    // update item
     async function updateItem() {
         setIsloading(true)
         formData.append("image", image);
@@ -54,33 +59,31 @@ export default function UpdateVideos() {
             if (error.response.data.Error === 'wrong  token') {
                 Cookies.remove('token');
                 navagite('/login')
-            } 
-            if(error.response.data.Error === "In-valid extintions ")
-                {
-                   toast.error(" امتداد الصورة غير صحيح", {
-                       position: "top-center",
-                       autoClose: 3000,
-                       hideProgressBar: false,
-                       closeOnClick: true,
-                       pauseOnHover: true,
-                       draggable: true,
-                       progress: undefined,
-                       theme: "light",
-                   });
-               }
-               if(error.response.data.message === "Validation Error")
-                {
-                   toast.error("اتبع التعلميات", {
-                       position: "top-center",
-                       autoClose: 3000,
-                       hideProgressBar: false,
-                       closeOnClick: true,
-                       pauseOnHover: true,
-                       draggable: true,
-                       progress: undefined,
-                       theme: "light",
-                   });
-               }
+            }
+            if (error.response.data.Error === "In-valid extintions ") {
+                toast.error(" امتداد الصورة غير صحيح", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
+            if (error.response.data.message === "Validation Error") {
+                toast.error("اتبع التعلميات", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
         }
     }
     // FUNCTION HANGLE OBJECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -102,6 +105,9 @@ export default function UpdateVideos() {
         updateItem();
     }
     return <>
+        <Helmet>
+            <title>Update Video - Sky Online Acadimy</title>
+        </Helmet>
         <div className="container py-5">
             <ToastContainer />
             <div className="text-center rounded-4  border-1 widthCustom mx-auto">

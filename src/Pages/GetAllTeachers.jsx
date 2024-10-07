@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 export default function GetAllTeachers() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const navigate = useNavigate();
@@ -105,8 +106,14 @@ export default function GetAllTeachers() {
     useEffect(() => {
         getAll(currentPage);
     }, [allTeachers]);
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
+        <Helmet>
+            <title>All Teachers - Sky Online Acadimy</title>
+        </Helmet>
         <div className="container py-5">
             <ToastContainer />
             {isLoading ? <div className="text-light position-fixed start-50 top-50  p-4" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)' }}>

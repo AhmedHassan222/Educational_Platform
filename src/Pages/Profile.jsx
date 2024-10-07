@@ -10,6 +10,7 @@ import fakeImage from "../../src/Assets/Images/fakeImage.png";
 import Joi from "joi";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from "react-helmet";
 export default function Profile() {
   // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const navagite = useNavigate();
@@ -70,6 +71,9 @@ export default function Profile() {
       setrole(user.role);
     }
   }, [userDetails]);
+  useEffect(() => {
+    window.scroll(0, 0)
+  }, [])
   // FUNCTION HANDLE SUBMIT TO ADD AND UPDATE PROFILE IMAGE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const handleSubmit = (e) => {
     setIsSubmit(true);
@@ -274,6 +278,9 @@ export default function Profile() {
   }
   // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   return <>
+    <Helmet>
+      <title>profile - Sky Online Acadimy</title>
+    </Helmet>
     {/* ERRORS */}
     <ToastContainer />
     {/* ADD & UPDATE imaeg profile */}

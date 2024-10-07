@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import style from "../../src/Styles/Auth.module.css";
 import logo from "../../src/Assets/Images/logo.png";
@@ -6,6 +6,7 @@ import "../Styles/index.css";
 import axios from "axios";
 import Joi from "joi";
 import { toast, ToastContainer } from "react-toastify";
+import { Helmet } from "react-helmet";
 export default function Register() {
     //Variables here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
     const navigate = useNavigate();
@@ -80,8 +81,15 @@ export default function Register() {
                     });
             });
     }
+    // useeffect 
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
     return (
         <>
+            <Helmet>
+                <title>Register Page - Sky Online Acadimy</title>
+            </Helmet>
             <ToastContainer />
             <div className="container py-5">
                 <div className="text-center rounded-4  border-1 widthCustom mx-auto">

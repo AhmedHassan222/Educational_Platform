@@ -1,10 +1,11 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import style from "../../src/Styles/Auth.module.css"
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from "react-helmet";
 export default function UpdateCourse() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const { id, nameCourse } = useParams()
@@ -67,8 +68,15 @@ export default function UpdateCourse() {
         e.preventDefault();
         updateItem();
     };
+    // useeffect 
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
+        <Helmet>
+            <title>Update Course - Sky Online Acadimy</title>
+        </Helmet>
         <div className="container py-5">
             {/* ERRORS */}
             <ToastContainer />

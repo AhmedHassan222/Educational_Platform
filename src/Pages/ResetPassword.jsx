@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../Styles/index.css"
 import logo from "../../src/Assets/Images/logo.png"
 import { Link } from 'react-router-dom';
@@ -6,6 +6,7 @@ import style from "../../src/Styles/Auth.module.css"
 import axios from 'axios';
 import Joi from 'joi';
 import { ToastContainer, toast } from 'react-toastify';
+import { Helmet } from 'react-helmet';
 export default function ResetPassword() {
     // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const [formData, setFormData] = useState({ email: '' });
@@ -99,9 +100,16 @@ export default function ResetPassword() {
             });
         }
     }
+    // useeffect 
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
     //RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
     return <>
+        <Helmet>
+            <title>Reset Password - Sky Online Acadimy</title>
+        </Helmet>
         {/* ERRORS */}
         <ToastContainer />
         <div className="container d-flex justify-content-center py-5">

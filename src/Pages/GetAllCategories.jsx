@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import moment from 'moment';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from "react-helmet";
 export default function GetAllCategories() {
   // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const arr = [1, 2, 3, 4];
@@ -23,6 +24,9 @@ export default function GetAllCategories() {
   useEffect(() => {
     getAll();
   }, [categories]);
+  useEffect(() => {
+    window.scroll(0, 0)
+  }, [])
   // FUNCTION DELETE CATEGORY >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   async function deleteItem(id) {
     setIsloading(true)
@@ -46,7 +50,7 @@ export default function GetAllCategories() {
               theme: "light",
             });
             Cookies.set('token', res?.data?.refreshToken, { expires: 7 });
-          }else{
+          } else {
             toast.success('قد تم الحذف  ', {
               position: "top-center",
               autoClose: 3000,
@@ -56,32 +60,35 @@ export default function GetAllCategories() {
               draggable: true,
               progress: undefined,
               theme: "light",
-          });
+            });
           }
         });
     } catch (error) {
       setIsloading(false);
-      if(error?.response?.data?.Error ==='wrong  token'){
+      if (error?.response?.data?.Error === 'wrong  token') {
         Cookies.remove('token');
         navigate('/login')
-    }else{
-      toast.error('  يوجد مشكلة في الحذف ', {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-    });
+      } else {
+        toast.error('  يوجد مشكلة في الحذف ', {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
     }
-        }
   }
   // RENGER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   return (
     <>
-    <ToastContainer />
+      <Helmet>
+        <title>All Grades - Sky Online Acadimy</title>
+      </Helmet>
+      <ToastContainer />
       {isLoading ? <div className="text-white position-fixed start-50 top-50  p-4" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)' }}>
         <i className="fa fa-spin fa-spinner h3"></i>
       </div> : ""}
@@ -118,7 +125,7 @@ export default function GetAllCategories() {
                   </td>
                 </tr>
               ))
-              : arr.map(( index) => (
+              : arr.map((index) => (
                 <tr key={index}>
                   <th className="placeholder-glow   p-4"></th>
                   <td className="placeholder-glow   p-4"></td>

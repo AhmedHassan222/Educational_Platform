@@ -23,11 +23,12 @@ export default function Header() {
           <div >
             <img src={logo} className="w-25 wow animate__animated animate__bounceIn" alt="sky academy logo" />
             <h1 className="mb-3 ">   سكاي اونلاين اكاديمي </h1>
-            <p className="  w-md-50 mx-auto mb-5">
+            <p className={`  w-md-50 mx-auto mb-5 subTitle`}>
               ﺗﻌﻠﻢ ﺑﺄﺣﺪث اﻟﻄﺮق ﻣﻦ ﺧﻠﺎل ﻣﻨﺼﺘﻨﺎ,ﻓإﻧﻨﺎ ﻧﻮﻓﺮ ﻟﻚ اﻟﻌﺪﻳﺪ ﻣﻦ اﻟﻜﻮرﺳﺎت
+              <br />
               اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ الابتدائية و الإعدادية والثانوية, ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.
             </p>
-            {role === "User" ? <Link className={`nav-link text-white rounded-2 fitContent mx-auto my-2 text-center py-3 px-5 ${style.btnOrange}`} to={'/cources'}>تصفح الكورسات </Link>
+            {role === "User" ? <Link className={`nav-link text-white rounded-2 fitContent mx-auto my-2 text-center py-2 px-4 small ${style.btnOrange}`} to={'/cources'}>تصفح الكورسات </Link>
               : ""}
           </div>
         </div>

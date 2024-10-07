@@ -7,6 +7,7 @@ import axios from "axios";
 import Joi from "joi";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from "react-helmet";
 export default function AddTeacher() {
     //Variables here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
     const navigate = useNavigate();
@@ -42,6 +43,9 @@ export default function AddTeacher() {
     useEffect(() => {
         getAll();
     }, [Courses?.length]);
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
     //function HANDLE OBJECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const handleChange = (e) => {
         const _formData = { ...formData };
@@ -120,124 +124,129 @@ export default function AddTeacher() {
     }
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return (
-        <div className="container py-5">
-            <ToastContainer />
-            <div className="text-center rounded-4  border-1 widthCustom mx-auto">
-                <form onSubmit={submitRegisterForm}>
-                    {/* full name  */}
-                    <div className=" mb-4">
-                        <input placeholder=" الاسم بالكامل" type="text" className="w-100 p-2" id="fullName" name="fullName" value={formData.fullName} onChange={handleChange} />
-                        {error?.map((err, index) =>
-                            err.context.label === "fullName" ? <div key={index}>
-                                {err.type === "string.min" ? <p className="small fw-medium py-2 text-end text-danger">يجب أن لا يقل عدد الحروف عن 3</p> : ""}
-                                {err.type === "string.max" ? <p className="small fw-medium py-2 text-end text-danger">يجب الا يزيد عدد الحروف عن  100 حرف</p> : ""}
-                                {!formData.fullName ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
-                            </div> : ""
-                        )}
-                    </div>
-                    {/* email */}
-                    <div className=" mb-4">
-                        <input placeholder="البريد الالكتروني" type="email" className="w-100 p-2" id="email" name="email" value={formData.email} onChange={handleChange} />
-                        {error?.map((err, index) =>
-                            err.context.label === "email" ? <div key={index}>
-                                {err.type === "string.email" ? <p className="small fw-medium py-2 text-end text-danger"> البريد الإلكتروني غير صحيح</p> : ""}
-                                {!formData.email ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
-                            </div> : ""
-                        )}
-                    </div>
-                    {/* password */}
-                    <div className=" mb-4 ">
-                        <div className="position-relative">
-                            {inputType !== "password" ?
-                                <i onClick={togglePasswordVisibility} className={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i> :
-                                <i onClick={togglePasswordVisibility} className={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>
-                            }
-                            <input placeholder="ادخل كلمة المرور" type={inputType} className="w-100 p-2 " id="password" name="password" value={formData.password} onChange={handleChange} />
-                        </div>
-                        {error?.map((err, index) =>
-                            err.context.label === "password" ? <div key={index}>
-                                {err.type === "string.pattern.base" ? <p className="small fw-medium py-2 text-end text-danger">    يجب ان تحتوي كلمة  المرور علي 8 احروف او ارقام</p> : ""}
-                                {!formData.password ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
-                            </div> : ""
-                        )}
-                    </div>
-                    {/* repassword */}
-                    <div className=" mb-4">
-                        <div className="position-relative">
-                            {inputType2 !== "password" ?
-                                <i onClick={togglerePasswordVisibility} className={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i> :
-                                <i onClick={togglerePasswordVisibility} className={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>
-                            }
-                            <input placeholder="تأكيد كلمة المرور " type={inputType2} className="w-100 p-2" id="repassword" name="repassword" value={formData.repassword} onChange={handleChange} />
-                        </div>
-                        {error?.map((err, index) =>
-                            err.context.label === "repassword" ? <div key={index}>
-                                {formData.password !== formData.repassword ? <p className="small fw-medium py-2 text-end text-danger">    كلمتا المرور غير متطابقتين</p> : ""}
-                            </div> : ""
-                        )}
-                    </div>
-                    {/*stage  */}
-                    <div className=" mb-4">
-                        <select className="w-100 p-2 text-muted" id="stage" name="stage" value={formData.stage} onChange={handleChange}  >
-                            <option value="">المرحلة </option>
-                            <option value="primary">الابتدائية</option>
-                            <option value="preparatory">الاعدادية </option>
-                            <option value="secondary">الثانوية </option>
-                        </select>
-                        {error?.map((err, index) =>
-                            err.context.label === "stage" ? <div key={index}>
-                                {!formData.stage ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
-                            </div> : ""
-                        )}
-                    </div>
-                    {/* gender */}
-                    <div className=" mb-4">
-                        <select className="w-100 p-2 text-muted" id="gender" name="gender" value={formData.gender} onChange={handleChange} >
-                            <option value="">النوع</option>
-                            <option value="male">ذكر</option>
-                            <option value="female">انثي</option>
-                        </select>
-                        {error?.map((err, index) =>
-                            err.context.label === "gender" ? <div key={index}>
-                                {!formData.gender ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
-                            </div> : ""
-                        )}
-                    </div>
-                    {/* to know course Id */}
-                    <div className=" mb-4">
-                        <select className="w-100 p-2 text-muted" autoComplete="off" onChange={(e) => { setCoursesId(e.target.value) }}  >
-                            <option value="">المادة </option>
-                            {Courses?.map((course, index) =>
-                                <option key={index} value={course.id} >{course.name} </option>
+        <>
+            <Helmet>
+                <title>Add Teacher Account - Sky Online Acadimy</title>
+            </Helmet>
+            <div className="container py-5">
+                <ToastContainer />
+                <div className="text-center rounded-4  border-1 widthCustom mx-auto">
+                    <form onSubmit={submitRegisterForm}>
+                        {/* full name  */}
+                        <div className=" mb-4">
+                            <input placeholder=" الاسم بالكامل" type="text" className="w-100 p-2" id="fullName" name="fullName" value={formData.fullName} onChange={handleChange} />
+                            {error?.map((err, index) =>
+                                err.context.label === "fullName" ? <div key={index}>
+                                    {err.type === "string.min" ? <p className="small fw-medium py-2 text-end text-danger">يجب أن لا يقل عدد الحروف عن 3</p> : ""}
+                                    {err.type === "string.max" ? <p className="small fw-medium py-2 text-end text-danger">يجب الا يزيد عدد الحروف عن  100 حرف</p> : ""}
+                                    {!formData.fullName ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
+                                </div> : ""
                             )}
-                        </select>
-                        {error?.map((err, index) =>
-                            err.context.label === "stage" ? <div key={index}>
-                                {!formData.stage ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
-                            </div> : ""
-                        )}
-                    </div>
-                    {/* subjecTeacher */}
-                    <div className=" mb-4">
-                        <textarea className="w-100 p-2" id="subjecTeacher" name="subjecTeacher" placeholder="معلومات عن المدرس" value={formData.subjecTeacher} onChange={handleChange}></textarea>
-                        {error?.map((err, index) =>
-                            err.context.label === "subjecTeacher" ? <div key={index}>
-                                {!formData.subjecTeacher ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
-                            </div> : ""
-                        )}
-                    </div>
-                    {/* phone number */}
-                    <div className=" mb-4">
-                        <input placeholder="رقم الهاتف" type="text" className="w-100 p-2" id="phoneNumber" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} />
-                        {error?.map((err, index) =>
-                            err.context.label === "phoneNumber" ? <div key={index}>
-                                {!formData.phoneNumber ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
-                            </div> : ""
-                        )}
-                    </div>
-                    <button type="submit" className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>{Isloading ? <i className="fa-spin fa fa-spinner"></i> : "انشاء حساب"}</button>
-                </form>
+                        </div>
+                        {/* email */}
+                        <div className=" mb-4">
+                            <input placeholder="البريد الالكتروني" type="email" className="w-100 p-2" id="email" name="email" value={formData.email} onChange={handleChange} />
+                            {error?.map((err, index) =>
+                                err.context.label === "email" ? <div key={index}>
+                                    {err.type === "string.email" ? <p className="small fw-medium py-2 text-end text-danger"> البريد الإلكتروني غير صحيح</p> : ""}
+                                    {!formData.email ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
+                                </div> : ""
+                            )}
+                        </div>
+                        {/* password */}
+                        <div className=" mb-4 ">
+                            <div className="position-relative">
+                                {inputType !== "password" ?
+                                    <i onClick={togglePasswordVisibility} className={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i> :
+                                    <i onClick={togglePasswordVisibility} className={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>
+                                }
+                                <input placeholder="ادخل كلمة المرور" type={inputType} className="w-100 p-2 " id="password" name="password" value={formData.password} onChange={handleChange} />
+                            </div>
+                            {error?.map((err, index) =>
+                                err.context.label === "password" ? <div key={index}>
+                                    {err.type === "string.pattern.base" ? <p className="small fw-medium py-2 text-end text-danger">    يجب ان تحتوي كلمة  المرور علي 8 احروف او ارقام</p> : ""}
+                                    {!formData.password ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
+                                </div> : ""
+                            )}
+                        </div>
+                        {/* repassword */}
+                        <div className=" mb-4">
+                            <div className="position-relative">
+                                {inputType2 !== "password" ?
+                                    <i onClick={togglerePasswordVisibility} className={`fa-solid fa-eye position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i> :
+                                    <i onClick={togglerePasswordVisibility} className={`fa-solid fa-eye-slash position-absolute  px-4  top-50 translate-middle ${style.eyePostion}`}></i>
+                                }
+                                <input placeholder="تأكيد كلمة المرور " type={inputType2} className="w-100 p-2" id="repassword" name="repassword" value={formData.repassword} onChange={handleChange} />
+                            </div>
+                            {error?.map((err, index) =>
+                                err.context.label === "repassword" ? <div key={index}>
+                                    {formData.password !== formData.repassword ? <p className="small fw-medium py-2 text-end text-danger">    كلمتا المرور غير متطابقتين</p> : ""}
+                                </div> : ""
+                            )}
+                        </div>
+                        {/*stage  */}
+                        <div className=" mb-4">
+                            <select className="w-100 p-2 text-muted" id="stage" name="stage" value={formData.stage} onChange={handleChange}  >
+                                <option value="">المرحلة </option>
+                                <option value="primary">الابتدائية</option>
+                                <option value="preparatory">الاعدادية </option>
+                                <option value="secondary">الثانوية </option>
+                            </select>
+                            {error?.map((err, index) =>
+                                err.context.label === "stage" ? <div key={index}>
+                                    {!formData.stage ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
+                                </div> : ""
+                            )}
+                        </div>
+                        {/* gender */}
+                        <div className=" mb-4">
+                            <select className="w-100 p-2 text-muted" id="gender" name="gender" value={formData.gender} onChange={handleChange} >
+                                <option value="">النوع</option>
+                                <option value="male">ذكر</option>
+                                <option value="female">انثي</option>
+                            </select>
+                            {error?.map((err, index) =>
+                                err.context.label === "gender" ? <div key={index}>
+                                    {!formData.gender ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
+                                </div> : ""
+                            )}
+                        </div>
+                        {/* to know course Id */}
+                        <div className=" mb-4">
+                            <select className="w-100 p-2 text-muted" autoComplete="off" onChange={(e) => { setCoursesId(e.target.value) }}  >
+                                <option value="">المادة </option>
+                                {Courses?.map((course, index) =>
+                                    <option key={index} value={course.id} >{course.name} </option>
+                                )}
+                            </select>
+                            {error?.map((err, index) =>
+                                err.context.label === "stage" ? <div key={index}>
+                                    {!formData.stage ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
+                                </div> : ""
+                            )}
+                        </div>
+                        {/* subjecTeacher */}
+                        <div className=" mb-4">
+                            <textarea className="w-100 p-2" id="subjecTeacher" name="subjecTeacher" placeholder="معلومات عن المدرس" value={formData.subjecTeacher} onChange={handleChange}></textarea>
+                            {error?.map((err, index) =>
+                                err.context.label === "subjecTeacher" ? <div key={index}>
+                                    {!formData.subjecTeacher ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
+                                </div> : ""
+                            )}
+                        </div>
+                        {/* phone number */}
+                        <div className=" mb-4">
+                            <input placeholder="رقم الهاتف" type="text" className="w-100 p-2" id="phoneNumber" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} />
+                            {error?.map((err, index) =>
+                                err.context.label === "phoneNumber" ? <div key={index}>
+                                    {!formData.phoneNumber ? <p className="small fw-medium py-2 text-end text-danger">لا يمكن ارسال هذا الحقل  فارغا</p> : ""}
+                                </div> : ""
+                            )}
+                        </div>
+                        <button type="submit" className={`w-100 my-4 p-2 border-0 rounded-2 ${style.btnOrange} my-3  w-100 `}>{Isloading ? <i className="fa-spin fa fa-spinner"></i> : "انشاء حساب"}</button>
+                    </form>
+                </div>
             </div>
-        </div>
+        </>
     );
 };

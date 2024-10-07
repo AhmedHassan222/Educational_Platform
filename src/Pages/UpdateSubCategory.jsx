@@ -2,11 +2,12 @@ import axios from "axios";
 import Joi from "joi";
 import React from "react";
 import Cookies from "js-cookie";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import style from "../../src/Styles/Auth.module.css"
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from "react-helmet";
 export default function UpdatedSubCategory() {
   const { name, id } = useParams()
   let navagite = useNavigate()
@@ -93,7 +94,15 @@ export default function UpdatedSubCategory() {
       updateItem()
     }
   };
+  // useeffect 
+  useEffect(() => {
+    window.scroll(0, 0)
+  }, [])
+  // render 
   return <>
+    <Helmet>
+      <title>Update Stage - Sky Online Acadimy</title>
+    </Helmet>
     <div className="container py-5">
       <ToastContainer />
       <div className=" rounded-4  border-1 widthCustom mx-auto">

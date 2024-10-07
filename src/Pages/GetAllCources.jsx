@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from "react-helmet";
 export default function GetAllCources() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     let arr = [1, 2, 3, 4];
@@ -93,11 +94,16 @@ export default function GetAllCources() {
     useEffect(() => {
         getAll(currentPage)
     }, [Courses]);
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return (
         <>
+            <Helmet>
+                <title>All Courses - Sky Online Acadimy</title>
+            </Helmet>
             <ToastContainer />
-
             {isLoading ? <div className="text-white position-fixed start-50 top-50  p-4" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)' }}>
                 <i className="fa fa-spin fa-spinner h3"></i>
             </div> : ""}

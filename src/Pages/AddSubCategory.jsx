@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from "react-helmet";
 export default function AddSubCategory() {
   // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const [categoryId, setCategoryId] = useState(null)
@@ -23,6 +24,7 @@ export default function AddSubCategory() {
   }
   // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   useEffect(() => {
+    window.scroll(0, 0)
     getAllCategories(); // Only call this once when the component mounts
   }, []);
   // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -87,6 +89,9 @@ export default function AddSubCategory() {
     }
   }
   return <>
+    <Helmet>
+      <title>Add Stage - Sky Online Acadimy</title>
+    </Helmet>
     <div className="container py-5">
       <ToastContainer />
       <div className="text-center rounded-4  border-1 widthCustom mx-auto">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../Styles/index.css";
 import style from "../../src/Styles/Auth.module.css";
@@ -8,6 +8,7 @@ import Joi from "joi";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { toast, ToastContainer } from "react-toastify";
+import { Helmet } from "react-helmet";
 export default function LoginPage() {
   //Variables here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
   const navigate = useNavigate();
@@ -91,9 +92,16 @@ export default function LoginPage() {
       setIsloading(false);
     }
   }
+  // useeffect 
+  useEffect(() => {
+    window.scroll(0, 0)
+  }, [])
 
   return (
     <>
+      <Helmet>
+        <title>Login Page - Sky Online Acadimy</title>
+      </Helmet>
       <ToastContainer />
       <div className="d-flex  justify-content-center  container  py-5">
         <div className="rounded-4  border-1  widthCustom text-center">

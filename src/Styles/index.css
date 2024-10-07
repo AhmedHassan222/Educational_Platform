@@ -1,26 +1,28 @@
-:root 
-{
-  --mainColorOrange: rgba(255,101,19,255);
-  --mainColorBlue: rgba(17,98,164,255);
+:root {
+  --mainColorOrange: rgba(255, 101, 19, 255);
+  --mainColorBlue: rgba(17, 98, 164, 255);
 }
-link ,a {
+
+link,
+a {
   text-decoration: none;
 }
-* 
-{
-  margin:0;
+
+* {
+  margin: 0;
   padding: 0;
 }
-header{
+
+header {
   background-color: var(--mainColorBlue);
   height: 100vh;
   color: black;
-/* flex-direction: column */
+  /* flex-direction: column */
 }
-body 
-{
+
+body {
   direction: rtl;
-  font-weight: 700 ;
+  font-weight: 700;
   margin: 0;
   padding: 0;
   font-family: "Cairo", sans-serif;
@@ -28,36 +30,43 @@ body
 }
 
 .widthCustom {
-  width: 40%; 
+  width: 40%;
   border: 1px solid #D3D3D3;
-  padding:50px;
+  padding: 50px;
 }
 
 @media (max-width: 991px) {
   .widthCustom {
-    width: 60%; 
+    width: 60%;
   }
-} 
+}
 
 @media (max-width: 768px) {
   .widthCustom {
-    width: 100%; 
+    width: 100%;
     border: none;
-    padding:0px;
+    padding: 0px;
   }
 }
 
 @media (max-width: 576px) {
   .widthCustom {
-    width: 95%; 
+    width: 95%;
     border: none;
-    padding:0px;
+    padding: 0px;
+  }
+
+  .subTitle {
+    font-size: 13px;
+  }
+  .title 
+  {
+    font-size:20px;
   }
 }
 
-.fitContent 
-{
-  width:fit-content;
+.fitContent {
+  width: fit-content;
 }
 
 
@@ -65,7 +74,7 @@ body
 
 body::-webkit-scrollbar {
   background-color: #e7e7e7;
-  width:10px;
+  width: 10px;
 }
 
 body::-webkit-scrollbar-thumb {
@@ -78,14 +87,16 @@ body::-webkit-scrollbar {
   height: 5px;
 }
 
-input , select , textarea
-{
-  border:none !important;
-  border-bottom:solid 1px rgb(180, 180, 180) !important;
+input,
+select,
+textarea {
+  border: none !important;
+  border-bottom: solid 1px rgb(180, 180, 180) !important;
 }
 
-input:focus , select:focus , textarea:focus
-{
+input:focus,
+select:focus,
+textarea:focus {
   outline: none;
   border-bottom: solid 1px var(--mainColorOrange) !important;
 }
@@ -95,8 +106,7 @@ input[type="checkbox"] {
   accent-color: var(--mainColorBlue);
 }
 
-.small 
-{
+.small {
   font-size: 14px;
 }
 
@@ -106,7 +116,7 @@ input::placeholder {
 }
 
 
-span:hover , i:hover 
-{
+span:hover,
+i:hover {
   cursor: pointer;
 }

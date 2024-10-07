@@ -6,6 +6,7 @@ import axios from 'axios';
 import { FilterContext } from '../Contexts/FilterContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from 'react-helmet';
 export default function Cources() {
     // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const arr = [1, 2, 3, 4, 5, 6]
@@ -56,13 +57,15 @@ export default function Cources() {
     }
     // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
-        window.scroll(0, 0)
         getAll(currentPage);
         setDisplayCourses(courses);
     }, [courses?.length])
     useEffect(() => {
         setDisplayCourses(filterCourses?.length > 0 ? filterCourses : courses)
     }, [filterCourses])
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
     // FUNCTION RESET FILTER >>>>>>>>>>>>>>>>>>>>>>>>>
     function resetFilter() {
         setGrade('');
@@ -73,6 +76,9 @@ export default function Cources() {
     }
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
+        <Helmet>
+            <title>Courses - Sky Online Acadimy</title>
+        </Helmet>
         <ToastContainer />
         <section className="py-5 container ">
             {isLoading ? <div className=" position-fixed start-50 text-light top-50  p-3" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)', zIndex: "999999" }}>
@@ -84,15 +90,9 @@ export default function Cources() {
                 </div>
                 <div className="col-lg-9  ">
                     {gradeFilterName || stageName ? <div className="d-flex w-100 mb-4 align-items-center">
-                        {gradeFilterName ? <div className=" ">
-                            <div className="d-flex bg-light justify-content-between py-2  px-2 small align-items-center">
-                                <span className="ms-4 ">{gradeFilterName}</span>
-                                <i onClick={() => { setGrade(''); setGradeName('') }} className='fa-solid fa-x '></i>
-                            </div>
-                        </div> : ''}
                         {stageName ? <div className=" ">
                             <div className="d-flex bg-light mx-3 justify-content-between py-2  px-2 small align-items-center">
-                                <span className="mx-4">{stageName}</span>
+                                <span className="mx-4">{stageName} {gradeFilterName}</span>
                                 <i onClick={() => { setStage(''); setStageName('') }} className='fa-solid fa-x '></i>
                             </div>
                         </div> : ''}

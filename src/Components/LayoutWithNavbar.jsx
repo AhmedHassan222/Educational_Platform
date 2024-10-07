@@ -19,7 +19,7 @@ export default function LayoutWithNavbar({ children }) {
             {role === "Admin" ? <NavbarSuperAdmin /> : ''}
         </>}
         {children}
-        {Cookies.get('token') ? role === "User" ? <Footer /> : "" : ""}
+        <Footer/>
     </>
 };
 

@@ -1,11 +1,12 @@
 import axios from "axios";
 import React from "react";
 import Cookies from "js-cookie";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import style from "../../src/Styles/Auth.module.css"
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from "react-helmet";
 export default function UpdatedCategory() {
   // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const { id, name } = useParams()
@@ -89,8 +90,15 @@ export default function UpdatedCategory() {
     setIsSubmit(true);
     updateItem();
   };
+  // useeffect 
+  useEffect(() => {
+    window.scroll(0, 0)
+  }, [])
   // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   return <>
+    <Helmet>
+      <title>Update Grade - Sky Online Acadimy</title>
+    </Helmet>
     <div className="container py-5">
       <ToastContainer />
       <div className=" rounded-4  border-1 widthCustom mx-auto">

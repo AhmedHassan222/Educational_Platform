@@ -1,9 +1,10 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Cookies from 'js-cookie';
 import style from "../../src/Styles/Auth.module.css"
 import { useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import { Helmet } from 'react-helmet';
 export default function UpdateAssignment() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const { id } = useParams()
@@ -51,34 +52,32 @@ export default function UpdateAssignment() {
             if (error.response.data.Error === 'wrong  token') {
                 Cookies.remove('token');
                 navagite('/login')
-            } 
-            if(error.response.data.Error === "In-valid extintions ")
-                {
-                   toast.error(" امتداد الملف غير صحيح", {
-                       position: "top-center",
-                       autoClose: 3000,
-                       hideProgressBar: false,
-                       closeOnClick: true,
-                       pauseOnHover: true,
-                       draggable: true,
-                       progress: undefined,
-                       theme: "light",
-                   });
-               }
-               if(error.response.data.message === "Validation Error")
-                {
-                   toast.error("اتبع التعلميات", {
-                       position: "top-center",
-                       autoClose: 3000,
-                       hideProgressBar: false,
-                       closeOnClick: true,
-                       pauseOnHover: true,
-                       draggable: true,
-                       progress: undefined,
-                       theme: "light",
-                   });
-               }
-            
+            }
+            if (error.response.data.Error === "In-valid extintions ") {
+                toast.error(" امتداد الملف غير صحيح", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
+            if (error.response.data.message === "Validation Error") {
+                toast.error("اتبع التعلميات", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
+
         }
     }
     // HANDLE IMAGE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -99,8 +98,15 @@ export default function UpdateAssignment() {
             [name]: value,
         })
     };
+    // useeffect 
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
+        <Helmet>
+            <title>Update Assignment - Sky Online Acadimy</title>
+        </Helmet>
         {/* ERRORS */}
         <ToastContainer />
         <div className="container py-5">

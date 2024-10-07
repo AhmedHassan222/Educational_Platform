@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from "react-helmet";
 export default function GenerateCode() {
   // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
@@ -26,6 +27,9 @@ export default function GenerateCode() {
   useEffect(() => {
     getAll();
   }, [Courses?.length])
+  useEffect(() => {
+    window.scroll(0, 0)
+  }, [])
   // FUNCTION HANDLE OBJECT >>>>>>>>>>>>>>>>>>>>>>>>
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,8 +70,8 @@ export default function GenerateCode() {
       if (error?.response?.data?.Error === 'wrong  token') {
         Cookies.remove('token');
         navigate('/login')
-      } 
-      if  ( error?.response?.data?.Error[0][0].message ==='must today or more')  {
+      }
+      if (error?.response?.data?.Error[0][0].message === 'must today or more') {
         toast.error(" يجب انشاء الاكواد من اليوم او من بعد  ", {
           position: "top-center",
           autoClose: 3000,
@@ -79,7 +83,7 @@ export default function GenerateCode() {
           theme: "light",
         });
       }
-      if ( error?.response?.data?.Error[0][0].message ==="must After from date "){
+      if (error?.response?.data?.Error[0][0].message === "must After from date ") {
         toast.error(" يجب نهاية الاكواد من بعد تاريخ انشاءه", {
           position: "top-center",
           autoClose: 3000,
@@ -102,6 +106,9 @@ export default function GenerateCode() {
   // RENDER  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   return (
     <>
+      <Helmet>
+        <title>Generate Codes - Sky Online Acadimy</title>
+      </Helmet>
       <div className="container py-5">
         <ToastContainer />
         <div className="text-center rounded-4  border-1 widthCustom mx-auto">

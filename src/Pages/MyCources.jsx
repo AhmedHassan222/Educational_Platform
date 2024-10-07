@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import { MyCoursesContext } from '../Contexts/MyCoursesContext';
 import fakeImage from "../../src/Assets/Images/fakeImage.png"
+import { Helmet } from 'react-helmet';
 export default function MyCources() {
     const arr = [1, 2, 3, 4, 5, 6, 7, 8]
     const { myCourse, getAllcoursesByUser, errorFromJoin, numberOfCourses } = useContext(MyCoursesContext)
@@ -10,7 +11,13 @@ export default function MyCources() {
         getAllcoursesByUser()
         localStorage.setItem('numberOfCourses', numberOfCourses)
     }, [myCourse?.length])
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
     return <>
+        <Helmet>
+            <title>My Courses - Sky Online Acadimy</title>
+        </Helmet>
         <section className="py-5 container ">
             <div className=' py-5'>
                 {myCourse?.filter(course => course?.isPaid && course?.coursesIds !== null) ? 'لا يوجد كورسات مضافة حتي الان' : ''}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import style from "../../src/Styles/Auth.module.css"
 import Cookies from 'js-cookie';
 import axios from "axios";
@@ -6,6 +6,7 @@ import Joi from "joi";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from "react-helmet";
 export default function AddCategory() {
     // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     let navigate = useNavigate()
@@ -78,11 +79,18 @@ export default function AddCategory() {
             if (error.response.data.Error === 'wrong  token') {
                 Cookies.remove('token');
                 navigate('/login')
-            } 
+            }
         }
     }
+    // useeffect 
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
+        <Helmet>
+            <title>Add Grade - Sky Online Acadimy</title>
+        </Helmet>
         <div className="container py-5">
             <ToastContainer />
             <div className="text-center rounded-4  border-1 widthCustom mx-auto">

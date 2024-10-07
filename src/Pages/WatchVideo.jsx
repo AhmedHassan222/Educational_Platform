@@ -5,6 +5,7 @@ import CryptoJS from "crypto-js";
 import style from "../../src/Styles/Auth.module.css";
 import fakeImage from "../../src/Assets/Images/fakeImage.png";
 import { ToastContainer, toast } from 'react-toastify';
+import { Helmet } from "react-helmet";
 export default function WatchVideo() {
   // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const [lectures, setlectures] = useState([]);
@@ -57,8 +58,14 @@ export default function WatchVideo() {
     getLectureById();
     getAssignment();
   }, [lectures?.length, tasks?.length]);
+  useEffect(() => {
+    window.scroll(0, 0)
+  }, [])
   return (
     <>
+      <Helmet>
+        <title>Watch - Sky Online Acadimy</title>
+      </Helmet>
       <ToastContainer />
       <div className="container py-5">
         {lectures?.length > 0 ? (

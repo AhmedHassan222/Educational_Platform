@@ -1,6 +1,7 @@
-import React from 'react';
+import Cookies from "js-cookie";
 import logo from "../../src/Assets/Images/logo.png"
 import { Link } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
 export default function Footer() {
     return (
         <footer className="text-center text-lg-start bg-body-tertiary text-muted container">
@@ -37,7 +38,7 @@ export default function Footer() {
                             <p>
                                 ﺗﻌﻠﻢ ﺑﺄﺣﺪث اﻟﻄﺮق ﻣﻦ ﺧﻠﺎل ﻣﻨﺼﺘﻨﺎ,ﻓإﻧﻨﺎ ﻧﻮﻓﺮ ﻟﻚ اﻟﻌﺪﻳﺪ ﻣﻦ اﻟﻜﻮرﺳﺎت اﻟﺨﺎﺻﺔ ﺑﺎﻟﻤﺮﺣﻠﺔ الابتدائية و الإعدادية والثانوية, ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ.</p>
                         </div>
-                        <div className="col-md-3 col-lg-3 col-xl-2 mx-auto mb-2">
+                        {Cookies.get('token') ? jwtDecode(Cookies.get('token'))?.role === "User" ? <div className="col-md-3 col-lg-3 col-xl-2 mx-auto mb-2">
                             <h3 className="text-uppercase fw-bold h5">
                                 روابط مفيدة
                             </h3>
@@ -55,7 +56,7 @@ export default function Footer() {
                                     <Link className="nav-link small " to={'/profile'}> الملف الشخصي</Link>
                                 </li>
                             </ul>
-                        </div>
+                        </div> : '' : ""}
                         <div className="col-md-4 col-lg-4 col-xl-3 mx-auto mb-md-0 mb-4">
                             <h3 className="text-uppercase fw-bold mb-3 h5 ">تواصل معنا</h3>
                             <p><i className="fas fa-home me-3"></i> ابو يوسف العجمي</p>

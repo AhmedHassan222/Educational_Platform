@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from "react-helmet";
 export default function AddVideo() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     let navigate = useNavigate();
@@ -30,6 +31,9 @@ export default function AddVideo() {
     useEffect(() => {
         getAllCourses()
     }, [courses])
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
     // FUNCTION HANDLE IMAGE >>>>>>>>>>>>>>>>>>>>>>>>>>>
     const handleImageChange = (e) => {
         const file = Array.from(e.target.files)[0];
@@ -78,9 +82,8 @@ export default function AddVideo() {
             if (error.response.data.Error === 'wrong  token') {
                 Cookies.remove('token');
                 navigate('/login')
-            } 
-            if(error.response.data.Error === "In-valid extintions ")
-             {
+            }
+            if (error.response.data.Error === "In-valid extintions ") {
                 toast.error(" امتداد الصورة غير صحيح", {
                     position: "top-center",
                     autoClose: 3000,
@@ -92,19 +95,18 @@ export default function AddVideo() {
                     theme: "light",
                 });
             }
-            if(error.response.data.message === "Validation Error")
-                {
-                   toast.error("اتبع التعلميات", {
-                       position: "top-center",
-                       autoClose: 3000,
-                       hideProgressBar: false,
-                       closeOnClick: true,
-                       pauseOnHover: true,
-                       draggable: true,
-                       progress: undefined,
-                       theme: "light",
-                   });
-               }
+            if (error.response.data.message === "Validation Error") {
+                toast.error("اتبع التعلميات", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
         }
     }
     // FUNCTION SUBMIT FORM >>>>>>>>>>>>>>>>>>>>>>>
@@ -115,6 +117,9 @@ export default function AddVideo() {
     };
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
+        <Helmet>
+            <title>Add Video - Sky Online Acadimy</title>
+        </Helmet>
         <div className="container py-5">
             <ToastContainer />
             <div className="text-center rounded-4  border-1 widthCustom mx-auto">

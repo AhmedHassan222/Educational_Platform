@@ -6,6 +6,7 @@ import { useReactToPrint } from "react-to-print";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 export default function GetAllCodes() {
   // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const [codes, setcodes] = useState([]);
@@ -101,9 +102,15 @@ export default function GetAllCodes() {
     getAll(currentPage);
     setIsloading(false)
   }, [codes]);
+  useEffect(() => {
+    window.scroll(0, 0)
+  }, [])
 
   return (
     <>
+      <Helmet>
+        <title>Codes - Sky Online Acadimy</title>
+      </Helmet>
       <ToastContainer />
       <div className="container py-5">
         {isLoading ? <div className="text-white position-fixed start-50 top-50  p-4" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)' }}>
@@ -114,7 +121,7 @@ export default function GetAllCodes() {
         </div>
         <div ref={printRef}>
           {codes?.length > 0 ? codes?.map((item, index) => (
-            <div  key={index}   className=" row  border border-1 border-muted p-2 rounded-2"    >
+            <div key={index} className=" row  border border-1 border-muted p-2 rounded-2"    >
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <h3>{item.codeAssignedToCourse[0].courseId?.name}</h3>
                 <div>
@@ -129,7 +136,7 @@ export default function GetAllCodes() {
                 </div>
               </div>
               {item.codes.map((codes, indx) => (
-                <div  key={indx}     className=" col-md-3 col-lg-2 col-sm-4 w-25 text-center border border-1 border-muted p-2    "    >
+                <div key={indx} className=" col-md-3 col-lg-2 col-sm-4 w-25 text-center border border-1 border-muted p-2    "    >
                   <p>{codes}</p>
                 </div>
               ))}

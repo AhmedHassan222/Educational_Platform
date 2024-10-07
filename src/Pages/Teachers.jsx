@@ -7,6 +7,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from "react-helmet";
 export default function Teachers() {
     // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const arr = [1, 2, 3, 4]
@@ -18,38 +19,38 @@ export default function Teachers() {
     // FUNCTION GET ALL TEACHERS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function getAll(page) {
         setIsloading(true)
-    try {
-       
-        const { data } = await axios.get(`${baseURL}/auth/teachers?page=${page}`);
-        setIsloading(false)
-        if (data && data.paginationInfo) {
-            setallTeachers(data.data)
-            setTotalPages(data.paginationInfo.totalPages || 1); // Default to 1 if undefined
-        } else {
-            setallTeachers([])
-            setTotalPages(1);
+        try {
+
+            const { data } = await axios.get(`${baseURL}/auth/teachers?page=${page}`);
+            setIsloading(false)
+            if (data && data.paginationInfo) {
+                setallTeachers(data.data)
+                setTotalPages(data.paginationInfo.totalPages || 1); // Default to 1 if undefined
+            } else {
+                setallTeachers([])
+                setTotalPages(1);
+            }
+        } catch (error) {
+            setIsloading(false)
+            toast.error(" يوجد مشكلة لديك", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
         }
-    } catch (error) {
-        setIsloading(false)
-        toast.error(" يوجد مشكلة لديك", {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-        });
+
     }
-    
-    }
-       // PAGENATION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-       function prePage() {
+    // PAGENATION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    function prePage() {
         setIsloading(true)
         if (currentPage > 1) {
             setCurrentPage(currentPage - 1);
-            getAll(currentPage -1);
+            getAll(currentPage - 1);
             setIsloading(false)
         }
     }
@@ -65,19 +66,25 @@ export default function Teachers() {
     useEffect(() => {
         getAll(currentPage);
     }, [allTeachers?.length]);
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
+        <Helmet>
+            <title>Teacher - Sky Online Acadimy</title>
+        </Helmet>
         <div className="container py-5">
-        <ToastContainer />
+            <ToastContainer />
 
-        {isLoading ? <div className=" position-fixed start-50 text-light top-50  p-3" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)' }}>
+            {isLoading ? <div className=" position-fixed start-50 text-light top-50  p-3" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)' }}>
                 <i className="fa fa-spin fa-spinner h3"></i>
             </div> : ""}
             <div className="row g-2">
                 {allTeachers?.length > 0 ? allTeachers.map((item, index) => <div key={index} className="col-md-4 col-lg-3">
                     <div className="border border-1 border-muted py-4 px-3 text-center">
                         {/* if not image in api  */}
-                        <img src={item?.profileImage ? item?.profileImage?.secure_url : item.gender ==="male" ? mr :mrs  } style={{width: "100px" ,height:" 100px"}} className="  rounded-circle " alt={item.fullName} />
+                        <img src={item?.profileImage ? item?.profileImage?.secure_url : item.gender === "male" ? mr : mrs} style={{ width: "100px", height: " 100px" }} className="  rounded-circle " alt={item.fullName} />
                         <p className="text-muted fw-bold my-3"> {item.fullName} </p>
                         <Link to={`/teacher/${item._id} `} className={`w-100 rounded-2 py-2 text-white ${style.btnOrange} border-0 small nav-link`}>ملف المعلم</Link>
                     </div>
@@ -93,9 +100,9 @@ export default function Teachers() {
                     </div>
                 </div>)}
             </div>
-            
-               {/* pagination */}
-               {totalPages > 1 ? <div className=' p-2 my-5 text-center align-items-center d-flex justify-content-center'>
+
+            {/* pagination */}
+            {totalPages > 1 ? <div className=' p-2 my-5 text-center align-items-center d-flex justify-content-center'>
                 <button onClick={prePage} className='btn btn-primary mx-2' disabled={currentPage === 1} >
                     السابق
                 </button>

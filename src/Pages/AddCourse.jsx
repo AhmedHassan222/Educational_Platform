@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from "react-helmet";
 export default function AddCourse() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const navigate = useNavigate();
@@ -34,6 +35,7 @@ export default function AddCourse() {
     };
     // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
+        window.scroll(0, 0)
         getAllsubCategoryies(); // Only call this once when the component mounts
     }, []);
     // HANDLE SUBMIT FORM >>
@@ -84,6 +86,9 @@ export default function AddCourse() {
     }
     // RENDER HTML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
+        <Helmet>
+            <title>Add Course - Sky Online Acadimy</title>
+        </Helmet>
         <div className="container py-5">
             <ToastContainer />
             <div className="text-center rounded-4  border-1 widthCustom mx-auto">

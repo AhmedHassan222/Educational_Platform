@@ -5,6 +5,7 @@ import style from "../../src/Styles/Auth.module.css"
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from 'react-helmet';
 export default function AddAssign() {
     // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const formData = new FormData();
@@ -27,6 +28,9 @@ export default function AddAssign() {
     useEffect(() => {
         getAllLecture()
     }, [AllLectures])
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
     // FUNCTION HANDLE IMAGE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const handleImageChange = (e) => {
         const file = Array.from(e.target.files)[0];
@@ -75,47 +79,44 @@ export default function AddAssign() {
             if (error.response.data.Error === 'wrong  token') {
                 Cookies.remove('token');
                 navigate('/login')
-            } 
-            if(error.response.data.Error === "In-valid extintions ")
-                {
-                   toast.error(" امتداد الملف غير صحيح", {
-                       position: "top-center",
-                       autoClose: 3000,
-                       hideProgressBar: false,
-                       closeOnClick: true,
-                       pauseOnHover: true,
-                       draggable: true,
-                       progress: undefined,
-                       theme: "light",
-                   });
-                }
-            if(error.response.data.message === "Validation Error")
-                   {
-                      toast.error("اتبع التعلميات", {
-                          position: "top-center",
-                          autoClose: 3000,
-                          hideProgressBar: false,
-                          closeOnClick: true,
-                          pauseOnHover: true,
-                          draggable: true,
-                          progress: undefined,
-                          theme: "light",
-                      });
-                    }
-                    
-            if(error.response.data.Error === "invalid course id ")
-                   {
-                      toast.error("لا يمكن اضافة ملف لهذا المحاضرة", {
-                          position: "top-center",
-                          autoClose: 3000,
-                          hideProgressBar: false,
-                          closeOnClick: true,
-                          pauseOnHover: true,
-                          draggable: true,
-                          progress: undefined,
-                          theme: "light",
-                      });
-                    }
+            }
+            if (error.response.data.Error === "In-valid extintions ") {
+                toast.error(" امتداد الملف غير صحيح", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
+            if (error.response.data.message === "Validation Error") {
+                toast.error("اتبع التعلميات", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
+
+            if (error.response.data.Error === "invalid course id ") {
+                toast.error("لا يمكن اضافة ملف لهذا المحاضرة", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
 
         }
     }
@@ -127,6 +128,9 @@ export default function AddAssign() {
     };
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
+        <Helmet>
+            <title>Add Assignment - Sky Online Acadimy</title>
+        </Helmet>
         <div className="container py-5">
             <ToastContainer />
             <div className="text-center rounded-4  border-1 widthCustom mx-auto">
