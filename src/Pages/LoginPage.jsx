@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../Styles/index.css";
 import style from "../../src/Styles/Auth.module.css";
@@ -9,8 +9,10 @@ import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { toast, ToastContainer } from "react-toastify";
 import { Helmet } from "react-helmet";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function LoginPage() {
   //Variables here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
+  const {  baseURL} = useContext(SharedDataContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState([]);
@@ -43,7 +45,7 @@ export default function LoginPage() {
   async function sendApi() {
     setIsloading(true);
     try {
-      const response = await axios.post(`https://education-platform-vert-two.vercel.app/auth/signin`, formData);
+      const response = await axios.post(`${baseURL}/auth/signin`, formData);
       if (response.data.message === "login success") {
         setIsloading(false);
         const { token } = response.data;

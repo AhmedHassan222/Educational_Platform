@@ -1,32 +1,27 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import moment from 'moment';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from "react-helmet";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function GetAllCategories() {
   // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  const arr = [1, 2, 3, 4];
-  const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
-  const baseURL = `https://education-platform-vert-two.vercel.app`;
+  const { grade, arr, baseURL } = useContext(SharedDataContext);
   const [categories, setcategories] = useState([]);
   const [isLoading, setIsloading] = useState(false);
   const navigate = useNavigate();
-  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  // FUNCTION GET ALL CATEGORIES >>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  async function getAll() {
-    const { data } = await axios.get(`${baseURL}/category`);
-    setcategories(data.categories);
-  }
   // USEEFFECT 
   useEffect(() => {
+    async function getAll() {
+      const { data } = await axios.get(`${baseURL}/category`);
+      setcategories(data.categories);
+    }
     getAll();
   }, [categories]);
-  useEffect(() => {
-    window.scroll(0, 0)
-  }, [])
+
   // FUNCTION DELETE CATEGORY >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   async function deleteItem(id) {
     setIsloading(true)

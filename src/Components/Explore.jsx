@@ -1,17 +1,16 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
+
 export default function Explore() {
+    const { stage, grade, baseURL, arr } = useContext(SharedDataContext);
     const [subcategories, setsubcategories] = useState([]);
-    const baseURL = `https://education-platform-vert-two.vercel.app`;
-    const arr = [1, 2, 3]
-    let stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
-    let grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي", };
-    async function getAll() {
-        const { data } = await axios.get(`${baseURL}/subcategory`);
-        setsubcategories(data.Subcategories);
-    }
     useEffect(() => {
-        getAll()
+        async function getAll() {
+            const { data } = await axios.get(`${baseURL}/subcategory`);
+            setsubcategories(data.Subcategories);
+        }
+        getAll();
     }, [subcategories?.length])
     return <>
         <section className="my-5 py-5 text-center">

@@ -1,14 +1,14 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Cookies from "js-cookie";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { SharedDataContext } from '../Contexts/SharedDataContext';
 export default function AllAssignment() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    let arr = [1, 2, 3, 4];
-    const baseURL = `https://education-platform-vert-two.vercel.app`;
+    const { arr, baseURL } = useContext(SharedDataContext);
     const [tasks, settasks] = useState([]);
     let navagite = useNavigate();
     const [isLoading, setIsloading] = useState(false);
@@ -29,17 +29,6 @@ export default function AllAssignment() {
         if (currentPage > 1) {
             setCurrentPage(currentPage - 1);
             setIsloading(false)
-        }
-    }
-    // GET ALL COURSES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    async function getAllAssignment(page) {
-        const { data } = await axios.get(`${baseURL}/assignment?page=${page}`);
-        if (data && data.paginationInfo) {
-            settasks(data.data)
-            setTotalPages(data.paginationInfo.totalPages || 1); // Default to 1 if undefined
-        } else {
-            settasks([])
-            setTotalPages(1);
         }
     }
     // DELETE COURSE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -76,11 +65,20 @@ export default function AllAssignment() {
     }
     // USE EFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
+        // GET ALL COURSES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        async function getAllAssignment(page) {
+            const { data } = await axios.get(`${baseURL}/assignment?page=${page}`);
+            if (data && data.paginationInfo) {
+                settasks(data.data)
+                setTotalPages(data.paginationInfo.totalPages || 1); // Default to 1 if undefined
+            } else {
+                settasks([])
+                setTotalPages(1);
+            }
+        }
         getAllAssignment(currentPage)
     }, [tasks]);
-    useEffect(() => {
-        window.scroll(0, 0)
-    }, [])
+
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
         <Helmet>

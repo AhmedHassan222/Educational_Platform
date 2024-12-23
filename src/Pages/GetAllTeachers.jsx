@@ -1,18 +1,17 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function GetAllTeachers() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    const { stage, arr, baseURL } = useContext(SharedDataContext);
     const navigate = useNavigate();
     const [isLoading, setIsloading] = useState(false);
-    const stage = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
-    const baseURL = `https://education-platform-vert-two.vercel.app`;
     const [allTeachers, setallTeachers] = useState([]);
-    const arr = [1, 2, 3, 4];
     const [totalPages, setTotalPages] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
     // FUNCTIONS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -91,24 +90,21 @@ export default function GetAllTeachers() {
             setIsloading(false)
         }
     }
-    // GET ALL >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    async function getAll(page) {
-        const { data } = await axios.get(`${baseURL}/auth/teachers?page=${page}`);
-        if (data && data.paginationInfo) {
-            setallTeachers(data.data)
-            setTotalPages(data.paginationInfo.totalPages || 1); // Default to 1 if undefined
-        } else {
-            setallTeachers([])
-            setTotalPages(1);
-        }
-    }
     // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
+        async function getAll(page) {
+            const { data } = await axios.get(`${baseURL}/auth/teachers?page=${page}`);
+            if (data && data.paginationInfo) {
+                setallTeachers(data.data)
+                setTotalPages(data.paginationInfo.totalPages || 1); // Default to 1 if undefined
+            } else {
+                setallTeachers([])
+                setTotalPages(1);
+            }
+        }
         getAll(currentPage);
     }, [allTeachers]);
-    useEffect(() => {
-        window.scroll(0, 0)
-    }, [])
+
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
         <Helmet>

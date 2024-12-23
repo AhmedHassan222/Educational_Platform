@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import style from "../../src/Styles/Auth.module.css";
 import axios from "axios";
 import Cookies from 'js-cookie';
@@ -6,30 +6,27 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from "react-helmet";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function GenerateCode() {
   // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
-  const stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
+  const { stage, grade, baseURL } = useContext(SharedDataContext);
   const [formData, setFormData] = useState({ numberOfCodes: "", fromDate: "", toDate: "" });
   const [Isloading, setIsloading] = useState(false);
   const [Courses, setCourses] = useState([]);
   const [courseId, setcourseId] = useState(null);
-  const baseURL = `https://education-platform-vert-two.vercel.app`;
   let navigate = useNavigate()
   const [isSubmit, setIsSubmit] = useState(false);
   // FUNCTIONS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   // FUNCTION GET ALL >>>>>>>>>>>>>>>>>>>>>>>>>
-  async function getAll() {
-    const { data } = await axios.get(`${baseURL}/course`);
-    setCourses(data.data)
-  }
   // USEEFFECT
   useEffect(() => {
+    async function getAll() {
+      const { data } = await axios.get(`${baseURL}/course`);
+      setCourses(data.data)
+    }
     getAll();
   }, [Courses?.length])
-  useEffect(() => {
-    window.scroll(0, 0)
-  }, [])
+
   // FUNCTION HANDLE OBJECT >>>>>>>>>>>>>>>>>>>>>>>>
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -1,17 +1,18 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import style from "../../src/Styles/Auth.module.css"
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from "react-helmet";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function UpdateCourse() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    const {  baseURL} = useContext(SharedDataContext);
     const { id, nameCourse } = useParams()
     let navagite = useNavigate()
     const formData = new FormData();
-    const baseURL = `https://education-platform-vert-two.vercel.app`;
     const [Isloading, setIsloading] = useState(false);
     const [image, setImage] = useState(null);
     const [name, setName] = useState(nameCourse);

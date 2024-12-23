@@ -1,21 +1,19 @@
 
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from "react-helmet";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function GetAllCources() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    let arr = [1, 2, 3, 4];
+    const { stage, grade, arr, baseURL } = useContext(SharedDataContext);
     const navigate = useNavigate();
-    const baseURL = `https://education-platform-vert-two.vercel.app`;
     const [Courses, setCourses] = useState([]);
-    const stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
     const [isLoading, setIsloading] = useState(false);
-    const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
     const [totalPages, setTotalPages] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
     // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -35,16 +33,6 @@ export default function GetAllCources() {
         }
     }
     // GET ALL COURSES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    async function getAll(page) {
-        const { data } = await axios.get(`${baseURL}/course?page=${page}`);
-        if (data && data.paginationInfo) {
-            setCourses(data.data)
-            setTotalPages(data.paginationInfo.totalPages || 1); // Default to 1 if undefined
-        } else {
-            setCourses([])
-            setTotalPages(1);
-        }
-    }
     // DELETE COURSE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function deleteItem(id) {
         setIsloading(true);
@@ -92,11 +80,19 @@ export default function GetAllCources() {
     }
     // USE EFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
+        async function getAll(page) {
+            const { data } = await axios.get(`${baseURL}/course?page=${page}`);
+            if (data && data.paginationInfo) {
+                setCourses(data.data)
+                setTotalPages(data.paginationInfo.totalPages || 1); // Default to 1 if undefined
+            } else {
+                setCourses([])
+                setTotalPages(1);
+            }
+        }
         getAll(currentPage)
     }, [Courses]);
-    useEffect(() => {
-        window.scroll(0, 0)
-    }, [])
+
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return (
         <>

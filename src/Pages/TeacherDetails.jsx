@@ -2,19 +2,20 @@ import { useParams } from "react-router-dom"
 import mr from "../../src/Assets/Images/SVG_Images/male-avatar-boy-face-man-user-6-svgrepo-com.svg"
 import mrs from "../../src/Assets/Images/SVG_Images/female-avatar-girl-face-woman-user-3-svgrepo-com.svg"
 import fakeImage from "../../src/Assets/Images/fakeImage.png"
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from "react-helmet";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
+import moment from "moment";
 export default function TeacherDetails() {
     // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    const {baseURL } = useContext(SharedDataContext);
+    const arr  = [1]
     const { id } = useParams();
-    const arr = [1]
-    const baseURL = `https://education-platform-vert-two.vercel.app`;
     const [teacherDetails, setteacherDetails] = useState([]);
     const [Courses, setCourses] = useState([]);
-    const stage = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
     // FUNCTION GET TEACHER BY ID >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function getteacherDetailsById() {
         const { data } = await axios.get(`${baseURL}/auth/teachers?_id=${id}`);
@@ -56,8 +57,7 @@ export default function TeacherDetails() {
                 {teacherDetails?.length > 0 ? teacherDetails.map((item, index) => <div key={index} className="col-sm-12 col-md-6 col-lg-4">
                     <div className="text-center rounded-5 border-1 border border-muted p-5">
                         <img src={item?.profileImage ? item?.profileImage?.secure_url : item.gender === "male" ? mr : mrs} className="w-25  rounded-circle " alt={item.fullName} />
-                        <p className="bg-light  my-4" > {item.courseId?.name ? item.courseId.name : "لا يوجد"}  </p>
-                        <h3 > {item.fullName} </h3>
+                        <h3 className="mt-4"> {item.fullName} </h3>
                         <p className="text-muted fs-6">
                             روابط التواصل
                         </p>

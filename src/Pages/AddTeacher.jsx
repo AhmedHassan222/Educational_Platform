@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import style from "../../src/Styles/Auth.module.css";
@@ -8,13 +8,12 @@ import Joi from "joi";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from "react-helmet";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function AddTeacher() {
     //Variables here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
+    const { baseURL } = useContext(SharedDataContext);
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-        fullName: "", email: "", password: "", repassword: "",
-        stage: "", phoneNumber: "", gender: "", subjecTeacher: ""
-    });
+    const [formData, setFormData] = useState({ fullName: "", email: "", password: "", repassword: "", stage: "", phoneNumber: "", gender: "", subjecTeacher: "" });
     const [error, setError] = useState([]);
     const [Isloading, setIsloading] = useState(false);
     const [inputType, setInputType] = useState('password');
@@ -23,7 +22,6 @@ export default function AddTeacher() {
     const [showrePassword, setShowrePassword] = useState(false);
     const [Courses, setCourses] = useState([]);
     const [CoursesId, setCoursesId] = useState("");
-    const baseURL = `https://education-platform-vert-two.vercel.app`;
     // FUNCTION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     // FUNCTION SHOW AND HIDDEN PASSWORD
     const togglePasswordVisibility = () => {
@@ -35,17 +33,14 @@ export default function AddTeacher() {
         setInputType2(inputType2 === 'password' ? 'text' : 'password');
     };
     // ==============================================================
-    async function getAll() {
-        const { data } = await axios.get(`${baseURL}/course`);
-        setCourses(data.data)
-    }
     // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
+        async function getAll() {
+            const { data } = await axios.get(`${baseURL}/course`);
+            setCourses(data.data)
+        }
         getAll();
     }, [Courses?.length]);
-    useEffect(() => {
-        window.scroll(0, 0)
-    }, [])
     //function HANDLE OBJECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const handleChange = (e) => {
         const _formData = { ...formData };

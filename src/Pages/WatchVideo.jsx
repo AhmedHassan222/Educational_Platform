@@ -1,19 +1,18 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import CryptoJS from "crypto-js";
 import style from "../../src/Styles/Auth.module.css";
 import fakeImage from "../../src/Assets/Images/fakeImage.png";
 import { ToastContainer, toast } from 'react-toastify';
 import { Helmet } from "react-helmet";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function WatchVideo() {
   // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  const { stage, grade, baseURL } = useContext(SharedDataContext);
   const [lectures, setlectures] = useState([]);
   const [tasks, settasks] = useState([]);
-  const baseURL = `https://education-platform-vert-two.vercel.app`;
   const { id } = useParams();
-  const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
-  const stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
   const decryptVideoURL = (encryptedURL) => {
     const bytes = CryptoJS.AES.decrypt(encryptedURL, "Gl?11£5R8:5z£-%");
     return bytes.toString(CryptoJS.enc.Utf8);

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import style from "../../src/Styles/Auth.module.css";
 import Cookies from 'js-cookie';
 import axios from "axios";
@@ -6,12 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from "react-helmet";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function AddCourse() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    const { stage, grade, baseURL } = useContext(SharedDataContext);
     const navigate = useNavigate();
-    const baseURL = `https://education-platform-vert-two.vercel.app`;
-    const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
-    const stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
     const [name, setName] = useState("");
     const [image, setImage] = useState(null);
     const [Isloading, setIsloading] = useState(false);
@@ -28,14 +27,12 @@ export default function AddCourse() {
         const file = Array.from(e.target.files)[0];
         setImage(file);
     };
-    // GET ALL SUB CATEGORIES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    const getAllsubCategoryies = async () => {
-        const { data } = await axios.get(`${baseURL}/subcategory`);
-        setsubCategoryies(data.Subcategories);
-    };
     // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
-        window.scroll(0, 0)
+        const getAllsubCategoryies = async () => {
+            const { data } = await axios.get(`${baseURL}/subcategory`);
+            setsubCategoryies(data.Subcategories);
+        };
         getAllsubCategoryies(); // Only call this once when the component mounts
     }, []);
     // HANDLE SUBMIT FORM >>

@@ -1,41 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import fakeImage from "../../src/Assets/Images/fakeImage.png";
 import { Link, useParams } from "react-router-dom";
 import style from "../../src/Styles/Auth.module.css";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import { Helmet } from "react-helmet";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function Lectures() {
   // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  let arr = [1, 2, 3];
-  let { id } = useParams();
-  const baseURL = `https://education-platform-vert-two.vercel.app`;
+  const { arr, baseURL } = useContext(SharedDataContext);
   const [lectures, setlectures] = useState([]);
-  // GET ALL >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  async function getAll() {
-    try {
-      const { data } = await axios.get(`${baseURL}/lecture?courseId=${id}`);
-      setlectures(data.data);
-    } catch (error) {
-      toast.error(" هناك مشكلةة في عرض المحاضرات   ", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-  }
+  let { id } = useParams();
   // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>
   useEffect(() => {
+    async function getAll() {
+      try {
+        const { data } = await axios.get(`${baseURL}/lecture?courseId=${id}`);
+        setlectures(data.data);
+      } catch (error) {
+        toast.error(" هناك مشكلةة في عرض المحاضرات   ", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }
     getAll();
   }, [lectures?.length]);
-  useEffect(() => {
-    window.scroll(0, 0)
-  }, [])
+
   // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   return (
     <>

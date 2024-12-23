@@ -3,7 +3,7 @@ import Styles from "../Styles/Profile.module.css";
 import style from "../../src/Styles/Auth.module.css";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import fakeImage from "../../src/Assets/Images/fakeImage.png";
@@ -11,8 +11,10 @@ import Joi from "joi";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from "react-helmet";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function Profile() {
   // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  const { stage, grade , baseURL} =useContext(SharedDataContext);
   const navagite = useNavigate();
   const [userDetails, setuserDetails] = useState([]);
   const [role, setrole] = useState("");
@@ -21,14 +23,11 @@ export default function Profile() {
   const formData = new FormData();
   const [image, setImage] = useState(null);
   const [Isloading, setIsloading] = useState(false);
-  const baseURL = `https://education-platform-vert-two.vercel.app`;
   const validExtensions = ["image/png", "image/jpeg", "image/gif"];
   const [addImageForm, setAddImageForm] = useState(false);
   const [updaetForm, setUpdateForm] = useState(false);
   const [updateObject, setUpdateObject] = useState({ fullName: "", grade: "", stage: "", phoneNumber: "", });
   const [error, setError] = useState([]);
-  const stageArabic = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس", };
-  const gradeArabic = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي", };
   const [passwordFrom, setPasswordForm] = useState(false);
   const [inputType, setInputType] = useState("password");
   const [showPassword, setShowPassword] = useState(false);
@@ -338,7 +337,7 @@ export default function Profile() {
             </div>
             <div className=" mb-4">
               <label className="w-100 small text-end" htmlFor="grade">
-                {stageArabic[userDetails[0]?.grade]}
+                {stage[userDetails[0]?.grade]}
               </label>
               <select
                 className="w-100 p-2 text-muted small"
@@ -355,7 +354,7 @@ export default function Profile() {
             </div>
             <div className=" mb-4">
               <label className="w-100 small text-end" htmlFor="stage">
-                {gradeArabic[userDetails[0]?.stage]}
+                {grade[userDetails[0]?.stage]}
               </label>
               <select
                 className="w-100 p-2 text-muted small"
@@ -602,8 +601,8 @@ export default function Profile() {
                   <div className="">
                     <p className="text-muted h5"> الصف الدراسي</p>
                     <p>
-                      {stageArabic[userDetails[0].grade]}{" "}
-                      {gradeArabic[userDetails[0].stage]}
+                      {stage[userDetails[0].grade]}{" "}
+                      {grade[userDetails[0].stage]}
                     </p>
                   </div>
                 </div>

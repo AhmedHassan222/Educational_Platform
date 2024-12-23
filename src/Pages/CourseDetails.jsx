@@ -1,49 +1,32 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import style from "../../src/Styles/CourseDetails.module.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import fakeImage from "../../src/Assets/Images/fakeImage.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Helmet } from "react-helmet";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function CourceDetails() {
   // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  const { stage, grade, baseURL } = useContext(SharedDataContext);
   let navigate = useNavigate();
   const [course, setCourse] = useState([]);
-  const baseURL = `https://education-platform-vert-two.vercel.app`;
   const { id } = useParams();
-  const stage = {
-    first: "الصف الاول",
-    second: " الصف الثاني",
-    third: "الصف الثالث",
-    fourth: "الصف الرابع",
-    fifth: "الصف الخامس",
-    sixth: "الصف السادس",
-  };
-  const grade = {
-    primary: "الابتدائي",
-    preparatory: "الاعدادي ",
-    secondary: "الثانوي",
-  };
   const [errorForm, seterrorForm] = useState("");
   const [dataAdded, setDataAdded] = useState({ code: "" });
   const [isSubmit, setIsSubmit] = useState(false);
   const [isLoading, setIsloading] = useState(false);
   const [openForm, setOpenForm] = useState(false);
-  // FUNCTIONS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  // FUNCTION GET COURSE BY ID >>>>>>>>>>>>>>>>>>>>>>>
-  async function getCourseById() {
-    const { data } = await axios.get(`${baseURL}/course?_id=${id}`);
-    setCourse(data.data);
-  }
   // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   useEffect(() => {
+    async function getCourseById() {
+      const { data } = await axios.get(`${baseURL}/course?_id=${id}`);
+      setCourse(data.data);
+    }
     getCourseById();
   }, [course?.length]);
-  useEffect(() => {
-    window.scroll(0, 0)
-  }, [])
   // FUCNTION JOIN COURSE  >>>>>>>>>>>>>>>>>>>>>>>>>>>>
   async function joinCourse(e) {
     e.preventDefault();
@@ -62,7 +45,7 @@ export default function CourceDetails() {
     } catch (error) {
       console.log(error);
       setIsloading(false);
-      // seterrorForm(error.message);
+      seterrorForm(error.message);
       if (error.response.data.Error === "Invalid or expired code") {
         toast.error(" الكود غير صحيح  ", {
           position: "top-center",

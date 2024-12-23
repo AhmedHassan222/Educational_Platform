@@ -1,11 +1,8 @@
 import { Link } from "react-router-dom";
 import style from "../../src/Styles/Teacher.module.css"
-import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 export default function NotfoundPage() {
-    useEffect(() => {
-        window.scroll(0, 0)
-    }, [])
+
     return <>
         <Helmet>
             <title>404 - Notfound - Sky Online Acadimy</title>

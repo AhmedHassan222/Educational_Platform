@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import style from "../../src/Styles/Auth.module.css";
 import logo from "../../src/Assets/Images/logo.png";
@@ -7,8 +7,10 @@ import axios from "axios";
 import Joi from "joi";
 import { toast, ToastContainer } from "react-toastify";
 import { Helmet } from "react-helmet";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function Register() {
     //Variables here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
+    const { baseURL} = useContext(SharedDataContext);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({ fullName: "", email: "", password: "", repassword: "", gender: "", grade: "", stage: "", phoneNumber: "", parentsPhoneNumber: "" });
     const [error, setError] = useState([]);
@@ -60,7 +62,7 @@ export default function Register() {
         setIsloading(true)
         formData.phoneNumber = `+2${formData.phoneNumber}`
         formData.parentsPhoneNumber = `+2${formData.parentsPhoneNumber}`
-        await axios.post(`https://education-platform-vert-two.vercel.app/auth/signup`, formData)
+        await axios.post(`${baseURL}/auth/signup`, formData)
 
             .then((response) => {
                 console.log("respone ===>", response)

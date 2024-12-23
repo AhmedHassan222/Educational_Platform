@@ -1,20 +1,20 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import moment from "moment";
 import Cookies from 'js-cookie';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from 'react-helmet';
+import { SharedDataContext } from '../Contexts/SharedDataContext';
 export default function GetAllVideos() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    const baseURL = `https://education-platform-vert-two.vercel.app`;
+    const { arr , baseURL} = useContext(SharedDataContext);
     const [lectures, setlectures] = useState([]);
     const [isLoading, setIsloading] = useState(false);
     const navigate = useNavigate();
     const [totalPages, setTotalPages] = useState();
     const [currentPage, setCurrentPage] = useState(1);
-    let arr = [1, 2, 3, 4];
     // FUNCTIONS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     // FUNCTION DELETE ITEM >>>>>>>>>>>>>>>>>>>>
     async function deleteItem(id) {
@@ -79,6 +79,7 @@ export default function GetAllVideos() {
         }
     }
     // FUNCTION GET ALL LECTURE >>>>>>>>>>>
+    // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>
     const getAllLecture = async (page) => {
         try {
             setIsloading(true)
@@ -106,14 +107,10 @@ export default function GetAllVideos() {
             });
         }
     }
-    // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
-        window.scroll(0, 0)
         getAllLecture(currentPage)
     }, [lectures?.length])
-    useEffect(() => {
-        window.scroll(0, 0)
-    }, [])
+
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
         <Helmet>

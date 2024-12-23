@@ -1,27 +1,21 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from "react-helmet";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function GetAllSubCategory() {
   // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  let arr = [1, 2, 3, 4];
+  const { stage, grade, arr, baseURL } = useContext(SharedDataContext);
   const navigate = useNavigate();
-  const baseURL = `https://education-platform-vert-two.vercel.app`;
   const [supCategories, setsupCategories] = useState([]);
-  let stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
-  let grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
   const [isLoading, setIsloading] = useState(false);
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   // FUNCTION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   // GET ALL  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  async function getAll() {
-    const { data } = await axios.get(`${baseURL}/subcategory/`);
-    setsupCategories(data.Subcategories)
-  }
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   // DELETE ITEM >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   async function deleteItem(id) {
@@ -80,11 +74,13 @@ export default function GetAllSubCategory() {
   }
   // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   useEffect(() => {
+    async function getAll() {
+      const { data } = await axios.get(`${baseURL}/subcategory/`);
+      setsupCategories(data.Subcategories)
+    }
     getAll();
   }, [supCategories]);
-  useEffect(() => {
-    window.scroll(0, 0)
-  }, [])
+
   // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   return (
     <>

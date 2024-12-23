@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import style from "../../src/Styles/Auth.module.css"
 import Cookies from 'js-cookie';
 import axios from "axios";
@@ -6,25 +6,22 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from "react-helmet";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function AddSubCategory() {
   // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  const { grade, baseURL } = useContext(SharedDataContext);
   const [categoryId, setCategoryId] = useState(null)
   const [categories, setcategories] = useState([]);
   const [isSubmit, setIsSubmit] = useState(false);
-  const grade = { primary: "الابتدائية", preparatory: "الاعدادية ", secondary: "الثانوية", };
   const [dataAdded, setdataAdded] = useState({ name: "" });
   const [Isloading, setIsloading] = useState(false);
-  const baseURL = `https://education-platform-vert-two.vercel.app`;
   const navigate = useNavigate()
-  // FUNCTION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  // FUNCTION GET ALL CATEGORIES
-  async function getAllCategories() {
-    const { data } = await axios.get(`${baseURL}/category`);
-    setcategories(data.categories);
-  }
   // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   useEffect(() => {
-    window.scroll(0, 0)
+    async function getAllCategories() {
+      const { data } = await axios.get(`${baseURL}/category`);
+      setcategories(data.categories);
+    }
     getAllCategories(); // Only call this once when the component mounts
   }, []);
   // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

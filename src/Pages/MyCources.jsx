@@ -3,25 +3,21 @@ import { useContext, useEffect } from 'react';
 import { MyCoursesContext } from '../Contexts/MyCoursesContext';
 import fakeImage from "../../src/Assets/Images/fakeImage.png"
 import { Helmet } from 'react-helmet';
+import { SharedDataContext } from '../Contexts/SharedDataContext';
 export default function MyCources() {
-    const arr = [1, 2, 3, 4, 5, 6, 7, 8]
+    const {  arr } = useContext(SharedDataContext);
     const { myCourse, getAllcoursesByUser, errorFromJoin, numberOfCourses } = useContext(MyCoursesContext)
     useEffect(() => {
-        window.scroll(0, 0)
         getAllcoursesByUser()
         localStorage.setItem('numberOfCourses', numberOfCourses)
     }, [myCourse?.length])
-    useEffect(() => {
-        window.scroll(0, 0)
-    }, [])
+    
     return <>
         <Helmet>
             <title>My Courses - Sky Online Acadimy</title>
         </Helmet>
         <section className="py-5 container ">
-            <div className=' py-5'>
-                {myCourse?.filter(course => course?.isPaid && course?.coursesIds !== null) ? 'لا يوجد كورسات مضافة حتي الان' : ''}
-            </div>
+            {numberOfCourses === 0 && <p className='py-4'>لا يوجد كورسات مضافة حتي الان</p>}
             <div className="row g-3 ">
                 {errorFromJoin ? <p className='py-2 text-danger'>لديك مشكلة</p> : ""}
                 {myCourse?.length > 0 ? myCourse?.filter(course => course?.isPaid && course?.coursesIds !== null).map((course, index) => course.coursesIds === null ? "" : <div key={index} className="col-6 col-sm-6 col-md-4 col-lg-3">

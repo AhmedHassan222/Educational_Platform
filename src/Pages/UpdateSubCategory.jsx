@@ -1,21 +1,21 @@
 import axios from "axios";
 import Joi from "joi";
-import React from "react";
+import React, { useContext } from "react";
 import Cookies from "js-cookie";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import style from "../../src/Styles/Auth.module.css"
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from "react-helmet";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function UpdatedSubCategory() {
+  const { stage, baseURL } = useContext(SharedDataContext);
   const { name, id } = useParams()
   let navagite = useNavigate()
-  const baseURL = `https://education-platform-vert-two.vercel.app`;
   const [Isloading, setIsloading] = useState(false);
   const [error, setError] = useState([]);
   const [updateSubCategory, setupdateSubCategory] = useState({ name: "" });
-  let stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
   // FUNCTION UPDATE SUBCATEGORY
   async function updateItem() {
     setIsloading(true)
@@ -94,10 +94,7 @@ export default function UpdatedSubCategory() {
       updateItem()
     }
   };
-  // useeffect 
-  useEffect(() => {
-    window.scroll(0, 0)
-  }, [])
+
   // render 
   return <>
     <Helmet>

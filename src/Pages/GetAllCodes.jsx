@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import Cookies from "js-cookie";
 import style from "../../src/Styles/Auth.module.css";
 import { useReactToPrint } from "react-to-print";
@@ -7,14 +7,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function GetAllCodes() {
   // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  const {  baseURL} = useContext(SharedDataContext);
   const [codes, setcodes] = useState([]);
   const navigate = useNavigate();
-  const baseURL = `https://education-platform-vert-two.vercel.app`;
   const [isLoading, setIsloading] = useState(false);
   const printRef = useRef(); // the section you want to print.
-  let arr = [1, 2, 3, 4, 5]
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   async function deleteItem(id) {
@@ -102,9 +102,6 @@ export default function GetAllCodes() {
     getAll(currentPage);
     setIsloading(false)
   }, [codes]);
-  useEffect(() => {
-    window.scroll(0, 0)
-  }, [])
 
   return (
     <>

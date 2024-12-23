@@ -1,16 +1,17 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import Cookies from 'js-cookie';
 import style from "../../src/Styles/Auth.module.css"
 import { useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
+import { SharedDataContext } from '../Contexts/SharedDataContext';
 export default function UpdateAssignment() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    const {  baseURL} = useContext(SharedDataContext);
     const { id } = useParams()
     let navagite = useNavigate();
     const formData = new FormData();
-    const baseURL = `https://education-platform-vert-two.vercel.app`;
     const [Isloading, setIsloading] = useState(false);
     const [files, setfiles] = useState(null);
     const [isSubmit, setIsSubmit] = useState(false);
@@ -98,10 +99,7 @@ export default function UpdateAssignment() {
             [name]: value,
         })
     };
-    // useeffect 
-    useEffect(() => {
-        window.scroll(0, 0)
-    }, [])
+
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
         <Helmet>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import style from "../../src/Styles/Auth.module.css"
 import axios from "axios";
 import Cookies from 'js-cookie';
@@ -6,12 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from "react-helmet";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function AddVideo() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    const { stage, grade, baseURL } = useContext(SharedDataContext);
     let navigate = useNavigate();
-    const baseURL = `https://education-platform-vert-two.vercel.app`;
-    const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
-    const stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
     const [courseId, setcourseId] = useState(null);
     const [video, setvideo] = useState({ title: "", videoURL: "", });
     const [image, setImage] = useState(null);
@@ -20,20 +19,15 @@ export default function AddVideo() {
     const [isSubmit, setIsSubmit] = useState(false);
     const validExtensions = ["image/png", "image/jpeg", "image/gif"];
     const formData = new FormData();
-    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    // FUNCTIION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    // FUNCTION GET ALL COURSES >>>>>>>>>>>>>>>>>>>>>>>>>>
-    async function getAllCourses() {
-        const { data } = await axios.get(`${baseURL}/course`);
-        setCourses(data.data);
-    }
     // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
+        async function getAllCourses() {
+            const { data } = await axios.get(`${baseURL}/course`);
+            setCourses(data.data);
+        }
         getAllCourses()
     }, [courses])
-    useEffect(() => {
-        window.scroll(0, 0)
-    }, [])
+
     // FUNCTION HANDLE IMAGE >>>>>>>>>>>>>>>>>>>>>>>>>>>
     const handleImageChange = (e) => {
         const file = Array.from(e.target.files)[0];

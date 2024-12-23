@@ -7,15 +7,13 @@ import { FilterContext } from '../Contexts/FilterContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from 'react-helmet';
+import { SharedDataContext } from '../Contexts/SharedDataContext';
 export default function Cources() {
     // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    const arr = [1, 2, 3, 4, 5, 6]
-    const baseURL = `https://education-platform-vert-two.vercel.app`;
-    const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
-    const stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
+    const { stage, grade, arr , baseURL} = useContext(SharedDataContext);
     const [courses, setCourses] = useState([]);
     const [dispalyCourses, setDisplayCourses] = useState([]);
-    const { stageName, gradeFilterName, setStage, setGrade, error, filterCourses, setGradeName, setStageName, setWordSearch } = useContext(FilterContext);
+    const { stageName, gradeFilterName, setStage, setGrade, filterCourses, setGradeName, setStageName, setWordSearch } = useContext(FilterContext);
     const [isLoading, setIsloading] = useState(false);
     const [totalPages, setTotalPages] = useState();
     const [currentPage, setCurrentPage] = useState(1);
@@ -63,9 +61,6 @@ export default function Cources() {
     useEffect(() => {
         setDisplayCourses(filterCourses?.length > 0 ? filterCourses : courses)
     }, [filterCourses])
-    useEffect(() => {
-        window.scroll(0, 0)
-    }, [])
     // FUNCTION RESET FILTER >>>>>>>>>>>>>>>>>>>>>>>>>
     function resetFilter() {
         setGrade('');
@@ -96,9 +91,7 @@ export default function Cources() {
                                 <i onClick={() => { setStage(''); setStageName('') }} className='fa-solid fa-x '></i>
                             </div>
                         </div> : ''}
-                        < div className="text-start" >
-                            <span onClick={resetFilter} className={`mx-3 py-2 px-2 small text-danger`}> الغاء كل الفلاتر</span>
-                        </div >
+
                     </div> : ""}
                     <div className="row g-3 mt-1">
                         {dispalyCourses?.length > 0 ? dispalyCourses?.map((item, index) => <div key={index} className="col-6 col-sm-6 col-md-4">

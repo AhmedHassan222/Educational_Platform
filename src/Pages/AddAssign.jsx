@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import style from "../../src/Styles/Auth.module.css"
@@ -6,11 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from 'react-helmet';
+import { SharedDataContext } from '../Contexts/SharedDataContext';
 export default function AddAssign() {
     // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    const { baseURL } = useContext(SharedDataContext);
     const formData = new FormData();
     let navigate = useNavigate();
-    const baseURL = `https://education-platform-vert-two.vercel.app`;
     const [isSubmit, setIsSubmit] = useState(false);
     const [assign, setassign] = useState({ title: "", desc: "", });
     const [AllLectures, setAllLectures] = useState([]);
@@ -18,19 +19,15 @@ export default function AddAssign() {
     const [files, setfiles] = useState(null);
     const [lectureId, setlectureId] = useState(null);
     const validExtensions = ["application/pdf"];
-    // FUNCTIONS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    // FUNCTION GET ALL LECTURE
-    async function getAllLecture() {
-        const { data } = await axios.get(`${baseURL}/lecture?size=1000`);
-        setAllLectures(data.data);
-    }
     // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
+        async function getAllLecture() {
+            const { data } = await axios.get(`${baseURL}/lecture?size=1000`);
+            setAllLectures(data.data);
+        }
         getAllLecture()
     }, [AllLectures])
-    useEffect(() => {
-        window.scroll(0, 0)
-    }, [])
+
     // FUNCTION HANDLE IMAGE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const handleImageChange = (e) => {
         const file = Array.from(e.target.files)[0];

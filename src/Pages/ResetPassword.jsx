@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import "../Styles/index.css"
 import logo from "../../src/Assets/Images/logo.png"
 import { Link } from 'react-router-dom';
@@ -7,8 +7,10 @@ import axios from 'axios';
 import Joi from 'joi';
 import { ToastContainer, toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
+import { SharedDataContext } from '../Contexts/SharedDataContext';
 export default function ResetPassword() {
     // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    const {  baseURL} = useContext(SharedDataContext);
     const [formData, setFormData] = useState({ email: '' });
     const [resetPassUrl, setresetPassUrl] = useState("");
     const [newPasswordForm, setNewPasswordForm] = useState({ newPassword: '' });
@@ -18,7 +20,6 @@ export default function ResetPassword() {
     const [appear, setAppear] = useState(true)
     const [inputType, setInputType] = useState('password');
     const [showPassword, setShowPassword] = useState(false);
-    const baseURL = `https://education-platform-vert-two.vercel.app`;
     // FUCNTION TOGGEL PASSWORD VISIABILITY >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);

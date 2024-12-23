@@ -4,47 +4,19 @@ import mrs from "../../src/Assets/Images/SVG_Images/female-avatar-girl-face-woma
 import fakeImage from "../../src/Assets/Images/fakeImage.png"
 import style from "../../src/Styles/Teacher.module.css";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from "react-helmet";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function Teachers() {
     // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    const arr = [1, 2, 3, 4]
+    const {arr , baseURL}= useContext(SharedDataContext);
     const [isLoading, setIsloading] = useState(false);
-    const baseURL = `https://education-platform-vert-two.vercel.app`;
     const [allTeachers, setallTeachers] = useState([]);
     const [totalPages, setTotalPages] = useState();
     const [currentPage, setCurrentPage] = useState(1);
     // FUNCTION GET ALL TEACHERS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    async function getAll(page) {
-        setIsloading(true)
-        try {
-
-            const { data } = await axios.get(`${baseURL}/auth/teachers?page=${page}`);
-            setIsloading(false)
-            if (data && data.paginationInfo) {
-                setallTeachers(data.data)
-                setTotalPages(data.paginationInfo.totalPages || 1); // Default to 1 if undefined
-            } else {
-                setallTeachers([])
-                setTotalPages(1);
-            }
-        } catch (error) {
-            setIsloading(false)
-            toast.error(" يوجد مشكلة لديك", {
-                position: "top-center",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
-        }
-
-    }
     // PAGENATION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     function prePage() {
         setIsloading(true)
@@ -61,6 +33,31 @@ export default function Teachers() {
             getAll(currentPage + 1);
             setIsloading(false)
         }
+    }
+    async function getAll(page) {
+        try {
+
+            const { data } = await axios.get(`${baseURL}/auth/teachers?page=${page}`);
+            if (data && data.paginationInfo) {
+                setallTeachers(data.data)
+                setTotalPages(data.paginationInfo.totalPages || 1); // Default to 1 if undefined
+            } else {
+                setallTeachers([])
+                setTotalPages(1);
+            }
+        } catch (error) {
+            toast.error(" يوجد مشكلة لديك", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+
     }
     // USEEFFECT  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {

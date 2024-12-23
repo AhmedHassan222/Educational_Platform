@@ -7,19 +7,18 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function Swapper() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    const arr2 = [1, 2, 3, 4, 5, 6];
+    const {  arr, baseURL } = useContext(SharedDataContext);
     const [allTeachers, setallTeachers] = useState([]);
-    const baseURL = `https://education-platform-vert-two.vercel.app`;
-    // FUNCTIONS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    async function getAllTeachers() {
-        const { data } = await axios.get(`${baseURL}/auth/teachers?size=100`);
-        setallTeachers(data.data)
-    }
     // USEEFFECT  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
+        async function getAllTeachers() {
+            const { data } = await axios.get(`${baseURL}/auth/teachers?size=100`);
+            setallTeachers(data.data)
+        }
         getAllTeachers()
     }, [allTeachers.length])
     return <>
@@ -28,7 +27,7 @@ export default function Swapper() {
             <div className="container">
                 <div className="my-5">
                     <h3 className="mb-3 title">ﻧﺨﺒﺔ ﻣﻦ اﻓﻀﻞ المدرسين  </h3>
-                    <p className="subTitle fw-light"> 
+                    <p className="subTitle fw-light">
                         ﺗﻌﻠﻢ ﺑﺄﺣﺪث اﻟﻄﺮق ﻣﻦ ﺧﻠﺎل ﻣﻨﺼﺘﻨﺎ,ﻓﺄﻧﻨﺎن ﻧﻮﻓﺮ ﻟﻚ اﻟﻌﺪﻳﺪ ﻣﻦ اﻟﻜﻮرﺳﺎت
                         <br />
                         اﻟﺨﺎﺻﺔ ﺑجميع المراحل التعليمية , ﺑﺄﺣﺪث ﻃﺮق اﻟﻤﺘﺎﺑﻌﺔ واﻟﺘﻘﻴﻴﻢ..
@@ -61,16 +60,16 @@ export default function Swapper() {
                     {allTeachers?.length > 0 ? allTeachers.map((item, index) => (
                         <SwiperSlide key={index}>
                             <div className=" py-2 itemSlide">
-                                <img src={item?.profileImage ? item?.profileImage?.secure_url : item.gender === "male" ? mr : mrs} className="  rounded-circle " style={{width:'100px',height:'100px'}} alt={item.fullName} />
+                                <img src={item?.profileImage ? item?.profileImage?.secure_url : item.gender === "male" ? mr : mrs} className="  rounded-circle " style={{ width: '100px', height: '100px' }} alt={item.fullName} />
                                 <h4 className="my-4 h6">أ/  {item.fullName}</h4>
                                 <p className="my-4 small text-primary">
                                     <span className="bg-light text-black p-2 rounded">
-                                        {item?.courseId?.name ?item?.courseId?.name  :"لا يوجد" }
+                                        {item?.courseId?.name ? item?.courseId?.name : "لا يوجد"}
                                     </span>
                                 </p>
                             </div>
                         </SwiperSlide>
-                    )) : arr2.map((item, index) => (
+                    )) : arr.map((item, index) => (
                         <SwiperSlide key={index}>
                             <div className=" py-2 itemSlide card-text placeholder-glow">
                                 <img src={fakeImage} className="w-75   rounded-circle " alt="Loaing image" />

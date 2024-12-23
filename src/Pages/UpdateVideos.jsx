@@ -1,16 +1,17 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import style from "../../src/Styles/Auth.module.css"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from 'react-helmet';
+import { SharedDataContext } from '../Contexts/SharedDataContext';
 export default function UpdateVideos() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    const {  baseURL} = useContext(SharedDataContext);
     const { id, title } = useParams()
     let navagite = useNavigate();
-    const baseURL = `https://education-platform-vert-two.vercel.app`;
     const [Isloading, setIsloading] = useState(false);
     const [isSubmit, setIsSubmit] = useState(false);
     const [image, setImage] = useState(null);
