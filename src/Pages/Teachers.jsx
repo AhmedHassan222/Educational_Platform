@@ -73,12 +73,12 @@ export default function Teachers() {
         </Helmet>
         <div className="container py-5">
             <ToastContainer />
-
+            {allTeachers.filter(item => item.role === 'Teacher').length === 0 && <p>لا يوجد مدرسين</p>}
             {isLoading ? <div className=" position-fixed start-50 text-light top-50  p-3" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)' }}>
                 <i className="fa fa-spin fa-spinner h3"></i>
             </div> : ""}
             <div className="row g-2">
-                {allTeachers?.length > 0 ? allTeachers.map((item, index) => <div key={index} className="col-md-4 col-lg-3">
+                {allTeachers?.length > 0 ? allTeachers.filter(item => item.role === 'Teacher').map((item, index) => <div key={index} className="col-md-4 col-lg-3">
                     <div className="border border-1 border-muted py-4 px-3 text-center">
                         {/* if not image in api  */}
                         <img src={item?.profileImage ? item?.profileImage?.secure_url : item.gender === "male" ? mr : mrs} style={{ width: "100px", height: " 100px" }} className="  rounded-circle " alt={item.fullName} />
