@@ -9,7 +9,7 @@ export default function FilterContextProvide(props) {
     const [gradeFilterName, setGradeName] = useState('');
     const [stageName, setStageName] = useState('');
     const [error, setError] = useState('');
-    const baseURL = 'https://ahmed-shaltout-platform.up.railway.app';
+    const baseURL = 'https://education-platform-vert-two.vercel.app';
     async function search() {
         try {
             let queryParams = [];

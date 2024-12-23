@@ -10,7 +10,7 @@ export default function AddAssign() {
     // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const formData = new FormData();
     let navigate = useNavigate();
-    const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+    const baseURL = `https://education-platform-vert-two.vercel.app`;
     const [isSubmit, setIsSubmit] = useState(false);
     const [assign, setassign] = useState({ title: "", desc: "", });
     const [AllLectures, setAllLectures] = useState([]);

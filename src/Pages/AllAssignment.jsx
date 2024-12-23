@@ -8,7 +8,7 @@ import { Helmet } from 'react-helmet';
 export default function AllAssignment() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     let arr = [1, 2, 3, 4];
-    const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+    const baseURL = `https://education-platform-vert-two.vercel.app`;
     const [tasks, settasks] = useState([]);
     let navagite = useNavigate();
     const [isLoading, setIsloading] = useState(false);

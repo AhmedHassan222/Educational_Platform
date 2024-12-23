@@ -9,7 +9,7 @@ import { Helmet } from "react-helmet";
 export default function AddVideo() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     let navigate = useNavigate();
-    const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+    const baseURL = `https://education-platform-vert-two.vercel.app`;
     const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
     const stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
     const [courseId, setcourseId] = useState(null);

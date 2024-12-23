@@ -23,7 +23,7 @@ export default function AddTeacher() {
     const [showrePassword, setShowrePassword] = useState(false);
     const [Courses, setCourses] = useState([]);
     const [CoursesId, setCoursesId] = useState("");
-    const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+    const baseURL = `https://education-platform-vert-two.vercel.app`;
     // FUNCTION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     // FUNCTION SHOW AND HIDDEN PASSWORD
     const togglePasswordVisibility = () => {

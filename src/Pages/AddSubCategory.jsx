@@ -14,7 +14,7 @@ export default function AddSubCategory() {
   const grade = { primary: "الابتدائية", preparatory: "الاعدادية ", secondary: "الثانوية", };
   const [dataAdded, setdataAdded] = useState({ name: "" });
   const [Isloading, setIsloading] = useState(false);
-  const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+  const baseURL = `https://education-platform-vert-two.vercel.app`;
   const navigate = useNavigate()
   // FUNCTION >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   // FUNCTION GET ALL CATEGORIES

@@ -60,8 +60,10 @@ export default function Register() {
         setIsloading(true)
         formData.phoneNumber = `+2${formData.phoneNumber}`
         formData.parentsPhoneNumber = `+2${formData.parentsPhoneNumber}`
-        await axios.post(`https://ahmed-shaltout-platform.up.railway.app/auth/signup`, formData)
+        await axios.post(`https://education-platform-vert-two.vercel.app/auth/signup`, formData)
+
             .then((response) => {
+                console.log("respone ===>", response)
                 setIsloading(false)
                 if (response.data.message === "Sign up success please confirm email")
                     navigate('/login');

@@ -11,7 +11,7 @@ export default function GetAllCodes() {
   // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const [codes, setcodes] = useState([]);
   const navigate = useNavigate();
-  const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+  const baseURL = `https://education-platform-vert-two.vercel.app`;
   const [isLoading, setIsloading] = useState(false);
   const printRef = useRef(); // the section you want to print.
   let arr = [1, 2, 3, 4, 5]

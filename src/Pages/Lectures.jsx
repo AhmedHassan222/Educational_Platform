@@ -9,7 +9,7 @@ export default function Lectures() {
   // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   let arr = [1, 2, 3];
   let { id } = useParams();
-  const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+  const baseURL = `https://education-platform-vert-two.vercel.app`;
   const [lectures, setlectures] = useState([]);
   // GET ALL >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   async function getAll() {

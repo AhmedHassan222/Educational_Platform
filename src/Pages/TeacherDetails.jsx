@@ -11,7 +11,7 @@ export default function TeacherDetails() {
     // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const { id } = useParams();
     const arr = [1]
-    const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+    const baseURL = `https://education-platform-vert-two.vercel.app`;
     const [teacherDetails, setteacherDetails] = useState([]);
     const [Courses, setCourses] = useState([]);
     const stage = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
@@ -41,7 +41,6 @@ export default function TeacherDetails() {
     useEffect(() => {
         getteacherDetailsById();
         getAllCourses()
-        console.log(Courses.filter((item) => item?.teacher?.id == id))
     }, [teacherDetails?.length, Courses?.length])
     useEffect(() => {
         window.scroll(0, 0)

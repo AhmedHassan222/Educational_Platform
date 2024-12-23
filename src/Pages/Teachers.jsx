@@ -12,7 +12,7 @@ export default function Teachers() {
     // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const arr = [1, 2, 3, 4]
     const [isLoading, setIsloading] = useState(false);
-    const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+    const baseURL = `https://education-platform-vert-two.vercel.app`;
     const [allTeachers, setallTeachers] = useState([]);
     const [totalPages, setTotalPages] = useState();
     const [currentPage, setCurrentPage] = useState(1);

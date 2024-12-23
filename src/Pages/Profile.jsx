@@ -21,7 +21,7 @@ export default function Profile() {
   const formData = new FormData();
   const [image, setImage] = useState(null);
   const [Isloading, setIsloading] = useState(false);
-  const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+  const baseURL = `https://education-platform-vert-two.vercel.app`;
   const validExtensions = ["image/png", "image/jpeg", "image/gif"];
   const [addImageForm, setAddImageForm] = useState(false);
   const [updaetForm, setUpdateForm] = useState(false);
@@ -164,7 +164,7 @@ export default function Profile() {
   async function sendApi() {
     setIsloading(true);
     formData.phoneNumber = `+2${formData.phoneNumber}`;
-    await axios.patch(`https://ahmed-shaltout-platform.up.railway.app/auth/update?userId=${id}`, updateObject)
+    await axios.patch(`https://education-platform-vert-two.vercel.app/auth/update?userId=${id}`, updateObject)
       .then((res) => {
         setIsloading(false);
         if (res.data.message === "User updated successfully") {

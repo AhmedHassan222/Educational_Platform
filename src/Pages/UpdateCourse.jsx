@@ -11,7 +11,7 @@ export default function UpdateCourse() {
     const { id, nameCourse } = useParams()
     let navagite = useNavigate()
     const formData = new FormData();
-    const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+    const baseURL = `https://education-platform-vert-two.vercel.app`;
     const [Isloading, setIsloading] = useState(false);
     const [image, setImage] = useState(null);
     const [name, setName] = useState(nameCourse);

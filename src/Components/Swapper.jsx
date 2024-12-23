@@ -12,7 +12,7 @@ export default function Swapper() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const arr2 = [1, 2, 3, 4, 5, 6];
     const [allTeachers, setallTeachers] = useState([]);
-    const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+    const baseURL = `https://education-platform-vert-two.vercel.app`;
     // FUNCTIONS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     async function getAllTeachers() {
         const { data } = await axios.get(`${baseURL}/auth/teachers?size=100`);

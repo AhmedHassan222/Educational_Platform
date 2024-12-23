@@ -11,7 +11,7 @@ export default function UpdatedCategory() {
   // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const { id, name } = useParams()
   const navagite = useNavigate()
-  const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+  const baseURL = `https://education-platform-vert-two.vercel.app`;
   const [Isloading, setIsloading] = useState(false);
   const [updateCategory, setupdateCategory] = useState({ name: "" });
   const [isSubmit, setIsSubmit] = useState(false);

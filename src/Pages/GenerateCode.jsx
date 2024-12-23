@@ -14,7 +14,7 @@ export default function GenerateCode() {
   const [Isloading, setIsloading] = useState(false);
   const [Courses, setCourses] = useState([]);
   const [courseId, setcourseId] = useState(null);
-  const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+  const baseURL = `https://education-platform-vert-two.vercel.app`;
   let navigate = useNavigate()
   const [isSubmit, setIsSubmit] = useState(false);
   // FUNCTIONS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

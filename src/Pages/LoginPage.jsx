@@ -43,8 +43,7 @@ export default function LoginPage() {
   async function sendApi() {
     setIsloading(true);
     try {
-      const response = await axios.post(`https://ahmed-shaltout-platform.up.railway.app/auth/signin`, formData);
-
+      const response = await axios.post(`https://education-platform-vert-two.vercel.app/auth/signin`, formData);
       if (response.data.message === "login success") {
         setIsloading(false);
         const { token } = response.data;

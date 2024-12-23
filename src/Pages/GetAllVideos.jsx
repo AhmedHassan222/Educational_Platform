@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from 'react-helmet';
 export default function GetAllVideos() {
     // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+    const baseURL = `https://education-platform-vert-two.vercel.app`;
     const [lectures, setlectures] = useState([]);
     const [isLoading, setIsloading] = useState(false);
     const navigate = useNavigate();

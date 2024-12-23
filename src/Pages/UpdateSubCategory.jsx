@@ -11,7 +11,7 @@ import { Helmet } from "react-helmet";
 export default function UpdatedSubCategory() {
   const { name, id } = useParams()
   let navagite = useNavigate()
-  const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+  const baseURL = `https://education-platform-vert-two.vercel.app`;
   const [Isloading, setIsloading] = useState(false);
   const [error, setError] = useState([]);
   const [updateSubCategory, setupdateSubCategory] = useState({ name: "" });

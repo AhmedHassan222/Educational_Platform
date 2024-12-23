@@ -18,7 +18,7 @@ export default function ResetPassword() {
     const [appear, setAppear] = useState(true)
     const [inputType, setInputType] = useState('password');
     const [showPassword, setShowPassword] = useState(false);
-    const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+    const baseURL = `https://education-platform-vert-two.vercel.app`;
     // FUCNTION TOGGEL PASSWORD VISIABILITY >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);

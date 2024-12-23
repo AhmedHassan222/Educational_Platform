@@ -10,7 +10,7 @@ import { Helmet } from "react-helmet";
 export default function AddCategory() {
     // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     let navigate = useNavigate()
-    const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+    const baseURL = `https://education-platform-vert-two.vercel.app`;
     const [error, setError] = useState([]);
     const [dataAdded, setdataAdded] = useState({ name: "", });
     const [Isloading, setIsloading] = useState(false);

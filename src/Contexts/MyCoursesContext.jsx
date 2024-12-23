@@ -6,7 +6,7 @@ export let MyCoursesContext = createContext(0)
 export default function MyCoursesProvide(props) {
     const [myCourse, setmyCourse] = useState([])
     const [numberOfCourses, setNumberOfCourses] = useState(localStorage.getItem('numberOfCourses'))
-    const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+    const baseURL = `https://education-platform-vert-two.vercel.app`;
     const [errorFromJoin, setErrorFromJoin] = useState('');
     useEffect(() => {
         localStorage.setItem("numberOfCourses", numberOfCourses)

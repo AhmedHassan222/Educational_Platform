@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 export default function Explore() {
     const [subcategories, setsubcategories] = useState([]);
-    const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+    const baseURL = `https://education-platform-vert-two.vercel.app`;
     const arr = [1, 2, 3]
     let stage = { first: "الصف الاول", second: " الصف الثاني", third: "الصف الثالث", fourth: "الصف الرابع", fifth: "الصف الخامس", sixth: "الصف السادس" };
     let grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي", };

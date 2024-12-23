@@ -10,7 +10,7 @@ export default function GetAllCategories() {
   // VARIABLE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const arr = [1, 2, 3, 4];
   const grade = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
-  const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+  const baseURL = `https://education-platform-vert-two.vercel.app`;
   const [categories, setcategories] = useState([]);
   const [isLoading, setIsloading] = useState(false);
   const navigate = useNavigate();

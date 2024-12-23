@@ -10,7 +10,7 @@ export default function UpdateAssignment() {
     const { id } = useParams()
     let navagite = useNavigate();
     const formData = new FormData();
-    const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+    const baseURL = `https://education-platform-vert-two.vercel.app`;
     const [Isloading, setIsloading] = useState(false);
     const [files, setfiles] = useState(null);
     const [isSubmit, setIsSubmit] = useState(false);

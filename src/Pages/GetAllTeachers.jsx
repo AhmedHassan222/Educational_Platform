@@ -10,7 +10,7 @@ export default function GetAllTeachers() {
     const navigate = useNavigate();
     const [isLoading, setIsloading] = useState(false);
     const stage = { primary: "الابتدائي", preparatory: "الاعدادي ", secondary: "الثانوي" };
-    const baseURL = `https://ahmed-shaltout-platform.up.railway.app`;
+    const baseURL = `https://education-platform-vert-two.vercel.app`;
     const [allTeachers, setallTeachers] = useState([]);
     const arr = [1, 2, 3, 4];
     const [totalPages, setTotalPages] = useState(1);
