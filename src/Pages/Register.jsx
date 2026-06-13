@@ -67,7 +67,7 @@ export default function Register() {
             .then((response) => {
                 console.log("respone ===>", response)
                 setIsloading(false)
-                if (response.data.message === "Sign up success please confirm email")
+                if (response.success)
                     navigate('/login');
             }).catch((error) => {
                 setIsloading(false)

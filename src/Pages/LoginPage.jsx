@@ -46,7 +46,7 @@ export default function LoginPage() {
     setIsloading(true);
     try {
       const response = await axios.post(`${baseURL}/auth/signin`, formData);
-      if (response.data.message === "login success") {
+      if (response.success) {
         setIsloading(false);
         const { token } = response.data;
         Cookies.set('token', token, { expires: 7 });
