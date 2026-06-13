@@ -10,7 +10,7 @@ import { Helmet } from "react-helmet";
 import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function Register() {
     //Variables here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
-    const { baseURL} = useContext(SharedDataContext);
+    const { baseURL } = useContext(SharedDataContext);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({ fullName: "", email: "", password: "", repassword: "", gender: "", grade: "", stage: "", phoneNumber: "", parentsPhoneNumber: "" });
     const [error, setError] = useState([]);
@@ -67,7 +67,7 @@ export default function Register() {
             .then((response) => {
                 console.log("respone ===>", response)
                 setIsloading(false)
-                if (response.success)
+                if (response.data.success)
                     navigate('/login');
             }).catch((error) => {
                 setIsloading(false)

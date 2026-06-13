@@ -12,7 +12,7 @@ import { Helmet } from "react-helmet";
 import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function LoginPage() {
   //Variables here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
-  const {  baseURL} = useContext(SharedDataContext);
+  const { baseURL } = useContext(SharedDataContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState([]);
@@ -46,7 +46,7 @@ export default function LoginPage() {
     setIsloading(true);
     try {
       const response = await axios.post(`${baseURL}/auth/signin`, formData);
-      if (response.success) {
+      if (response.data.success) {
         setIsloading(false);
         const { token } = response.data;
         Cookies.set('token', token, { expires: 7 });
