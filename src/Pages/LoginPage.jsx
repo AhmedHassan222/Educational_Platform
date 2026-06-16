@@ -7,7 +7,7 @@ import axios from "axios";
 import Joi from "joi";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { Helmet } from "react-helmet";
 import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function LoginPage() {
@@ -114,7 +114,7 @@ export default function LoginPage() {
       <Helmet>
         <title>Login Page - Sky Online Acadimy</title>
       </Helmet>
-      <ToastContainer />
+      
       <div className="d-flex  justify-content-center  container  py-5">
         <div className="rounded-4  border-1  widthCustom text-center">
           <Link to={"/"}>

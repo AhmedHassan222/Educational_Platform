@@ -5,7 +5,7 @@ import style from "../../src/Styles/Auth.module.css";
 import "../Styles/index.css";
 import axios from "axios";
 import Joi from "joi";
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from "react-helmet";
 import { SharedDataContext } from "../Contexts/SharedDataContext";
@@ -124,7 +124,6 @@ export default function AddTeacher() {
                 <title>Add Teacher Account - Sky Online Acadimy</title>
             </Helmet>
             <div className="container py-5">
-                <ToastContainer />
                 <div className="text-center rounded-4  border-1 widthCustom mx-auto">
                     <form onSubmit={submitRegisterForm}>
                         {/* full name  */}

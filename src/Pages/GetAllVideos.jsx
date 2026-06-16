@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
 import Cookies from "js-cookie";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Helmet } from "react-helmet";
 import { SharedDataContext } from "../Contexts/SharedDataContext";
@@ -111,7 +111,6 @@ const getAllLecture = async (page) => {
         <title>All Videos - Sky Online Acadimy</title>
       </Helmet>
       <section className="py-5 container overflow-x-auto w-100 ">
-        <ToastContainer />
         {isLoading ? (
           <div
             className=" position-fixed start-50 text-light top-50  p-3"

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { FilterContext } from '../Contexts/FilterContext';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from 'react-helmet';
 import { SharedDataContext } from '../Contexts/SharedDataContext';
@@ -74,7 +74,6 @@ export default function Cources() {
         <Helmet>
             <title>Courses - Sky Online Acadimy</title>
         </Helmet>
-        <ToastContainer />
         <section className="py-5 container ">
             {isLoading ? <div className=" position-fixed start-50 text-light top-50  p-3" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)', zIndex: "999999" }}>
                 <i className="fa fa-spin fa-spinner h3"></i>

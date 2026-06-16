@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect } from "react";
 import Cookies from "js-cookie";
 import style from "../../src/Styles/Auth.module.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import { Helmet } from "react-helmet";
 import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function UpdateAssignment() {

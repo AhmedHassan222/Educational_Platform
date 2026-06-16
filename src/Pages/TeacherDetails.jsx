@@ -4,7 +4,7 @@ import mrs from "../../src/Assets/Images/SVG_Images/female-avatar-girl-face-woma
 import fakeImage from "../../src/Assets/Images/fakeImage.png"
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from "react-helmet";
 import { SharedDataContext } from "../Contexts/SharedDataContext";
@@ -52,7 +52,7 @@ export default function TeacherDetails() {
             <title>Teacher Details - Sky Online Acadimy</title>
         </Helmet>
         <div className="container py-5">
-            <ToastContainer />
+           
             <div className="row g-3">
                 {teacherDetails?.length > 0 ? teacherDetails.map((item, index) => <div key={index} className="col-sm-12 col-md-6 col-lg-4">
                     <div className="text-center rounded-5 border-1 border border-muted p-5">

@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import style from "../../src/Styles/Auth.module.css";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Helmet } from "react-helmet";
 import { SharedDataContext } from "../Contexts/SharedDataContext";
@@ -112,7 +112,6 @@ export default function UpdateVideos() {
         <title>Update Video - Sky Online Acadimy</title>
       </Helmet>
       <div className="container py-5">
-        <ToastContainer />
         <div className="text-center rounded-4  border-1 widthCustom mx-auto">
           <form encType="multipart/form-data" onSubmit={handleSubmit}>
             <div className=" mb-4">

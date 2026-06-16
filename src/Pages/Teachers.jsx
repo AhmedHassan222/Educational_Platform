@@ -5,7 +5,7 @@ import fakeImage from "../../src/Assets/Images/fakeImage.png"
 import style from "../../src/Styles/Teacher.module.css";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from "react-helmet";
 import { SharedDataContext } from "../Contexts/SharedDataContext";
@@ -72,7 +72,7 @@ export default function Teachers() {
             <title>Teacher - Sky Online Acadimy</title>
         </Helmet>
         <div className="container py-5">
-            <ToastContainer />
+            
             {allTeachers.filter(item => item.role === 'Teacher').length === 0 && <p>لا يوجد مدرسين</p>}
             {isLoading ? <div className=" position-fixed start-50 text-light top-50  p-3" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)' }}>
                 <i className="fa fa-spin fa-spinner h3"></i>

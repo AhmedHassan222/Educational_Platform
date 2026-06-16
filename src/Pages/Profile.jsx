@@ -8,7 +8,7 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import fakeImage from "../../src/Assets/Images/fakeImage.png";
 import Joi from "joi";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Helmet } from "react-helmet";
 import { SharedDataContext } from "../Contexts/SharedDataContext";
@@ -298,7 +298,7 @@ const logOut = useCallback(() => {
         <title>profile - Sky Online Acadimy</title>
       </Helmet>
       {/* ERRORS */}
-      <ToastContainer />
+     
       {/* ADD & UPDATE imaeg profile */}
       {addImageForm ? (
         <div className="container py-5 px-3">
