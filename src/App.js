@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
 import { HashRouter as Router, Route, Routes, Outlet, Navigate } from 'react-router-dom';
 import ProtectedRoute from './Components/ProtectedRoute'; // Import the ProtectedRoute component
 import LayoutWithNavbar from './Components/LayoutWithNavbar';
+import ScrollToTop from './Components/ScrollToTop';
 import LoginPage from './Pages/LoginPage';
 import HomePage from './Pages/HomePage';
 import NotfoundPage from './Pages/NotfoundPage';
@@ -38,16 +38,17 @@ import UpdateAssignment from './Pages/UpdateAssignment';
 import WatchVideo from './Pages/WatchVideo';
 import CrudContextProvide from './Contexts/CrudContext';
 import SharedDataContextProvide from './Contexts/SharedDataContext';
+import { ToastContainer } from 'react-toastify';
 export default function App() {
-  useEffect(() => {
-    window.scroll(0, 0)
-  }, [])
+
   return (
     <SharedDataContextProvide>
       <CrudContextProvide>
         <FilterContextProvide>
           <MyCoursesProvide>
             <Router>
+               <ScrollToTop />
+               <ToastContainer />
               <Routes>
                 {/* User routes */}
                 <Route element={<ProtectedRoute allowedRoles={['User']} />}>

@@ -20,7 +20,7 @@ export default function AllAssignment() {
     function nextPage() {
         setIsloading(true)
         if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
+            setCurrentPage(prev => prev + 1 );
             setIsloading(false)
         }
     }
@@ -43,6 +43,7 @@ export default function AllAssignment() {
                 })
                 .then(() => {
                     setIsloading(false)
+                    settasks(prev => prev.filter(t => t._id !== id));
                     toast.success('قد تم الحذف  ', {
                         position: "top-center",
                         autoClose: 3000,
@@ -64,20 +65,21 @@ export default function AllAssignment() {
         }
     }
     // USE EFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    useEffect(() => {
-        // GET ALL COURSES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        async function getAllAssignment(page) {
-            const { data } = await axios.get(`${baseURL}/assignment?page=${page}`);
-            if (data && data.paginationInfo) {
-                settasks(data.data)
-                setTotalPages(data.paginationInfo.totalPages || 1); // Default to 1 if undefined
-            } else {
-                settasks([])
-                setTotalPages(1);
-            }
-        }
-        getAllAssignment(currentPage)
-    }, [tasks]);
+  useEffect(() => {
+  async function getAllAssignment() {
+    const { data } = await axios.get(`${baseURL}/assignment?page=${currentPage}`);
+
+    if (data && data.paginationInfo) {
+      settasks(data.data);
+      setTotalPages(data.paginationInfo.totalPages || 1);
+    } else {
+      settasks([]);
+      setTotalPages(1);
+    }
+  }
+
+  getAllAssignment();
+}, [currentPage]);
 
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
@@ -120,13 +122,13 @@ export default function AllAssignment() {
                                     <td className="pt-3">{item.createdBy?.fullName}</td>
                                     <td className="pt-3   ">
                                         <div className=" d-flex align-items-center  justify-content-center ">
-                                            <button
+                                            <button disabled={isLoading}
                                                 className="btn btn-sm btn-danger   ms-2"
                                                 onClick={() => { deleteItem(item._id) }}
                                             >
                                                 حذف
                                             </button>
-                                            <Link
+                                            <Link 
                                                 className="btn btn-primary btn-sm"
                                                 to={`/teacherAdmin/UpdateAssignment/${item._id}`}
                                             >
