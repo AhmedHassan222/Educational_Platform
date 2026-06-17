@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import {  toast } from 'react-toastify';
+import {  toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
@@ -43,6 +43,7 @@ export default function GetAllTeachers() {
                         theme: "light",
                     });
                     Cookies.set('token', res?.data?.refreshToken, { expires: 7 });
+                    
                 } else {
                     toast.success('قد تم الحذف  ', {
                         position: "top-center",
@@ -54,6 +55,7 @@ export default function GetAllTeachers() {
                         progress: undefined,
                         theme: "light",
                     });
+                    getAll()
                 }
             })
         } catch (error) {
@@ -90,20 +92,22 @@ export default function GetAllTeachers() {
             setIsloading(false)
         }
     }
-    // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    useEffect(() => {
-        async function getAll(page) {
-            const { data } = await axios.get(`${baseURL}/auth/teachers?page=${page}`);
-            if (data && data.paginationInfo) {
-                setallTeachers(data.data)
-                setTotalPages(data.paginationInfo.totalPages || 1); // Default to 1 if undefined
-            } else {
-                setallTeachers([])
-                setTotalPages(1);
-            }
+      async function getAll() {
+        const { data } = await axios.get(
+            `${baseURL}/auth/teachers?page=${currentPage}`
+        );
+        if (data && data.paginationInfo) {
+            setallTeachers(data.data);
+            setTotalPages(data.paginationInfo.totalPages || 1);
+        } else {
+            setallTeachers([]);
+            setTotalPages(1);
         }
-        getAll(currentPage);
-    }, [allTeachers]);
+    }
+    // USEEFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ useEffect(() => {
+    getAll();
+}, []);
 
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
@@ -111,6 +115,7 @@ export default function GetAllTeachers() {
             <title>All Teachers - Sky Online Acadimy</title>
         </Helmet>
         <div className="container py-5">
+                            <ToastContainer/>
           
             {isLoading ? <div className="text-light position-fixed start-50 top-50  p-4" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)' }}>
                 <i className="fa fa-spin fa-spinner fs-3"></i>

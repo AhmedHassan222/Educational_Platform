@@ -39,6 +39,7 @@ import WatchVideo from './Pages/WatchVideo';
 import CrudContextProvide from './Contexts/CrudContext';
 import SharedDataContextProvide from './Contexts/SharedDataContext';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function App() {
 
   return (
@@ -47,8 +48,10 @@ export default function App() {
         <FilterContextProvide>
           <MyCoursesProvide>
             <Router>
-               <ScrollToTop />
-               <ToastContainer />
+              <ScrollToTop />
+              <ToastContainer position="top-center"
+                autoClose={3000}
+                theme="light" />
               <Routes>
                 {/* User routes */}
                 <Route element={<ProtectedRoute allowedRoles={['User']} />}>
