@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import { useState, useEffect, useContext } from "react";
 import style from "../../src/Styles/Auth.module.css"
 import { useNavigate, useParams } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from "react-helmet";
 import { SharedDataContext } from "../Contexts/SharedDataContext";
@@ -80,7 +80,7 @@ export default function UpdateCourse() {
         </Helmet>
         <div className="container py-5">
             {/* ERRORS */}
-            <ToastContainer />
+          
             <div className=" rounded-4  border-1 widthCustom mx-auto">
                 <form encType="multipart/form-data" onSubmit={handleSubmit}>
                     <div className=" mb-4 text-end">

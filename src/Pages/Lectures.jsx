@@ -3,7 +3,7 @@ import fakeImage from "../../src/Assets/Images/fakeImage.png";
 import { Link, useParams } from "react-router-dom";
 import style from "../../src/Styles/Auth.module.css";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import { Helmet } from "react-helmet";
 import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function Lectures() {
@@ -39,7 +39,7 @@ export default function Lectures() {
       <Helmet>
         <title>Lectures - Sky Online Acadimy</title>
       </Helmet>
-      <ToastContainer />
+      
       <div className="container py-5">
         <div className="row g-3 mt-1">
           {lectures?.length > 0

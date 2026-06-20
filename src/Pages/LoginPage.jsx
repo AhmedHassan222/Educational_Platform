@@ -7,26 +7,30 @@ import axios from "axios";
 import Joi from "joi";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { Helmet } from "react-helmet";
 import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function LoginPage() {
   //Variables here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
   const { baseURL } = useContext(SharedDataContext);
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ email: "", password: "" ,rememberMe: false});
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    rememberMe: false,
+  });
   const [error, setError] = useState([]);
   const [Isloading, setIsloading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   // Function here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..
   //function one >>
   const handleChange = (e) => {
-  const { name, value } = e.target;
-  setFormData(prev => ({
-    ...prev,
-    [name]: value,
-  }));
-};
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
   // function two >>
   const submitLoginForm = (e) => {
     e.preventDefault();
@@ -40,14 +44,18 @@ export default function LoginPage() {
         .email({ tlds: { allow: ["com", "net", "org"] } })
         .required(),
       password: Joi.string().regex(/^[a-zA-Z0-9]{8,}$/),
+      rememberMe: Joi.boolean(),
     });
-    return schema.validate(formData, { abortEarly: false });
+    return schema.validate(formData, { abortEarly: false, allowUnknown: true });
   };
   // function four >>
   async function sendApi() {
     setIsloading(true);
     try {
-      const response = await axios.post(`${baseURL}/auth/signin`, formData);
+      const response = await axios.post(`${baseURL}/auth/signin`,   {
+        email: formData.email,
+        password: formData.password,
+      });
       if (response.data.success) {
         setIsloading(false);
         const { token } = response.data;
@@ -107,7 +115,7 @@ export default function LoginPage() {
       <Helmet>
         <title>Login Page - Sky Online Acadimy</title>
       </Helmet>
-      <ToastContainer />
+      
       <div className="d-flex  justify-content-center  container  py-5">
         <div className="rounded-4  border-1  widthCustom text-center">
           <Link to={"/"}>
@@ -150,7 +158,6 @@ export default function LoginPage() {
             </div>
             <div className=" mb-4">
               <div className="position-relative">
-              
                 <i
                   onClick={() => setShowPassword((prev) => !prev)}
                   className={`fa-solid  position-absolute  px-4  top-50 translate-middle ${style.eyePostion} ${

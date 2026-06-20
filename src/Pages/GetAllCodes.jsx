@@ -3,7 +3,7 @@ import { useEffect, useState, useRef, useContext } from "react";
 import Cookies from "js-cookie";
 import style from "../../src/Styles/Auth.module.css";
 import { useReactToPrint } from "react-to-print";
-import { ToastContainer, toast } from 'react-toastify';
+import {toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
@@ -108,7 +108,7 @@ export default function GetAllCodes() {
       <Helmet>
         <title>Codes - Sky Online Acadimy</title>
       </Helmet>
-      <ToastContainer />
+    
       <div className="container py-5">
         {isLoading ? <div className="text-white position-fixed start-50 top-50  p-4" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)' }}>
           <i className="fa fa-spin fa-spinner h3"></i>

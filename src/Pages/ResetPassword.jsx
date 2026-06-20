@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import style from "../../src/Styles/Auth.module.css"
 import axios from 'axios';
 import Joi from 'joi';
-import { ToastContainer, toast } from 'react-toastify';
+import {toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
 import { SharedDataContext } from '../Contexts/SharedDataContext';
 export default function ResetPassword() {
@@ -112,7 +112,7 @@ export default function ResetPassword() {
             <title>Reset Password - Sky Online Acadimy</title>
         </Helmet>
         {/* ERRORS */}
-        <ToastContainer />
+       
         <div className="container d-flex justify-content-center py-5">
             <div className="rounded-4 border-1 widthCustom text-center ">
                 <Link to={'/'}>

@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import CryptoJS from "crypto-js";
 import style from "../../src/Styles/Auth.module.css";
 import fakeImage from "../../src/Assets/Images/fakeImage.png";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { Helmet } from "react-helmet";
 import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function WatchVideo() {
@@ -65,7 +65,7 @@ export default function WatchVideo() {
       <Helmet>
         <title>Watch - Sky Online Acadimy</title>
       </Helmet>
-      <ToastContainer />
+   
       <div className="container py-5">
         {lectures?.length > 0 ? (
           lectures.map((item, index) => {

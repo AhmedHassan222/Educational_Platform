@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
 import Cookies from "js-cookie";
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -20,7 +20,7 @@ export default function AllAssignment() {
     function nextPage() {
         setIsloading(true)
         if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
+            setCurrentPage(prev => prev + 1 );
             setIsloading(false)
         }
     }
@@ -43,6 +43,7 @@ export default function AllAssignment() {
                 })
                 .then(() => {
                     setIsloading(false)
+                    settasks(prev => prev.filter(t => t._id !== id));
                     toast.success('قد تم الحذف  ', {
                         position: "top-center",
                         autoClose: 3000,
@@ -64,20 +65,21 @@ export default function AllAssignment() {
         }
     }
     // USE EFFECT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    useEffect(() => {
-        // GET ALL COURSES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        async function getAllAssignment(page) {
-            const { data } = await axios.get(`${baseURL}/assignment?page=${page}`);
-            if (data && data.paginationInfo) {
-                settasks(data.data)
-                setTotalPages(data.paginationInfo.totalPages || 1); // Default to 1 if undefined
-            } else {
-                settasks([])
-                setTotalPages(1);
-            }
-        }
-        getAllAssignment(currentPage)
-    }, [tasks]);
+  useEffect(() => {
+  async function getAllAssignment() {
+    const { data } = await axios.get(`${baseURL}/assignment?page=${currentPage}`);
+
+    if (data && data.paginationInfo) {
+      settasks(data.data);
+      setTotalPages(data.paginationInfo.totalPages || 1);
+    } else {
+      settasks([]);
+      setTotalPages(1);
+    }
+  }
+
+  getAllAssignment();
+}, [currentPage]);
 
     // RENDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return <>
@@ -85,7 +87,7 @@ export default function AllAssignment() {
             <title>All Assignment - Sky Online Acadimy</title>
         </Helmet>
         <div className="container py-5">
-            <ToastContainer />
+            
             {isLoading ? <div className="text-white position-fixed start-50 top-50  p-4" style={{ transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.6)' }}>
                 <i className="fa fa-spin fa-spinner h3"></i>
             </div> : ""}
@@ -120,13 +122,13 @@ export default function AllAssignment() {
                                     <td className="pt-3">{item.createdBy?.fullName}</td>
                                     <td className="pt-3   ">
                                         <div className=" d-flex align-items-center  justify-content-center ">
-                                            <button
+                                            <button disabled={isLoading}
                                                 className="btn btn-sm btn-danger   ms-2"
                                                 onClick={() => { deleteItem(item._id) }}
                                             >
                                                 حذف
                                             </button>
-                                            <Link
+                                            <Link 
                                                 className="btn btn-primary btn-sm"
                                                 to={`/teacherAdmin/UpdateAssignment/${item._id}`}
                                             >

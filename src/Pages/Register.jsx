@@ -5,7 +5,7 @@ import logo from "../../src/Assets/Images/logo.png";
 import "../Styles/index.css";
 import axios from "axios";
 import Joi from "joi";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { Helmet } from "react-helmet";
 import { SharedDataContext } from "../Contexts/SharedDataContext";
 
@@ -112,7 +112,7 @@ export default function Register() {
       <Helmet>
         <title>Register Page - Sky Online Acadimy</title>
       </Helmet>
-      <ToastContainer />
+      
       <div className="container py-5">
         <div className="text-center rounded-4  border-1 widthCustom mx-auto">
           <Link to={"/"}>

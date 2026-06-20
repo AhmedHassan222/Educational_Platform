@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import fakeImage from "../../src/Assets/Images/fakeImage.png";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Helmet } from "react-helmet";
 import { SharedDataContext } from "../Contexts/SharedDataContext";
@@ -75,7 +75,7 @@ export default function CourceDetails() {
         <title>Course Details - Sky Online Acadimy</title>
       </Helmet>
       <section className="container py-5 ">
-        <ToastContainer />
+    
         <div className="row ">
 
           {course?.length > 0 ? (
