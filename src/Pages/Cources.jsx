@@ -10,7 +10,7 @@ import { Helmet } from 'react-helmet';
 import { SharedDataContext } from '../Contexts/SharedDataContext';
 export default function Cources() {
     // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    const { stage, grade, arr , baseURL} = useContext(SharedDataContext);
+    const { stage, grade, arr, baseURL } = useContext(SharedDataContext);
     const [courses, setCourses] = useState([]);
     const [dispalyCourses, setDisplayCourses] = useState([]);
     const { stageName, gradeFilterName, setStage, setGrade, filterCourses, setGradeName, setStageName, setWordSearch } = useContext(FilterContext);
@@ -97,7 +97,7 @@ export default function Cources() {
                         {dispalyCourses?.length > 0 ? dispalyCourses?.map((item, index) => <div key={index} className="col-6 col-sm-6 col-md-4">
                             <div className='border-1 border border-muted rounded-3'>
                                 <Link to={`/cources/${item._id}`}>
-                                    <img src={item.photo.secure_url} alt="teacher image" className='w-100' />
+                                    <img src={item?.photo?.secure_url} alt="teacher image" className='w-100' />
                                 </Link>
                                 <div className="p-3">
                                     <p className="text-muted my-2">{stage[item.subCategoryId?.name]} {grade[item.categoryId?.name]} </p>

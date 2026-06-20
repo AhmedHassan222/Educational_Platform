@@ -14,7 +14,7 @@ import { Helmet } from "react-helmet";
 import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function Profile() {
   // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  const { stage, grade , baseURL} =useContext(SharedDataContext);
+  const { stage, grade, baseURL } = useContext(SharedDataContext);
   const navagite = useNavigate();
   const [userDetails, setuserDetails] = useState([]);
   const [role, setrole] = useState("");
@@ -69,7 +69,7 @@ export default function Profile() {
       setId(user._id);
       setrole(user.role);
     }
-  }, [userDetails]);
+  }, []);
   useEffect(() => {
     window.scroll(0, 0)
   }, [])
