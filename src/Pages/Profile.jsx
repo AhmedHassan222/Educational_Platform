@@ -81,6 +81,9 @@ const logOut = useCallback(() => {
       setrole(user.role);
     }
   }, []);
+  useEffect(() => {
+    window.scroll(0, 0)
+  }, [])
   // FUNCTION HANDLE SUBMIT TO ADD AND UPDATE PROFILE IMAGE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const handleSubmit = (e) => {
     setIsSubmit(true);

@@ -57,6 +57,7 @@ export default function LoginPage() {
         password: formData.password,
       });
       if (response.data.success) {
+        setIsloading(false);
         const { token } = response.data;
         Cookies.set("token", token, { expires: 7 });
         const decodedToken = jwtDecode(token);

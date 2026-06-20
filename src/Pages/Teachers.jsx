@@ -11,7 +11,7 @@ import { Helmet } from "react-helmet";
 import { SharedDataContext } from "../Contexts/SharedDataContext";
 export default function Teachers() {
     // VARIABLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    const {arr , baseURL}= useContext(SharedDataContext);
+    const { arr, baseURL } = useContext(SharedDataContext);
     const [isLoading, setIsloading] = useState(false);
     const [allTeachers, setallTeachers] = useState([]);
     const [totalPages, setTotalPages] = useState();
@@ -62,7 +62,8 @@ export default function Teachers() {
     // USEEFFECT  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     useEffect(() => {
         getAll(currentPage);
-    }, [allTeachers?.length]);
+    }, []);
+
     useEffect(() => {
         window.scroll(0, 0)
     }, [])
